@@ -1,42 +1,46 @@
-# [Tinkers' Construct](https://slimeknights.github.io/projects/#tinkers-construct)
+# Tinkers' Construct Unofficial 26.1 Port
 
-Modify all the things, then do it again!   
-Melt down any metals you find. 	 
-Power the world with spinning wind!
+Tinkers' Construct 的 Minecraft 26.1 / NeoForge 非官方移植版，依赖
+[Mantle Unofficial 26.1 Port](https://github.com/BiAn-CQ/Mantle-Unofficial-26.1-Port)。
 
-## Documentation
+## 运行环境
 
-For documentation on writing addons or working with Tinkers' Consrtuct datapacks, see the pages on the SlimeKnight's Github.io pages: https://slimeknights.github.io/docs/
+- Minecraft `26.1.2`
+- NeoForge `26.1.2.95` 或更高的 26.1.2 兼容版本
+- Java `25`
+- Mantle `1.12.0` 或更高版本
+- JEI `29.21.0` 或更高版本（可选）
 
-## Setting up a Workspace/Compiling from Source
+## 构建与测试
 
-Note: Git MUST be installed and in the system path to use our scripts.
-* Setup: Import Tinkers' Construct as a Gradle project into IDEA. Let it run setup.
-* Run: Run the `gradlew genIntellijRuns` through IDEA.
-* Build: Run `gradlew build`.
-* If obscure Gradle issues are found try running `gradlew clean` and `gradlew cleanCache`
+Windows：
 
-## Issue reporting
-Please include the following:
+```powershell
+.\gradlew.bat clean test build
+.\gradlew.bat runGameTestServer
+```
 
-* Minecraft version
-* Tinkers' Construct version
-* Forge version/build
-* Versions of any mods potentially related to the issue 
-* Any relevant screenshots are greatly appreciated.
-* For crashes:
-	* Steps to reproduce
-	* latest.log (the FML log) from the root folder of the client
+Linux/macOS：
 
-## Licenses
-Code, Textures and binaries are licensed under the [MIT License](https://tldrlegal.com/license/mit-license).
+```bash
+./gradlew clean test build
+./gradlew runGameTestServer
+```
 
-You are allowed to use the mod in your modpack.
-Any modpack which uses Tinkers' Construct takes **full** responsibility for user support queries. For anyone else, we only support official builds from the main CI server, not custom built jars. We also do not take bug reports for outdated builds of Minecraft.
+## 文档
 
-If you have queries about any license or the above support restrictions, please drop by our IRC channel, #TinkersConstruct on irc.esper.net
+有关附属模组开发和数据包的文档，请参阅
+[SlimeKnights 文档站](https://slimeknights.github.io/docs/)。
 
-Any alternate licenses are noted where appropriate.
+## 上游与问题反馈
 
-## Jar Signing
-Some jars from our build servers may be signed. Under no circumstances does anyone have permission to verify the signatures on those jars from other mods. The signing is for informational purposes only.
+本项目基于 [SlimeKnights/TinkersConstruct](https://github.com/SlimeKnights/TinkersConstruct)
+移植，不是 SlimeKnights 官方发布。请不要将本移植版的问题提交到上游仓库。
+
+反馈问题时请附上 Minecraft、NeoForge、Mantle 和本模组的版本，以及复现步骤、
+相关日志和截图。
+
+## 许可证
+
+Tinkers' Construct 及本移植版修改继续使用 [MIT License](LICENSE)。原项目版权归
+SlimeKnights 及其贡献者所有。
