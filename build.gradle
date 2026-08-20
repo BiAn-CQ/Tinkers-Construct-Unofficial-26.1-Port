@@ -257,7 +257,11 @@ configurations {
 
 dependencies {
     // Local Mantle 26.1 build.
-    implementation files("../Mantle-26.1/build/libs/Mantle-${minecraft_version}-${mantle_version}.jar")
+    def mantleJar = providers.gradleProperty('mantle_jar')
+            .map { file(it) }
+            .orElse(file("../Mantle-Unofficial-26.1-Port/build/libs/Mantle-${minecraft_version}-${mantle_version}.jar"))
+            .get()
+    implementation files(mantleJar)
 
     // JEI 26.1 uses the split common/NeoForge API published by its 26.1
     // branch.  Keep the API compile-only and load the full mod only in local
