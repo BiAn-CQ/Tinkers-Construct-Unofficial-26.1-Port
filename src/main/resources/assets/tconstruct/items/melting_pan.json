@@ -1,0 +1,139 @@
+{
+    "model": {
+        "type": "tconstruct:overrides",
+        "base": {
+            "type": "tconstruct:tool",
+            "parent": "tconstruct:item/native/melting_pan",
+            "textures": {
+                "head": "tconstruct:item/tool/melting_pan/head",
+                "handle": "tconstruct:item/tool/melting_pan/handle"
+            },
+            "parts": [
+                {
+                    "name": "handle",
+                    "index": 1
+                },
+                {
+                    "name": "head",
+                    "index": 0
+                }
+            ],
+            "broken_textures": {
+                "head": "tconstruct:item/tool/melting_pan/head_broken",
+                "handle": "tconstruct:item/tool/melting_pan/handle"
+            },
+            "modifier_constants": [
+                {
+                    "type": "tconstruct:tank",
+                    "full": "tconstruct:item/tool/melting_pan/fluid_full",
+                    "partial": "tconstruct:item/tool/melting_pan/fluid_partial"
+                }
+            ]
+        },
+        "overrides": [
+            {
+                "predicate": {
+                    "tconstruct:charge": 1.0
+                },
+                "model": {
+                    "type": "tconstruct:tool",
+                    "parent": "forge:item/default-tool",
+                    "textures": {
+                        "head": "tconstruct:item/tool/melting_pan/head",
+                        "handle": "tconstruct:item/tool/melting_pan/handle",
+                        "overlay": "tconstruct:item/tool/melting_pan/overlay_charged"
+                    },
+                    "parts": [
+                        {
+                            "name": "handle",
+                            "index": 1
+                        },
+                        {
+                            "name": "head",
+                            "index": 0
+                        },
+                        {
+                            "name": "overlay"
+                        }
+                    ],
+                    "modifier_constants": [
+                        {
+                            "type": "tconstruct:tank",
+                            "full": "tconstruct:item/tool/melting_pan/fluid_full",
+                            "partial": "tconstruct:item/tool/melting_pan/fluid_partial"
+                        }
+                    ]
+                }
+            },
+            {
+                "predicate": {
+                    "tconstruct:charging": 2.0
+                },
+                "model": {
+                    "type": "tconstruct:tool",
+                    "parent": "tconstruct:item/native/overrides/melting_pan/tool/melting_pan/blocking",
+                    "textures": {
+                        "head": "tconstruct:item/tool/melting_pan/head",
+                        "handle": "tconstruct:item/tool/melting_pan/handle"
+                    },
+                    "parts": [
+                        {
+                            "name": "handle",
+                            "index": 1
+                        },
+                        {
+                            "name": "head",
+                            "index": 0
+                        }
+                    ],
+                    "broken_textures": {
+                        "head": "tconstruct:item/tool/melting_pan/head_broken",
+                        "handle": "tconstruct:item/tool/melting_pan/handle"
+                    },
+                    "modifier_constants": [
+                        {
+                            "type": "tconstruct:tank",
+                            "full": "tconstruct:item/tool/melting_pan/fluid_full",
+                            "partial": "tconstruct:item/tool/melting_pan/fluid_partial"
+                        }
+                    ]
+                }
+            },
+            {
+                "predicate": {
+                    "tconstruct:charging": 2.0,
+                    "tconstruct:charge": 1.0
+                },
+                "model": {
+                    "type": "tconstruct:tool",
+                    "parent": "tconstruct:item/native/overrides/melting_pan/tool/melting_pan/blocking_charged",
+                    "textures": {
+                        "head": "tconstruct:item/tool/melting_pan/head",
+                        "handle": "tconstruct:item/tool/melting_pan/handle",
+                        "overlay": "tconstruct:item/tool/melting_pan/overlay_charged"
+                    },
+                    "parts": [
+                        {
+                            "name": "handle",
+                            "index": 1
+                        },
+                        {
+                            "name": "head",
+                            "index": 0
+                        },
+                        {
+                            "name": "overlay"
+                        }
+                    ],
+                    "modifier_constants": [
+                        {
+                            "type": "tconstruct:tank",
+                            "full": "tconstruct:item/tool/melting_pan/fluid_full",
+                            "partial": "tconstruct:item/tool/melting_pan/fluid_partial"
+                        }
+                    ]
+                }
+            }
+        ]
+    }
+}

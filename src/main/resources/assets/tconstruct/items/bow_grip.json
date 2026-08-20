@@ -1,0 +1,11 @@
+{
+    "model": {
+        "type": "tconstruct:material",
+        "parent": "tconstruct:item/native/bow_grip",
+        "texture": "tconstruct:item/tool/crossbow/body",
+        "offset": [
+            -2,
+            -2
+        ]
+    }
+}

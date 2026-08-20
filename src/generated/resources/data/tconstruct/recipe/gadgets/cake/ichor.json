@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "E": "minecraft:egg",
+    "M": "tconstruct:ichor_bucket",
+    "S": {
+      "neoforge:ingredient_type": "mantle:item_tag",
+      "tag": "c:dusts/glowstone"
+    },
+    "W": "minecraft:warped_roots"
+  },
+  "pattern": [
+    "WWW",
+    "SES",
+    "MMM"
+  ],
+  "result": {
+    "id": "tconstruct:ichor_cake"
+  }
+}

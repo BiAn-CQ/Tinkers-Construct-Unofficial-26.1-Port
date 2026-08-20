@@ -1,0 +1,41 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "mantle:tag_combination_filled",
+      "ignore": "tconstruct:non_singular_ore_rates",
+      "match": [
+        "c:ores/chromium"
+      ]
+    },
+    {
+      "type": "mantle:tag_filled",
+      "tag": "c:ingots/aluminum"
+    }
+  ],
+  "type": "tconstruct:ore_melting",
+  "byproducts": [
+    {
+      "amount": 180,
+      "rate": "metal",
+      "tag": "c:molten_aluminum"
+    }
+  ],
+  "ingredient": {
+    "neoforge:ingredient_type": "neoforge:difference",
+    "base": {
+      "neoforge:ingredient_type": "mantle:item_tag",
+      "tag": "c:ores/chromium"
+    },
+    "subtracted": {
+      "neoforge:ingredient_type": "mantle:item_tag",
+      "tag": "tconstruct:non_singular_ore_rates"
+    }
+  },
+  "rate": "metal",
+  "result": {
+    "amount": 180,
+    "tag": "c:molten_chromium"
+  },
+  "temperature": 900,
+  "time": 158
+}

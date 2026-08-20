@@ -1,0 +1,40 @@
+{
+  "entries": [
+    {
+      "enum": "net/minecraft/world/item/ItemDisplayContext",
+      "name": "TCONSTRUCT_MELTER",
+      "constructor": "(ILjava/lang/String;Ljava/lang/String;)V",
+      "parameters": [-1, "tconstruct:melter", null]
+    },
+    {
+      "enum": "net/minecraft/world/item/ItemDisplayContext",
+      "name": "TCONSTRUCT_TABLE",
+      "constructor": "(ILjava/lang/String;Ljava/lang/String;)V",
+      "parameters": [-1, "tconstruct:table", null]
+    },
+    {
+      "enum": "net/minecraft/world/item/ItemDisplayContext",
+      "name": "TCONSTRUCT_CASTING_TABLE",
+      "constructor": "(ILjava/lang/String;Ljava/lang/String;)V",
+      "parameters": [-1, "tconstruct:casting_table", "FIXED"]
+    },
+    {
+      "enum": "net/minecraft/world/item/ItemDisplayContext",
+      "name": "TCONSTRUCT_CASTING_BASIN",
+      "constructor": "(ILjava/lang/String;Ljava/lang/String;)V",
+      "parameters": [-1, "tconstruct:casting_basin", null]
+    },
+    {
+      "enum": "net/minecraft/world/item/ItemDisplayContext",
+      "name": "TCONSTRUCT_FLUID_CANNON",
+      "constructor": "(ILjava/lang/String;Ljava/lang/String;)V",
+      "parameters": [-1, "tconstruct:fluid_cannon", "FIXED"]
+    },
+    {
+      "enum": "net/minecraft/world/item/ItemDisplayContext",
+      "name": "TCONSTRUCT_THROWN",
+      "constructor": "(ILjava/lang/String;Ljava/lang/String;)V",
+      "parameters": [-1, "tconstruct:thrown", "FIXED"]
+    }
+  ]
+}

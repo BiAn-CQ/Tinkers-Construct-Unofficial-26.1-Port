@@ -1,0 +1,11 @@
+{
+    "model": {
+        "type": "tconstruct:material",
+        "parent": "tconstruct:item/native/bow_limb",
+        "texture": "tconstruct:item/tool/longbow/limb_bottom",
+        "offset": [
+            5,
+            -2
+        ]
+    }
+}

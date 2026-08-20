@@ -1,0 +1,11 @@
+{
+    "model": {
+        "type": "tconstruct:material",
+        "parent": "tconstruct:item/native/broad_blade",
+        "texture": "tconstruct:item/tool/cleaver/head",
+        "offset": [
+            -1,
+            1
+        ]
+    }
+}

@@ -1,0 +1,11 @@
+{
+    "model": {
+        "type": "tconstruct:material",
+        "parent": "tconstruct:item/native/fletching",
+        "texture": "tconstruct:item/tool/ammo/arrow_feather",
+        "offset": [
+            4,
+            -5
+        ]
+    }
+}

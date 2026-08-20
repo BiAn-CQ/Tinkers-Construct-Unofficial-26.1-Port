@@ -1,0 +1,16 @@
+{
+  "layers": {
+        "humanoid": [
+          { "texture": "tconstruct:tinker_armor/plate/plating_armor" },
+          { "texture": "tconstruct:tinker_armor/plate/maille_armor" }
+        ],
+        "humanoid_baby": [
+          { "texture": "tconstruct:tinker_armor/plate/plating_armor" },
+          { "texture": "tconstruct:tinker_armor/plate/maille_armor" }
+        ],
+        "humanoid_leggings": [
+          { "texture": "tconstruct:tinker_armor/plate/plating_leggings" },
+          { "texture": "tconstruct:tinker_armor/plate/maille_leggings" }
+        ]
+  }
+}

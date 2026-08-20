@@ -1,0 +1,19 @@
+{
+  "type": "tconstruct:modifier",
+  "allow_crystal": true,
+  "inputs": [
+    {
+      "neoforge:ingredient_type": "mantle:or",
+      "ingredients": [
+        "minecraft:enchanted_golden_apple",
+        "minecraft:nether_star"
+      ]
+    }
+  ],
+  "level": 1,
+  "result": "tconstruct:shiny",
+  "tools": {
+    "neoforge:ingredient_type": "mantle:item_tag",
+    "tag": "tconstruct:modifiable"
+  }
+}

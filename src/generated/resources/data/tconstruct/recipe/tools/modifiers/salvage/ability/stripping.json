@@ -1,0 +1,20 @@
+{
+  "type": "tconstruct:modifier_salvage",
+  "modifier": "tconstruct:stripping",
+  "slots": {
+    "abilities": 1
+  },
+  "tools": {
+    "neoforge:ingredient_type": "neoforge:intersection",
+    "children": [
+      {
+        "neoforge:ingredient_type": "mantle:item_tag",
+        "tag": "tconstruct:modifiable/durability"
+      },
+      {
+        "neoforge:ingredient_type": "mantle:item_tag",
+        "tag": "tconstruct:modifiable/interactable"
+      }
+    ]
+  }
+}

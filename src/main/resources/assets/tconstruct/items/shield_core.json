@@ -1,0 +1,7 @@
+{
+    "model": {
+        "type": "tconstruct:material",
+        "parent": "tconstruct:item/native/shield_core",
+        "texture": "tconstruct:item/tool/armor/plate/shield/core"
+    }
+}

@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "B": "tconstruct:seared_bricks",
+    "C": {
+      "neoforge:ingredient_type": "mantle:item_tag",
+      "tag": "c:chests/wooden"
+    },
+    "b": "tconstruct:seared_brick",
+    "c": {
+      "neoforge:ingredient_type": "mantle:item_tag",
+      "tag": "tconstruct:casts/gold"
+    }
+  },
+  "pattern": [
+    " c ",
+    "bCb",
+    "bBb"
+  ],
+  "result": {
+    "id": "tconstruct:cast_chest"
+  }
+}

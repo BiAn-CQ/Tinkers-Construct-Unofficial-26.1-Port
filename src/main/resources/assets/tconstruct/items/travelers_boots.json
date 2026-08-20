@@ -1,0 +1,38 @@
+{
+    "model": {
+        "type": "tconstruct:tool",
+        "parent": "tconstruct:item/native/travelers_boots",
+        "textures": {
+            "cuirass": "tconstruct:item/tool/armor/travelers/boots/cuirass",
+            "metal": "tconstruct:item/tool/armor/travelers/boots/metal"
+        },
+        "parts": [
+            {
+                "name": "cuirass",
+                "index": 1
+            },
+            {
+                "name": "metal",
+                "index": 0
+            }
+        ],
+        "broken_textures": {
+            "cuirass": "tconstruct:item/tool/armor/travelers/boots/cuirass_broken",
+            "metal": "tconstruct:item/tool/armor/travelers/boots/metal_broken"
+        },
+        "modifier_models": {
+            "tconstruct:dyed": {
+                "type": "tconstruct:dyed",
+                "texture": "tconstruct:item/tool/armor/travelers/boots/modifiers/dyed"
+            },
+            "tconstruct:trim": {
+                "type": "tconstruct:armor_trim",
+                "slot": "boots"
+            }
+        },
+        "first_modifiers": [
+            "tconstruct:dyed",
+            "tconstruct:trim"
+        ]
+    }
+}

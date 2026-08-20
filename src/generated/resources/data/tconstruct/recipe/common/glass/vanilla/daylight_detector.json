@@ -1,0 +1,29 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "tconstruct:config",
+      "prop": "glass_recipe_fix"
+    }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "key": {
+    "G": {
+      "neoforge:ingredient_type": "mantle:item_tag",
+      "tag": "c:glass_blocks/colorless"
+    },
+    "Q": "minecraft:quartz",
+    "W": {
+      "neoforge:ingredient_type": "mantle:item_tag",
+      "tag": "minecraft:wooden_slabs"
+    }
+  },
+  "pattern": [
+    "GGG",
+    "QQQ",
+    "WWW"
+  ],
+  "result": {
+    "id": "minecraft:daylight_detector"
+  }
+}

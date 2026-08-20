@@ -1,0 +1,18 @@
+{
+  "type": "tconstruct:incremental_modifier",
+  "allow_crystal": true,
+  "amount_per_item": 1,
+  "input": "minecraft:feather",
+  "level": {
+    "max": 2
+  },
+  "needed_per_level": 25,
+  "result": "tconstruct:feather_falling",
+  "slots": {
+    "upgrades": 1
+  },
+  "tools": {
+    "neoforge:ingredient_type": "mantle:item_tag",
+    "tag": "tconstruct:modifiable/armor/boots"
+  }
+}

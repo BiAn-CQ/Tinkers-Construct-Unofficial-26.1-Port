@@ -1,0 +1,74 @@
+{
+    "model": {
+        "type": "tconstruct:overrides",
+        "base": {
+            "type": "tconstruct:tool",
+            "parent": "tconstruct:item/native/travelers_shield",
+            "textures": {
+                "cuirass": "tconstruct:item/tool/armor/travelers/shield/cuirass",
+                "wood": "tconstruct:item/tool/armor/travelers/shield/wood"
+            },
+            "parts": [
+                {
+                    "name": "wood",
+                    "index": 0
+                },
+                {
+                    "name": "cuirass",
+                    "index": 1
+                }
+            ],
+            "broken_textures": {
+                "cuirass": "tconstruct:item/tool/armor/travelers/shield/cuirass_broken",
+                "wood": "tconstruct:item/tool/armor/travelers/shield/wood_broken"
+            },
+            "modifier_models": {
+                "tconstruct:dyed": {
+                    "type": "tconstruct:dyed",
+                    "texture": "tconstruct:item/tool/armor/travelers/shield/modifiers/dyed"
+                }
+            },
+            "first_modifiers": [
+                "tconstruct:dyed"
+            ]
+        },
+        "overrides": [
+            {
+                "predicate": {
+                    "tconstruct:charging": 2.0
+                },
+                "model": {
+                    "type": "tconstruct:tool",
+                    "parent": "tconstruct:item/native/overrides/travelers_shield/armor/travelers/shield_blocking",
+                    "textures": {
+                        "cuirass": "tconstruct:item/tool/armor/travelers/shield/cuirass",
+                        "wood": "tconstruct:item/tool/armor/travelers/shield/wood"
+                    },
+                    "parts": [
+                        {
+                            "name": "wood",
+                            "index": 0
+                        },
+                        {
+                            "name": "cuirass",
+                            "index": 1
+                        }
+                    ],
+                    "broken_textures": {
+                        "cuirass": "tconstruct:item/tool/armor/travelers/shield/cuirass_broken",
+                        "wood": "tconstruct:item/tool/armor/travelers/shield/wood_broken"
+                    },
+                    "modifier_models": {
+                        "tconstruct:dyed": {
+                            "type": "tconstruct:dyed",
+                            "texture": "tconstruct:item/tool/armor/travelers/shield/modifiers/dyed"
+                        }
+                    },
+                    "first_modifiers": [
+                        "tconstruct:dyed"
+                    ]
+                }
+            }
+        ]
+    }
+}

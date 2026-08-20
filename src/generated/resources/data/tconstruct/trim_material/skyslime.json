@@ -1,0 +1,12 @@
+{
+  "asset_name": "tconstruct_tconstruct_skyslime",
+  "description": {
+    "color": "#01CBCD",
+    "translate": "trim_material.tconstruct.format",
+    "with": [
+      {
+        "translate": "material.tconstruct.skyslime"
+      }
+    ]
+  }
+}

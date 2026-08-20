@@ -1,0 +1,7 @@
+{
+    "model": {
+        "type": "tconstruct:material",
+        "parent": "tconstruct:item/native/fake_ingot",
+        "texture": "tconstruct:item/tool/parts/ingot"
+    }
+}

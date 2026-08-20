@@ -1,0 +1,31 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "ingredients": [
+    "minecraft:clay",
+    {
+      "neoforge:ingredient_type": "mantle:item_tag",
+      "tag": "minecraft:sand"
+    },
+    {
+      "neoforge:ingredient_type": "mantle:item_tag",
+      "tag": "minecraft:sand"
+    },
+    {
+      "neoforge:ingredient_type": "mantle:item_tag",
+      "tag": "minecraft:sand"
+    },
+    {
+      "neoforge:ingredient_type": "mantle:item_tag",
+      "tag": "minecraft:sand"
+    },
+    "minecraft:gravel",
+    "minecraft:gravel",
+    "minecraft:gravel",
+    "minecraft:gravel"
+  ],
+  "result": {
+    "count": 8,
+    "id": "tconstruct:grout"
+  }
+}

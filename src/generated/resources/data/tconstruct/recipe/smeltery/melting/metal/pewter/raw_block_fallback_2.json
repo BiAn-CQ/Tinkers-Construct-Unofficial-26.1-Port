@@ -1,0 +1,46 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "mantle:tag_filled",
+      "tag": "c:storage_blocks/raw_pewter"
+    },
+    {
+      "type": "neoforge:always"
+    },
+    {
+      "type": "neoforge:not",
+      "value": {
+        "type": "neoforge:or",
+        "values": [
+          {
+            "type": "mantle:tag_filled",
+            "tag": "c:ingots/tin"
+          },
+          {
+            "type": "mantle:tag_filled",
+            "tag": "c:ingots/lead"
+          }
+        ]
+      }
+    }
+  ],
+  "type": "tconstruct:ore_melting",
+  "byproducts": [
+    {
+      "amount": 810,
+      "rate": "metal",
+      "tag": "c:molten_iron"
+    }
+  ],
+  "ingredient": {
+    "neoforge:ingredient_type": "mantle:item_tag",
+    "tag": "c:storage_blocks/raw_pewter"
+  },
+  "rate": "metal",
+  "result": {
+    "amount": 810,
+    "tag": "c:molten_pewter"
+  },
+  "temperature": 400,
+  "time": 277
+}

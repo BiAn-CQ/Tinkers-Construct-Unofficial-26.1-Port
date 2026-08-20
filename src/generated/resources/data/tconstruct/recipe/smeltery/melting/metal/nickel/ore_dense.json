@@ -1,0 +1,43 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "mantle:tag_combination_filled",
+      "match": [
+        "c:ores/nickel",
+        "c:ore_rates/dense"
+      ]
+    },
+    {
+      "type": "mantle:tag_filled",
+      "tag": "c:ingots/platinum"
+    }
+  ],
+  "type": "tconstruct:ore_melting",
+  "byproducts": [
+    {
+      "amount": 540,
+      "rate": "metal",
+      "tag": "c:molten_platinum"
+    }
+  ],
+  "ingredient": {
+    "neoforge:ingredient_type": "neoforge:intersection",
+    "children": [
+      {
+        "neoforge:ingredient_type": "mantle:item_tag",
+        "tag": "c:ores/nickel"
+      },
+      {
+        "neoforge:ingredient_type": "mantle:item_tag",
+        "tag": "c:ore_rates/dense"
+      }
+    ]
+  },
+  "rate": "metal",
+  "result": {
+    "amount": 540,
+    "tag": "c:molten_nickel"
+  },
+  "temperature": 950,
+  "time": 292
+}

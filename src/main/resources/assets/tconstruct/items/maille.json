@@ -1,0 +1,7 @@
+{
+    "model": {
+        "type": "tconstruct:material",
+        "parent": "tconstruct:item/native/maille",
+        "texture": "tconstruct:item/tool/parts/maille"
+    }
+}

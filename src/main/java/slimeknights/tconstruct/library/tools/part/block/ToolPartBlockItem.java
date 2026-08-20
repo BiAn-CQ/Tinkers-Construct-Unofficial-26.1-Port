@@ -1,0 +1,35 @@
+package slimeknights.tconstruct.library.tools.part.block;
+
+import lombok.Getter;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.TooltipDisplay;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import slimeknights.tconstruct.library.materials.stats.MaterialStatsId;
+import slimeknights.tconstruct.library.tools.part.IToolPart;
+import slimeknights.tconstruct.library.tools.part.ToolPartItem;
+
+import javax.annotation.Nullable;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.function.Consumer;
+
+/** Implementation of {@link ToolPartItem} for {@link net.minecraft.world.item.BlockItem}. */
+public class ToolPartBlockItem extends MaterialBlockItem implements IToolPart {
+  @Getter
+  public final MaterialStatsId statType;
+  public ToolPartBlockItem(Block block, Properties properties, MaterialStatsId statType) {
+    super(block, properties);
+    this.statType = statType;
+  }
+
+  @Override
+  public void appendHoverText(ItemStack stack, Item.TooltipContext context, TooltipDisplay display, Consumer<Component> tooltip, TooltipFlag flag) {
+    List<Component> lines = new ArrayList<>();
+    ToolPartItem.appendHoverText(this, stack, lines, flag);
+    lines.forEach(tooltip);
+  }
+}

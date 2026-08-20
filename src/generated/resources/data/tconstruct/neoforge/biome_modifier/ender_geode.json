@@ -1,0 +1,6 @@
+{
+  "type": "neoforge:add_features",
+  "biomes": "#tconstruct:features/ender_geode",
+  "features": "tconstruct:ender_geode",
+  "step": "local_modifications"
+}

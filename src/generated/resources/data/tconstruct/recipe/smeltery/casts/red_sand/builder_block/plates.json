@@ -1,0 +1,18 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "mantle:tag_filled",
+      "tag": "c:plates"
+    }
+  ],
+  "type": "tconstruct:item_part_builder",
+  "pattern": "tconstruct:plate",
+  "pattern_item": {
+    "neoforge:ingredient_type": "mantle:item_tag",
+    "tag": "c:sands/red"
+  },
+  "result": {
+    "count": 4,
+    "item": "tconstruct:plate_red_sand_cast"
+  }
+}

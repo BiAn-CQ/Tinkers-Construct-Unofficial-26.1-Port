@@ -1,0 +1,39 @@
+{
+    "model": {
+        "type": "tconstruct:tool",
+        "parent": "tconstruct:item/native/throwing_axe",
+        "textures": {
+            "head": "tconstruct:item/tool/ammo/axe_head",
+            "shaft": "tconstruct:item/tool/ammo/arrow_shaft"
+        },
+        "parts": [
+            {
+                "name": "shaft",
+                "index": 1
+            },
+            {
+                "name": "head",
+                "index": 0
+            }
+        ],
+        "modifier_constants": [
+            {
+                "type": "tconstruct:trait",
+                "model": {
+                    "type": "tconstruct:fluid",
+                    "mask": "tconstruct:item/tool/ammo/axe_modifiers/smashing",
+                    "tank_helper": "tconstruct:smashing"
+                },
+                "modifier": "tconstruct:smashing"
+            },
+            {
+                "type": "tconstruct:trait",
+                "model": {
+                    "type": "tconstruct:potion",
+                    "texture": "tconstruct:item/tool/ammo/axe_modifiers/tipped"
+                },
+                "modifier": "tconstruct:tipped"
+            }
+        ]
+    }
+}

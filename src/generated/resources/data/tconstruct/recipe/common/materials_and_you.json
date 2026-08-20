@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "minecraft:book",
+    "tconstruct:pattern"
+  ],
+  "result": {
+    "id": "tconstruct:materials_and_you"
+  }
+}

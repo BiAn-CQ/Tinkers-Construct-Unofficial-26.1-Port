@@ -1,0 +1,19 @@
+{
+      "layers": {
+        "humanoid": [
+          { "texture": "tconstruct:tinker_armor/travelers/base_armor" },
+          { "texture": "tconstruct:tinker_armor/travelers/cuirass_armor" },
+          { "texture": "tconstruct:tinker_armor/travelers/metal_armor" }
+        ],
+        "humanoid_baby": [
+          { "texture": "tconstruct:tinker_armor/travelers/base_armor" },
+          { "texture": "tconstruct:tinker_armor/travelers/cuirass_armor" },
+          { "texture": "tconstruct:tinker_armor/travelers/metal_armor" }
+        ],
+        "humanoid_leggings": [
+          { "texture": "tconstruct:tinker_armor/travelers/base_leggings" },
+          { "texture": "tconstruct:tinker_armor/travelers/cuirass_leggings" },
+          { "texture": "tconstruct:tinker_armor/travelers/metal_leggings" }
+        ]
+      }
+}

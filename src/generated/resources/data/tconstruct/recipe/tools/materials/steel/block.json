@@ -1,0 +1,14 @@
+{
+  "type": "tconstruct:material",
+  "ingredient": {
+    "neoforge:ingredient_type": "mantle:item_tag",
+    "tag": "c:storage_blocks/steel"
+  },
+  "leftover": {
+    "count": 1,
+    "tag": "c:ingots/steel"
+  },
+  "material": "tconstruct:steel",
+  "needed": 1,
+  "value": 9
+}

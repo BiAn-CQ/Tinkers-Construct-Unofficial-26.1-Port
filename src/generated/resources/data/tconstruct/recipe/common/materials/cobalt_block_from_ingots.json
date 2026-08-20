@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "tconstruct:cobalt_block",
+  "key": {
+    "#": {
+      "neoforge:ingredient_type": "mantle:item_tag",
+      "tag": "c:ingots/cobalt"
+    },
+    "*": "tconstruct:cobalt_ingot"
+  },
+  "pattern": [
+    "###",
+    "#*#",
+    "###"
+  ],
+  "result": {
+    "id": "tconstruct:cobalt_block"
+  }
+}

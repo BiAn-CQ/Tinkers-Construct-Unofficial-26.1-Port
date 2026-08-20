@@ -1,0 +1,18 @@
+{
+  "type": "tconstruct:table_duplication",
+  "cast": {
+    "neoforge:ingredient_type": "neoforge:compound",
+    "children": [
+      "minecraft:netherite_upgrade_smithing_template",
+      {
+        "neoforge:ingredient_type": "mantle:item_tag",
+        "tag": "tconstruct:trim_templates"
+      }
+    ]
+  },
+  "cooling_time": 186,
+  "fluid": {
+    "amount": 500,
+    "tag": "tconstruct:molten_diamond"
+  }
+}

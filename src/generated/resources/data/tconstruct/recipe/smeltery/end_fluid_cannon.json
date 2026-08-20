@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "key": {
+    "C": {
+      "neoforge:ingredient_type": "mantle:item_tag",
+      "tag": "c:ingots/knightmetal"
+    },
+    "R": {
+      "neoforge:ingredient_type": "mantle:item_tag",
+      "tag": "c:dusts/redstone"
+    },
+    "T": "minecraft:shulker_shell"
+  },
+  "pattern": [
+    " R ",
+    "CTC",
+    "CCC"
+  ],
+  "result": {
+    "id": "tconstruct:end_fluid_cannon"
+  }
+}

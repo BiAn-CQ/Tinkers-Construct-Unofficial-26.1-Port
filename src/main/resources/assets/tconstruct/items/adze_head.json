@@ -1,0 +1,11 @@
+{
+    "model": {
+        "type": "tconstruct:material",
+        "parent": "tconstruct:item/native/adze_head",
+        "texture": "tconstruct:item/tool/pickadze/adze",
+        "offset": [
+            -5,
+            1
+        ]
+    }
+}

@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": {
+      "neoforge:ingredient_type": "mantle:item_tag",
+      "tag": "c:ingots/copper"
+    },
+    ".": {
+      "neoforge:ingredient_type": "mantle:item_tag",
+      "tag": "c:nuggets/copper"
+    }
+  },
+  "pattern": [
+    "#.#",
+    ". .",
+    "#.#"
+  ],
+  "result": {
+    "count": 4,
+    "id": "tconstruct:copper_platform"
+  }
+}

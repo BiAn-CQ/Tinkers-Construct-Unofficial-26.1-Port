@@ -1,0 +1,43 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "ingredients": [
+    "minecraft:magma_block",
+    {
+      "neoforge:ingredient_type": "mantle:or",
+      "ingredients": [
+        "minecraft:soul_sand",
+        "minecraft:soul_soil"
+      ]
+    },
+    {
+      "neoforge:ingredient_type": "mantle:or",
+      "ingredients": [
+        "minecraft:soul_sand",
+        "minecraft:soul_soil"
+      ]
+    },
+    {
+      "neoforge:ingredient_type": "mantle:or",
+      "ingredients": [
+        "minecraft:soul_sand",
+        "minecraft:soul_soil"
+      ]
+    },
+    {
+      "neoforge:ingredient_type": "mantle:or",
+      "ingredients": [
+        "minecraft:soul_sand",
+        "minecraft:soul_soil"
+      ]
+    },
+    "minecraft:gravel",
+    "minecraft:gravel",
+    "minecraft:gravel",
+    "minecraft:gravel"
+  ],
+  "result": {
+    "count": 8,
+    "id": "tconstruct:nether_grout"
+  }
+}

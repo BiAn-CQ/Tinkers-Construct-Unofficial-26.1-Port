@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "C": {
+      "neoforge:ingredient_type": "mantle:item_tag",
+      "tag": "c:chests/wooden"
+    },
+    "l": {
+      "neoforge:ingredient_type": "mantle:item_tag",
+      "tag": "c:gems/lapis"
+    },
+    "p": "tconstruct:pattern",
+    "w": {
+      "neoforge:ingredient_type": "mantle:item_tag",
+      "tag": "minecraft:planks"
+    }
+  },
+  "pattern": [
+    " p ",
+    "lCl",
+    "lwl"
+  ],
+  "result": {
+    "id": "tconstruct:tinkers_chest"
+  }
+}

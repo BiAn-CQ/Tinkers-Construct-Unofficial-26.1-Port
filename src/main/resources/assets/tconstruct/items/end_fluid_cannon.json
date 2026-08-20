@@ -1,0 +1,17 @@
+{
+    "model": {
+        "type": "tconstruct:tank",
+        "model": "tconstruct:block/end_fluid_cannon/front",
+        "fluid_from": [
+            1.08,
+            5.08,
+            1.08
+        ],
+        "fluid_to": [
+            14.92,
+            14.92,
+            14.92
+        ],
+        "increments": 160
+    }
+}

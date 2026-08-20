@@ -1,0 +1,167 @@
+{
+    "multipart": [
+        {
+            "apply": {
+                "type": "mantle:connected",
+                "model": "tconstruct:block/clear_glass/gray/pane_post",
+                "textures": {
+                    "pane": "cornerless_full"
+                },
+                "predicate": "pane",
+                "colors": [
+                    {
+                        "color": "FF4C4C4C"
+                    }
+                ]
+            }
+        },
+        {
+            "apply": {
+                "type": "mantle:connected",
+                "model": "tconstruct:block/clear_glass/gray/pane_side",
+                "textures": {
+                    "pane": "cornerless_full"
+                },
+                "predicate": "pane",
+                "colors": [
+                    {
+                        "color": "FF4C4C4C"
+                    }
+                ]
+            },
+            "when": {
+                "north": "true"
+            }
+        },
+        {
+            "apply": {
+                "type": "mantle:connected",
+                "model": "tconstruct:block/clear_glass/gray/pane_noside",
+                "textures": {
+                    "pane": "cornerless_full"
+                },
+                "predicate": "pane",
+                "colors": [
+                    {
+                        "color": "FF4C4C4C"
+                    }
+                ]
+            },
+            "when": {
+                "north": "false"
+            }
+        },
+        {
+            "apply": {
+                "type": "mantle:connected",
+                "model": "tconstruct:block/clear_glass/gray/pane_side_alt",
+                "textures": {
+                    "pane": "cornerless_full"
+                },
+                "predicate": "pane",
+                "colors": [
+                    {
+                        "color": "FF4C4C4C"
+                    }
+                ]
+            },
+            "when": {
+                "south": "true"
+            }
+        },
+        {
+            "apply": {
+                "type": "mantle:connected",
+                "model": "tconstruct:block/clear_glass/gray/pane_noside_alt",
+                "textures": {
+                    "pane": "cornerless_full"
+                },
+                "predicate": "pane",
+                "colors": [
+                    {
+                        "color": "FF4C4C4C"
+                    }
+                ],
+                "y": 90
+            },
+            "when": {
+                "south": "false"
+            }
+        },
+        {
+            "apply": {
+                "type": "mantle:connected",
+                "model": "tconstruct:block/clear_glass/gray/pane_side_alt",
+                "textures": {
+                    "pane": "cornerless_full"
+                },
+                "predicate": "pane",
+                "colors": [
+                    {
+                        "color": "FF4C4C4C"
+                    }
+                ],
+                "y": 90
+            },
+            "when": {
+                "west": "true"
+            }
+        },
+        {
+            "apply": {
+                "type": "mantle:connected",
+                "model": "tconstruct:block/clear_glass/gray/pane_noside",
+                "textures": {
+                    "pane": "cornerless_full"
+                },
+                "predicate": "pane",
+                "colors": [
+                    {
+                        "color": "FF4C4C4C"
+                    }
+                ],
+                "y": 270
+            },
+            "when": {
+                "west": "false"
+            }
+        },
+        {
+            "apply": {
+                "type": "mantle:connected",
+                "model": "tconstruct:block/clear_glass/gray/pane_side",
+                "textures": {
+                    "pane": "cornerless_full"
+                },
+                "predicate": "pane",
+                "colors": [
+                    {
+                        "color": "FF4C4C4C"
+                    }
+                ],
+                "y": 90
+            },
+            "when": {
+                "east": "true"
+            }
+        },
+        {
+            "apply": {
+                "type": "mantle:connected",
+                "model": "tconstruct:block/clear_glass/gray/pane_noside_alt",
+                "textures": {
+                    "pane": "cornerless_full"
+                },
+                "predicate": "pane",
+                "colors": [
+                    {
+                        "color": "FF4C4C4C"
+                    }
+                ]
+            },
+            "when": {
+                "east": "false"
+            }
+        }
+    ]
+}

@@ -1,0 +1,12 @@
+{
+    "variants": {
+        "": {
+            "type": "mantle:composite",
+            "children": {
+                "metal": "tconstruct:block/storage/cinderslime/__mantle_composite_metal",
+                "slime": "tconstruct:block/storage/cinderslime/__mantle_composite_slime"
+            },
+            "particle": "tconstruct:block/storage/cinderslime"
+        }
+    }
+}

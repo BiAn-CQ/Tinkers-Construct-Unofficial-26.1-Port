@@ -1,0 +1,66 @@
+{
+    "model": {
+        "type": "tconstruct:overrides",
+        "base": {
+            "type": "tconstruct:tool",
+            "parent": "tconstruct:item/native/flint_and_brick",
+            "textures": {
+                "tool": "tconstruct:item/tool/flint_and_brick/tool"
+            },
+            "broken_textures": {
+                "tool": "tconstruct:item/tool/flint_and_brick/tool_broken"
+            },
+            "modifier_models": {
+                "tconstruct:diamond": "tconstruct:item/tool/flint_and_brick/modifiers/tconstruct_diamond",
+                "tconstruct:emerald": "tconstruct:item/tool/flint_and_brick/modifiers/tconstruct_emerald",
+                "tconstruct:glowing": {
+                    "type": "tconstruct:basic",
+                    "luminosity": 15,
+                    "texture": "tconstruct:item/tool/flint_and_brick/modifiers/tconstruct_glowing"
+                },
+                "tconstruct:netherite": "tconstruct:item/tool/flint_and_brick/modifiers/tconstruct_netherite",
+                "tconstruct:overforced": "tconstruct:item/tool/flint_and_brick/modifiers/tconstruct_overforced",
+                "tconstruct:reinforced": "tconstruct:item/tool/flint_and_brick/modifiers/tconstruct_reinforced",
+                "tconstruct:unbreakable": {
+                    "type": "tconstruct:basic",
+                    "luminosity": 2,
+                    "texture": "tconstruct:item/tool/flint_and_brick/modifiers/tconstruct_unbreakable"
+                }
+            }
+        },
+        "overrides": [
+            {
+                "predicate": {
+                    "tconstruct:charging": 2.0
+                },
+                "model": {
+                    "type": "tconstruct:tool",
+                    "parent": "tconstruct:item/native/overrides/flint_and_brick/tool/flint_and_brick/blocking",
+                    "textures": {
+                        "tool": "tconstruct:item/tool/flint_and_brick/tool"
+                    },
+                    "broken_textures": {
+                        "tool": "tconstruct:item/tool/flint_and_brick/tool_broken"
+                    },
+                    "modifier_models": {
+                        "tconstruct:diamond": "tconstruct:item/tool/flint_and_brick/modifiers/tconstruct_diamond",
+                        "tconstruct:emerald": "tconstruct:item/tool/flint_and_brick/modifiers/tconstruct_emerald",
+                        "tconstruct:glowing": {
+                            "type": "tconstruct:basic",
+                            "luminosity": 15,
+                            "texture": "tconstruct:item/tool/flint_and_brick/modifiers/tconstruct_glowing"
+                        },
+                        "tconstruct:netherite": "tconstruct:item/tool/flint_and_brick/modifiers/tconstruct_netherite",
+                        "tconstruct:overforced": "tconstruct:item/tool/flint_and_brick/modifiers/tconstruct_overforced",
+                        "tconstruct:reinforced": "tconstruct:item/tool/flint_and_brick/modifiers/tconstruct_reinforced",
+                        "tconstruct:unbreakable": {
+                            "type": "tconstruct:basic",
+                            "luminosity": 2,
+                            "texture": "tconstruct:item/tool/flint_and_brick/modifiers/tconstruct_unbreakable"
+                        }
+                    }
+                }
+            }
+        ]
+    }
+}

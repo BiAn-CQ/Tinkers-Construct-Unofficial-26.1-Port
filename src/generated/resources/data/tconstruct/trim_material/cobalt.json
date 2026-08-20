@@ -1,0 +1,12 @@
+{
+  "asset_name": "tconstruct_tconstruct_cobalt",
+  "description": {
+    "color": "#2376DD",
+    "translate": "trim_material.tconstruct.format",
+    "with": [
+      {
+        "translate": "material.tconstruct.cobalt"
+      }
+    ]
+  }
+}

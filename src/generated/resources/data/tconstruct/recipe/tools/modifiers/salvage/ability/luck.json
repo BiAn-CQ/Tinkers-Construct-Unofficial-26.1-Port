@@ -1,0 +1,25 @@
+{
+  "type": "tconstruct:modifier_salvage",
+  "level": 1,
+  "modifier": "tconstruct:luck",
+  "slots": {
+    "abilities": 1
+  },
+  "tools": {
+    "neoforge:ingredient_type": "neoforge:compound",
+    "children": [
+      {
+        "neoforge:ingredient_type": "mantle:item_tag",
+        "tag": "tconstruct:modifiable/melee"
+      },
+      {
+        "neoforge:ingredient_type": "mantle:item_tag",
+        "tag": "tconstruct:modifiable/harvest"
+      },
+      {
+        "neoforge:ingredient_type": "mantle:item_tag",
+        "tag": "tconstruct:modifiable/ranged/launcher"
+      }
+    ]
+  }
+}

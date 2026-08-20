@@ -1,0 +1,19 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "mantle:tag_filled",
+      "tag": "c:nuggets/brass"
+    }
+  ],
+  "type": "tconstruct:melting",
+  "ingredient": {
+    "neoforge:ingredient_type": "mantle:item_tag",
+    "tag": "c:nuggets/brass"
+  },
+  "result": {
+    "amount": 10,
+    "tag": "c:molten_brass"
+  },
+  "temperature": 605,
+  "time": 18
+}

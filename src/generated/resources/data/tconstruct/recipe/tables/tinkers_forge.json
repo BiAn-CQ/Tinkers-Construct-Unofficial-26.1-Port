@@ -1,0 +1,33 @@
+{
+  "type": "mantle:crafting_shaped_retextured",
+  "category": "misc",
+  "key": {
+    "m": {
+      "neoforge:ingredient_type": "mantle:item_tag",
+      "tag": "tconstruct:anvil_metal"
+    },
+    "s": {
+      "neoforge:ingredient_type": "mantle:item_tag",
+      "tag": "tconstruct:seared_blocks"
+    },
+    "t": "tconstruct:tinker_station"
+  },
+  "match_all": true,
+  "pattern": [
+    "sss",
+    "mtm",
+    "m m"
+  ],
+  "result": {
+    "components": {
+      "minecraft:custom_name": {
+        "translate": "block.tconstruct.tool_forge"
+      }
+    },
+    "id": "tconstruct:tinkers_anvil"
+  },
+  "texture": {
+    "neoforge:ingredient_type": "mantle:item_tag",
+    "tag": "tconstruct:anvil_metal"
+  }
+}

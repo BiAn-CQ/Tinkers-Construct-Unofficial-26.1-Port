@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "key": {
+    "#": "tconstruct:seared_brick",
+    "B": {
+      "neoforge:ingredient_type": "mantle:item_tag",
+      "tag": "c:glass_blocks"
+    }
+  },
+  "pattern": [
+    "###",
+    "#B#",
+    "###"
+  ],
+  "result": {
+    "id": "tconstruct:seared_fuel_tank"
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "tconstruct:cinderslime_block",
+  "key": {
+    "#": {
+      "neoforge:ingredient_type": "mantle:item_tag",
+      "tag": "c:ingots/cinderslime"
+    },
+    "*": "tconstruct:cinderslime_ingot"
+  },
+  "pattern": [
+    "###",
+    "#*#",
+    "###"
+  ],
+  "result": {
+    "id": "tconstruct:cinderslime_block"
+  }
+}

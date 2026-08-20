@@ -1,0 +1,10 @@
+{
+    "model": {
+        "type": "tconstruct:material_block",
+        "model": "tconstruct:block/table/part_builder",
+        "slots": [
+            "leg",
+            "legBottom"
+        ]
+    }
+}

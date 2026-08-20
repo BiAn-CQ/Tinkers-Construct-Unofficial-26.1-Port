@@ -1,0 +1,6 @@
+{
+    "parent": "tconstruct:item/base/battlesign",
+    "textures": {
+        "layer0": "tconstruct:item/tool/battlesign/head"
+    }
+}

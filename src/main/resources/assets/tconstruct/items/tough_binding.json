@@ -1,0 +1,7 @@
+{
+    "model": {
+        "type": "tconstruct:material",
+        "parent": "tconstruct:item/native/tough_binding",
+        "texture": "tconstruct:item/tool/parts/tough_binding"
+    }
+}

@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "C": "tconstruct:ichor_slime_crystal",
+    "I": {
+      "neoforge:ingredient_type": "mantle:item_tag",
+      "tag": "c:ingots/queens_slime"
+    },
+    "W": {
+      "neoforge:ingredient_type": "mantle:item_tag",
+      "tag": "tconstruct:bloodshroom_logs"
+    }
+  },
+  "pattern": [
+    "CWC",
+    " I ",
+    " W "
+  ],
+  "result": {
+    "id": "tconstruct:ichor_staff"
+  }
+}

@@ -1,0 +1,11 @@
+{
+    "model": {
+        "type": "tconstruct:material",
+        "parent": "tconstruct:item/native/laces",
+        "texture": "tconstruct:item/tool/armor/slime/boots/laces",
+        "offset": [
+            0,
+            1
+        ]
+    }
+}

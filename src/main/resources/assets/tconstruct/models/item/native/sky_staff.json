@@ -1,0 +1,6 @@
+{
+    "parent": "tconstruct:item/base/staff",
+    "textures": {
+        "layer0": "tconstruct:item/tool/staff/sky"
+    }
+}

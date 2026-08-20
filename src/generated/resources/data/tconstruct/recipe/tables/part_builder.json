@@ -1,0 +1,23 @@
+{
+  "type": "mantle:crafting_shaped_retextured",
+  "category": "misc",
+  "key": {
+    "p": "tconstruct:pattern",
+    "w": {
+      "neoforge:ingredient_type": "mantle:item_tag",
+      "tag": "tconstruct:planklike"
+    }
+  },
+  "match_all": true,
+  "pattern": [
+    "pp",
+    "ww"
+  ],
+  "result": {
+    "id": "tconstruct:part_builder"
+  },
+  "texture": {
+    "neoforge:ingredient_type": "mantle:item_tag",
+    "tag": "tconstruct:planklike"
+  }
+}

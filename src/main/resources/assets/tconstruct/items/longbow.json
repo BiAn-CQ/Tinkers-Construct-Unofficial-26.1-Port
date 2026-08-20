@@ -1,0 +1,364 @@
+{
+    "model": {
+        "type": "tconstruct:overrides",
+        "base": {
+            "type": "tconstruct:tool",
+            "parent": "tconstruct:item/native/longbow",
+            "textures": {
+                "limb_bottom": "tconstruct:item/tool/longbow/limb_bottom",
+                "limb_top": "tconstruct:item/tool/longbow/limb_top",
+                "grip": "tconstruct:item/tool/longbow/grip",
+                "bowstring": "tconstruct:item/tool/longbow/bowstring",
+                "large_limb_bottom": "tconstruct:item/tool/longbow/large/limb_bottom",
+                "large_limb_top": "tconstruct:item/tool/longbow/large/limb_top",
+                "large_grip": "tconstruct:item/tool/longbow/large/grip",
+                "large_bowstring": "tconstruct:item/tool/longbow/large/bowstring"
+            },
+            "parts": [
+                {
+                    "name": "limb_bottom",
+                    "index": 0
+                },
+                {
+                    "name": "limb_top",
+                    "index": 1
+                },
+                {
+                    "name": "bowstring",
+                    "index": 3
+                },
+                {
+                    "name": "grip",
+                    "index": 2
+                }
+            ],
+            "broken_textures": {
+                "limb_bottom": "tconstruct:item/tool/longbow/limb_bottom",
+                "limb_top": "tconstruct:item/tool/longbow/limb_top",
+                "grip": "tconstruct:item/tool/longbow/grip",
+                "bowstring": "tconstruct:item/tool/longbow/bowstring_broken",
+                "large_limb_bottom": "tconstruct:item/tool/longbow/large/limb_bottom",
+                "large_limb_top": "tconstruct:item/tool/longbow/large/limb_top",
+                "large_grip": "tconstruct:item/tool/longbow/large/grip",
+                "large_bowstring": "tconstruct:item/tool/longbow/large/bowstring_broken"
+            },
+            "large": true,
+            "large_offset": [
+                -7,
+                9
+            ]
+        },
+        "overrides": [
+            {
+                "predicate": {
+                    "tconstruct:charging": 1.0,
+                    "tconstruct:charge": 0.05
+                },
+                "model": {
+                    "type": "tconstruct:tool",
+                    "parent": "tconstruct:item/base/bow",
+                    "textures": {
+                        "limb_bottom": "tconstruct:item/tool/longbow/limb_bottom_1",
+                        "limb_top": "tconstruct:item/tool/longbow/limb_top_1",
+                        "grip": "tconstruct:item/tool/longbow/grip",
+                        "bowstring": "tconstruct:item/tool/longbow/bowstring_1",
+                        "large_limb_bottom": "tconstruct:item/tool/longbow/large/limb_bottom_1",
+                        "large_limb_top": "tconstruct:item/tool/longbow/large/limb_top_1",
+                        "large_grip": "tconstruct:item/tool/longbow/large/grip",
+                        "large_bowstring": "tconstruct:item/tool/longbow/large/bowstring_1"
+                    },
+                    "parts": [
+                        {
+                            "name": "limb_bottom",
+                            "index": 0
+                        },
+                        {
+                            "name": "limb_top",
+                            "index": 1
+                        },
+                        {
+                            "name": "bowstring",
+                            "index": 3
+                        },
+                        {
+                            "name": "grip",
+                            "index": 2
+                        }
+                    ],
+                    "large": true,
+                    "large_offset": [
+                        -7,
+                        9
+                    ]
+                }
+            },
+            {
+                "predicate": {
+                    "tconstruct:charging": 1.0,
+                    "tconstruct:charge": 0.6
+                },
+                "model": {
+                    "type": "tconstruct:tool",
+                    "parent": "tconstruct:item/base/bow",
+                    "textures": {
+                        "limb_bottom": "tconstruct:item/tool/longbow/limb_bottom_2",
+                        "limb_top": "tconstruct:item/tool/longbow/limb_top_2",
+                        "grip": "tconstruct:item/tool/longbow/grip",
+                        "bowstring": "tconstruct:item/tool/longbow/bowstring_2",
+                        "large_limb_bottom": "tconstruct:item/tool/longbow/large/limb_bottom_2",
+                        "large_limb_top": "tconstruct:item/tool/longbow/large/limb_top_2",
+                        "large_grip": "tconstruct:item/tool/longbow/large/grip",
+                        "large_bowstring": "tconstruct:item/tool/longbow/large/bowstring_2"
+                    },
+                    "parts": [
+                        {
+                            "name": "limb_bottom",
+                            "index": 0
+                        },
+                        {
+                            "name": "limb_top",
+                            "index": 1
+                        },
+                        {
+                            "name": "bowstring",
+                            "index": 3
+                        },
+                        {
+                            "name": "grip",
+                            "index": 2
+                        }
+                    ],
+                    "large": true,
+                    "large_offset": [
+                        -7,
+                        9
+                    ]
+                }
+            },
+            {
+                "predicate": {
+                    "tconstruct:charging": 1.0,
+                    "tconstruct:charge": 1.0
+                },
+                "model": {
+                    "type": "tconstruct:tool",
+                    "parent": "tconstruct:item/base/bow",
+                    "textures": {
+                        "limb_bottom": "tconstruct:item/tool/longbow/limb_bottom_3",
+                        "limb_top": "tconstruct:item/tool/longbow/limb_top_3",
+                        "grip": "tconstruct:item/tool/longbow/grip",
+                        "bowstring": "tconstruct:item/tool/longbow/bowstring_3",
+                        "large_limb_bottom": "tconstruct:item/tool/longbow/large/limb_bottom_3",
+                        "large_limb_top": "tconstruct:item/tool/longbow/large/limb_top_3",
+                        "large_grip": "tconstruct:item/tool/longbow/large/grip",
+                        "large_bowstring": "tconstruct:item/tool/longbow/large/bowstring_3"
+                    },
+                    "parts": [
+                        {
+                            "name": "limb_bottom",
+                            "index": 0
+                        },
+                        {
+                            "name": "limb_top",
+                            "index": 1
+                        },
+                        {
+                            "name": "bowstring",
+                            "index": 3
+                        },
+                        {
+                            "name": "grip",
+                            "index": 2
+                        }
+                    ],
+                    "large": true,
+                    "large_offset": [
+                        -7,
+                        9
+                    ]
+                }
+            },
+            {
+                "predicate": {
+                    "tconstruct:charging": 2.0
+                },
+                "model": {
+                    "type": "tconstruct:tool",
+                    "parent": "tconstruct:item/native/overrides/longbow/tool/longbow/blocking",
+                    "textures": {
+                        "limb_bottom": "tconstruct:item/tool/longbow/limb_bottom",
+                        "limb_top": "tconstruct:item/tool/longbow/limb_top",
+                        "grip": "tconstruct:item/tool/longbow/grip",
+                        "bowstring": "tconstruct:item/tool/longbow/bowstring",
+                        "large_limb_bottom": "tconstruct:item/tool/longbow/large/limb_bottom",
+                        "large_limb_top": "tconstruct:item/tool/longbow/large/limb_top",
+                        "large_grip": "tconstruct:item/tool/longbow/large/grip",
+                        "large_bowstring": "tconstruct:item/tool/longbow/large/bowstring"
+                    },
+                    "parts": [
+                        {
+                            "name": "limb_bottom",
+                            "index": 0
+                        },
+                        {
+                            "name": "limb_top",
+                            "index": 1
+                        },
+                        {
+                            "name": "bowstring",
+                            "index": 3
+                        },
+                        {
+                            "name": "grip",
+                            "index": 2
+                        }
+                    ],
+                    "broken_textures": {
+                        "limb_bottom": "tconstruct:item/tool/longbow/limb_bottom",
+                        "limb_top": "tconstruct:item/tool/longbow/limb_top",
+                        "grip": "tconstruct:item/tool/longbow/grip",
+                        "bowstring": "tconstruct:item/tool/longbow/bowstring_broken",
+                        "large_limb_bottom": "tconstruct:item/tool/longbow/large/limb_bottom",
+                        "large_limb_top": "tconstruct:item/tool/longbow/large/limb_top",
+                        "large_grip": "tconstruct:item/tool/longbow/large/grip",
+                        "large_bowstring": "tconstruct:item/tool/longbow/large/bowstring_broken"
+                    },
+                    "large": true,
+                    "large_offset": [
+                        -7,
+                        9
+                    ]
+                }
+            },
+            {
+                "predicate": {
+                    "tconstruct:charging": 2.0,
+                    "tconstruct:charge": 0.05
+                },
+                "model": {
+                    "type": "tconstruct:tool",
+                    "parent": "tconstruct:item/native/overrides/longbow/tool/longbow/blocking_1",
+                    "textures": {
+                        "limb_bottom": "tconstruct:item/tool/longbow/limb_bottom_1",
+                        "limb_top": "tconstruct:item/tool/longbow/limb_top_1",
+                        "grip": "tconstruct:item/tool/longbow/grip",
+                        "bowstring": "tconstruct:item/tool/longbow/bowstring_1",
+                        "large_limb_bottom": "tconstruct:item/tool/longbow/large/limb_bottom_1",
+                        "large_limb_top": "tconstruct:item/tool/longbow/large/limb_top_1",
+                        "large_grip": "tconstruct:item/tool/longbow/large/grip",
+                        "large_bowstring": "tconstruct:item/tool/longbow/large/bowstring_1"
+                    },
+                    "parts": [
+                        {
+                            "name": "limb_bottom",
+                            "index": 0
+                        },
+                        {
+                            "name": "limb_top",
+                            "index": 1
+                        },
+                        {
+                            "name": "bowstring",
+                            "index": 3
+                        },
+                        {
+                            "name": "grip",
+                            "index": 2
+                        }
+                    ],
+                    "large": true,
+                    "large_offset": [
+                        -7,
+                        9
+                    ]
+                }
+            },
+            {
+                "predicate": {
+                    "tconstruct:charging": 2.0,
+                    "tconstruct:charge": 0.6
+                },
+                "model": {
+                    "type": "tconstruct:tool",
+                    "parent": "tconstruct:item/native/overrides/longbow/tool/longbow/blocking_2",
+                    "textures": {
+                        "limb_bottom": "tconstruct:item/tool/longbow/limb_bottom_2",
+                        "limb_top": "tconstruct:item/tool/longbow/limb_top_2",
+                        "grip": "tconstruct:item/tool/longbow/grip",
+                        "bowstring": "tconstruct:item/tool/longbow/bowstring_2",
+                        "large_limb_bottom": "tconstruct:item/tool/longbow/large/limb_bottom_2",
+                        "large_limb_top": "tconstruct:item/tool/longbow/large/limb_top_2",
+                        "large_grip": "tconstruct:item/tool/longbow/large/grip",
+                        "large_bowstring": "tconstruct:item/tool/longbow/large/bowstring_2"
+                    },
+                    "parts": [
+                        {
+                            "name": "limb_bottom",
+                            "index": 0
+                        },
+                        {
+                            "name": "limb_top",
+                            "index": 1
+                        },
+                        {
+                            "name": "bowstring",
+                            "index": 3
+                        },
+                        {
+                            "name": "grip",
+                            "index": 2
+                        }
+                    ],
+                    "large": true,
+                    "large_offset": [
+                        -7,
+                        9
+                    ]
+                }
+            },
+            {
+                "predicate": {
+                    "tconstruct:charging": 2.0,
+                    "tconstruct:charge": 1.0
+                },
+                "model": {
+                    "type": "tconstruct:tool",
+                    "parent": "tconstruct:item/native/overrides/longbow/tool/longbow/blocking_3",
+                    "textures": {
+                        "limb_bottom": "tconstruct:item/tool/longbow/limb_bottom_3",
+                        "limb_top": "tconstruct:item/tool/longbow/limb_top_3",
+                        "grip": "tconstruct:item/tool/longbow/grip",
+                        "bowstring": "tconstruct:item/tool/longbow/bowstring_3",
+                        "large_limb_bottom": "tconstruct:item/tool/longbow/large/limb_bottom_3",
+                        "large_limb_top": "tconstruct:item/tool/longbow/large/limb_top_3",
+                        "large_grip": "tconstruct:item/tool/longbow/large/grip",
+                        "large_bowstring": "tconstruct:item/tool/longbow/large/bowstring_3"
+                    },
+                    "parts": [
+                        {
+                            "name": "limb_bottom",
+                            "index": 0
+                        },
+                        {
+                            "name": "limb_top",
+                            "index": 1
+                        },
+                        {
+                            "name": "bowstring",
+                            "index": 3
+                        },
+                        {
+                            "name": "grip",
+                            "index": 2
+                        }
+                    ],
+                    "large": true,
+                    "large_offset": [
+                        -7,
+                        9
+                    ]
+                }
+            }
+        ]
+    }
+}

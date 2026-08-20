@@ -1,0 +1,12 @@
+{
+  "asset_name": "tconstruct_tconstruct_queens_slime",
+  "description": {
+    "color": "#236C45",
+    "translate": "trim_material.tconstruct.format",
+    "with": [
+      {
+        "translate": "material.tconstruct.queens_slime"
+      }
+    ]
+  }
+}

@@ -1,0 +1,39 @@
+{
+    "model": {
+        "type": "tconstruct:tool",
+        "parent": "tconstruct:item/native/shuriken",
+        "textures": {
+            "top": "tconstruct:item/tool/ammo/shuriken_top",
+            "bottom": "tconstruct:item/tool/ammo/shuriken_bottom"
+        },
+        "parts": [
+            {
+                "name": "bottom",
+                "index": 1
+            },
+            {
+                "name": "top",
+                "index": 0
+            }
+        ],
+        "modifier_constants": [
+            {
+                "type": "tconstruct:trait",
+                "model": {
+                    "type": "tconstruct:fluid",
+                    "mask": "tconstruct:item/tool/ammo/shuriken_modifiers/smashing",
+                    "tank_helper": "tconstruct:smashing"
+                },
+                "modifier": "tconstruct:smashing"
+            },
+            {
+                "type": "tconstruct:trait",
+                "model": {
+                    "type": "tconstruct:potion",
+                    "texture": "tconstruct:item/tool/ammo/shuriken_modifiers/tipped"
+                },
+                "modifier": "tconstruct:tipped"
+            }
+        ]
+    }
+}

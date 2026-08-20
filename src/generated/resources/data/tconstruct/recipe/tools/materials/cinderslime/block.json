@@ -1,0 +1,14 @@
+{
+  "type": "tconstruct:material",
+  "ingredient": {
+    "neoforge:ingredient_type": "mantle:item_tag",
+    "tag": "c:storage_blocks/cinderslime"
+  },
+  "leftover": {
+    "count": 1,
+    "tag": "c:ingots/cinderslime"
+  },
+  "material": "tconstruct:cinderslime",
+  "needed": 1,
+  "value": 9
+}

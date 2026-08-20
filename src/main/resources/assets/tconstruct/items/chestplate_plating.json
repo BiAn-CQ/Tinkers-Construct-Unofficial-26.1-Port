@@ -1,0 +1,7 @@
+{
+    "model": {
+        "type": "tconstruct:material",
+        "parent": "tconstruct:item/native/chestplate_plating",
+        "texture": "tconstruct:item/tool/armor/plate/chestplate/plating"
+    }
+}

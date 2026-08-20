@@ -1,0 +1,19 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "mantle:tag_filled",
+      "tag": "c:gears/silver"
+    }
+  ],
+  "type": "tconstruct:melting",
+  "ingredient": {
+    "neoforge:ingredient_type": "mantle:item_tag",
+    "tag": "c:gears/silver"
+  },
+  "result": {
+    "amount": 360,
+    "tag": "c:molten_silver"
+  },
+  "temperature": 790,
+  "time": 120
+}

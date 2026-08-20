@@ -1,0 +1,16 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "mantle:tag_filled",
+      "tag": "c:nuggets/lead"
+    }
+  ],
+  "type": "tconstruct:material",
+  "ingredient": {
+    "neoforge:ingredient_type": "mantle:item_tag",
+    "tag": "c:nuggets/lead"
+  },
+  "material": "tconstruct:lead",
+  "needed": 9,
+  "value": 1
+}

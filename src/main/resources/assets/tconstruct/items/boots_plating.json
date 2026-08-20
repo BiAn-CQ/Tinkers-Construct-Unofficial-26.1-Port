@@ -1,0 +1,7 @@
+{
+    "model": {
+        "type": "tconstruct:material",
+        "parent": "tconstruct:item/native/boots_plating",
+        "texture": "tconstruct:item/tool/armor/plate/boots/plating"
+    }
+}

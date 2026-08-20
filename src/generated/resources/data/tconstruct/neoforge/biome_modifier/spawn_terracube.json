@@ -1,0 +1,10 @@
+{
+  "type": "neoforge:add_spawns",
+  "biomes": "#tconstruct:spawns/terracube",
+  "spawners": {
+    "type": "tconstruct:terracube",
+    "maxCount": 4,
+    "minCount": 2,
+    "weight": 10
+  }
+}

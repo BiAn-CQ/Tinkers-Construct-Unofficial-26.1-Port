@@ -1,0 +1,10 @@
+{
+    "render_type": "minecraft:translucent",
+    "parent": "block/cube_all",
+    "textures": {
+        "all": {
+            "sprite": "tconstruct:block/storage/slimesteel_slime",
+            "force_translucent": true
+        }
+    }
+}

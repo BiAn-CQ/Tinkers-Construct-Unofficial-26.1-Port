@@ -1,0 +1,6 @@
+{
+    "parent": "neoforge:item/default",
+    "textures": {
+        "layer0": "tconstruct:item/tool/parts/small_blade"
+    }
+}

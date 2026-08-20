@@ -1,0 +1,13 @@
+{
+    "variants": {
+        "": {
+            "type": "mantle:colored_block",
+            "model": "tconstruct:block/storage/queens_slime",
+            "colors": [
+                {
+                    "luminosity": 9
+                }
+            ]
+        }
+    }
+}

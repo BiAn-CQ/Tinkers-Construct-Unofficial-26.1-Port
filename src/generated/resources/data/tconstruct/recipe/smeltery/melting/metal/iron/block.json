@@ -1,0 +1,13 @@
+{
+  "type": "tconstruct:melting",
+  "ingredient": {
+    "neoforge:ingredient_type": "mantle:item_tag",
+    "tag": "c:storage_blocks/iron"
+  },
+  "result": {
+    "amount": 810,
+    "tag": "c:molten_iron"
+  },
+  "temperature": 800,
+  "time": 180
+}

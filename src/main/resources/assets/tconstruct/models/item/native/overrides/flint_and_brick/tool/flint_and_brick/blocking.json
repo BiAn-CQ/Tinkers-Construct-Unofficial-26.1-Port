@@ -1,0 +1,42 @@
+{
+    "parent": "forge:item/default",
+    "textures": {
+        "layer0": "tconstruct:item/tool/flint_and_brick/tool"
+    },
+    "display": {
+        "firstperson_righthand": {
+            "rotation": [
+                0,
+                0,
+                5
+            ],
+            "translation": [
+                -5,
+                0,
+                -0.2
+            ],
+            "scale": [
+                1,
+                1,
+                1
+            ]
+        },
+        "firstperson_lefthand": {
+            "rotation": [
+                0,
+                0,
+                5
+            ],
+            "translation": [
+                -5,
+                0,
+                -0.2
+            ],
+            "scale": [
+                1,
+                1,
+                1
+            ]
+        }
+    }
+}

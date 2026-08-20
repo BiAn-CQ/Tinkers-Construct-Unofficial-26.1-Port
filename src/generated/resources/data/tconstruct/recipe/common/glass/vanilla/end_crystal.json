@@ -1,0 +1,26 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "tconstruct:config",
+      "prop": "glass_recipe_fix"
+    }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "E": "minecraft:ender_eye",
+    "G": {
+      "neoforge:ingredient_type": "mantle:item_tag",
+      "tag": "c:glass_blocks/colorless"
+    },
+    "T": "minecraft:ghast_tear"
+  },
+  "pattern": [
+    "GGG",
+    "GEG",
+    "GTG"
+  ],
+  "result": {
+    "id": "minecraft:end_crystal"
+  }
+}

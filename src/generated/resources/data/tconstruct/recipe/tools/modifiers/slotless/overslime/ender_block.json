@@ -1,0 +1,9 @@
+{
+  "type": "tconstruct:overslime_modifier",
+  "ingredient": "tconstruct:ender_slime",
+  "restore_amount": 720,
+  "tools": {
+    "neoforge:ingredient_type": "mantle:item_tag",
+    "tag": "tconstruct:modifiable/durability"
+  }
+}

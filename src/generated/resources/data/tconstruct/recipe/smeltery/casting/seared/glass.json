@@ -1,0 +1,14 @@
+{
+  "type": "tconstruct:casting_basin",
+  "cast": {
+    "neoforge:ingredient_type": "mantle:item_tag",
+    "tag": "c:glass_blocks/colorless"
+  },
+  "cast_consumed": true,
+  "cooling_time": 178,
+  "fluid": {
+    "amount": 1000,
+    "tag": "tconstruct:seared_stone"
+  },
+  "result": "tconstruct:seared_glass"
+}

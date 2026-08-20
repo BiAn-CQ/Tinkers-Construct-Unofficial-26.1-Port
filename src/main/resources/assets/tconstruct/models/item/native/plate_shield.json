@@ -1,0 +1,6 @@
+{
+    "parent": "tconstruct:item/base/shield_large",
+    "textures": {
+        "layer0": "tconstruct:item/tool/armor/plate/shield/plating"
+    }
+}

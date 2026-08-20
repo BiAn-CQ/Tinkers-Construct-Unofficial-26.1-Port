@@ -1,0 +1,16 @@
+{
+  "type": "tconstruct:melting",
+  "ingredient": {
+    "neoforge:ingredient_type": "mantle:or",
+    "ingredients": [
+      "minecraft:compass",
+      "minecraft:iron_trapdoor"
+    ]
+  },
+  "result": {
+    "amount": 360,
+    "tag": "c:molten_iron"
+  },
+  "temperature": 800,
+  "time": 120
+}

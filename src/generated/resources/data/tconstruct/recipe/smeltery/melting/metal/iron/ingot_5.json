@@ -1,0 +1,17 @@
+{
+  "type": "tconstruct:melting",
+  "ingredient": {
+    "neoforge:ingredient_type": "mantle:or",
+    "ingredients": [
+      "minecraft:blast_furnace",
+      "minecraft:hopper",
+      "minecraft:minecart"
+    ]
+  },
+  "result": {
+    "amount": 450,
+    "tag": "c:molten_iron"
+  },
+  "temperature": 800,
+  "time": 134
+}

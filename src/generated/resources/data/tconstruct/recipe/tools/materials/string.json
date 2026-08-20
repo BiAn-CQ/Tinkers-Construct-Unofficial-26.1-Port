@@ -1,0 +1,10 @@
+{
+  "type": "tconstruct:material",
+  "ingredient": {
+    "neoforge:ingredient_type": "mantle:item_tag",
+    "tag": "c:strings"
+  },
+  "material": "tconstruct:string",
+  "needed": 4,
+  "value": 1
+}

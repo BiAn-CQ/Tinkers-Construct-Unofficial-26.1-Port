@@ -1,0 +1,30 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "mantle:tag_combination_filled",
+      "ignore": "tconstruct:wood_variants/logs",
+      "match": [
+        "minecraft:logs"
+      ]
+    }
+  ],
+  "type": "tconstruct:material",
+  "ingredient": {
+    "neoforge:ingredient_type": "neoforge:difference",
+    "base": {
+      "neoforge:ingredient_type": "mantle:item_tag",
+      "tag": "minecraft:logs"
+    },
+    "subtracted": {
+      "neoforge:ingredient_type": "mantle:item_tag",
+      "tag": "tconstruct:wood_variants/logs"
+    }
+  },
+  "leftover": {
+    "count": 2,
+    "item": "minecraft:stick"
+  },
+  "material": "tconstruct:wood",
+  "needed": 1,
+  "value": 4
+}

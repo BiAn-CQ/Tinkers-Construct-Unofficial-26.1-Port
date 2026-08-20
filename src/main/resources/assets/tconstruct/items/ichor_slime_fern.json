@@ -1,0 +1,12 @@
+{
+    "model": {
+        "type": "minecraft:model",
+        "model": "tconstruct:item/ichor_slime_fern",
+        "tints": [
+            {
+                "type": "minecraft:constant",
+                "value": 13670400
+            }
+        ]
+    }
+}

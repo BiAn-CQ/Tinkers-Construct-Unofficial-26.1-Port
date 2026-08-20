@@ -1,0 +1,16 @@
+{
+  "type": "tconstruct:melting",
+  "ingredient": {
+    "neoforge:ingredient_type": "mantle:or",
+    "ingredients": [
+      "tconstruct:blank_sand_cast",
+      "tconstruct:blank_red_sand_cast"
+    ]
+  },
+  "result": {
+    "amount": 250,
+    "fluid": "tconstruct:molten_glass"
+  },
+  "temperature": 750,
+  "time": 44
+}

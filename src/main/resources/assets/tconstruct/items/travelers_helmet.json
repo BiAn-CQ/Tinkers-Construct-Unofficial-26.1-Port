@@ -1,0 +1,42 @@
+{
+    "model": {
+        "type": "tconstruct:tool",
+        "parent": "tconstruct:item/native/travelers_helmet",
+        "textures": {
+            "base": "tconstruct:item/tool/armor/travelers/goggles/base",
+            "cuirass": "tconstruct:item/tool/armor/travelers/goggles/cuirass",
+            "metal": "tconstruct:item/tool/armor/travelers/goggles/metal"
+        },
+        "parts": [
+            {
+                "name": "base"
+            },
+            {
+                "name": "cuirass",
+                "index": 1
+            },
+            {
+                "name": "metal",
+                "index": 0
+            }
+        ],
+        "broken_textures": {
+            "base": "tconstruct:item/tool/armor/travelers/goggles/base_broken",
+            "cuirass": "tconstruct:item/tool/armor/travelers/goggles/cuirass_broken",
+            "metal": "tconstruct:item/tool/armor/travelers/goggles/metal_broken"
+        },
+        "modifier_models": {
+            "tconstruct:dyed": {
+                "type": "tconstruct:dyed",
+                "texture": "tconstruct:item/tool/armor/travelers/goggles/modifiers/dyed"
+            },
+            "tconstruct:trim": {
+                "type": "tconstruct:custom_trim",
+                "root": "tconstruct:item/tool/armor/travelers/goggles/trim"
+            }
+        },
+        "first_modifiers": [
+            "tconstruct:dyed"
+        ]
+    }
+}

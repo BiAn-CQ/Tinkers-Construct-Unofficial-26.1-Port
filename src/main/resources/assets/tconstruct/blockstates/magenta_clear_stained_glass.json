@@ -1,0 +1,16 @@
+{
+    "variants": {
+        "": {
+            "type": "mantle:connected",
+            "model": "tconstruct:block/clear_glass/magenta/block",
+            "textures": {
+                "all": "cornerless_full"
+            },
+            "colors": [
+                {
+                    "color": "FFB24CD8"
+                }
+            ]
+        }
+    }
+}

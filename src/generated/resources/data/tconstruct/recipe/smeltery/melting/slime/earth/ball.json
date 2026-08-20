@@ -1,0 +1,13 @@
+{
+  "type": "tconstruct:melting",
+  "ingredient": {
+    "neoforge:ingredient_type": "mantle:item_tag",
+    "tag": "c:slimeball/earth"
+  },
+  "result": {
+    "amount": 250,
+    "tag": "c:slime"
+  },
+  "temperature": 50,
+  "time": 31
+}

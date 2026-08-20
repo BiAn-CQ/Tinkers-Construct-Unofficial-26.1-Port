@@ -1,0 +1,388 @@
+{
+    "model": {
+        "type": "tconstruct:overrides",
+        "base": {
+            "type": "tconstruct:tool",
+            "parent": "tconstruct:item/native/crossbow",
+            "textures": {
+                "limb": "tconstruct:item/tool/crossbow/limb",
+                "body": "tconstruct:item/tool/crossbow/body",
+                "bowstring": "tconstruct:item/tool/crossbow/bowstring"
+            },
+            "parts": [
+                {
+                    "name": "limb",
+                    "index": 0
+                },
+                {
+                    "name": "body",
+                    "index": 1
+                },
+                {
+                    "name": "bowstring",
+                    "index": 2
+                }
+            ],
+            "broken_textures": {
+                "limb": "tconstruct:item/tool/crossbow/limb",
+                "body": "tconstruct:item/tool/crossbow/body",
+                "bowstring": "tconstruct:item/tool/crossbow/bowstring_broken"
+            }
+        },
+        "overrides": [
+            {
+                "predicate": {
+                    "tconstruct:charging": 1.0,
+                    "tconstruct:charge": 0.05
+                },
+                "model": {
+                    "type": "tconstruct:tool",
+                    "parent": "tconstruct:item/base/crossbow",
+                    "textures": {
+                        "limb": "tconstruct:item/tool/crossbow/limb",
+                        "body": "tconstruct:item/tool/crossbow/body",
+                        "bowstring": "tconstruct:item/tool/crossbow/bowstring_1"
+                    },
+                    "parts": [
+                        {
+                            "name": "limb",
+                            "index": 0
+                        },
+                        {
+                            "name": "body",
+                            "index": 1
+                        },
+                        {
+                            "name": "bowstring",
+                            "index": 2
+                        }
+                    ]
+                }
+            },
+            {
+                "predicate": {
+                    "tconstruct:charging": 1.0,
+                    "tconstruct:charge": 0.58
+                },
+                "model": {
+                    "type": "tconstruct:tool",
+                    "parent": "tconstruct:item/base/crossbow",
+                    "textures": {
+                        "limb": "tconstruct:item/tool/crossbow/limb",
+                        "body": "tconstruct:item/tool/crossbow/body",
+                        "bowstring": "tconstruct:item/tool/crossbow/bowstring_2"
+                    },
+                    "parts": [
+                        {
+                            "name": "limb",
+                            "index": 0
+                        },
+                        {
+                            "name": "body",
+                            "index": 1
+                        },
+                        {
+                            "name": "bowstring",
+                            "index": 2
+                        }
+                    ]
+                }
+            },
+            {
+                "predicate": {
+                    "tconstruct:charging": 1.0,
+                    "tconstruct:charge": 1.0
+                },
+                "model": {
+                    "type": "tconstruct:tool",
+                    "parent": "tconstruct:item/base/crossbow",
+                    "textures": {
+                        "limb": "tconstruct:item/tool/crossbow/limb",
+                        "body": "tconstruct:item/tool/crossbow/body",
+                        "bowstring": "tconstruct:item/tool/crossbow/bowstring_3"
+                    },
+                    "parts": [
+                        {
+                            "name": "limb",
+                            "index": 0
+                        },
+                        {
+                            "name": "body",
+                            "index": 1
+                        },
+                        {
+                            "name": "bowstring",
+                            "index": 2
+                        }
+                    ],
+                    "ammo": {
+                        "key": "tconstruct:crossbow_ammo",
+                        "flip": true,
+                        "left": false,
+                        "offset": [-1.0, -1.0]
+                    }
+                }
+            },
+            {
+                "predicate": {
+                    "tconstruct:charging": 2.0
+                },
+                "model": {
+                    "type": "tconstruct:tool",
+                    "parent": "tconstruct:item/native/overrides/crossbow/tool/crossbow/blocking",
+                    "textures": {
+                        "limb": "tconstruct:item/tool/crossbow/limb",
+                        "body": "tconstruct:item/tool/crossbow/body",
+                        "bowstring": "tconstruct:item/tool/crossbow/bowstring"
+                    },
+                    "parts": [
+                        {
+                            "name": "limb",
+                            "index": 0
+                        },
+                        {
+                            "name": "body",
+                            "index": 1
+                        },
+                        {
+                            "name": "bowstring",
+                            "index": 2
+                        }
+                    ],
+                    "broken_textures": {
+                        "limb": "tconstruct:item/tool/crossbow/limb",
+                        "body": "tconstruct:item/tool/crossbow/body",
+                        "bowstring": "tconstruct:item/tool/crossbow/bowstring_broken"
+                    }
+                }
+            },
+            {
+                "predicate": {
+                    "tconstruct:charging": 2.0,
+                    "tconstruct:charge": 0.05
+                },
+                "model": {
+                    "type": "tconstruct:tool",
+                    "parent": "tconstruct:item/native/overrides/crossbow/tool/crossbow/blocking_1",
+                    "textures": {
+                        "limb": "tconstruct:item/tool/crossbow/limb",
+                        "body": "tconstruct:item/tool/crossbow/body",
+                        "bowstring": "tconstruct:item/tool/crossbow/bowstring_1"
+                    },
+                    "parts": [
+                        {
+                            "name": "limb",
+                            "index": 0
+                        },
+                        {
+                            "name": "body",
+                            "index": 1
+                        },
+                        {
+                            "name": "bowstring",
+                            "index": 2
+                        }
+                    ]
+                }
+            },
+            {
+                "predicate": {
+                    "tconstruct:charging": 2.0,
+                    "tconstruct:charge": 0.58
+                },
+                "model": {
+                    "type": "tconstruct:tool",
+                    "parent": "tconstruct:item/native/overrides/crossbow/tool/crossbow/blocking_2",
+                    "textures": {
+                        "limb": "tconstruct:item/tool/crossbow/limb",
+                        "body": "tconstruct:item/tool/crossbow/body",
+                        "bowstring": "tconstruct:item/tool/crossbow/bowstring_2"
+                    },
+                    "parts": [
+                        {
+                            "name": "limb",
+                            "index": 0
+                        },
+                        {
+                            "name": "body",
+                            "index": 1
+                        },
+                        {
+                            "name": "bowstring",
+                            "index": 2
+                        }
+                    ]
+                }
+            },
+            {
+                "predicate": {
+                    "tconstruct:charging": 2.0,
+                    "tconstruct:charge": 1.0
+                },
+                "model": {
+                    "type": "tconstruct:tool",
+                    "parent": "tconstruct:item/native/overrides/crossbow/tool/crossbow/blocking_3",
+                    "textures": {
+                        "limb": "tconstruct:item/tool/crossbow/limb",
+                        "body": "tconstruct:item/tool/crossbow/body",
+                        "bowstring": "tconstruct:item/tool/crossbow/bowstring_3"
+                    },
+                    "parts": [
+                        {
+                            "name": "limb",
+                            "index": 0
+                        },
+                        {
+                            "name": "body",
+                            "index": 1
+                        },
+                        {
+                            "name": "bowstring",
+                            "index": 2
+                        }
+                    ],
+                    "ammo": {
+                        "key": "tconstruct:crossbow_ammo",
+                        "flip": true,
+                        "left": false,
+                        "offset": [-1.0, -1.0]
+                    }
+                }
+            },
+            {
+                "predicate": {
+                    "tconstruct:ammo": 1.0
+                },
+                "model": {
+                    "type": "tconstruct:tool",
+                    "parent": "tconstruct:item/base/crossbow",
+                    "textures": {
+                        "limb": "tconstruct:item/tool/crossbow/limb",
+                        "body": "tconstruct:item/tool/crossbow/body",
+                        "bowstring": "tconstruct:item/tool/crossbow/bowstring_3"
+                    },
+                    "parts": [
+                        {
+                            "name": "limb",
+                            "index": 0
+                        },
+                        {
+                            "name": "body",
+                            "index": 1
+                        },
+                        {
+                            "name": "bowstring",
+                            "index": 2
+                        }
+                    ],
+                    "ammo": {
+                        "key": "tconstruct:crossbow_ammo",
+                        "flip": true,
+                        "left": false,
+                        "offset": [-1.0, -1.0]
+                    }
+                }
+            },
+            {
+                "predicate": {
+                    "tconstruct:ammo": 1.0,
+                    "tconstruct:charging": 2.0
+                },
+                "model": {
+                    "type": "tconstruct:tool",
+                    "parent": "tconstruct:item/native/overrides/crossbow/tool/crossbow/blocking_3",
+                    "textures": {
+                        "limb": "tconstruct:item/tool/crossbow/limb",
+                        "body": "tconstruct:item/tool/crossbow/body",
+                        "bowstring": "tconstruct:item/tool/crossbow/bowstring_3"
+                    },
+                    "parts": [
+                        {
+                            "name": "limb",
+                            "index": 0
+                        },
+                        {
+                            "name": "body",
+                            "index": 1
+                        },
+                        {
+                            "name": "bowstring",
+                            "index": 2
+                        }
+                    ],
+                    "ammo": {
+                        "key": "tconstruct:crossbow_ammo",
+                        "flip": true,
+                        "left": false,
+                        "offset": [-1.0, -1.0]
+                    }
+                }
+            },
+            {
+                "predicate": {
+                    "tconstruct:ammo": 2.0
+                },
+                "model": {
+                    "type": "tconstruct:tool",
+                    "parent": "tconstruct:item/base/crossbow",
+                    "textures": {
+                        "limb": "tconstruct:item/tool/crossbow/limb",
+                        "body": "tconstruct:item/tool/crossbow/body",
+                        "bowstring": "tconstruct:item/tool/crossbow/bowstring_3",
+                        "ammo": "tconstruct:item/tool/crossbow/firework"
+                    },
+                    "parts": [
+                        {
+                            "name": "limb",
+                            "index": 0
+                        },
+                        {
+                            "name": "body",
+                            "index": 1
+                        },
+                        {
+                            "name": "bowstring",
+                            "index": 2
+                        },
+                        {
+                            "name": "ammo"
+                        }
+                    ]
+                }
+            },
+            {
+                "predicate": {
+                    "tconstruct:ammo": 2.0,
+                    "tconstruct:charging": 2.0
+                },
+                "model": {
+                    "type": "tconstruct:tool",
+                    "parent": "tconstruct:item/native/overrides/crossbow/tool/crossbow/firework_blocking",
+                    "textures": {
+                        "limb": "tconstruct:item/tool/crossbow/limb",
+                        "body": "tconstruct:item/tool/crossbow/body",
+                        "bowstring": "tconstruct:item/tool/crossbow/bowstring_3",
+                        "ammo": "tconstruct:item/tool/crossbow/firework"
+                    },
+                    "parts": [
+                        {
+                            "name": "limb",
+                            "index": 0
+                        },
+                        {
+                            "name": "body",
+                            "index": 1
+                        },
+                        {
+                            "name": "bowstring",
+                            "index": 2
+                        },
+                        {
+                            "name": "ammo"
+                        }
+                    ]
+                }
+            }
+        ]
+    }
+}

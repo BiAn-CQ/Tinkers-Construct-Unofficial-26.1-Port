@@ -1,0 +1,9 @@
+{
+  "type": "tconstruct:overslime_modifier",
+  "ingredient": "tconstruct:ichor_slime",
+  "restore_amount": 900,
+  "tools": {
+    "neoforge:ingredient_type": "mantle:item_tag",
+    "tag": "tconstruct:modifiable/durability"
+  }
+}

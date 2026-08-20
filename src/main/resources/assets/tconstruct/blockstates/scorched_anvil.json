@@ -1,0 +1,39 @@
+{
+    "variants": {
+        "facing=north": {
+            "type": "tconstruct:material_block",
+            "model": "tconstruct:block/table/scorched_anvil",
+            "slots": [
+                "particle",
+                "top"
+            ],
+            "y": 90
+        },
+        "facing=south": {
+            "type": "tconstruct:material_block",
+            "model": "tconstruct:block/table/scorched_anvil",
+            "slots": [
+                "particle",
+                "top"
+            ],
+            "y": 270
+        },
+        "facing=west": {
+            "type": "tconstruct:material_block",
+            "model": "tconstruct:block/table/scorched_anvil",
+            "slots": [
+                "particle",
+                "top"
+            ]
+        },
+        "facing=east": {
+            "type": "tconstruct:material_block",
+            "model": "tconstruct:block/table/scorched_anvil",
+            "slots": [
+                "particle",
+                "top"
+            ],
+            "y": 180
+        }
+    }
+}

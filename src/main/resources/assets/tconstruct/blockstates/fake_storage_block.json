@@ -1,0 +1,11 @@
+{
+    "variants": {
+        "": {
+            "type": "tconstruct:material_block",
+            "model": "tconstruct:block/storage/fake",
+            "slots": [
+                "all"
+            ]
+        }
+    }
+}

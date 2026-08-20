@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "sign",
+  "key": {
+    "#": "tconstruct:bloodshroom_planks",
+    "X": {
+      "neoforge:ingredient_type": "mantle:item_tag",
+      "tag": "c:rods/wooden"
+    }
+  },
+  "pattern": [
+    "###",
+    "###",
+    " X "
+  ],
+  "result": {
+    "count": 3,
+    "id": "tconstruct:bloodshroom_sign"
+  }
+}

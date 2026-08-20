@@ -1,0 +1,7 @@
+{
+    "parent": "tconstruct:block/template/pane/side_alt",
+    "textures": {
+        "edge": "tconstruct:block/foundry/glass_top",
+        "pane": "tconstruct:block/foundry/glass"
+    }
+}

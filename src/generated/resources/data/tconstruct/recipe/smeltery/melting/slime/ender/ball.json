@@ -1,0 +1,13 @@
+{
+  "type": "tconstruct:melting",
+  "ingredient": {
+    "neoforge:ingredient_type": "mantle:item_tag",
+    "tag": "c:slimeball/ender"
+  },
+  "result": {
+    "amount": 250,
+    "fluid": "tconstruct:ender_slime"
+  },
+  "temperature": 70,
+  "time": 32
+}

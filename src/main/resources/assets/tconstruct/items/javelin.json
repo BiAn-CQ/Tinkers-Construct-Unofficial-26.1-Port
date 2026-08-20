@@ -1,0 +1,569 @@
+{
+    "model": {
+        "type": "tconstruct:overrides",
+        "base": {
+            "type": "tconstruct:tool",
+            "parent": "tconstruct:item/native/javelin",
+            "textures": {
+                "head": "tconstruct:item/tool/javelin/head",
+                "guard": "tconstruct:item/tool/javelin/guard",
+                "handle": "tconstruct:item/tool/javelin/handle",
+                "grip": "tconstruct:item/tool/javelin/grip",
+                "large_head": "tconstruct:item/tool/javelin/large/head",
+                "large_guard": "tconstruct:item/tool/javelin/large/guard",
+                "large_handle": "tconstruct:item/tool/javelin/large/handle",
+                "large_grip": "tconstruct:item/tool/javelin/large/grip"
+            },
+            "parts": [
+                {
+                    "name": "handle",
+                    "index": 1
+                },
+                {
+                    "name": "grip",
+                    "index": 3
+                },
+                {
+                    "name": "head",
+                    "index": 0
+                },
+                {
+                    "name": "guard",
+                    "index": 2
+                }
+            ],
+            "broken_textures": {
+                "head": "tconstruct:item/tool/javelin/head_broken",
+                "guard": "tconstruct:item/tool/javelin/guard",
+                "handle": "tconstruct:item/tool/javelin/handle",
+                "grip": "tconstruct:item/tool/javelin/grip",
+                "large_head": "tconstruct:item/tool/javelin/large/head_broken",
+                "large_guard": "tconstruct:item/tool/javelin/large/guard",
+                "large_handle": "tconstruct:item/tool/javelin/large/handle",
+                "large_grip": "tconstruct:item/tool/javelin/large/grip"
+            },
+            "large": true,
+            "large_offset": [
+                -2,
+                2
+            ],
+            "modifier_models": {
+                "tconstruct:antiaquatic": {
+                    "type": "tconstruct:basic",
+                    "texture": "tconstruct:item/tool/javelin/modifiers/tconstruct_antiaquatic",
+                    "texture_large": "tconstruct:item/tool/javelin/large/modifiers/tconstruct_antiaquatic"
+                },
+                "tconstruct:bane_of_sssss": {
+                    "type": "tconstruct:basic",
+                    "texture": "tconstruct:item/tool/javelin/modifiers/tconstruct_bane_of_sssss",
+                    "texture_large": "tconstruct:item/tool/javelin/large/modifiers/tconstruct_bane_of_sssss"
+                },
+                "tconstruct:blasting": {
+                    "type": "tconstruct:basic",
+                    "texture": "tconstruct:item/tool/javelin/modifiers/tconstruct_blasting",
+                    "texture_large": "tconstruct:item/tool/javelin/large/modifiers/tconstruct_blasting"
+                },
+                "tconstruct:bucketing": [
+                    {
+                        "type": "tconstruct:fluid",
+                        "mask": "tconstruct:item/tool/javelin/modifiers/tconstruct_bucketing_full",
+                        "mask_large": "tconstruct:item/tool/javelin/large/modifiers/tconstruct_bucketing_full"
+                    },
+                    {
+                        "type": "tconstruct:basic",
+                        "texture": "tconstruct:item/tool/javelin/modifiers/tconstruct_bucketing",
+                        "texture_large": "tconstruct:item/tool/javelin/large/modifiers/tconstruct_bucketing"
+                    }
+                ],
+                "tconstruct:cooling": {
+                    "type": "tconstruct:basic",
+                    "texture": "tconstruct:item/tool/javelin/modifiers/tconstruct_cooling",
+                    "texture_large": "tconstruct:item/tool/javelin/large/modifiers/tconstruct_cooling"
+                },
+                "tconstruct:diamond": {
+                    "type": "tconstruct:basic",
+                    "texture": "tconstruct:item/tool/javelin/modifiers/tconstruct_diamond",
+                    "texture_large": "tconstruct:item/tool/javelin/large/modifiers/tconstruct_diamond"
+                },
+                "tconstruct:emerald": {
+                    "type": "tconstruct:basic",
+                    "texture": "tconstruct:item/tool/javelin/modifiers/tconstruct_emerald",
+                    "texture_large": "tconstruct:item/tool/javelin/large/modifiers/tconstruct_emerald"
+                },
+                "tconstruct:experienced": {
+                    "type": "tconstruct:basic",
+                    "texture": "tconstruct:item/tool/javelin/modifiers/tconstruct_experienced",
+                    "texture_large": "tconstruct:item/tool/javelin/large/modifiers/tconstruct_experienced"
+                },
+                "tconstruct:fiery": {
+                    "type": "tconstruct:basic",
+                    "luminosity": 10,
+                    "texture": "tconstruct:item/tool/javelin/modifiers/tconstruct_fiery",
+                    "texture_large": "tconstruct:item/tool/javelin/large/modifiers/tconstruct_fiery"
+                },
+                "tconstruct:haste": {
+                    "type": "tconstruct:basic",
+                    "luminosity": 7,
+                    "texture": "tconstruct:item/tool/javelin/modifiers/tconstruct_haste",
+                    "texture_large": "tconstruct:item/tool/javelin/large/modifiers/tconstruct_haste"
+                },
+                "tconstruct:hydraulic": {
+                    "type": "tconstruct:basic",
+                    "texture": "tconstruct:item/tool/javelin/modifiers/tconstruct_hydraulic",
+                    "texture_large": "tconstruct:item/tool/javelin/large/modifiers/tconstruct_hydraulic"
+                },
+                "tconstruct:knockback": {
+                    "type": "tconstruct:basic",
+                    "texture": "tconstruct:item/tool/javelin/modifiers/tconstruct_knockback",
+                    "texture_large": "tconstruct:item/tool/javelin/large/modifiers/tconstruct_knockback"
+                },
+                "tconstruct:lightspeed": {
+                    "type": "tconstruct:basic",
+                    "luminosity": 15,
+                    "texture": "tconstruct:item/tool/javelin/modifiers/tconstruct_lightspeed",
+                    "texture_large": "tconstruct:item/tool/javelin/large/modifiers/tconstruct_lightspeed"
+                },
+                "tconstruct:luck": {
+                    "type": "tconstruct:basic",
+                    "texture": "tconstruct:item/tool/javelin/modifiers/tconstruct_luck",
+                    "texture_large": "tconstruct:item/tool/javelin/large/modifiers/tconstruct_luck"
+                },
+                "tconstruct:magnetic": {
+                    "type": "tconstruct:basic",
+                    "texture": "tconstruct:item/tool/javelin/modifiers/tconstruct_magnetic",
+                    "texture_large": "tconstruct:item/tool/javelin/large/modifiers/tconstruct_magnetic"
+                },
+                "tconstruct:netherite": {
+                    "type": "tconstruct:basic",
+                    "texture": "tconstruct:item/tool/javelin/modifiers/tconstruct_netherite",
+                    "texture_large": "tconstruct:item/tool/javelin/large/modifiers/tconstruct_netherite"
+                },
+                "tconstruct:overforced": {
+                    "type": "tconstruct:basic",
+                    "texture": "tconstruct:item/tool/javelin/modifiers/tconstruct_overforced",
+                    "texture_large": "tconstruct:item/tool/javelin/large/modifiers/tconstruct_overforced"
+                },
+                "tconstruct:reinforced": {
+                    "type": "tconstruct:basic",
+                    "texture": "tconstruct:item/tool/javelin/modifiers/tconstruct_reinforced",
+                    "texture_large": "tconstruct:item/tool/javelin/large/modifiers/tconstruct_reinforced"
+                },
+                "tconstruct:sharpness": {
+                    "type": "tconstruct:basic",
+                    "texture": "tconstruct:item/tool/javelin/modifiers/tconstruct_sharpness",
+                    "texture_large": "tconstruct:item/tool/javelin/large/modifiers/tconstruct_sharpness"
+                },
+                "tconstruct:silky": {
+                    "type": "tconstruct:basic",
+                    "texture": "tconstruct:item/tool/javelin/modifiers/tconstruct_silky",
+                    "texture_large": "tconstruct:item/tool/javelin/large/modifiers/tconstruct_silky"
+                },
+                "tconstruct:smite": {
+                    "type": "tconstruct:basic",
+                    "texture": "tconstruct:item/tool/javelin/modifiers/tconstruct_smite",
+                    "texture_large": "tconstruct:item/tool/javelin/large/modifiers/tconstruct_smite"
+                },
+                "tconstruct:tank": [
+                    {
+                        "type": "tconstruct:tank",
+                        "full": "tconstruct:item/tool/javelin/modifiers/tconstruct_tank_full",
+                        "full_large": "tconstruct:item/tool/javelin/large/modifiers/tconstruct_tank_full",
+                        "partial": "tconstruct:item/tool/javelin/modifiers/tconstruct_tank_partial",
+                        "partial_large": "tconstruct:item/tool/javelin/large/modifiers/tconstruct_tank_partial"
+                    },
+                    {
+                        "type": "tconstruct:basic",
+                        "texture": "tconstruct:item/tool/javelin/modifiers/tconstruct_tank",
+                        "texture_large": "tconstruct:item/tool/javelin/large/modifiers/tconstruct_tank"
+                    }
+                ],
+                "tconstruct:unbreakable": {
+                    "type": "tconstruct:basic",
+                    "luminosity": 2,
+                    "texture": "tconstruct:item/tool/javelin/modifiers/tconstruct_unbreakable",
+                    "texture_large": "tconstruct:item/tool/javelin/large/modifiers/tconstruct_unbreakable"
+                }
+            }
+        },
+        "overrides": [
+            {
+                "predicate": {
+                    "tconstruct:charging": 1.75
+                },
+                "model": {
+                    "type": "tconstruct:tool",
+                    "parent": "tconstruct:item/native/overrides/javelin/tool/javelin/throwing",
+                    "textures": {
+                        "head": "tconstruct:item/tool/javelin/head",
+                        "guard": "tconstruct:item/tool/javelin/guard",
+                        "handle": "tconstruct:item/tool/javelin/handle",
+                        "grip": "tconstruct:item/tool/javelin/grip",
+                        "large_head": "tconstruct:item/tool/javelin/large/head",
+                        "large_guard": "tconstruct:item/tool/javelin/large/guard",
+                        "large_handle": "tconstruct:item/tool/javelin/large/handle",
+                        "large_grip": "tconstruct:item/tool/javelin/large/grip"
+                    },
+                    "parts": [
+                        {
+                            "name": "handle",
+                            "index": 1
+                        },
+                        {
+                            "name": "grip",
+                            "index": 3
+                        },
+                        {
+                            "name": "head",
+                            "index": 0
+                        },
+                        {
+                            "name": "guard",
+                            "index": 2
+                        }
+                    ],
+                    "broken_textures": {
+                        "head": "tconstruct:item/tool/javelin/head_broken",
+                        "guard": "tconstruct:item/tool/javelin/guard",
+                        "handle": "tconstruct:item/tool/javelin/handle",
+                        "grip": "tconstruct:item/tool/javelin/grip",
+                        "large_head": "tconstruct:item/tool/javelin/large/head_broken",
+                        "large_guard": "tconstruct:item/tool/javelin/large/guard",
+                        "large_handle": "tconstruct:item/tool/javelin/large/handle",
+                        "large_grip": "tconstruct:item/tool/javelin/large/grip"
+                    },
+                    "large": true,
+                    "large_offset": [
+                        -2,
+                        2
+                    ],
+                    "modifier_models": {
+                        "tconstruct:antiaquatic": {
+                            "type": "tconstruct:basic",
+                            "texture": "tconstruct:item/tool/javelin/modifiers/tconstruct_antiaquatic",
+                            "texture_large": "tconstruct:item/tool/javelin/large/modifiers/tconstruct_antiaquatic"
+                        },
+                        "tconstruct:bane_of_sssss": {
+                            "type": "tconstruct:basic",
+                            "texture": "tconstruct:item/tool/javelin/modifiers/tconstruct_bane_of_sssss",
+                            "texture_large": "tconstruct:item/tool/javelin/large/modifiers/tconstruct_bane_of_sssss"
+                        },
+                        "tconstruct:blasting": {
+                            "type": "tconstruct:basic",
+                            "texture": "tconstruct:item/tool/javelin/modifiers/tconstruct_blasting",
+                            "texture_large": "tconstruct:item/tool/javelin/large/modifiers/tconstruct_blasting"
+                        },
+                        "tconstruct:bucketing": [
+                            {
+                                "type": "tconstruct:fluid",
+                                "mask": "tconstruct:item/tool/javelin/modifiers/tconstruct_bucketing_full",
+                                "mask_large": "tconstruct:item/tool/javelin/large/modifiers/tconstruct_bucketing_full"
+                            },
+                            {
+                                "type": "tconstruct:basic",
+                                "texture": "tconstruct:item/tool/javelin/modifiers/tconstruct_bucketing",
+                                "texture_large": "tconstruct:item/tool/javelin/large/modifiers/tconstruct_bucketing"
+                            }
+                        ],
+                        "tconstruct:cooling": {
+                            "type": "tconstruct:basic",
+                            "texture": "tconstruct:item/tool/javelin/modifiers/tconstruct_cooling",
+                            "texture_large": "tconstruct:item/tool/javelin/large/modifiers/tconstruct_cooling"
+                        },
+                        "tconstruct:diamond": {
+                            "type": "tconstruct:basic",
+                            "texture": "tconstruct:item/tool/javelin/modifiers/tconstruct_diamond",
+                            "texture_large": "tconstruct:item/tool/javelin/large/modifiers/tconstruct_diamond"
+                        },
+                        "tconstruct:emerald": {
+                            "type": "tconstruct:basic",
+                            "texture": "tconstruct:item/tool/javelin/modifiers/tconstruct_emerald",
+                            "texture_large": "tconstruct:item/tool/javelin/large/modifiers/tconstruct_emerald"
+                        },
+                        "tconstruct:experienced": {
+                            "type": "tconstruct:basic",
+                            "texture": "tconstruct:item/tool/javelin/modifiers/tconstruct_experienced",
+                            "texture_large": "tconstruct:item/tool/javelin/large/modifiers/tconstruct_experienced"
+                        },
+                        "tconstruct:fiery": {
+                            "type": "tconstruct:basic",
+                            "luminosity": 10,
+                            "texture": "tconstruct:item/tool/javelin/modifiers/tconstruct_fiery",
+                            "texture_large": "tconstruct:item/tool/javelin/large/modifiers/tconstruct_fiery"
+                        },
+                        "tconstruct:haste": {
+                            "type": "tconstruct:basic",
+                            "luminosity": 7,
+                            "texture": "tconstruct:item/tool/javelin/modifiers/tconstruct_haste",
+                            "texture_large": "tconstruct:item/tool/javelin/large/modifiers/tconstruct_haste"
+                        },
+                        "tconstruct:hydraulic": {
+                            "type": "tconstruct:basic",
+                            "texture": "tconstruct:item/tool/javelin/modifiers/tconstruct_hydraulic",
+                            "texture_large": "tconstruct:item/tool/javelin/large/modifiers/tconstruct_hydraulic"
+                        },
+                        "tconstruct:knockback": {
+                            "type": "tconstruct:basic",
+                            "texture": "tconstruct:item/tool/javelin/modifiers/tconstruct_knockback",
+                            "texture_large": "tconstruct:item/tool/javelin/large/modifiers/tconstruct_knockback"
+                        },
+                        "tconstruct:lightspeed": {
+                            "type": "tconstruct:basic",
+                            "luminosity": 15,
+                            "texture": "tconstruct:item/tool/javelin/modifiers/tconstruct_lightspeed",
+                            "texture_large": "tconstruct:item/tool/javelin/large/modifiers/tconstruct_lightspeed"
+                        },
+                        "tconstruct:luck": {
+                            "type": "tconstruct:basic",
+                            "texture": "tconstruct:item/tool/javelin/modifiers/tconstruct_luck",
+                            "texture_large": "tconstruct:item/tool/javelin/large/modifiers/tconstruct_luck"
+                        },
+                        "tconstruct:magnetic": {
+                            "type": "tconstruct:basic",
+                            "texture": "tconstruct:item/tool/javelin/modifiers/tconstruct_magnetic",
+                            "texture_large": "tconstruct:item/tool/javelin/large/modifiers/tconstruct_magnetic"
+                        },
+                        "tconstruct:netherite": {
+                            "type": "tconstruct:basic",
+                            "texture": "tconstruct:item/tool/javelin/modifiers/tconstruct_netherite",
+                            "texture_large": "tconstruct:item/tool/javelin/large/modifiers/tconstruct_netherite"
+                        },
+                        "tconstruct:overforced": {
+                            "type": "tconstruct:basic",
+                            "texture": "tconstruct:item/tool/javelin/modifiers/tconstruct_overforced",
+                            "texture_large": "tconstruct:item/tool/javelin/large/modifiers/tconstruct_overforced"
+                        },
+                        "tconstruct:reinforced": {
+                            "type": "tconstruct:basic",
+                            "texture": "tconstruct:item/tool/javelin/modifiers/tconstruct_reinforced",
+                            "texture_large": "tconstruct:item/tool/javelin/large/modifiers/tconstruct_reinforced"
+                        },
+                        "tconstruct:sharpness": {
+                            "type": "tconstruct:basic",
+                            "texture": "tconstruct:item/tool/javelin/modifiers/tconstruct_sharpness",
+                            "texture_large": "tconstruct:item/tool/javelin/large/modifiers/tconstruct_sharpness"
+                        },
+                        "tconstruct:silky": {
+                            "type": "tconstruct:basic",
+                            "texture": "tconstruct:item/tool/javelin/modifiers/tconstruct_silky",
+                            "texture_large": "tconstruct:item/tool/javelin/large/modifiers/tconstruct_silky"
+                        },
+                        "tconstruct:smite": {
+                            "type": "tconstruct:basic",
+                            "texture": "tconstruct:item/tool/javelin/modifiers/tconstruct_smite",
+                            "texture_large": "tconstruct:item/tool/javelin/large/modifiers/tconstruct_smite"
+                        },
+                        "tconstruct:tank": [
+                            {
+                                "type": "tconstruct:tank",
+                                "full": "tconstruct:item/tool/javelin/modifiers/tconstruct_tank_full",
+                                "full_large": "tconstruct:item/tool/javelin/large/modifiers/tconstruct_tank_full",
+                                "partial": "tconstruct:item/tool/javelin/modifiers/tconstruct_tank_partial",
+                                "partial_large": "tconstruct:item/tool/javelin/large/modifiers/tconstruct_tank_partial"
+                            },
+                            {
+                                "type": "tconstruct:basic",
+                                "texture": "tconstruct:item/tool/javelin/modifiers/tconstruct_tank",
+                                "texture_large": "tconstruct:item/tool/javelin/large/modifiers/tconstruct_tank"
+                            }
+                        ],
+                        "tconstruct:unbreakable": {
+                            "type": "tconstruct:basic",
+                            "luminosity": 2,
+                            "texture": "tconstruct:item/tool/javelin/modifiers/tconstruct_unbreakable",
+                            "texture_large": "tconstruct:item/tool/javelin/large/modifiers/tconstruct_unbreakable"
+                        }
+                    }
+                }
+            },
+            {
+                "predicate": {
+                    "tconstruct:charging": 2.0
+                },
+                "model": {
+                    "type": "tconstruct:tool",
+                    "parent": "tconstruct:item/native/overrides/javelin/tool/javelin/blocking",
+                    "textures": {
+                        "head": "tconstruct:item/tool/javelin/head",
+                        "guard": "tconstruct:item/tool/javelin/guard",
+                        "handle": "tconstruct:item/tool/javelin/handle",
+                        "grip": "tconstruct:item/tool/javelin/grip",
+                        "large_head": "tconstruct:item/tool/javelin/large/head",
+                        "large_guard": "tconstruct:item/tool/javelin/large/guard",
+                        "large_handle": "tconstruct:item/tool/javelin/large/handle",
+                        "large_grip": "tconstruct:item/tool/javelin/large/grip"
+                    },
+                    "parts": [
+                        {
+                            "name": "handle",
+                            "index": 1
+                        },
+                        {
+                            "name": "grip",
+                            "index": 3
+                        },
+                        {
+                            "name": "head",
+                            "index": 0
+                        },
+                        {
+                            "name": "guard",
+                            "index": 2
+                        }
+                    ],
+                    "broken_textures": {
+                        "head": "tconstruct:item/tool/javelin/head_broken",
+                        "guard": "tconstruct:item/tool/javelin/guard",
+                        "handle": "tconstruct:item/tool/javelin/handle",
+                        "grip": "tconstruct:item/tool/javelin/grip",
+                        "large_head": "tconstruct:item/tool/javelin/large/head_broken",
+                        "large_guard": "tconstruct:item/tool/javelin/large/guard",
+                        "large_handle": "tconstruct:item/tool/javelin/large/handle",
+                        "large_grip": "tconstruct:item/tool/javelin/large/grip"
+                    },
+                    "large": true,
+                    "large_offset": [
+                        -2,
+                        2
+                    ],
+                    "modifier_models": {
+                        "tconstruct:antiaquatic": {
+                            "type": "tconstruct:basic",
+                            "texture": "tconstruct:item/tool/javelin/modifiers/tconstruct_antiaquatic",
+                            "texture_large": "tconstruct:item/tool/javelin/large/modifiers/tconstruct_antiaquatic"
+                        },
+                        "tconstruct:bane_of_sssss": {
+                            "type": "tconstruct:basic",
+                            "texture": "tconstruct:item/tool/javelin/modifiers/tconstruct_bane_of_sssss",
+                            "texture_large": "tconstruct:item/tool/javelin/large/modifiers/tconstruct_bane_of_sssss"
+                        },
+                        "tconstruct:blasting": {
+                            "type": "tconstruct:basic",
+                            "texture": "tconstruct:item/tool/javelin/modifiers/tconstruct_blasting",
+                            "texture_large": "tconstruct:item/tool/javelin/large/modifiers/tconstruct_blasting"
+                        },
+                        "tconstruct:bucketing": [
+                            {
+                                "type": "tconstruct:fluid",
+                                "mask": "tconstruct:item/tool/javelin/modifiers/tconstruct_bucketing_full",
+                                "mask_large": "tconstruct:item/tool/javelin/large/modifiers/tconstruct_bucketing_full"
+                            },
+                            {
+                                "type": "tconstruct:basic",
+                                "texture": "tconstruct:item/tool/javelin/modifiers/tconstruct_bucketing",
+                                "texture_large": "tconstruct:item/tool/javelin/large/modifiers/tconstruct_bucketing"
+                            }
+                        ],
+                        "tconstruct:cooling": {
+                            "type": "tconstruct:basic",
+                            "texture": "tconstruct:item/tool/javelin/modifiers/tconstruct_cooling",
+                            "texture_large": "tconstruct:item/tool/javelin/large/modifiers/tconstruct_cooling"
+                        },
+                        "tconstruct:diamond": {
+                            "type": "tconstruct:basic",
+                            "texture": "tconstruct:item/tool/javelin/modifiers/tconstruct_diamond",
+                            "texture_large": "tconstruct:item/tool/javelin/large/modifiers/tconstruct_diamond"
+                        },
+                        "tconstruct:emerald": {
+                            "type": "tconstruct:basic",
+                            "texture": "tconstruct:item/tool/javelin/modifiers/tconstruct_emerald",
+                            "texture_large": "tconstruct:item/tool/javelin/large/modifiers/tconstruct_emerald"
+                        },
+                        "tconstruct:experienced": {
+                            "type": "tconstruct:basic",
+                            "texture": "tconstruct:item/tool/javelin/modifiers/tconstruct_experienced",
+                            "texture_large": "tconstruct:item/tool/javelin/large/modifiers/tconstruct_experienced"
+                        },
+                        "tconstruct:fiery": {
+                            "type": "tconstruct:basic",
+                            "luminosity": 10,
+                            "texture": "tconstruct:item/tool/javelin/modifiers/tconstruct_fiery",
+                            "texture_large": "tconstruct:item/tool/javelin/large/modifiers/tconstruct_fiery"
+                        },
+                        "tconstruct:haste": {
+                            "type": "tconstruct:basic",
+                            "luminosity": 7,
+                            "texture": "tconstruct:item/tool/javelin/modifiers/tconstruct_haste",
+                            "texture_large": "tconstruct:item/tool/javelin/large/modifiers/tconstruct_haste"
+                        },
+                        "tconstruct:hydraulic": {
+                            "type": "tconstruct:basic",
+                            "texture": "tconstruct:item/tool/javelin/modifiers/tconstruct_hydraulic",
+                            "texture_large": "tconstruct:item/tool/javelin/large/modifiers/tconstruct_hydraulic"
+                        },
+                        "tconstruct:knockback": {
+                            "type": "tconstruct:basic",
+                            "texture": "tconstruct:item/tool/javelin/modifiers/tconstruct_knockback",
+                            "texture_large": "tconstruct:item/tool/javelin/large/modifiers/tconstruct_knockback"
+                        },
+                        "tconstruct:lightspeed": {
+                            "type": "tconstruct:basic",
+                            "luminosity": 15,
+                            "texture": "tconstruct:item/tool/javelin/modifiers/tconstruct_lightspeed",
+                            "texture_large": "tconstruct:item/tool/javelin/large/modifiers/tconstruct_lightspeed"
+                        },
+                        "tconstruct:luck": {
+                            "type": "tconstruct:basic",
+                            "texture": "tconstruct:item/tool/javelin/modifiers/tconstruct_luck",
+                            "texture_large": "tconstruct:item/tool/javelin/large/modifiers/tconstruct_luck"
+                        },
+                        "tconstruct:magnetic": {
+                            "type": "tconstruct:basic",
+                            "texture": "tconstruct:item/tool/javelin/modifiers/tconstruct_magnetic",
+                            "texture_large": "tconstruct:item/tool/javelin/large/modifiers/tconstruct_magnetic"
+                        },
+                        "tconstruct:netherite": {
+                            "type": "tconstruct:basic",
+                            "texture": "tconstruct:item/tool/javelin/modifiers/tconstruct_netherite",
+                            "texture_large": "tconstruct:item/tool/javelin/large/modifiers/tconstruct_netherite"
+                        },
+                        "tconstruct:overforced": {
+                            "type": "tconstruct:basic",
+                            "texture": "tconstruct:item/tool/javelin/modifiers/tconstruct_overforced",
+                            "texture_large": "tconstruct:item/tool/javelin/large/modifiers/tconstruct_overforced"
+                        },
+                        "tconstruct:reinforced": {
+                            "type": "tconstruct:basic",
+                            "texture": "tconstruct:item/tool/javelin/modifiers/tconstruct_reinforced",
+                            "texture_large": "tconstruct:item/tool/javelin/large/modifiers/tconstruct_reinforced"
+                        },
+                        "tconstruct:sharpness": {
+                            "type": "tconstruct:basic",
+                            "texture": "tconstruct:item/tool/javelin/modifiers/tconstruct_sharpness",
+                            "texture_large": "tconstruct:item/tool/javelin/large/modifiers/tconstruct_sharpness"
+                        },
+                        "tconstruct:silky": {
+                            "type": "tconstruct:basic",
+                            "texture": "tconstruct:item/tool/javelin/modifiers/tconstruct_silky",
+                            "texture_large": "tconstruct:item/tool/javelin/large/modifiers/tconstruct_silky"
+                        },
+                        "tconstruct:smite": {
+                            "type": "tconstruct:basic",
+                            "texture": "tconstruct:item/tool/javelin/modifiers/tconstruct_smite",
+                            "texture_large": "tconstruct:item/tool/javelin/large/modifiers/tconstruct_smite"
+                        },
+                        "tconstruct:tank": [
+                            {
+                                "type": "tconstruct:tank",
+                                "full": "tconstruct:item/tool/javelin/modifiers/tconstruct_tank_full",
+                                "full_large": "tconstruct:item/tool/javelin/large/modifiers/tconstruct_tank_full",
+                                "partial": "tconstruct:item/tool/javelin/modifiers/tconstruct_tank_partial",
+                                "partial_large": "tconstruct:item/tool/javelin/large/modifiers/tconstruct_tank_partial"
+                            },
+                            {
+                                "type": "tconstruct:basic",
+                                "texture": "tconstruct:item/tool/javelin/modifiers/tconstruct_tank",
+                                "texture_large": "tconstruct:item/tool/javelin/large/modifiers/tconstruct_tank"
+                            }
+                        ],
+                        "tconstruct:unbreakable": {
+                            "type": "tconstruct:basic",
+                            "luminosity": 2,
+                            "texture": "tconstruct:item/tool/javelin/modifiers/tconstruct_unbreakable",
+                            "texture_large": "tconstruct:item/tool/javelin/large/modifiers/tconstruct_unbreakable"
+                        }
+                    }
+                }
+            }
+        ]
+    }
+}

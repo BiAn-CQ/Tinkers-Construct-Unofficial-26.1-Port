@@ -1,0 +1,22 @@
+{
+  "type": "mantle:crafting_shaped_retextured",
+  "category": "misc",
+  "key": {
+    "p": "tconstruct:pattern",
+    "w": {
+      "neoforge:ingredient_type": "mantle:item_tag",
+      "tag": "minecraft:logs"
+    }
+  },
+  "pattern": [
+    "p",
+    "w"
+  ],
+  "result": {
+    "id": "tconstruct:crafting_station"
+  },
+  "texture": {
+    "neoforge:ingredient_type": "mantle:item_tag",
+    "tag": "minecraft:logs"
+  }
+}

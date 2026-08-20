@@ -1,0 +1,25 @@
+{
+    "parent": "forge:item/default",
+    "textures": {
+        "layer0": "tconstruct:item/tool/ammo/arrow_head"
+    },
+    "display": {
+        "tconstruct:thrown": {
+            "rotation": [
+                0,
+                0,
+                90
+            ],
+            "scale": [
+                1,
+                1,
+                1
+            ],
+            "translation": [
+                2,
+                -2,
+                0
+            ]
+        }
+    }
+}

@@ -1,0 +1,26 @@
+{
+  "type": "tconstruct:modifier",
+  "allow_crystal": true,
+  "inputs": [
+    {
+      "ingredient": "tconstruct:silky_cloth"
+    },
+    {
+      "ingredient": "#c:ingots/cinderslime"
+    },
+    {
+      "ingredient": "tconstruct:silky_cloth"
+    }
+  ],
+  "level": {
+    "max": 3
+  },
+  "result": "tconstruct:sleeves",
+  "slots": {
+    "upgrades": 1
+  },
+  "tools": {
+    "neoforge:ingredient_type": "mantle:item_tag",
+    "tag": "tconstruct:modifiable/armor/chestplate"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "key": {
+    "#": "tconstruct:scorched_brick",
+    "C": {
+      "neoforge:ingredient_type": "mantle:item_tag",
+      "tag": "c:ingots/gold"
+    }
+  },
+  "pattern": [
+    "# #",
+    "C C",
+    "# #"
+  ],
+  "result": {
+    "id": "tconstruct:scorched_duct"
+  }
+}

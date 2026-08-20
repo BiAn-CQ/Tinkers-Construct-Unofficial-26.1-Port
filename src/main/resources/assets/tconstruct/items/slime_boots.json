@@ -1,0 +1,33 @@
+{
+    "model": {
+        "type": "tconstruct:tool",
+        "parent": "tconstruct:item/native/slime_boots",
+        "textures": {
+            "laces": "tconstruct:item/tool/armor/slime/boots/laces",
+            "slime": "tconstruct:item/tool/armor/slime/boots/slime"
+        },
+        "parts": [
+            {
+                "name": "laces",
+                "index": 0
+            },
+            {
+                "name": "slime",
+                "index": 1
+            }
+        ],
+        "broken_textures": {
+            "laces": "tconstruct:item/tool/armor/slime/boots/laces_broken",
+            "slime": "tconstruct:item/tool/armor/slime/boots/slime_broken"
+        },
+        "modifier_models": {
+            "tconstruct:trim": {
+                "type": "tconstruct:armor_trim",
+                "slot": "boots"
+            }
+        },
+        "first_modifiers": [
+            "tconstruct:trim"
+        ]
+    }
+}

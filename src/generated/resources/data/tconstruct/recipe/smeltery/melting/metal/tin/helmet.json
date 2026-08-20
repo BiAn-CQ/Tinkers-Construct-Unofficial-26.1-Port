@@ -1,0 +1,20 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "mantle:tag_filled",
+      "tag": "c:armors/helmets/tin"
+    }
+  ],
+  "type": "tconstruct:damagable_melting",
+  "ingredient": {
+    "neoforge:ingredient_type": "mantle:item_tag",
+    "tag": "c:armors/helmets/tin"
+  },
+  "result": {
+    "amount": 450,
+    "tag": "c:molten_tin",
+    "unit_size": 10
+  },
+  "temperature": 225,
+  "time": 87
+}

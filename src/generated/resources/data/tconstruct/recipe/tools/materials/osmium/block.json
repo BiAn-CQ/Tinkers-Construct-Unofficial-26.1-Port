@@ -1,0 +1,20 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "mantle:tag_filled",
+      "tag": "c:storage_blocks/osmium"
+    }
+  ],
+  "type": "tconstruct:material",
+  "ingredient": {
+    "neoforge:ingredient_type": "mantle:item_tag",
+    "tag": "c:storage_blocks/osmium"
+  },
+  "leftover": {
+    "count": 1,
+    "tag": "c:ingots/osmium"
+  },
+  "material": "tconstruct:osmium",
+  "needed": 1,
+  "value": 9
+}

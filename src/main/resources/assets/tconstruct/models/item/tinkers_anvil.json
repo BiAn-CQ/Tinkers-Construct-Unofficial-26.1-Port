@@ -1,0 +1,5 @@
+{
+    "loader": "tconstruct:material_block",
+    "model": "tconstruct:block/table/tinkers_anvil",
+    "slots": [ "particle", "top" ]
+}

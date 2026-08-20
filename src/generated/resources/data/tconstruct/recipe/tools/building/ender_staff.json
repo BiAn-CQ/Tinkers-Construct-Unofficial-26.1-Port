@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "C": "tconstruct:ender_slime_crystal",
+    "I": {
+      "neoforge:ingredient_type": "mantle:item_tag",
+      "tag": "c:ingots/netherite"
+    },
+    "W": {
+      "neoforge:ingredient_type": "mantle:item_tag",
+      "tag": "tconstruct:enderbark_logs"
+    }
+  },
+  "pattern": [
+    "CWC",
+    " I ",
+    " W "
+  ],
+  "result": {
+    "id": "tconstruct:ender_staff"
+  }
+}

@@ -1,0 +1,11 @@
+{
+    "model": {
+        "type": "tconstruct:material",
+        "parent": "tconstruct:item/native/broad_axe_head",
+        "texture": "tconstruct:item/tool/broad_axe/blade",
+        "offset": [
+            0,
+            3
+        ]
+    }
+}

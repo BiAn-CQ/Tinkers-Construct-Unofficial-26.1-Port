@@ -1,0 +1,11 @@
+{
+    "model": {
+        "type": "tconstruct:material",
+        "parent": "tconstruct:item/native/helmet_plating",
+        "texture": "tconstruct:item/tool/armor/plate/helmet/plating",
+        "offset": [
+            0,
+            2
+        ]
+    }
+}

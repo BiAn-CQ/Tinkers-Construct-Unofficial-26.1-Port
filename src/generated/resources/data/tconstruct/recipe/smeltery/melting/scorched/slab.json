@@ -1,0 +1,17 @@
+{
+  "type": "tconstruct:melting",
+  "ingredient": {
+    "neoforge:ingredient_type": "mantle:or",
+    "ingredients": [
+      "tconstruct:scorched_bricks_slab",
+      "tconstruct:scorched_bricks_slab",
+      "tconstruct:scorched_road_slab"
+    ]
+  },
+  "result": {
+    "amount": 500,
+    "fluid": "tconstruct:scorched_stone"
+  },
+  "temperature": 500,
+  "time": 75
+}

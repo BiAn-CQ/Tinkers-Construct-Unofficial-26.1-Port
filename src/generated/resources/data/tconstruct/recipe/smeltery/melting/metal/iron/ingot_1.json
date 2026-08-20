@@ -1,0 +1,19 @@
+{
+  "type": "tconstruct:melting",
+  "ingredient": {
+    "neoforge:ingredient_type": "mantle:or",
+    "ingredients": [
+      "minecraft:activator_rail",
+      "minecraft:detector_rail",
+      "minecraft:stonecutter",
+      "minecraft:piston",
+      "minecraft:sticky_piston"
+    ]
+  },
+  "result": {
+    "amount": 90,
+    "tag": "c:molten_iron"
+  },
+  "temperature": 800,
+  "time": 60
+}

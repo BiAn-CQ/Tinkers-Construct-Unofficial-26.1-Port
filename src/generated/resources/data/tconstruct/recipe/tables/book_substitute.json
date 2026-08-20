@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "minecraft:paper",
+    "minecraft:paper",
+    "minecraft:paper",
+    {
+      "neoforge:ingredient_type": "mantle:item_tag",
+      "tag": "c:slime_balls"
+    },
+    "tconstruct:pattern",
+    "tconstruct:pattern"
+  ],
+  "result": {
+    "id": "minecraft:book"
+  }
+}

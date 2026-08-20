@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:smelting",
+  "category": "misc",
+  "cookingtime": 50,
+  "experience": 0.2,
+  "ingredient": {
+    "neoforge:ingredient_type": "mantle:item_tag",
+    "tag": "c:raw_nuggets/knightmetal"
+  },
+  "result": {
+    "id": "tconstruct:knightmetal_nugget"
+  }
+}

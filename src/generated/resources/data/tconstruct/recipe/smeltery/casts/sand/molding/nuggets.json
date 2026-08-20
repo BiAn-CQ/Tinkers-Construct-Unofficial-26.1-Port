@@ -1,0 +1,12 @@
+{
+  "type": "tconstruct:molding_table",
+  "material": {
+    "neoforge:ingredient_type": "mantle:item_tag",
+    "tag": "tconstruct:casts/sand"
+  },
+  "pattern": {
+    "neoforge:ingredient_type": "mantle:item_tag",
+    "tag": "c:nuggets"
+  },
+  "result": "tconstruct:nugget_sand_cast"
+}

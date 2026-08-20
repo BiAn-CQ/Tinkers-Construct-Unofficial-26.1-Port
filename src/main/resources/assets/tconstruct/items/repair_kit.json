@@ -1,0 +1,7 @@
+{
+    "model": {
+        "type": "tconstruct:material",
+        "parent": "tconstruct:item/native/repair_kit",
+        "texture": "tconstruct:item/tool/parts/repair_kit"
+    }
+}

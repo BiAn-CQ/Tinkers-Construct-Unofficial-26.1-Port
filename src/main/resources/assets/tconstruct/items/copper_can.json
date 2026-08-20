@@ -1,0 +1,11 @@
+{
+    "model": {
+        "type": "neoforge:fluid_container",
+        "textures": {
+            "base": "tconstruct:item/copper_can",
+            "fluid": "tconstruct:item/copper_can_fluid"
+        },
+        "fluid": "minecraft:empty",
+        "flip_gas": true
+    }
+}

@@ -1,0 +1,17 @@
+{
+  "type": "tconstruct:melting",
+  "ingredient": {
+    "neoforge:ingredient_type": "mantle:or",
+    "ingredients": [
+      "minecraft:observer",
+      "minecraft:comparator",
+      "tconstruct:quartz_shuriken"
+    ]
+  },
+  "result": {
+    "amount": 100,
+    "fluid": "tconstruct:molten_quartz"
+  },
+  "temperature": 637,
+  "time": 58
+}

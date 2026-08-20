@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "minecraft:book",
+    {
+      "neoforge:ingredient_type": "mantle:item_tag",
+      "tag": "c:slimeball/sky"
+    }
+  ],
+  "result": {
+    "id": "tconstruct:tinkers_gadgetry"
+  }
+}

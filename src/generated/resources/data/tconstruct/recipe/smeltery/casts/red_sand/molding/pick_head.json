@@ -1,0 +1,12 @@
+{
+  "type": "tconstruct:molding_table",
+  "material": {
+    "neoforge:ingredient_type": "mantle:item_tag",
+    "tag": "tconstruct:casts/red_sand"
+  },
+  "pattern": {
+    "neoforge:ingredient_type": "tconstruct:material",
+    "match": "tconstruct:pick_head"
+  },
+  "result": "tconstruct:pick_head_red_sand_cast"
+}

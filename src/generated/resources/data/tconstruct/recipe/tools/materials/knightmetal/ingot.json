@@ -1,0 +1,10 @@
+{
+  "type": "tconstruct:material",
+  "ingredient": {
+    "neoforge:ingredient_type": "mantle:item_tag",
+    "tag": "c:ingots/knightmetal"
+  },
+  "material": "tconstruct:knightmetal",
+  "needed": 1,
+  "value": 1
+}

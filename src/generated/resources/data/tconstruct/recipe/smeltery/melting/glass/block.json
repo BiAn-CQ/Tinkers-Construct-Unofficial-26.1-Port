@@ -1,0 +1,13 @@
+{
+  "type": "tconstruct:melting",
+  "ingredient": {
+    "neoforge:ingredient_type": "mantle:item_tag",
+    "tag": "c:glass_blocks/silica"
+  },
+  "result": {
+    "amount": 1000,
+    "fluid": "tconstruct:molten_glass"
+  },
+  "temperature": 750,
+  "time": 59
+}

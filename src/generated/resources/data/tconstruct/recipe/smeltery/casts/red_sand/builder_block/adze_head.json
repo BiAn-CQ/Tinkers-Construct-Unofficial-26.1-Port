@@ -1,0 +1,12 @@
+{
+  "type": "tconstruct:item_part_builder",
+  "pattern": "tconstruct:adze_head",
+  "pattern_item": {
+    "neoforge:ingredient_type": "mantle:item_tag",
+    "tag": "c:sands/red"
+  },
+  "result": {
+    "count": 4,
+    "item": "tconstruct:adze_head_red_sand_cast"
+  }
+}

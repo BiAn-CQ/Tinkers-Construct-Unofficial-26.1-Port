@@ -1,0 +1,29 @@
+{
+  "type": "tconstruct:modifier",
+  "allow_crystal": true,
+  "inputs": [
+    {
+      "neoforge:ingredient_type": "neoforge:compound",
+      "children": [
+        {
+          "neoforge:ingredient_type": "mantle:item_tag",
+          "tag": "c:ores/diamond"
+        },
+        {
+          "neoforge:ingredient_type": "mantle:item_tag",
+          "tag": "c:ores/emerald"
+        },
+        {
+          "neoforge:ingredient_type": "mantle:item_tag",
+          "tag": "c:ores/cobalt"
+        }
+      ]
+    }
+  ],
+  "level": 1,
+  "result": "tconstruct:forecast",
+  "tools": {
+    "neoforge:ingredient_type": "mantle:item_tag",
+    "tag": "tconstruct:modifiable/bonus_slots"
+  }
+}

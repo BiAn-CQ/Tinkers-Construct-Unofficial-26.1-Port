@@ -1,0 +1,14 @@
+{
+  "type": "tconstruct:material",
+  "ingredient": {
+    "neoforge:ingredient_type": "mantle:item_tag",
+    "tag": "c:storage_blocks/redstone"
+  },
+  "leftover": {
+    "count": 4,
+    "item": "minecraft:redstone"
+  },
+  "material": "tconstruct:redstone",
+  "needed": 4,
+  "value": 9
+}

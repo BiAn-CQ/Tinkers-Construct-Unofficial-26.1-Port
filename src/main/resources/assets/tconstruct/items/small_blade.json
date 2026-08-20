@@ -1,0 +1,7 @@
+{
+    "model": {
+        "type": "tconstruct:material",
+        "parent": "tconstruct:item/native/small_blade",
+        "texture": "tconstruct:item/tool/parts/small_blade"
+    }
+}

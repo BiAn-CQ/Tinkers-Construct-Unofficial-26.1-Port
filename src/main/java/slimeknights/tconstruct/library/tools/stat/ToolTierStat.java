@@ -1,0 +1,130 @@
+package slimeknights.tconstruct.library.tools.stat;
+
+import com.google.gson.JsonElement;
+import com.google.gson.JsonPrimitive;
+import com.google.gson.JsonSyntaxException;
+import io.netty.handler.codec.DecoderException;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import net.minecraft.nbt.StringTag;
+import net.minecraft.nbt.Tag;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.Identifier;
+import net.minecraft.world.item.Item;
+import slimeknights.tconstruct.library.compat.Tier;
+import slimeknights.tconstruct.library.utils.TierRegistry;
+import slimeknights.mantle.util.JsonHelper;
+import slimeknights.mantle.util.RegistryHelper;
+import slimeknights.tconstruct.common.TinkerTags;
+import slimeknights.tconstruct.library.utils.HarvestTiers;
+import slimeknights.tconstruct.library.utils.Util;
+
+import javax.annotation.Nullable;
+import java.util.Objects;
+
+/** Tool stat for comparing tool tiers */
+@SuppressWarnings("ClassCanBeRecord")
+@Getter @RequiredArgsConstructor
+public class ToolTierStat implements IToolStat<Tier> {
+  /** Name of this tool stat */
+  private final ToolStatId name;
+
+  @Override
+  public boolean supports(Item item) {
+    return RegistryHelper.contains(TinkerTags.Items.HARVEST, item);
+  }
+
+  @Override
+  public Tier getDefaultValue() {
+    return HarvestTiers.minTier();
+  }
+
+  @Override
+  public Object makeBuilder() {
+    return new TierBuilder(getDefaultValue());
+  }
+
+  @Override
+  public Tier build(ModifierStatsBuilder parent, Object builder) {
+    return ((TierBuilder) builder).value;
+  }
+
+  /**
+   * Sets the tier to the new tier, keeping the largest
+   * @param builder  Builder instance
+   * @param value    Amount to add
+   */
+  @Override
+  public void update(ModifierStatsBuilder builder, Tier value) {
+    builder.<TierBuilder>updateStat(this, b -> b.value = HarvestTiers.max(b.value, value));
+  }
+
+  @Nullable
+  @Override
+  public Tier read(Tag tag) {
+    if (tag.getId() == Tag.TAG_STRING) {
+      Identifier tierId = Identifier.tryParse(tag instanceof net.minecraft.nbt.StringTag stringTag ? stringTag.value() : tag.toString());
+      if (tierId != null) {
+        return TierRegistry.byName(tierId);
+      }
+    }
+    return null;
+  }
+
+  @Override
+  public Tag write(Tier value) {
+    Identifier id = TierRegistry.getName(value);
+    if (id != null) {
+      return StringTag.valueOf(id.toString());
+    }
+    return null;
+  }
+
+  @Override
+  public Tier deserialize(JsonElement json) {
+    Identifier id = JsonHelper.convertToIdentifier(json, getName().toString());
+    Tier tier = TierRegistry.byName(id);
+    if (tier != null) {
+      return tier;
+    }
+    throw new JsonSyntaxException("Unknown tool tier " + id);
+  }
+
+  @Override
+  public JsonElement serialize(Tier value) {
+    return new JsonPrimitive(Objects.requireNonNull(TierRegistry.getName(value)).toString());
+  }
+
+  @Override
+  public Tier fromNetwork(FriendlyByteBuf buffer) {
+    Identifier id = buffer.readIdentifier();
+    Tier tier = TierRegistry.byName(id);
+    if (tier != null) {
+      return tier;
+    }
+    throw new DecoderException("Unknown tool tier " + id);
+  }
+
+  @Override
+  public void toNetwork(FriendlyByteBuf buffer, Tier value) {
+    buffer.writeIdentifier(Objects.requireNonNull(TierRegistry.getName(value)));
+  }
+
+  @Override
+  public Component formatValue(Tier value) {
+    return Component.translatable(Util.makeTranslationKey("tool_stat", getName())).append(HarvestTiers.getName(value));
+  }
+
+  @Override
+  public String toString() {
+    return "ToolTierStat{" + name + '}';
+  }
+
+  /** Builder for a tier object */
+  @AllArgsConstructor
+  private static class TierBuilder {
+    private Tier value;
+  }
+}

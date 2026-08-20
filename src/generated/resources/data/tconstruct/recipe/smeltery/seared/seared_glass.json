@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "G": {
+      "neoforge:ingredient_type": "mantle:item_tag",
+      "tag": "c:glass_blocks/colorless"
+    },
+    "b": "tconstruct:seared_brick"
+  },
+  "pattern": [
+    " b ",
+    "bGb",
+    " b "
+  ],
+  "result": {
+    "id": "tconstruct:seared_glass"
+  }
+}

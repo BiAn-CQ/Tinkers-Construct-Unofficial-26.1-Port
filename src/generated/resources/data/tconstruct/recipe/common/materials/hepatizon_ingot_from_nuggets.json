@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "tconstruct:hepatizon_ingot",
+  "key": {
+    "#": {
+      "neoforge:ingredient_type": "mantle:item_tag",
+      "tag": "c:nuggets/hepatizon"
+    },
+    "*": "tconstruct:hepatizon_nugget"
+  },
+  "pattern": [
+    "###",
+    "#*#",
+    "###"
+  ],
+  "result": {
+    "id": "tconstruct:hepatizon_ingot"
+  }
+}

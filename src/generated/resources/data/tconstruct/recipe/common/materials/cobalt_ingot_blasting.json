@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:blasting",
+  "category": "misc",
+  "cookingtime": 200,
+  "experience": 1.5,
+  "ingredient": {
+    "neoforge:ingredient_type": "mantle:or",
+    "ingredients": [
+      "tconstruct:raw_cobalt",
+      "tconstruct:cobalt_ore"
+    ]
+  },
+  "result": {
+    "id": "tconstruct:cobalt_ingot"
+  }
+}

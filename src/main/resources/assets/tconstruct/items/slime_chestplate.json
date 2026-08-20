@@ -1,0 +1,28 @@
+{
+    "model": {
+        "type": "tconstruct:tool",
+        "parent": "tconstruct:item/native/slime_chestplate",
+        "textures": {
+            "slime": "tconstruct:item/tool/armor/slime/wings/slime"
+        },
+        "parts": [
+            {
+                "name": "slime",
+                "index": 0
+            }
+        ],
+        "broken_textures": {
+            "slime": "tconstruct:item/tool/armor/slime/chestplate/slime_broken",
+            "ribcage": "tconstruct:item/tool/armor/slime/chestplate/ribcage_broken"
+        },
+        "modifier_models": {
+            "tconstruct:trim": {
+                "type": "tconstruct:custom_trim",
+                "root": "tconstruct:item/tool/armor/slime/wings/trim"
+            }
+        },
+        "first_modifiers": [
+            "tconstruct:trim"
+        ]
+    }
+}

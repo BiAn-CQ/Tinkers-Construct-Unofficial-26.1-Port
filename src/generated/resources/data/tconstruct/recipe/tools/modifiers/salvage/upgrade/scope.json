@@ -1,0 +1,11 @@
+{
+  "type": "tconstruct:modifier_salvage",
+  "modifier": "tconstruct:scope",
+  "slots": {
+    "upgrades": 1
+  },
+  "tools": {
+    "neoforge:ingredient_type": "mantle:item_tag",
+    "tag": "tconstruct:modifiable/interactable/charge"
+  }
+}

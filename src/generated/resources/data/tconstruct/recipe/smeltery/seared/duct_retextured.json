@@ -1,0 +1,24 @@
+{
+  "type": "mantle:crafting_shaped_retextured",
+  "category": "redstone",
+  "key": {
+    "#": {
+      "neoforge:ingredient_type": "mantle:item_tag",
+      "tag": "tconstruct:smeltery_bricks"
+    },
+    "C": {
+      "neoforge:ingredient_type": "mantle:item_tag",
+      "tag": "c:ingots/gold"
+    }
+  },
+  "pattern": [
+    "C#C"
+  ],
+  "result": {
+    "id": "tconstruct:seared_duct"
+  },
+  "texture": {
+    "neoforge:ingredient_type": "mantle:item_tag",
+    "tag": "tconstruct:smeltery_bricks"
+  }
+}

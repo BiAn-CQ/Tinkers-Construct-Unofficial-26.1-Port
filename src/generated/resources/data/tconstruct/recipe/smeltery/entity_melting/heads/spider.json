@@ -1,0 +1,16 @@
+{
+  "type": "tconstruct:melting",
+  "ingredient": {
+    "neoforge:ingredient_type": "mantle:or",
+    "ingredients": [
+      "tconstruct:spider_head",
+      "tconstruct:cave_spider_head"
+    ]
+  },
+  "result": {
+    "amount": 500,
+    "fluid": "tconstruct:venom"
+  },
+  "temperature": 10,
+  "time": 68
+}

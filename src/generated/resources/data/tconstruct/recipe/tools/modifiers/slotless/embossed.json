@@ -1,0 +1,21 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "mantle:tag_filled",
+      "tag": "tconstruct:boss_trophies"
+    }
+  ],
+  "type": "tconstruct:modifier",
+  "allow_crystal": true,
+  "inputs": [
+    {
+      "ingredient": "#tconstruct:boss_trophies"
+    }
+  ],
+  "level": 1,
+  "result": "tconstruct:embossed",
+  "tools": {
+    "neoforge:ingredient_type": "mantle:item_tag",
+    "tag": "tconstruct:modifiable/bonus_slots"
+  }
+}

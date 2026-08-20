@@ -1,0 +1,27 @@
+{
+  "level_display": {
+    "type": "tconstruct:unique",
+    "first_unique": false,
+    "unique_until": 4
+  },
+  "modules": [
+    {
+      "type": "tconstruct:attribute",
+      "attribute": "tconstruct:player.jump_count",
+      "each_level": 1.0,
+      "operation": "add_value",
+      "slots": [
+        "mainhand",
+        "offhand",
+        "feet",
+        "legs",
+        "chest",
+        "head",
+        "body",
+        "saddle"
+      ],
+      "tooltip_style": "none"
+    }
+  ],
+  "tooltip_display": "always"
+}

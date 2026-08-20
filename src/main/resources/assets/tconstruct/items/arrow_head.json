@@ -1,0 +1,11 @@
+{
+    "model": {
+        "type": "tconstruct:material",
+        "parent": "tconstruct:item/native/arrow_head",
+        "texture": "tconstruct:item/tool/ammo/arrow_head",
+        "offset": [
+            -4,
+            3
+        ]
+    }
+}

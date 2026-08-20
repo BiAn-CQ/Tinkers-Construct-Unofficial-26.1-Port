@@ -1,0 +1,11 @@
+{
+  "type": "tconstruct:material",
+  "ingredient": {
+    "neoforge:ingredient_type": "mantle:item_tag",
+    "tag": "minecraft:jungle_logs"
+  },
+  "leftover": "minecraft:jungle_planks",
+  "material": "tconstruct:wood",
+  "needed": 1,
+  "value": 4
+}

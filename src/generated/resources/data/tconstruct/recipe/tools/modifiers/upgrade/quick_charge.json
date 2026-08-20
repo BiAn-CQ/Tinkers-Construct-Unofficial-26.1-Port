@@ -1,0 +1,18 @@
+{
+  "type": "tconstruct:incremental_modifier",
+  "allow_crystal": true,
+  "amount_per_item": 1,
+  "input": "minecraft:magma_cream",
+  "level": {
+    "max": 4
+  },
+  "needed_per_level": 5,
+  "result": "tconstruct:quick_charge",
+  "slots": {
+    "upgrades": 1
+  },
+  "tools": {
+    "neoforge:ingredient_type": "mantle:item_tag",
+    "tag": "tconstruct:modifiable/ranged/quick_charge"
+  }
+}

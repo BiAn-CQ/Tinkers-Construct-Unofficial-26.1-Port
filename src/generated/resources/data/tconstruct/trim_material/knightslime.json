@@ -1,0 +1,12 @@
+{
+  "asset_name": "tconstruct_tconstruct_knightslime",
+  "description": {
+    "color": "#B771FF",
+    "translate": "trim_material.tconstruct.format",
+    "with": [
+      {
+        "translate": "material.tconstruct.knightslime"
+      }
+    ]
+  }
+}

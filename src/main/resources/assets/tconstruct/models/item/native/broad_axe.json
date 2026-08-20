@@ -1,0 +1,6 @@
+{
+    "parent": "tconstruct:item/base/tall_axe",
+    "textures": {
+        "layer0": "tconstruct:item/tool/broad_axe/blade"
+    }
+}

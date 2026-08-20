@@ -1,0 +1,193 @@
+package slimeknights.tconstruct.library.recipe.material;
+
+import com.google.gson.JsonObject;
+import com.google.gson.JsonSyntaxException;
+import com.mojang.serialization.JsonOps;
+import net.minecraft.core.NonNullList;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.resources.Identifier;
+import net.minecraft.world.item.crafting.CraftingInput;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemStackTemplate;
+import net.minecraft.world.item.crafting.CraftingRecipe;
+import net.minecraft.world.item.crafting.CraftingBookCategory;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.ShapedRecipe;
+import net.minecraft.world.item.crafting.ShapedRecipePattern;
+import net.minecraft.world.level.Level;
+import slimeknights.mantle.data.loadable.Loadable;
+import slimeknights.mantle.data.loadable.field.LoadableField;
+import slimeknights.tconstruct.TConstruct;
+import slimeknights.tconstruct.library.materials.definition.MaterialVariantId;
+import slimeknights.tconstruct.library.recipe.ingredient.MaterialValueIngredient;
+import slimeknights.tconstruct.tables.TinkerTables;
+
+import javax.annotation.Nullable;
+import java.util.List;
+import java.util.Optional;
+
+/**
+ * Shaped recipe with a number of {@link slimeknights.tconstruct.library.recipe.ingredient.MaterialValueIngredient} to set the material of the result.
+ * @deprecated use {@link ShapedMaterialsRecipe}, which requires specifying the ingredients for each part.
+ */
+@Deprecated
+public class ShapedMaterialRecipe extends ShapedRecipe {
+  public static final RecipeSerializer<ShapedMaterialRecipe> SERIALIZER = TinkerCraftingRecipeSerializer.create(
+    ShapedMaterialRecipe::deserialize,
+    ShapedMaterialRecipe::serialize,
+    (buffer, recipe) -> {
+      ShapedRecipe.STREAM_CODEC.encode(buffer, recipe.asVanilla());
+      Serializer.MATERIAL_FIELD.encode(buffer, recipe);
+    },
+    buffer -> {
+      ShapedRecipe recipe = ShapedRecipe.STREAM_CODEC.decode(buffer);
+      return new ShapedMaterialRecipe(recipe, Serializer.MATERIAL_FIELD.decode(buffer));
+    });
+
+  private MaterialValueIngredient material;
+  private final List<MaterialVariantId> extraMaterials;
+  public ShapedMaterialRecipe(Identifier id, String group, CraftingBookCategory category, int width, int height, NonNullList<Ingredient> ingredients, ItemStack result, boolean showNotification, List<MaterialVariantId> extraMaterials) {
+    super(new Recipe.CommonInfo(showNotification), new CraftingRecipe.CraftingBookInfo(category, group),
+          pattern(width, height, ingredients), ItemStackTemplate.fromNonEmptyStack(result));
+    this.extraMaterials = extraMaterials;
+  }
+
+  public ShapedMaterialRecipe(ShapedRecipe recipe, List<MaterialVariantId> extraMaterials) {
+    super(new Recipe.CommonInfo(recipe.showNotification()), new CraftingRecipe.CraftingBookInfo(recipe.category(), recipe.group()),
+          recipe.pattern, ItemStackTemplate.fromNonEmptyStack(recipe.assemble(CraftingInput.EMPTY)));
+    this.extraMaterials = extraMaterials;
+  }
+
+  private static ShapedRecipePattern pattern(int width, int height, NonNullList<Ingredient> ingredients) {
+    return new ShapedRecipePattern(width, height,
+      ingredients.stream().map(ingredient -> ingredient.isEmpty() ? Optional.<Ingredient>empty() : Optional.of(ingredient)).toList(),
+      Optional.empty());
+  }
+
+  private ShapedRecipe asVanilla() {
+    return new ShapedRecipe(new Recipe.CommonInfo(showNotification()), new CraftingRecipe.CraftingBookInfo(category(), group()),
+      pattern, ItemStackTemplate.fromNonEmptyStack(super.assemble(CraftingInput.EMPTY)));
+  }
+
+  /** @deprecated use {@link #ShapedMaterialRecipe(Identifier,String,CraftingBookCategory,int,int,NonNullList,ItemStack,boolean,List)} */
+  @Deprecated(forRemoval = true)
+  public ShapedMaterialRecipe(Identifier id, String group, CraftingBookCategory category, int width, int height, NonNullList<Ingredient> ingredients, ItemStack result, boolean showNotification) {
+    this(id, group, category, width, height, ingredients, result, showNotification, List.of());
+  }
+
+  /** @deprecated use {@link #ShapedMaterialRecipe(ShapedRecipe,List)} */
+  @Deprecated(forRemoval = true)
+  public ShapedMaterialRecipe(ShapedRecipe recipe) {
+    this(recipe, List.of());
+  }
+
+  /** Gets the material to match */
+  @Nullable
+  public MaterialValueIngredient getMaterial() {
+    if (material == null) {
+      // assume all material ingredients match the same stat type
+      for (Ingredient ingredient : getIngredients().stream().flatMap(Optional::stream).toList()) {
+        // collect all ingredients that match
+        MaterialValueIngredient materialValue = MaterialValueIngredient.from(ingredient);
+        if (materialValue != null) {
+          if (material == null) {
+            material = materialValue;
+          } else {
+            // ensure the stat type matches, and expand the range
+            material = material.merge(materialValue);
+          }
+        }
+      }
+      // if we found no materials, that is also an issue
+      if (material == null) {
+        TConstruct.LOG.error("No material ingredient found for material shaped recipe; this indicates a broken recipe");
+      }
+    }
+    return material;
+  }
+
+  @Nullable
+  private MaterialVariantId findMaterial(CraftingInput inventory) {
+    MaterialValueIngredient material = getMaterial();
+    if (material == null) {
+      return null;
+    }
+    // ensure same material in all slots
+    MaterialVariantId firstMaterial = null;
+    for (int i = 0; i < inventory.size(); i++) {
+      ItemStack stack = inventory.getItem(i);
+      if (!stack.isEmpty()) {
+        // ignore anything that does not meet our requirements
+        MaterialVariantId matchedMaterial = material.getMaterial(stack);
+        if (matchedMaterial != null) {
+          // first match is set
+          if (firstMaterial == null) {
+            firstMaterial = matchedMaterial;
+          } else if (!firstMaterial.matchesVariant(matchedMaterial)) {
+            // if same material but different variants, just discard the variant
+            if (firstMaterial.getId().equals(matchedMaterial.getId())) {
+              firstMaterial = firstMaterial.getId();
+            } else {
+              // if different materials, no match
+              return null;
+            }
+          }
+        }
+      }
+    }
+    return firstMaterial;
+  }
+
+  @Override
+  public boolean matches(CraftingInput inventory, Level level) {
+    if (!super.matches(inventory, level)) {
+      return false;
+    }
+
+    // must have a material to match, no mixing
+    return findMaterial(inventory) != null;
+  }
+
+  /** Sets the material for the given stack */
+  public void setMaterial(ItemStack stack, MaterialVariantId material) {
+    ShapedMaterialsRecipe.setMaterial(stack, material, extraMaterials);
+  }
+
+  @Override
+  public ItemStack assemble(CraftingInput inventory) {
+    ItemStack stack = super.assemble(inventory);
+    MaterialVariantId material = findMaterial(inventory);
+    if (material != null) {
+      setMaterial(stack, material);
+    }
+    return stack;
+  }
+
+  @Override
+  @SuppressWarnings({"rawtypes", "unchecked"})
+  public RecipeSerializer getSerializer() {
+    return TinkerTables.shapedMaterialRecipeSerializer.get();
+  }
+
+  private static ShapedMaterialRecipe deserialize(JsonObject json, com.mojang.serialization.DynamicOps<?> ops) {
+    ShapedRecipe recipe = ShapedRecipe.MAP_CODEC.codec().parse(TinkerCraftingRecipeSerializer.registryJsonOps(ops), json).getOrThrow();
+    ShapedMaterialRecipe result = new ShapedMaterialRecipe(recipe, Serializer.MATERIAL_FIELD.get(json));
+    if (result.getMaterial() == null) {
+      throw new JsonSyntaxException("Invalid material ingredients for shaped material recipe");
+    }
+    return result;
+  }
+
+  private static JsonObject serialize(ShapedMaterialRecipe recipe, com.mojang.serialization.DynamicOps<?> ops) {
+    JsonObject json = ShapedMaterialsRecipe.Serializer.serializeShapedBase(recipe, ops);
+    Serializer.MATERIAL_FIELD.serialize(recipe, json);
+    return json;
+  }
+
+  public static final class Serializer {
+    static final Loadable<List<MaterialVariantId>> EXTRA_MATERIALS = ShapedMaterialsRecipe.Serializer.EXTRA_MATERIALS;
+    static final LoadableField<List<MaterialVariantId>,ShapedMaterialRecipe> MATERIAL_FIELD = EXTRA_MATERIALS.defaultField("extra_materials", List.of(), r -> r.extraMaterials);
+  }
+}

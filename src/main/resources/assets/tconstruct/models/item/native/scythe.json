@@ -1,0 +1,6 @@
+{
+    "parent": "tconstruct:item/tool/scythe/display",
+    "textures": {
+        "layer0": "tconstruct:item/tool/scythe/head"
+    }
+}

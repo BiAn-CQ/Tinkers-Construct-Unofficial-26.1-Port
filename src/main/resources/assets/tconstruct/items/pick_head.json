@@ -1,0 +1,11 @@
+{
+    "model": {
+        "type": "tconstruct:material",
+        "parent": "tconstruct:item/native/pick_head",
+        "texture": "tconstruct:item/tool/pickaxe/head",
+        "offset": [
+            -2,
+            1
+        ]
+    }
+}

@@ -1,0 +1,6 @@
+{
+    "parent": "tconstruct:item/tool/dagger/display",
+    "textures": {
+        "layer0": "tconstruct:item/tool/dagger/blade"
+    }
+}

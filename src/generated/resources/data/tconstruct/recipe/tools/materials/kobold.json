@@ -1,0 +1,10 @@
+{
+  "type": "tconstruct:material",
+  "ingredient": {
+    "neoforge:ingredient_type": "mantle:item_tag",
+    "tag": "c:raw_nuggets/cobalt"
+  },
+  "material": "tconstruct:kobold",
+  "needed": 1,
+  "value": 1
+}

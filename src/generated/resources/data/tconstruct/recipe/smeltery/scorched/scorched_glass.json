@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "G": {
+      "neoforge:ingredient_type": "mantle:item_tag",
+      "tag": "c:gems/quartz"
+    },
+    "b": "tconstruct:scorched_brick"
+  },
+  "pattern": [
+    " b ",
+    "bGb",
+    " b "
+  ],
+  "result": {
+    "id": "tconstruct:scorched_glass"
+  }
+}

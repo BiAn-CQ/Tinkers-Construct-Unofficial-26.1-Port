@@ -1,0 +1,23 @@
+{
+  "type": "tconstruct:modifier",
+  "allow_crystal": true,
+  "inputs": [
+    {
+      "ingredient": "minecraft:compass"
+    },
+    {
+      "ingredient": "#c:slime_balls"
+    },
+    {
+      "ingredient": "minecraft:paper"
+    }
+  ],
+  "result": "tconstruct:minimap",
+  "slots": {
+    "upgrades": 1
+  },
+  "tools": {
+    "neoforge:ingredient_type": "mantle:item_tag",
+    "tag": "tconstruct:modifiable/armor/helmets"
+  }
+}

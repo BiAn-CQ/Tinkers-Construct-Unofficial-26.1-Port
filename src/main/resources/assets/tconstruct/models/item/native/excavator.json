@@ -1,0 +1,6 @@
+{
+    "parent": "tconstruct:item/base/tall",
+    "textures": {
+        "layer0": "tconstruct:item/tool/excavator/head"
+    }
+}

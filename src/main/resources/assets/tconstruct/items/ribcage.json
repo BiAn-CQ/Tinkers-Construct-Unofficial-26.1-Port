@@ -1,0 +1,11 @@
+{
+    "model": {
+        "type": "tconstruct:material",
+        "parent": "tconstruct:item/native/ribcage",
+        "texture": "tconstruct:item/tool/armor/slime/chestplate/ribcage",
+        "offset": [
+            0,
+            3
+        ]
+    }
+}

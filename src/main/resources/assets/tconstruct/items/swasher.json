@@ -1,0 +1,251 @@
+{
+    "model": {
+        "type": "tconstruct:overrides",
+        "base": {
+            "type": "tconstruct:tool",
+            "parent": "tconstruct:item/native/swasher",
+            "textures": {
+                "blade": "tconstruct:item/tool/swasher/blade",
+                "barrel": "tconstruct:item/tool/swasher/barrel",
+                "handle": "tconstruct:item/tool/swasher/handle",
+                "tank": "tconstruct:item/tool/swasher/tank"
+            },
+            "parts": [
+                {
+                    "name": "handle",
+                    "index": 1
+                },
+                {
+                    "name": "blade",
+                    "index": 0
+                },
+                {
+                    "name": "barrel",
+                    "index": 2
+                },
+                {
+                    "name": "tank"
+                }
+            ],
+            "broken_textures": {
+                "blade": "tconstruct:item/tool/swasher/blade_broken",
+                "barrel": "tconstruct:item/tool/swasher/barrel",
+                "handle": "tconstruct:item/tool/swasher/handle",
+                "tank": "tconstruct:item/tool/swasher/tank"
+            },
+            "modifier_constants": [
+                {
+                    "type": "tconstruct:tank",
+                    "full": "tconstruct:item/tool/swasher/fluid_full",
+                    "partial": "tconstruct:item/tool/swasher/fluid_partial"
+                }
+            ]
+        },
+        "overrides": [
+            {
+                "predicate": {
+                    "tconstruct:charging": 1.0
+                },
+                "model": {
+                    "type": "tconstruct:tool",
+                    "parent": "tconstruct:item/tool/swasher/display",
+                    "textures": {
+                        "blade": "tconstruct:item/tool/swasher/blade",
+                        "barrel": "tconstruct:item/tool/swasher/barrel_1",
+                        "handle": "tconstruct:item/tool/swasher/handle",
+                        "tank": "tconstruct:item/tool/swasher/tank"
+                    },
+                    "parts": [
+                        {
+                            "name": "handle",
+                            "index": 1
+                        },
+                        {
+                            "name": "blade",
+                            "index": 0
+                        },
+                        {
+                            "name": "barrel",
+                            "index": 2
+                        },
+                        {
+                            "name": "tank"
+                        }
+                    ],
+                    "modifier_constants": [
+                        {
+                            "type": "tconstruct:tank",
+                            "full": "tconstruct:item/tool/swasher/fluid_full",
+                            "partial": "tconstruct:item/tool/swasher/fluid_partial"
+                        }
+                    ]
+                }
+            },
+            {
+                "predicate": {
+                    "tconstruct:charging": 1.0,
+                    "tconstruct:charge": 1.0
+                },
+                "model": {
+                    "type": "tconstruct:tool",
+                    "parent": "tconstruct:item/tool/swasher/display",
+                    "textures": {
+                        "blade": "tconstruct:item/tool/swasher/blade",
+                        "barrel": "tconstruct:item/tool/swasher/barrel_2",
+                        "handle": "tconstruct:item/tool/swasher/handle",
+                        "tank": "tconstruct:item/tool/swasher/tank"
+                    },
+                    "parts": [
+                        {
+                            "name": "handle",
+                            "index": 1
+                        },
+                        {
+                            "name": "blade",
+                            "index": 0
+                        },
+                        {
+                            "name": "barrel",
+                            "index": 2
+                        },
+                        {
+                            "name": "tank"
+                        }
+                    ],
+                    "modifier_constants": [
+                        {
+                            "type": "tconstruct:tank",
+                            "full": "tconstruct:item/tool/swasher/fluid_full",
+                            "partial": "tconstruct:item/tool/swasher/fluid_partial"
+                        }
+                    ]
+                }
+            },
+            {
+                "predicate": {
+                    "tconstruct:charging": 2.0
+                },
+                "model": {
+                    "type": "tconstruct:tool",
+                    "parent": "tconstruct:item/native/overrides/swasher/tool/swasher/blocking",
+                    "textures": {
+                        "blade": "tconstruct:item/tool/swasher/blade",
+                        "barrel": "tconstruct:item/tool/swasher/barrel",
+                        "handle": "tconstruct:item/tool/swasher/handle",
+                        "tank": "tconstruct:item/tool/swasher/tank"
+                    },
+                    "parts": [
+                        {
+                            "name": "handle",
+                            "index": 1
+                        },
+                        {
+                            "name": "blade",
+                            "index": 0
+                        },
+                        {
+                            "name": "barrel",
+                            "index": 2
+                        },
+                        {
+                            "name": "tank"
+                        }
+                    ],
+                    "broken_textures": {
+                        "blade": "tconstruct:item/tool/swasher/blade_broken",
+                        "barrel": "tconstruct:item/tool/swasher/barrel",
+                        "handle": "tconstruct:item/tool/swasher/handle",
+                        "tank": "tconstruct:item/tool/swasher/tank"
+                    },
+                    "modifier_constants": [
+                        {
+                            "type": "tconstruct:tank",
+                            "full": "tconstruct:item/tool/swasher/fluid_full",
+                            "partial": "tconstruct:item/tool/swasher/fluid_partial"
+                        }
+                    ]
+                }
+            },
+            {
+                "predicate": {
+                    "tconstruct:charging": 2.0,
+                    "tconstruct:charge": 0.05
+                },
+                "model": {
+                    "type": "tconstruct:tool",
+                    "parent": "tconstruct:item/native/overrides/swasher/tool/swasher/blocking_1",
+                    "textures": {
+                        "blade": "tconstruct:item/tool/swasher/blade",
+                        "barrel": "tconstruct:item/tool/swasher/barrel_1",
+                        "handle": "tconstruct:item/tool/swasher/handle",
+                        "tank": "tconstruct:item/tool/swasher/tank"
+                    },
+                    "parts": [
+                        {
+                            "name": "handle",
+                            "index": 1
+                        },
+                        {
+                            "name": "blade",
+                            "index": 0
+                        },
+                        {
+                            "name": "barrel",
+                            "index": 2
+                        },
+                        {
+                            "name": "tank"
+                        }
+                    ],
+                    "modifier_constants": [
+                        {
+                            "type": "tconstruct:tank",
+                            "full": "tconstruct:item/tool/swasher/fluid_full",
+                            "partial": "tconstruct:item/tool/swasher/fluid_partial"
+                        }
+                    ]
+                }
+            },
+            {
+                "predicate": {
+                    "tconstruct:charging": 2.0,
+                    "tconstruct:charge": 1.0
+                },
+                "model": {
+                    "type": "tconstruct:tool",
+                    "parent": "tconstruct:item/native/overrides/swasher/tool/swasher/blocking_2",
+                    "textures": {
+                        "blade": "tconstruct:item/tool/swasher/blade",
+                        "barrel": "tconstruct:item/tool/swasher/barrel_2",
+                        "handle": "tconstruct:item/tool/swasher/handle",
+                        "tank": "tconstruct:item/tool/swasher/tank"
+                    },
+                    "parts": [
+                        {
+                            "name": "handle",
+                            "index": 1
+                        },
+                        {
+                            "name": "blade",
+                            "index": 0
+                        },
+                        {
+                            "name": "barrel",
+                            "index": 2
+                        },
+                        {
+                            "name": "tank"
+                        }
+                    ],
+                    "modifier_constants": [
+                        {
+                            "type": "tconstruct:tank",
+                            "full": "tconstruct:item/tool/swasher/fluid_full",
+                            "partial": "tconstruct:item/tool/swasher/fluid_partial"
+                        }
+                    ]
+                }
+            }
+        ]
+    }
+}

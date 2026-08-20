@@ -1,0 +1,24 @@
+{
+  "type": "tconstruct:modifier",
+  "allow_crystal": true,
+  "inputs": [
+    {
+      "neoforge:ingredient_type": "mantle:or",
+      "ingredients": [
+        "tconstruct:reversed_gold_item_frame",
+        "tconstruct:diamond_item_frame",
+        "tconstruct:manyullyn_item_frame",
+        "tconstruct:gold_item_frame",
+        "tconstruct:netherite_item_frame"
+      ]
+    }
+  ],
+  "result": "tconstruct:item_frame",
+  "slots": {
+    "upgrades": 1
+  },
+  "tools": {
+    "neoforge:ingredient_type": "mantle:item_tag",
+    "tag": "tconstruct:modifiable/armor/helmets"
+  }
+}

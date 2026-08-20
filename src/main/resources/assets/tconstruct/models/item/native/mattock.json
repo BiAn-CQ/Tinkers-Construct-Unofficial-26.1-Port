@@ -1,0 +1,6 @@
+{
+    "parent": "tconstruct:item/base/axe",
+    "textures": {
+        "layer0": "tconstruct:item/tool/mattock/axe"
+    }
+}

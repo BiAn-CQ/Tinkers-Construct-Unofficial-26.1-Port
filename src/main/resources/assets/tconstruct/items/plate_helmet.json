@@ -1,0 +1,47 @@
+{
+    "model": {
+        "type": "tconstruct:tool",
+        "parent": "tconstruct:item/native/plate_helmet",
+        "textures": {
+            "plating": "tconstruct:item/tool/armor/plate/helmet/plating",
+            "maille": "tconstruct:item/tool/armor/plate/helmet/maille"
+        },
+        "parts": [
+            {
+                "name": "plating",
+                "index": 0
+            },
+            {
+                "name": "maille",
+                "index": 1
+            }
+        ],
+        "broken_textures": {
+            "plating": "tconstruct:item/tool/armor/plate/helmet/plating_broken",
+            "maille": "tconstruct:item/tool/armor/plate/helmet/maille_broken"
+        },
+        "modifier_models": {
+            "tconstruct:dyed": {
+                "type": "tconstruct:material_has_fallback",
+                "fallback": "metal",
+                "if_false": {
+                    "type": "tconstruct:dyed",
+                    "texture": "tconstruct:item/tool/armor/plate/helmet/maille"
+                },
+                "if_true": {
+                    "type": "tconstruct:dyed",
+                    "texture": "tconstruct:item/tool/armor/plate/helmet/maille_metal"
+                },
+                "index": 1
+            },
+            "tconstruct:trim": {
+                "type": "tconstruct:armor_trim",
+                "slot": "helmet"
+            }
+        },
+        "first_modifiers": [
+            "tconstruct:dyed",
+            "tconstruct:trim"
+        ]
+    }
+}

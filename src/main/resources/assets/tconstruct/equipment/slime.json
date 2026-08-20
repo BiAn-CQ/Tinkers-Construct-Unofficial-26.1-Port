@@ -1,0 +1,13 @@
+{
+  "layers": {
+        "humanoid": [
+          { "texture": "tconstruct:tinker_armor/slime/armor" }
+        ],
+    "humanoid_baby": [
+      { "texture": "tconstruct:tinker_armor/slime/armor" }
+    ],
+    "humanoid_leggings": [
+      { "texture": "tconstruct:tinker_armor/slime/leggings" }
+    ]
+  }
+}

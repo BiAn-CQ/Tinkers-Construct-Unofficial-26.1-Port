@@ -1,0 +1,47 @@
+modLoader="javafml"
+loaderVersion="[4,)"
+license="${mod_license}"
+issueTrackerURL="https://github.com/SlimeKnights/TinkersConstruct/issues"
+
+[[mods]]
+modId="${mod_id}"
+enumExtensions="META-INF/enumextensions.json"
+version="${mod_version}"
+displayName="${mod_name}"
+authors="Slime Knights; unofficial 26.1 port"
+displayURL="https://www.curseforge.com/minecraft/mc-mods/tinkers-construct"
+description='''
+Tools, materials, and smeltery for Minecraft.
+This is an unofficial Minecraft 26.1 migration build; do not request upstream support for it.
+'''
+
+[[mixins]]
+config="tconstruct.mixins.json"
+
+[[dependencies.${mod_id}]]
+modId="neoforge"
+type="required"
+versionRange="[${neo_version},)"
+ordering="NONE"
+side="BOTH"
+
+[[dependencies.${mod_id}]]
+modId="minecraft"
+type="required"
+versionRange="${minecraft_version_range}"
+ordering="NONE"
+side="BOTH"
+
+[[dependencies.${mod_id}]]
+modId="mantle"
+type="required"
+versionRange="${mantle_version_range}"
+ordering="NONE"
+side="BOTH"
+
+[[dependencies.${mod_id}]]
+modId="jei"
+type="optional"
+versionRange="${jei_range}"
+ordering="NONE"
+side="BOTH"

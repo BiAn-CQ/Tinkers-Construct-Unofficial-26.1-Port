@@ -1,0 +1,13 @@
+{
+  "type": "tconstruct:melting",
+  "ingredient": {
+    "neoforge:ingredient_type": "mantle:item_tag",
+    "tag": "c:nuggets/steel"
+  },
+  "result": {
+    "amount": 10,
+    "tag": "c:molten_steel"
+  },
+  "temperature": 950,
+  "time": 22
+}

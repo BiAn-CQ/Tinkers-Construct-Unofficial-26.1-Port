@@ -1,0 +1,12 @@
+{
+  "asset_name": "tconstruct_tconstruct_amethyst_bronze",
+  "description": {
+    "color": "#C687BD",
+    "translate": "trim_material.tconstruct.format",
+    "with": [
+      {
+        "translate": "material.tconstruct.amethyst_bronze"
+      }
+    ]
+  }
+}

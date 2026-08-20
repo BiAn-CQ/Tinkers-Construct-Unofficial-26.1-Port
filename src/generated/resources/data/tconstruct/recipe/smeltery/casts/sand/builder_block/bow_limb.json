@@ -1,0 +1,12 @@
+{
+  "type": "tconstruct:item_part_builder",
+  "pattern": "tconstruct:bow_limb",
+  "pattern_item": {
+    "neoforge:ingredient_type": "mantle:item_tag",
+    "tag": "c:sands/colorless"
+  },
+  "result": {
+    "count": 4,
+    "item": "tconstruct:bow_limb_sand_cast"
+  }
+}

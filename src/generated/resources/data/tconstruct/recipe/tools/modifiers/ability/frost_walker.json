@@ -1,0 +1,30 @@
+{
+  "type": "tconstruct:modifier",
+  "allow_crystal": true,
+  "inputs": [
+    {
+      "ingredient": "minecraft:blue_ice"
+    },
+    {
+      "ingredient": "tconstruct:stray_head"
+    },
+    {
+      "ingredient": "minecraft:blue_ice"
+    },
+    {
+      "ingredient": "minecraft:blue_ice"
+    },
+    {
+      "ingredient": "minecraft:blue_ice"
+    }
+  ],
+  "level": 1,
+  "result": "tconstruct:frost_walker",
+  "slots": {
+    "abilities": 1
+  },
+  "tools": {
+    "neoforge:ingredient_type": "mantle:item_tag",
+    "tag": "tconstruct:modifiable/armor/boots"
+  }
+}

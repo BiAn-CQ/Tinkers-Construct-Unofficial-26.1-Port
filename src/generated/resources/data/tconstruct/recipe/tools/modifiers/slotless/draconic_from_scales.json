@@ -1,0 +1,27 @@
+{
+  "type": "tconstruct:modifier",
+  "allow_crystal": false,
+  "inputs": [
+    {
+      "ingredient": "minecraft:dragon_breath"
+    },
+    {
+      "ingredient": "tconstruct:dragon_scale"
+    },
+    {
+      "ingredient": "minecraft:dragon_breath"
+    },
+    {
+      "ingredient": "tconstruct:dragon_scale"
+    },
+    {
+      "ingredient": "tconstruct:dragon_scale"
+    }
+  ],
+  "level": 1,
+  "result": "tconstruct:draconic",
+  "tools": {
+    "neoforge:ingredient_type": "mantle:item_tag",
+    "tag": "tconstruct:modifiable/bonus_slots"
+  }
+}

@@ -1,0 +1,7 @@
+{
+    "model": {
+        "type": "tconstruct:material",
+        "parent": "tconstruct:item/native/bowstring",
+        "texture": "tconstruct:item/tool/parts/bowstring"
+    }
+}

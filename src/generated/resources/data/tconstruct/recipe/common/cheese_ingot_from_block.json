@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "tconstruct:cheese_block"
+  ],
+  "result": {
+    "count": 4,
+    "id": "tconstruct:cheese_ingot"
+  }
+}

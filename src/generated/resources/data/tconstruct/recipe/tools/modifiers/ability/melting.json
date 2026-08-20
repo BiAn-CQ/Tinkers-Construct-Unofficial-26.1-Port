@@ -1,0 +1,45 @@
+{
+  "type": "tconstruct:modifier",
+  "allow_crystal": true,
+  "check_trait_level": true,
+  "inputs": [
+    {
+      "ingredient": "minecraft:blaze_rod"
+    },
+    {
+      "neoforge:ingredient_type": "mantle:or",
+      "ingredients": [
+        "tconstruct:seared_melter",
+        "tconstruct:smeltery_controller",
+        "tconstruct:foundry_controller"
+      ]
+    },
+    {
+      "ingredient": "minecraft:blaze_rod"
+    },
+    {
+      "ingredient": "minecraft:lava_bucket"
+    },
+    {
+      "ingredient": "minecraft:lava_bucket"
+    }
+  ],
+  "level": 1,
+  "result": "tconstruct:melting",
+  "slots": {
+    "abilities": 1
+  },
+  "tools": {
+    "neoforge:ingredient_type": "neoforge:compound",
+    "children": [
+      {
+        "neoforge:ingredient_type": "mantle:item_tag",
+        "tag": "tconstruct:modifiable/melee"
+      },
+      {
+        "neoforge:ingredient_type": "mantle:item_tag",
+        "tag": "tconstruct:modifiable/harvest"
+      }
+    ]
+  }
+}

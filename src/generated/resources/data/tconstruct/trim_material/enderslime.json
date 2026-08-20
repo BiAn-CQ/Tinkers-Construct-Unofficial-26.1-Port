@@ -1,0 +1,12 @@
+{
+  "asset_name": "tconstruct_tconstruct_enderslime",
+  "description": {
+    "color": "#AF4CF6",
+    "translate": "trim_material.tconstruct.format",
+    "with": [
+      {
+        "translate": "material.tconstruct.enderslime"
+      }
+    ]
+  }
+}

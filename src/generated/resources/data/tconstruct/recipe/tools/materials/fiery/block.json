@@ -1,0 +1,20 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "mantle:tag_filled",
+      "tag": "c:storage_blocks/fiery"
+    }
+  ],
+  "type": "tconstruct:material",
+  "ingredient": {
+    "neoforge:ingredient_type": "mantle:item_tag",
+    "tag": "c:storage_blocks/fiery"
+  },
+  "leftover": {
+    "count": 1,
+    "tag": "c:ingots/fiery"
+  },
+  "material": "tconstruct:fiery",
+  "needed": 1,
+  "value": 9
+}

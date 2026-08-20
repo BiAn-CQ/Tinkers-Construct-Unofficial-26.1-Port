@@ -1,0 +1,76 @@
+{
+    "parent": "tconstruct:item/base/shield_large",
+    "textures": {
+        "layer0": "tconstruct:item/tool/armor/plate/shield/plating"
+    },
+    "display": {
+        "thirdperson_righthand": {
+            "rotation": [
+                45,
+                135,
+                0
+            ],
+            "translation": [
+                3.6,
+                -3,
+                -2
+            ],
+            "scale": [
+                1,
+                1,
+                1
+            ]
+        },
+        "thirdperson_lefthand": {
+            "rotation": [
+                45,
+                135,
+                0
+            ],
+            "translation": [
+                3.6,
+                -3,
+                -2
+            ],
+            "scale": [
+                1,
+                1,
+                1
+            ]
+        },
+        "firstperson_righthand": {
+            "rotation": [
+                0,
+                180,
+                5
+            ],
+            "translation": [
+                -5,
+                -5,
+                -0.2
+            ],
+            "scale": [
+                1,
+                1,
+                1
+            ]
+        },
+        "firstperson_lefthand": {
+            "rotation": [
+                0,
+                180,
+                5
+            ],
+            "translation": [
+                -5,
+                -5,
+                -0.2
+            ],
+            "scale": [
+                1,
+                1,
+                1
+            ]
+        }
+    }
+}

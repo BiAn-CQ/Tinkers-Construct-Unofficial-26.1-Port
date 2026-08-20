@@ -1,0 +1,20 @@
+{
+  "given_item_modifiers": [
+    {
+      "function": "tconstruct:ancient_tool_trade"
+    }
+  ],
+  "gives": {
+    "id": "tconstruct:pickaxe"
+  },
+  "max_uses": 1,
+  "merchant_predicate": {
+    "condition": "tconstruct:ancient_tool_trade_weight",
+    "minimum": 25
+  },
+  "reputation_discount": 1.0,
+  "wants": {
+    "id": "minecraft:emerald"
+  },
+  "xp": 15
+}

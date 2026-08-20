@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": {
+      "neoforge:ingredient_type": "mantle:item_tag",
+      "tag": "c:ingots/gold"
+    },
+    ".": {
+      "neoforge:ingredient_type": "mantle:item_tag",
+      "tag": "c:nuggets/gold"
+    }
+  },
+  "pattern": [
+    "#.#",
+    ". .",
+    "#.#"
+  ],
+  "result": {
+    "count": 4,
+    "id": "tconstruct:gold_platform"
+  }
+}

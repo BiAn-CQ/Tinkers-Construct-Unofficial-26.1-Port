@@ -1,0 +1,19 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "mantle:tag_filled",
+      "tag": "c:coins/silver"
+    }
+  ],
+  "type": "tconstruct:melting",
+  "ingredient": {
+    "neoforge:ingredient_type": "mantle:item_tag",
+    "tag": "c:coins/silver"
+  },
+  "result": {
+    "amount": 30,
+    "tag": "c:molten_silver"
+  },
+  "temperature": 790,
+  "time": 40
+}

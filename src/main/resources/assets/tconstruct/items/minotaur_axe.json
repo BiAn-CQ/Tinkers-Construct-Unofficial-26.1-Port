@@ -1,0 +1,68 @@
+{
+    "model": {
+        "type": "tconstruct:overrides",
+        "base": {
+            "type": "tconstruct:tool",
+            "parent": "tconstruct:item/native/minotaur_axe",
+            "textures": {
+                "front": "tconstruct:item/tool/minotaur_axe/front",
+                "back": "tconstruct:item/tool/minotaur_axe/back",
+                "handle": "tconstruct:item/tool/pickaxe/handle"
+            },
+            "parts": [
+                {
+                    "name": "handle",
+                    "index": 2
+                },
+                {
+                    "name": "front",
+                    "index": 0
+                },
+                {
+                    "name": "back",
+                    "index": 1
+                }
+            ],
+            "broken_textures": {
+                "front": "tconstruct:item/tool/minotaur_axe/front_broken",
+                "back": "tconstruct:item/tool/minotaur_axe/back",
+                "handle": "tconstruct:item/tool/pickaxe/handle"
+            }
+        },
+        "overrides": [
+            {
+                "predicate": {
+                    "tconstruct:charging": 2.0
+                },
+                "model": {
+                    "type": "tconstruct:tool",
+                    "parent": "tconstruct:item/native/overrides/minotaur_axe/tool/minotaur_axe/blocking",
+                    "textures": {
+                        "front": "tconstruct:item/tool/minotaur_axe/front",
+                        "back": "tconstruct:item/tool/minotaur_axe/back",
+                        "handle": "tconstruct:item/tool/pickaxe/handle"
+                    },
+                    "parts": [
+                        {
+                            "name": "handle",
+                            "index": 2
+                        },
+                        {
+                            "name": "front",
+                            "index": 0
+                        },
+                        {
+                            "name": "back",
+                            "index": 1
+                        }
+                    ],
+                    "broken_textures": {
+                        "front": "tconstruct:item/tool/minotaur_axe/front_broken",
+                        "back": "tconstruct:item/tool/minotaur_axe/back",
+                        "handle": "tconstruct:item/tool/pickaxe/handle"
+                    }
+                }
+            }
+        ]
+    }
+}

@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "minecraft:book",
+    "tconstruct:grout"
+  ],
+  "result": {
+    "id": "tconstruct:puny_smelting"
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "p": {
+      "neoforge:ingredient_type": "mantle:item_tag",
+      "tag": "minecraft:planks"
+    },
+    "s": {
+      "neoforge:ingredient_type": "mantle:item_tag",
+      "tag": "c:rods/wooden"
+    }
+  },
+  "pattern": [
+    "ps",
+    "sp"
+  ],
+  "result": {
+    "count": 6,
+    "id": "tconstruct:pattern"
+  }
+}

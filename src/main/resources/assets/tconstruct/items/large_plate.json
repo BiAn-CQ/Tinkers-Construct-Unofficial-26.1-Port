@@ -1,0 +1,7 @@
+{
+    "model": {
+        "type": "tconstruct:material",
+        "parent": "tconstruct:item/native/large_plate",
+        "texture": "tconstruct:item/tool/parts/large_plate"
+    }
+}

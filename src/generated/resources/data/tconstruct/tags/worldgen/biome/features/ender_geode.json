@@ -1,0 +1,8 @@
+{
+  "remove": [
+    "minecraft:the_end"
+  ],
+  "values": [
+    "#minecraft:is_end"
+  ]
+}

@@ -1,0 +1,7 @@
+{
+    "model": {
+        "type": "tconstruct:material",
+        "parent": "tconstruct:item/native/tool_handle",
+        "texture": "tconstruct:item/tool/parts/tool_handle"
+    }
+}

@@ -1,0 +1,32 @@
+{
+  "type": "tconstruct:modifier",
+  "allow_crystal": true,
+  "inputs": [
+    {
+      "ingredient": "#minecraft:fishes"
+    },
+    {
+      "ingredient": "#c:glass_blocks/colorless"
+    },
+    {
+      "ingredient": "#minecraft:fishes"
+    },
+    {
+      "ingredient": "minecraft:kelp"
+    },
+    {
+      "ingredient": "minecraft:kelp"
+    }
+  ],
+  "level": {
+    "max": 3
+  },
+  "result": "tconstruct:respiration",
+  "slots": {
+    "upgrades": 1
+  },
+  "tools": {
+    "neoforge:ingredient_type": "mantle:item_tag",
+    "tag": "tconstruct:modifiable/armor/helmets"
+  }
+}

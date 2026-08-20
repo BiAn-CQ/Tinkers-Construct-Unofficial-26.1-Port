@@ -1,0 +1,9 @@
+{
+    "model": {
+        "type": "minecraft:composite",
+        "models": [
+            { "type": "minecraft:model", "model": "tconstruct:block/storage/knightslime/__mantle_composite_metal" },
+            { "type": "minecraft:model", "model": "tconstruct:block/storage/knightslime/__mantle_composite_slime" }
+        ]
+    }
+}

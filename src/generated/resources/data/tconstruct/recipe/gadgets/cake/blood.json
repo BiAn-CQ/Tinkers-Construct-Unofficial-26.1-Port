@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "E": "minecraft:egg",
+    "M": "tconstruct:honey_bucket",
+    "S": {
+      "neoforge:ingredient_type": "mantle:item_tag",
+      "tag": "c:dusts/glowstone"
+    },
+    "W": "tconstruct:blood_slime_tall_grass"
+  },
+  "pattern": [
+    "MMM",
+    "SES",
+    "WWW"
+  ],
+  "result": {
+    "id": "tconstruct:blood_cake"
+  }
+}

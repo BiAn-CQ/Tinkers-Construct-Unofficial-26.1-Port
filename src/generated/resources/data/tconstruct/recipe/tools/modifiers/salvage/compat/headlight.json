@@ -1,0 +1,17 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "headlight"
+    }
+  ],
+  "type": "tconstruct:modifier_salvage",
+  "modifier": "tconstruct:headlight",
+  "slots": {
+    "upgrades": 1
+  },
+  "tools": {
+    "neoforge:ingredient_type": "mantle:item_tag",
+    "tag": "tconstruct:modifiable/armor/helmets"
+  }
+}

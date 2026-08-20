@@ -1,0 +1,11 @@
+{
+  "type": "tconstruct:material",
+  "ingredient": {
+    "neoforge:ingredient_type": "mantle:item_tag",
+    "tag": "tconstruct:scorched_blocks"
+  },
+  "leftover": "tconstruct:scorched_brick",
+  "material": "tconstruct:scorched_stone",
+  "needed": 1,
+  "value": 4
+}

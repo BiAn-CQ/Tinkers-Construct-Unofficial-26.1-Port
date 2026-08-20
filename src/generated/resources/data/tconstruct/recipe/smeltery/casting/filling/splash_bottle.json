@@ -1,0 +1,12 @@
+{
+  "type": "tconstruct:casting_table_potion",
+  "bottle": {
+    "neoforge:ingredient_type": "mantle:item_tag",
+    "tag": "c:bottles/lingering"
+  },
+  "fluid": {
+    "amount": 250,
+    "tag": "c:potion"
+  },
+  "result": "minecraft:lingering_potion"
+}

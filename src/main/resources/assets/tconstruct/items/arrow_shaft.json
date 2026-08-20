@@ -1,0 +1,11 @@
+{
+    "model": {
+        "type": "tconstruct:material",
+        "parent": "tconstruct:item/native/arrow_shaft",
+        "texture": "tconstruct:item/tool/ammo/arrow_shaft",
+        "offset": [
+            1,
+            -1
+        ]
+    }
+}

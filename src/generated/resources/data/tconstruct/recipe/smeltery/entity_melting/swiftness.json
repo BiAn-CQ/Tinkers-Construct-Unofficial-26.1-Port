@@ -1,0 +1,23 @@
+{
+  "type": "tconstruct:entity_melting",
+  "damage": 2,
+  "entity": {
+    "types": [
+      "minecraft:ocelot",
+      "minecraft:trader_llama",
+      "minecraft:donkey",
+      "minecraft:dolphin",
+      "minecraft:horse",
+      "minecraft:mule",
+      "minecraft:llama",
+      "minecraft:fox"
+    ]
+  },
+  "result": {
+    "amount": 50,
+    "nbt": {
+      "Potion": "minecraft:swiftness"
+    },
+    "tag": "c:potion"
+  }
+}

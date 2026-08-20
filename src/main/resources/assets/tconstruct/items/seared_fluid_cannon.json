@@ -1,0 +1,17 @@
+{
+    "model": {
+        "type": "tconstruct:tank",
+        "model": "tconstruct:block/smeltery/fluid_cannon/front",
+        "fluid_from": [
+            0.08,
+            8.08,
+            0.08
+        ],
+        "fluid_to": [
+            15.92,
+            15.92,
+            15.92
+        ],
+        "increments": 128
+    }
+}

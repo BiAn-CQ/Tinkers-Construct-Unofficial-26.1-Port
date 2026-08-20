@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    "minecraft:flint",
+    {
+      "neoforge:ingredient_type": "mantle:or",
+      "ingredients": [
+        "tconstruct:seared_brick",
+        "tconstruct:scorched_brick"
+      ]
+    }
+  ],
+  "result": {
+    "id": "tconstruct:flint_and_brick"
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "ceramics"
+    }
+  ],
+  "type": "tconstruct:melting",
+  "byproducts": [
+    {
+      "amount": 50,
+      "fluid": "minecraft:lava",
+      "nbt": {}
+    }
+  ],
+  "ingredient": {
+    "neoforge:ingredient_type": "mantle:item_name",
+    "item": [
+      "ceramics:lava_bricks_slab"
+    ]
+  },
+  "result": {
+    "amount": 500,
+    "fluid": "tconstruct:molten_clay"
+  },
+  "temperature": 450,
+  "time": 64
+}

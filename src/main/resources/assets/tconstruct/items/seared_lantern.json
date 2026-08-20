@@ -1,0 +1,17 @@
+{
+    "model": {
+        "type": "tconstruct:tank",
+        "model": "tconstruct:block/smeltery/tank/lantern",
+        "fluid_from": [
+            5.05,
+            1,
+            5.05
+        ],
+        "fluid_to": [
+            10.95,
+            6,
+            10.95
+        ],
+        "increments": 10
+    }
+}

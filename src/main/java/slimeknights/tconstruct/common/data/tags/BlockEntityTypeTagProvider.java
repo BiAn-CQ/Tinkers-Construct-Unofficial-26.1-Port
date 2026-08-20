@@ -1,0 +1,62 @@
+package slimeknights.tconstruct.common.data.tags;
+
+import net.minecraft.core.HolderLookup.Provider;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.data.PackOutput;
+import net.minecraft.data.tags.IntrinsicHolderTagsProvider;
+import net.minecraft.data.tags.TagAppender;
+import net.minecraft.resources.Identifier;
+import net.minecraft.tags.TagEntry;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import slimeknights.mantle.datagen.MantleTags;
+import slimeknights.tconstruct.TConstruct;
+import slimeknights.tconstruct.common.TinkerTags;
+import slimeknights.tconstruct.smeltery.TinkerSmeltery;
+
+import java.util.concurrent.CompletableFuture;
+
+@SuppressWarnings("removal")
+public class BlockEntityTypeTagProvider extends IntrinsicHolderTagsProvider<BlockEntityType<?>> {
+  @SuppressWarnings("deprecation")
+  public BlockEntityTypeTagProvider(PackOutput packOutput, CompletableFuture<Provider> lookupProvider) {
+    super(packOutput, Registries.BLOCK_ENTITY_TYPE, lookupProvider,
+          // not sure why fetching the resource key from the object is such a pain
+          type -> BuiltInRegistries.BLOCK_ENTITY_TYPE.getResourceKey(type).orElseThrow(),
+          TConstruct.MOD_ID);
+  }
+
+  /** Creates a RL for iron chests */
+  private static void ironchest(TagAppender<BlockEntityType<?>,BlockEntityType<?>> appender, String name) {
+    Identifier chest = Identifier.fromNamespaceAndPath("ironchest", name + "_chest");
+    appender.add(TagEntry.optionalElement(chest)).add(TagEntry.optionalElement(chest.withPrefix("trapped_")));
+    if (!"dirt".equals(name)) {
+      appender.add(TagEntry.optionalElement(Identifier.fromNamespaceAndPath("ironshulkerbox", name + "_shulker_box")));
+    }
+  }
+
+  @Override
+  protected void addTags(Provider provider) {
+    TagAppender<BlockEntityType<?>,BlockEntityType<?>> sideInventories = tag(TinkerTags.TileEntityTypes.SIDE_INVENTORIES);
+    sideInventories.add(
+      BlockEntityType.CHEST, BlockEntityType.TRAPPED_CHEST, BlockEntityType.BARREL, BlockEntityType.SHULKER_BOX,
+      BlockEntityType.DISPENSER, BlockEntityType.DROPPER, BlockEntityType.HOPPER);
+    // TODO 1.21: verify if BlockEntityType.CHISELED_BOOKSHELF has fixed the bug where setItem(ItemStack.EMPTY) doesn't work so it can be whitelisted.
+    sideInventories.add(TagEntry.optionalElement(Identifier.fromNamespaceAndPath("immersiveengineering", "woodencrate")));
+    ironchest(sideInventories, "iron");
+    ironchest(sideInventories, "gold");
+    ironchest(sideInventories, "diamond");
+    ironchest(sideInventories, "copper");
+    ironchest(sideInventories, "crystal");
+    ironchest(sideInventories, "obsidian");
+    ironchest(sideInventories, "dirt");
+
+    // these block entities don't fully sync the fluid to client, so show simplified information
+    tag(MantleTags.BlockEntities.HIDES_GAUGE_AMOUNT).add(TinkerSmeltery.faucet.get(), TinkerSmeltery.channel.get());
+  }
+
+  @Override
+  public String getName() {
+    return "Tinkers' Construct Block Entity Type Tags";
+  }
+}

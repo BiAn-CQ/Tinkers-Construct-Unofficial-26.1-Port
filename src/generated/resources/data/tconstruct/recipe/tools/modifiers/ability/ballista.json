@@ -1,0 +1,25 @@
+{
+  "type": "tconstruct:modifier",
+  "allow_crystal": true,
+  "check_trait_level": true,
+  "inputs": [
+    {
+      "ingredient": "#c:ingots/hepatizon"
+    },
+    {
+      "ingredient": "minecraft:iron_chain"
+    },
+    {
+      "ingredient": "#c:ingots/hepatizon"
+    }
+  ],
+  "level": 1,
+  "result": "tconstruct:ballista",
+  "slots": {
+    "abilities": 1
+  },
+  "tools": {
+    "neoforge:ingredient_type": "mantle:item_tag",
+    "tag": "tconstruct:modifiable/ranged/ballistas"
+  }
+}

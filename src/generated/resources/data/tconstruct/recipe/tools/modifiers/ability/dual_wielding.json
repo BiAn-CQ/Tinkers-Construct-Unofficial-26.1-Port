@@ -1,0 +1,38 @@
+{
+  "type": "tconstruct:modifier",
+  "allow_crystal": true,
+  "check_trait_level": true,
+  "inputs": [
+    {
+      "ingredient": "#c:ingots/slimesteel"
+    },
+    {
+      "ingredient": "minecraft:nautilus_shell"
+    },
+    {
+      "ingredient": "#c:ingots/slimesteel"
+    }
+  ],
+  "level": 1,
+  "result": "tconstruct:dual_wielding",
+  "slots": {
+    "abilities": 1
+  },
+  "tools": {
+    "neoforge:ingredient_type": "neoforge:difference",
+    "base": {
+      "neoforge:ingredient_type": "neoforge:intersection",
+      "children": [
+        {
+          "neoforge:ingredient_type": "mantle:item_tag",
+          "tag": "tconstruct:modifiable/melee/weapon"
+        },
+        {
+          "neoforge:ingredient_type": "mantle:item_tag",
+          "tag": "tconstruct:modifiable/interactable/right"
+        }
+      ]
+    },
+    "subtracted": "tconstruct:dagger"
+  }
+}

@@ -1,0 +1,6 @@
+{
+    "parent": "tconstruct:item/base/crossbow",
+    "textures": {
+        "layer0": "tconstruct:item/tool/crossbow/limb"
+    }
+}

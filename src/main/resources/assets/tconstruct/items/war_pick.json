@@ -1,0 +1,387 @@
+{
+    "model": {
+        "type": "tconstruct:overrides",
+        "base": {
+            "type": "tconstruct:tool",
+            "parent": "tconstruct:item/native/war_pick",
+            "textures": {
+                "limb": "tconstruct:item/tool/war_pick/limb",
+                "body": "tconstruct:item/tool/war_pick/body",
+                "bowstring": "tconstruct:item/tool/war_pick/bowstring"
+            },
+            "parts": [
+                {
+                    "name": "body",
+                    "index": 1
+                },
+                {
+                    "name": "bowstring",
+                    "index": 2
+                },
+                {
+                    "name": "limb",
+                    "index": 0
+                }
+            ],
+            "broken_textures": {
+                "limb": "tconstruct:item/tool/war_pick/limb",
+                "body": "tconstruct:item/tool/war_pick/body",
+                "bowstring": "tconstruct:item/tool/war_pick/bowstring_broken"
+            }
+        },
+        "overrides": [
+            {
+                "predicate": {
+                    "tconstruct:charging": 1.0
+                },
+                "model": {
+                    "type": "tconstruct:tool",
+                    "parent": "tconstruct:item/tool/war_pick/display",
+                    "textures": {
+                        "limb": "tconstruct:item/tool/war_pick/limb",
+                        "body": "tconstruct:item/tool/war_pick/body",
+                        "bowstring": "tconstruct:item/tool/war_pick/bowstring_1"
+                    },
+                    "parts": [
+                        {
+                            "name": "body",
+                            "index": 1
+                        },
+                        {
+                            "name": "bowstring",
+                            "index": 2
+                        },
+                        {
+                            "name": "limb",
+                            "index": 0
+                        }
+                    ]
+                }
+            },
+            {
+                "predicate": {
+                    "tconstruct:charging": 1.0,
+                    "tconstruct:charge": 0.58
+                },
+                "model": {
+                    "type": "tconstruct:tool",
+                    "parent": "tconstruct:item/tool/war_pick/display",
+                    "textures": {
+                        "limb": "tconstruct:item/tool/war_pick/limb",
+                        "body": "tconstruct:item/tool/war_pick/body",
+                        "bowstring": "tconstruct:item/tool/war_pick/bowstring_2"
+                    },
+                    "parts": [
+                        {
+                            "name": "body",
+                            "index": 1
+                        },
+                        {
+                            "name": "bowstring",
+                            "index": 2
+                        },
+                        {
+                            "name": "limb",
+                            "index": 0
+                        }
+                    ]
+                }
+            },
+            {
+                "predicate": {
+                    "tconstruct:charging": 1.0,
+                    "tconstruct:charge": 1.0
+                },
+                "model": {
+                    "type": "tconstruct:tool",
+                    "parent": "tconstruct:item/tool/war_pick/display",
+                    "textures": {
+                        "limb": "tconstruct:item/tool/war_pick/limb",
+                        "body": "tconstruct:item/tool/war_pick/body",
+                        "bowstring": "tconstruct:item/tool/war_pick/bowstring_3"
+                    },
+                    "parts": [
+                        {
+                            "name": "body",
+                            "index": 1
+                        },
+                        {
+                            "name": "bowstring",
+                            "index": 2
+                        },
+                        {
+                            "name": "limb",
+                            "index": 0
+                        }
+                    ],
+                    "ammo": {
+                        "key": "tconstruct:crossbow_ammo",
+                        "flip": false,
+                        "left": true,
+                        "offset": [1.0, -1.0]
+                    }
+                }
+            },
+            {
+                "predicate": {
+                    "tconstruct:charging": 2.0
+                },
+                "model": {
+                    "type": "tconstruct:tool",
+                    "parent": "tconstruct:item/native/overrides/war_pick/tool/war_pick/blocking",
+                    "textures": {
+                        "limb": "tconstruct:item/tool/war_pick/limb",
+                        "body": "tconstruct:item/tool/war_pick/body",
+                        "bowstring": "tconstruct:item/tool/war_pick/bowstring"
+                    },
+                    "parts": [
+                        {
+                            "name": "body",
+                            "index": 1
+                        },
+                        {
+                            "name": "bowstring",
+                            "index": 2
+                        },
+                        {
+                            "name": "limb",
+                            "index": 0
+                        }
+                    ],
+                    "broken_textures": {
+                        "limb": "tconstruct:item/tool/war_pick/limb",
+                        "body": "tconstruct:item/tool/war_pick/body",
+                        "bowstring": "tconstruct:item/tool/war_pick/bowstring_broken"
+                    }
+                }
+            },
+            {
+                "predicate": {
+                    "tconstruct:charging": 2.0,
+                    "tconstruct:charge": 0.05
+                },
+                "model": {
+                    "type": "tconstruct:tool",
+                    "parent": "tconstruct:item/native/overrides/war_pick/tool/war_pick/blocking_1",
+                    "textures": {
+                        "limb": "tconstruct:item/tool/war_pick/limb",
+                        "body": "tconstruct:item/tool/war_pick/body",
+                        "bowstring": "tconstruct:item/tool/war_pick/bowstring_1"
+                    },
+                    "parts": [
+                        {
+                            "name": "body",
+                            "index": 1
+                        },
+                        {
+                            "name": "bowstring",
+                            "index": 2
+                        },
+                        {
+                            "name": "limb",
+                            "index": 0
+                        }
+                    ]
+                }
+            },
+            {
+                "predicate": {
+                    "tconstruct:charging": 2.0,
+                    "tconstruct:charge": 0.58
+                },
+                "model": {
+                    "type": "tconstruct:tool",
+                    "parent": "tconstruct:item/native/overrides/war_pick/tool/war_pick/blocking_2",
+                    "textures": {
+                        "limb": "tconstruct:item/tool/war_pick/limb",
+                        "body": "tconstruct:item/tool/war_pick/body",
+                        "bowstring": "tconstruct:item/tool/war_pick/bowstring_2"
+                    },
+                    "parts": [
+                        {
+                            "name": "body",
+                            "index": 1
+                        },
+                        {
+                            "name": "bowstring",
+                            "index": 2
+                        },
+                        {
+                            "name": "limb",
+                            "index": 0
+                        }
+                    ]
+                }
+            },
+            {
+                "predicate": {
+                    "tconstruct:charging": 2.0,
+                    "tconstruct:charge": 1.0
+                },
+                "model": {
+                    "type": "tconstruct:tool",
+                    "parent": "tconstruct:item/native/overrides/war_pick/tool/war_pick/blocking_3",
+                    "textures": {
+                        "limb": "tconstruct:item/tool/war_pick/limb",
+                        "body": "tconstruct:item/tool/war_pick/body",
+                        "bowstring": "tconstruct:item/tool/war_pick/bowstring_3"
+                    },
+                    "parts": [
+                        {
+                            "name": "body",
+                            "index": 1
+                        },
+                        {
+                            "name": "bowstring",
+                            "index": 2
+                        },
+                        {
+                            "name": "limb",
+                            "index": 0
+                        }
+                    ],
+                    "ammo": {
+                        "key": "tconstruct:crossbow_ammo",
+                        "flip": false,
+                        "left": true,
+                        "offset": [1.0, -1.0]
+                    }
+                }
+            },
+            {
+                "predicate": {
+                    "tconstruct:ammo": 1.0
+                },
+                "model": {
+                    "type": "tconstruct:tool",
+                    "parent": "tconstruct:item/tool/war_pick/display",
+                    "textures": {
+                        "limb": "tconstruct:item/tool/war_pick/limb",
+                        "body": "tconstruct:item/tool/war_pick/body",
+                        "bowstring": "tconstruct:item/tool/war_pick/bowstring_3"
+                    },
+                    "parts": [
+                        {
+                            "name": "body",
+                            "index": 1
+                        },
+                        {
+                            "name": "bowstring",
+                            "index": 2
+                        },
+                        {
+                            "name": "limb",
+                            "index": 0
+                        }
+                    ],
+                    "ammo": {
+                        "key": "tconstruct:crossbow_ammo",
+                        "flip": false,
+                        "left": true,
+                        "offset": [1.0, -1.0]
+                    }
+                }
+            },
+            {
+                "predicate": {
+                    "tconstruct:ammo": 1.0,
+                    "tconstruct:charging": 2.0
+                },
+                "model": {
+                    "type": "tconstruct:tool",
+                    "parent": "tconstruct:item/native/overrides/war_pick/tool/war_pick/blocking_3",
+                    "textures": {
+                        "limb": "tconstruct:item/tool/war_pick/limb",
+                        "body": "tconstruct:item/tool/war_pick/body",
+                        "bowstring": "tconstruct:item/tool/war_pick/bowstring_3"
+                    },
+                    "parts": [
+                        {
+                            "name": "body",
+                            "index": 1
+                        },
+                        {
+                            "name": "bowstring",
+                            "index": 2
+                        },
+                        {
+                            "name": "limb",
+                            "index": 0
+                        }
+                    ],
+                    "ammo": {
+                        "key": "tconstruct:crossbow_ammo",
+                        "flip": false,
+                        "left": true,
+                        "offset": [1.0, -1.0]
+                    }
+                }
+            },
+            {
+                "predicate": {
+                    "tconstruct:ammo": 2.0
+                },
+                "model": {
+                    "type": "tconstruct:tool",
+                    "parent": "tconstruct:item/tool/war_pick/display",
+                    "textures": {
+                        "limb": "tconstruct:item/tool/war_pick/limb",
+                        "body": "tconstruct:item/tool/war_pick/body",
+                        "bowstring": "tconstruct:item/tool/war_pick/bowstring_3",
+                        "ammo": "tconstruct:item/tool/war_pick/firework"
+                    },
+                    "parts": [
+                        {
+                            "name": "body",
+                            "index": 1
+                        },
+                        {
+                            "name": "bowstring",
+                            "index": 2
+                        },
+                        {
+                            "name": "limb",
+                            "index": 0
+                        },
+                        {
+                            "name": "ammo"
+                        }
+                    ]
+                }
+            },
+            {
+                "predicate": {
+                    "tconstruct:ammo": 2.0,
+                    "tconstruct:charging": 2.0
+                },
+                "model": {
+                    "type": "tconstruct:tool",
+                    "parent": "tconstruct:item/native/overrides/war_pick/tool/war_pick/firework_blocking",
+                    "textures": {
+                        "limb": "tconstruct:item/tool/war_pick/limb",
+                        "body": "tconstruct:item/tool/war_pick/body",
+                        "bowstring": "tconstruct:item/tool/war_pick/bowstring_3",
+                        "ammo": "tconstruct:item/tool/war_pick/firework"
+                    },
+                    "parts": [
+                        {
+                            "name": "body",
+                            "index": 1
+                        },
+                        {
+                            "name": "bowstring",
+                            "index": 2
+                        },
+                        {
+                            "name": "limb",
+                            "index": 0
+                        },
+                        {
+                            "name": "ammo"
+                        }
+                    ]
+                }
+            }
+        ]
+    }
+}

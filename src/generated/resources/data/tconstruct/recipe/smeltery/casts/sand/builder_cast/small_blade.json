@@ -1,0 +1,9 @@
+{
+  "type": "tconstruct:item_part_builder",
+  "pattern": "tconstruct:small_blade",
+  "pattern_item": {
+    "neoforge:ingredient_type": "mantle:item_tag",
+    "tag": "tconstruct:casts/sand"
+  },
+  "result": "tconstruct:small_blade_sand_cast"
+}

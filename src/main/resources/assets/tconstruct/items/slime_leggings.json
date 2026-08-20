@@ -1,0 +1,33 @@
+{
+    "model": {
+        "type": "tconstruct:tool",
+        "parent": "tconstruct:item/native/slime_leggings",
+        "textures": {
+            "shell": "tconstruct:item/tool/armor/slime/leggings/shell",
+            "slime": "tconstruct:item/tool/armor/slime/leggings/slime"
+        },
+        "parts": [
+            {
+                "name": "shell",
+                "index": 0
+            },
+            {
+                "name": "slime",
+                "index": 1
+            }
+        ],
+        "broken_textures": {
+            "shell": "tconstruct:item/tool/armor/slime/leggings/shell_broken",
+            "slime": "tconstruct:item/tool/armor/slime/leggings/slime_broken"
+        },
+        "modifier_models": {
+            "tconstruct:trim": {
+                "type": "tconstruct:armor_trim",
+                "slot": "leggings"
+            }
+        },
+        "first_modifiers": [
+            "tconstruct:trim"
+        ]
+    }
+}

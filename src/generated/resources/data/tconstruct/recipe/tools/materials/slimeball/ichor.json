@@ -1,0 +1,10 @@
+{
+  "type": "tconstruct:material",
+  "ingredient": {
+    "neoforge:ingredient_type": "mantle:item_tag",
+    "tag": "c:slimeball/ichor"
+  },
+  "material": "tconstruct:slimeball#ichor",
+  "needed": 1,
+  "value": 1
+}

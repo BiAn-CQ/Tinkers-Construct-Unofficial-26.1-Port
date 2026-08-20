@@ -1,0 +1,11 @@
+{
+  "type": "tconstruct:melting",
+  "ingredient": "minecraft:snow_block",
+  "result": {
+    "amount": 500,
+    "fluid": "minecraft:water",
+    "nbt": {}
+  },
+  "temperature": 0,
+  "time": 21
+}

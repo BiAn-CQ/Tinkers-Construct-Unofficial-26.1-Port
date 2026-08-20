@@ -1,0 +1,13 @@
+{
+  "type": "tconstruct:melting",
+  "ingredient": {
+    "neoforge:ingredient_type": "mantle:item_tag",
+    "tag": "c:nuggets/copper"
+  },
+  "result": {
+    "amount": 10,
+    "tag": "c:molten_copper"
+  },
+  "temperature": 500,
+  "time": 17
+}

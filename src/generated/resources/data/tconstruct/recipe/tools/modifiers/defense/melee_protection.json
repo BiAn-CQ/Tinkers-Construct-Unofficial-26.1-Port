@@ -1,0 +1,24 @@
+{
+  "type": "tconstruct:incremental_modifier",
+  "allow_crystal": true,
+  "amount_per_item": 1,
+  "input": "tconstruct:cobalt_reinforcement",
+  "needed_per_level": 5,
+  "result": "tconstruct:melee_protection",
+  "slots": {
+    "defense": 1
+  },
+  "tools": {
+    "neoforge:ingredient_type": "neoforge:compound",
+    "children": [
+      {
+        "neoforge:ingredient_type": "mantle:item_tag",
+        "tag": "tconstruct:modifiable/armor"
+      },
+      {
+        "neoforge:ingredient_type": "mantle:item_tag",
+        "tag": "tconstruct:modifiable/held"
+      }
+    ]
+  }
+}

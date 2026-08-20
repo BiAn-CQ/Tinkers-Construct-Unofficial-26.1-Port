@@ -1,0 +1,14 @@
+{
+  "type": "tconstruct:retextured_casting_basin",
+  "cast": {
+    "neoforge:ingredient_type": "mantle:item_tag",
+    "tag": "tconstruct:foundry_bricks"
+  },
+  "cast_consumed": true,
+  "cooling_time": 221,
+  "fluid": {
+    "amount": 1000,
+    "tag": "tconstruct:molten_obsidian"
+  },
+  "result": "tconstruct:foundry_controller"
+}

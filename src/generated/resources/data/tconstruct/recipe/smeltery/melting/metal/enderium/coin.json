@@ -1,0 +1,19 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "mantle:tag_filled",
+      "tag": "c:coins/enderium"
+    }
+  ],
+  "type": "tconstruct:melting",
+  "ingredient": {
+    "neoforge:ingredient_type": "mantle:item_tag",
+    "tag": "c:coins/enderium"
+  },
+  "result": {
+    "amount": 30,
+    "tag": "c:molten_enderium"
+  },
+  "temperature": 1350,
+  "time": 51
+}

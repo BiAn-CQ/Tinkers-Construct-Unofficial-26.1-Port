@@ -1,0 +1,14 @@
+{
+  "type": "tconstruct:table_casting_part_swapping",
+  "index": 0,
+  "item_cost": 2,
+  "tools": {
+    "neoforge:ingredient_type": "mantle:or",
+    "ingredients": [
+      "tconstruct:travelers_helmet",
+      "tconstruct:travelers_chestplate",
+      "tconstruct:travelers_leggings",
+      "tconstruct:travelers_boots"
+    ]
+  }
+}

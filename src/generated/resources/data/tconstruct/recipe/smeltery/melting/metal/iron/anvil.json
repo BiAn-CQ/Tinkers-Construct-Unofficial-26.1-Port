@@ -1,0 +1,17 @@
+{
+  "type": "tconstruct:melting",
+  "ingredient": {
+    "neoforge:ingredient_type": "mantle:or",
+    "ingredients": [
+      "minecraft:anvil",
+      "minecraft:chipped_anvil",
+      "minecraft:damaged_anvil"
+    ]
+  },
+  "result": {
+    "amount": 2790,
+    "tag": "c:molten_iron"
+  },
+  "temperature": 800,
+  "time": 335
+}

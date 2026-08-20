@@ -1,0 +1,93 @@
+package slimeknights.tconstruct.tables.item;
+
+import net.minecraft.ChatFormatting;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.network.chat.Component;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.TooltipDisplay;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import slimeknights.mantle.util.RetexturedHelper;
+import slimeknights.tconstruct.common.TinkerTags;
+import slimeknights.tconstruct.library.materials.MaterialRegistry;
+import slimeknights.tconstruct.library.materials.definition.IMaterial;
+import slimeknights.tconstruct.library.materials.definition.MaterialId;
+import slimeknights.tconstruct.library.materials.definition.MaterialVariantId;
+import slimeknights.tconstruct.library.tools.part.IMaterialItem;
+import slimeknights.tconstruct.library.tools.part.ToolPartItem;
+import slimeknights.tconstruct.library.tools.part.block.MaterialBlockItem;
+
+import javax.annotation.Nullable;
+import java.util.List;
+import java.util.function.Consumer;
+import java.util.function.Supplier;
+
+/**
+ * Material block item for the anvils, which match a tool part for their valid materials.
+ * Used for the sake of {@link slimeknights.tconstruct.tools.TinkerToolParts#fakeStorageBlock} crafting anvils.
+ */
+public class AnvilBlockItem extends MaterialBlockItem {
+  private final Supplier<? extends IMaterialItem> matching;
+  private final TagKey<IMaterial> validMaterials;
+  public AnvilBlockItem(Block block, Properties properties, Supplier<? extends IMaterialItem> matching, TagKey<IMaterial> validMaterials) {
+    super(block, properties);
+    this.matching = matching;
+    this.validMaterials = validMaterials;
+  }
+
+  /** @deprecated use {@link #AnvilBlockItem(Block, Properties, Supplier, TagKey)} */
+  @Deprecated(forRemoval = true)
+  public AnvilBlockItem(Block block, Properties properties, Supplier<? extends IMaterialItem> matching) {
+    this(block, properties, matching, TinkerTags.Materials.COMPATABILITY_ALLOYS);
+  }
+
+  @Override
+  public boolean canUseMaterial(MaterialId material) {
+    return MaterialRegistry.getInstance().isInTag(material, validMaterials) && matching.get().canUseMaterial(material);
+  }
+
+
+  /* Tooltip */
+
+  @Override
+  public Component getName(ItemStack stack) {
+    // don't put tool material in name
+    return Component.translatable(this.getDescriptionId());
+  }
+
+  @Override
+  public void appendHoverText(ItemStack stack, Item.TooltipContext context, TooltipDisplay display, Consumer<Component> tooltip, TooltipFlag flag) {
+    // ditch the super call advanced tooltip material ID, we will handle it ourselves later
+    List<Component> lines = new java.util.ArrayList<>();
+    RetexturedHelper.addTooltip(stack, lines, flag);
+    MaterialVariantId material = getMaterial(stack);
+    if (!IMaterial.UNKNOWN_ID.equals(material)) {
+      // put tool material in tooltip. Its technically below texture but the two should never coexist.
+      lines.add(this.matching.get().asItem().getName(stack).copy().withStyle(ChatFormatting.GRAY));
+      // add ID if advanced
+      if (flag.isAdvanced()) {
+        lines.add(Component.translatable(ToolPartItem.MATERIAL_KEY, material).withStyle(ChatFormatting.DARK_GRAY));
+      }
+    }
+    lines.forEach(tooltip);
+  }
+
+  @Nullable
+  @Override
+  public String getCreatorModId(ItemStack stack) {
+    // reset to default, just show the anvil ID. Material variants mean less here
+    return BuiltInRegistries.ITEM.getKey(stack.getItem()).getNamespace();
+  }
+
+  @Override
+  public void addVariants(Consumer<ItemStack> items, String showOnlyMaterial) {
+    RetexturedHelper.addTagVariants(stack -> {
+      items.accept(stack);
+      return false;
+    }, this, TinkerTags.Items.ANVIL_METAL);
+    super.addVariants(items, showOnlyMaterial);
+  }
+}

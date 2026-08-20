@@ -1,0 +1,14 @@
+{
+    "model": {
+        "type": "mantle:item_layer",
+        "parent": "tconstruct:item/native/gray_clear_stained_glass_pane",
+        "textures": {
+            "layer0": "tconstruct:block/clear_stained_glass"
+        },
+        "layers": [
+            {
+                "color": "FF4C4C4C"
+            }
+        ]
+    }
+}

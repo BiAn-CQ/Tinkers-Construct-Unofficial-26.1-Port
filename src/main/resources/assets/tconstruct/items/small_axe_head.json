@@ -1,0 +1,11 @@
+{
+    "model": {
+        "type": "tconstruct:material",
+        "parent": "tconstruct:item/native/small_axe_head",
+        "texture": "tconstruct:item/tool/hand_axe/head",
+        "offset": [
+            -2,
+            3
+        ]
+    }
+}

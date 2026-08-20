@@ -1,0 +1,23 @@
+{
+  "type": "tconstruct:crafting_shaped_materials",
+  "key": {
+    "A": {
+      "neoforge:ingredient_type": "tconstruct:material",
+      "match": "tconstruct:fake_ingot",
+      "material": {
+        "type": "tconstruct:has_part",
+        "part": "tconstruct:fake_storage_block"
+      }
+    }
+  },
+  "parts": "A",
+  "pattern": [
+    "AAA",
+    "AAA",
+    "AAA"
+  ],
+  "result": {
+    "count": 1,
+    "id": "tconstruct:fake_storage_block"
+  }
+}

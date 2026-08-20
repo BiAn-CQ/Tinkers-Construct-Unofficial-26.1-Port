@@ -1,0 +1,12 @@
+{
+  "type": "tconstruct:incremental_modifier",
+  "allow_crystal": true,
+  "amount_per_item": 1,
+  "input": "minecraft:dirt",
+  "needed_per_level": 10,
+  "result": "tconstruct:blindshot",
+  "tools": {
+    "neoforge:ingredient_type": "mantle:item_tag",
+    "tag": "tconstruct:modifiable/ranged"
+  }
+}

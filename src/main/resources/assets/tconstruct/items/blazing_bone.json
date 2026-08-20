@@ -1,0 +1,14 @@
+{
+    "model": {
+        "type": "mantle:item_layer",
+        "parent": "tconstruct:item/native/blazing_bone",
+        "textures": {
+            "layer0": "tconstruct:item/materials/blazing_bone"
+        },
+        "layers": [
+            {
+                "luminosity": 15
+            }
+        ]
+    }
+}

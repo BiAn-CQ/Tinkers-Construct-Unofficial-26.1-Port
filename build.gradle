@@ -1,0 +1,568 @@
+plugins {
+    id 'java-library'
+    id 'maven-publish'
+    id 'idea'
+    id 'net.neoforged.moddev' version '2.0.143'
+}
+
+version = "${minecraft_version}-${mod_version}"
+group = mod_group_id
+
+base {
+    archivesName = 'TinkersConstruct'
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(25)
+        vendor = JvmVendorSpec.MICROSOFT
+    }
+    withSourcesJar()
+}
+
+sourceSets.main {
+    resources {
+        srcDir('src/generated/resources')
+        // Client and server datagen maintain independent hash caches. Keeping
+        // both runs in one directory makes either run delete the other side's
+        // outputs as stale, so merge two source roots only at build time.
+        srcDir('src/generated/clientResources')
+        exclude('.cache')
+        // The 1.20.1 Forge descriptor must not be packaged beside the
+        // generated NeoForge 26.1 descriptor.
+        exclude('META-INF/mods.toml')
+        // These datapacks require the staged gameplay registries.  Do not
+        // expose them from the bootstrap artifact before those registries are
+        // compiled; full migration builds keep the source data available.
+    }
+    // Optional integrations that have a compatible 26.1 API remain available
+    // to the main runtime artifact.  JEI is compiled conditionally by its
+    // optional dependency; the plugin is only discovered when JEI is present.
+    java.exclude(
+        'slimeknights/tconstruct/plugin/jsonthings/**',
+        'slimeknights/tconstruct/plugin/DietPlugin.java',
+        'slimeknights/tconstruct/plugin/DummmmmmyPlugin.java',
+        'slimeknights/tconstruct/plugin/ImmersiveEngineeringPlugin.java',
+        // Armor model data still depends on the staged legacy armor renderer;
+        // the remaining client data providers use the 26.1 ResourceManager.
+        'slimeknights/tconstruct/library/client/data/AbstractArmorModelProvider.java',
+        // NeoForge 26.1 removed the legacy model-generator API; these providers
+        // are restored with the new client definition/model pipeline.
+        'slimeknights/tconstruct/common/data/model/**',
+        // These depend on adjacent datagen slices that are migrated below.
+        'slimeknights/tconstruct/common/data/FakeRegistryEntry.java',
+        'slimeknights/tconstruct/library/client/model/block/FluidTextureModel.java',
+        'slimeknights/tconstruct/library/client/model/block/IncrementalFluidCuboid.java',
+        'slimeknights/tconstruct/library/client/model/block/TankModel.java',
+        'slimeknights/tconstruct/library/client/model/DynamicTextureLoader.java',
+        'slimeknights/tconstruct/library/client/model/FluidContainerModel.java',
+        'slimeknights/tconstruct/library/client/model/TinkerItemProperties.java',
+        'slimeknights/tconstruct/library/client/model/tools/MaterialBlockModel.java',
+        'slimeknights/tconstruct/library/client/model/tools/MaterialModel.java',
+        'slimeknights/tconstruct/library/client/model/tools/NestedOverrides.java',
+        'slimeknights/tconstruct/library/client/model/tools/ToolModel.java',
+        'slimeknights/tconstruct/library/client/model/UniqueGuiModel.java',
+        // Keep the icon manager for the migrated modifier worktable; the
+        // remaining modifier model stack still targets the old baking API.
+        'slimeknights/tconstruct/library/client/modifiers/*Model.java',
+        'slimeknights/tconstruct/library/client/modifiers/ModifierModel*.java',
+        'slimeknights/tconstruct/library/client/modifiers/package-info.java',
+        'slimeknights/tconstruct/library/client/modifiers/model/**',
+        // SlimeParticle is replaced by client/TinkerSlimeParticle. AttackParticle
+        // itself is independent of the removed model pipeline and is ported.
+        'slimeknights/tconstruct/library/client/particle/SlimeParticle.java',
+        'slimeknights/tconstruct/library/client/TinkerRenderTypes.java',
+        'slimeknights/tconstruct/library/client/RenderUtils.java',
+        // The legacy table screens still use the pre-26.1 GuiGraphics API.
+        // Their Mantle base classes are being ported separately; keep them
+        // outside the verified runtime artifact until that slice is complete.
+        'slimeknights/tconstruct/common/ClientEventBase.java',
+        'slimeknights/tconstruct/tables/TableClientEvents.java',
+        // Datagen-only sources are temporarily excluded while focusing on the
+        // runtime path needed to launch the client. Keep the small constant
+        // classes below because runtime code references their IDs.
+        'slimeknights/tconstruct/library/client/armor/AbstractArmorModel.java',
+        'slimeknights/tconstruct/library/client/armor/ArmorModelManager.java',
+        'slimeknights/tconstruct/library/client/armor/MultilayerArmorModel.java',
+        'slimeknights/tconstruct/library/client/armor/texture/ArmorTextureSupplier.java',
+        'slimeknights/tconstruct/library/client/armor/texture/ConditionalArmorTextureSupplier.java',
+        'slimeknights/tconstruct/library/client/armor/texture/DyedArmorTextureSupplier.java',
+        'slimeknights/tconstruct/library/client/armor/texture/FirstArmorTextureSupplier.java',
+        'slimeknights/tconstruct/library/client/armor/texture/FixedArmorTextureSupplier.java',
+        'slimeknights/tconstruct/library/client/armor/texture/MaterialArmorTextureSupplier.java',
+        'slimeknights/tconstruct/library/client/armor/texture/MaterialHasFallbackTextureSupplier.java',
+        'slimeknights/tconstruct/library/client/armor/texture/TintedArmorTexture.java',
+        'slimeknights/tconstruct/library/client/armor/texture/TrimArmorTextureSupplier.java',
+        'slimeknights/tconstruct/shared/TinkerClient.java',
+        'slimeknights/tconstruct/shared/CommonsClientEvents.java',
+        'slimeknights/tconstruct/fluids/FluidClientEvents.java',
+        'slimeknights/tconstruct/gadgets/GadgetClientEvents.java',
+        'slimeknights/tconstruct/gadgets/client/**',
+        'slimeknights/tconstruct/world/WorldClientEvents.java',
+        'slimeknights/tconstruct/world/client/**',
+        'slimeknights/tconstruct/tools/ToolClientEvents.java',
+        // ToolContainerScreen is migrated to the 26.1 extraction API; the
+        // remaining tool renderer/event classes still target legacy APIs.
+        'slimeknights/tconstruct/tools/client/OverslimeModifierModel.java',
+        'slimeknights/tconstruct/tools/client/package-info.java',
+        'slimeknights/tconstruct/tools/client/RayTracer.java',
+        'slimeknights/tconstruct/tools/client/ShieldBannerModifierSpriteSource.java',
+        'slimeknights/tconstruct/tools/client/SlimeskullArmorModel.java',
+        // The combat fishing-hook renderer still depends on the staged armor
+        // texture suppliers; the generic projectile renderers are ported
+        // below to the 26.1 render-state pipeline.
+        'slimeknights/tconstruct/tools/client/material/CombatFishingHookRenderer.java',
+        // Replaced by the extracted-state registrations in TConstructClientCompat.
+        'slimeknights/tconstruct/smeltery/SmelteryClientEvents.java',
+        'slimeknights/tconstruct/smeltery/client/render/package-info.java',
+        'slimeknights/tconstruct/smeltery/client/util/CastingItemRenderTypeBuffer.java',
+        'slimeknights/tconstruct/smeltery/client/util/package-info.java',
+        'slimeknights/tconstruct/library/recipe/ingredient/NestedIngredient.java',
+        'slimeknights/tconstruct/tools/data/ArmorModelProvider.java'
+    )
+}
+
+// The bootstrap entry point is only for the early staged artifact.  The
+// complete port has its own @Mod entry point in TConstruct, so make the full
+// migrated source set the default for builds, runClient, and runServer.
+sourceSets.main.java.exclude('slimeknights/tconstruct/TConstruct26Bootstrap.java')
+// Keep a real 26.1 core suite on the standard `test` task. The remaining
+// sources are the retained 1.20.1 suite and can be migrated incrementally;
+// listing the active sources makes skipped coverage explicit and avoids the
+// former misleading `test NO-SOURCE` result.
+def coreTestSources = [
+        'slimeknights/tconstruct/test/MergingJsonFileLoader.java',
+        'slimeknights/tconstruct/test/MergingJsonTestAdapter.java',
+        'slimeknights/tconstruct/fixture/MaterialFixture.java',
+        'slimeknights/tconstruct/fixture/MaterialItemFixture.java',
+        'slimeknights/tconstruct/fixture/MaterialRegistryFixture.java',
+        'slimeknights/tconstruct/fixture/MaterialStatsFixture.java',
+        'slimeknights/tconstruct/fixture/RegistrationFixture.java',
+        'slimeknights/tconstruct/library/materials/MaterialRegistryExtension.java',
+        'slimeknights/tconstruct/library/materials/definition/TestMaterial.java',
+        'slimeknights/tconstruct/library/materials/definition/MaterialManagerTest.java',
+        'slimeknights/tconstruct/library/materials/definition/UpdateMaterialPacketTest.java',
+        'slimeknights/tconstruct/library/materials/stats/ComplexTestStats.java',
+        'slimeknights/tconstruct/library/materials/stats/MaterialStatsManagerTest.java',
+        'slimeknights/tconstruct/library/materials/stats/UpdateMaterialStatsPacketTest.java',
+        'slimeknights/tconstruct/library/materials/traits/MaterialTraitsManagerTest.java',
+        'slimeknights/tconstruct/library/materials/traits/UpdateMaterialTraitsPacketTest.java',
+        'slimeknights/tconstruct/library/modifiers/ModifierFixture.java',
+        'slimeknights/tconstruct/library/tools/helper/ArmorUtilMathTest.java',
+        'slimeknights/tconstruct/library/tools/definition/ToolDefinitionDataTest.java',
+        'slimeknights/tconstruct/library/tools/definition/ToolDefinitionLoaderTest.java',
+        'slimeknights/tconstruct/library/tools/definition/UpdateToolDefinitionDataPacketTest.java',
+        'slimeknights/tconstruct/library/tools/layout/LayoutIconTest.java',
+        'slimeknights/tconstruct/library/tools/layout/StationSlotLayoutTest.java',
+        'slimeknights/tconstruct/library/tools/layout/StationSlotLayoutLoaderTest.java',
+        'slimeknights/tconstruct/library/tools/layout/UpdateTinkerSlotLayoutsPacketTest.java',
+        'slimeknights/tconstruct/library/tools/nbt/MaterialNBTTest.java',
+        'slimeknights/tconstruct/library/tools/nbt/ModifierNBTest.java',
+        'slimeknights/tconstruct/library/tools/nbt/MultiplierNBTTest.java',
+        'slimeknights/tconstruct/library/tools/nbt/StatsNBTTest.java',
+        'slimeknights/tconstruct/library/tools/nbt/ToolDataNBTTest.java',
+        'slimeknights/tconstruct/library/tools/stat/ToolStatsModifierBuilderTest.java',
+        'slimeknights/tconstruct/test/BaseMcTest.java',
+        'slimeknights/tconstruct/test/CoreTestBootstrap.java',
+        'slimeknights/tconstruct/test/JsonFileLoader.java',
+        'slimeknights/tconstruct/test/TestHelper.java'
+]
+sourceSets.test.java {
+    coreTestSources.each { include it }
+}
+
+repositories {
+    mavenCentral()
+    maven {
+        name = 'BlameJared'
+        url = uri('https://maven.blamejared.com/')
+    }
+    maven {
+        name = 'TwelveIterations'
+        url = uri('https://maven.twelveiterations.com/repository/maven-public/')
+        content {
+            includeGroup 'net.blay09.mods'
+        }
+    }
+}
+
+neoForge {
+    version = project.neo_version
+
+    runs {
+        client {
+            client()
+            systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
+        }
+        server {
+            server()
+            programArgument '--nogui'
+            systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
+        }
+        releaseServer {
+            server()
+            gameDirectory = file('build/release-server-smoke')
+            programArgument '--nogui'
+            systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
+        }
+        gameTestServer {
+            type = 'gameTestServer'
+            systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
+        }
+        data {
+            serverData()
+            programArguments.addAll '--mod', project.mod_id, '--all',
+                    '--output', file('src/generated/resources/').absolutePath,
+                    '--existing', file('src/main/resources/').absolutePath
+        }
+        dataClient {
+            clientData()
+            programArguments.addAll '--mod', project.mod_id, '--all',
+                    '--output', file('src/generated/clientResources/').absolutePath,
+                    '--existing', file('src/main/resources/').absolutePath
+        }
+        configureEach {
+            systemProperty 'forge.logging.markers', 'REGISTRIES'
+            logLevel = org.slf4j.event.Level.DEBUG
+        }
+        // Datagen emits every classpath and event-bus detail at DEBUG, hiding
+        // the provider boundary and actionable codec failures. Keep normal
+        // development runs verbose while making both data runs reviewable.
+        data {
+            logLevel = org.slf4j.event.Level.INFO
+        }
+        dataClient {
+            logLevel = org.slf4j.event.Level.INFO
+        }
+    }
+
+    mods {
+        tconstruct {
+            sourceSet(sourceSets.main)
+        }
+    }
+
+    // Run the retained core JUnit suite through NeoForge's unit-test loader.
+    // This provides the real FML environment and registry bootstrap instead of
+    // relying on test-only mocks or behavior-specific workarounds.
+    unitTest {
+        enable()
+        testedMod = mods.tconstruct
+    }
+}
+
+configurations {
+    runtimeClasspath.extendsFrom localRuntime
+}
+
+dependencies {
+    // Local Mantle 26.1 build.
+    implementation files("../Mantle-26.1/build/libs/Mantle-${minecraft_version}-${mantle_version}.jar")
+
+    // JEI 26.1 uses the split common/NeoForge API published by its 26.1
+    // branch.  Keep the API compile-only and load the full mod only in local
+    // development runs; packaged users may install JEI independently.
+    compileOnly "mezz.jei:jei-${minecraft_version}-neoforge-api:${jei_version}"
+    localRuntime "mezz.jei:jei-${minecraft_version}-neoforge:${jei_version}"
+
+    // Crafting Tweaks publishes a native 26.1 API, so keep its integration
+    // compile-only and optional. Its current Balm runtime still targets an
+    // earlier NeoForge event API and must not break ordinary development runs.
+    compileOnly "net.blay09.mods:craftingtweaks-common:${crafting_tweaks_version}"
+
+    compileOnly 'org.projectlombok:lombok:1.18.46'
+    annotationProcessor 'org.projectlombok:lombok:1.18.46'
+    testCompileOnly 'org.projectlombok:lombok:1.18.46'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.46'
+
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.13.4'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.13.4'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    testImplementation 'org.mockito:mockito-core:5.19.0'
+    testImplementation 'org.assertj:assertj-core:3.27.4'
+}
+
+tasks.named('test', Test).configure {
+    useJUnitPlatform()
+}
+
+// Keep the isolated release-smoke server controllable from Gradle so QA can
+// issue Minecraft's normal `stop` command and verify clean world shutdown.
+tasks.named('runReleaseServer').configure {
+    standardInput = System.in
+}
+
+var generateModMetadata = tasks.register('generateModMetadata', ProcessResources) {
+    var replaceProperties = [
+            minecraft_version      : minecraft_version,
+            minecraft_version_range: minecraft_version_range,
+            neo_version            : neo_version,
+            mod_id                 : mod_id,
+            mod_name               : mod_name,
+            mod_license            : mod_license,
+            mod_version            : mod_version,
+            mantle_version_range   : mantle_version_range,
+            jei_range              : jei_range,
+    ]
+    inputs.properties replaceProperties
+    expand replaceProperties
+    from 'src/main/templates'
+    into 'build/generated/sources/modMetadata'
+}
+
+// NeoForge 26.1 addresses registry tags by the singular registry path.
+// Datagen output from the 1.20.1 tree still uses blocks/items/fluids and
+// entity_types, so normalize those paths while copying the resources.
+tasks.named('processResources', ProcessResources).configure {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    eachFile { details ->
+        details.path = details.path
+                .replace('/advancements/', '/advancement/')
+                .replace('/recipes/', '/recipe/')
+                .replace('/loot_tables/', '/loot_table/')
+                .replace('/structures/', '/structure/')
+                .replace('/tags/blocks/', '/tags/block/')
+                .replace('/tags/items/', '/tags/item/')
+                .replace('/tags/fluids/', '/tags/fluid/')
+                .replace('/tags/entity_types/', '/tags/entity_type/')
+    }
+    // Datagen output from the 1.20.1 tree still carries Forge's bucket model
+    // parent. NeoForge 26.1 exposes the same model under its own namespace.
+    filesMatching('assets/tconstruct/models/item/*_bucket.json') {
+        filter { line -> line.replace('forge:item/bucket_drip', 'neoforge:item/bucket_drip') }
+    }
+}
+
+// The 1.20.1 tree keeps a source copy of Credits.txt while datagen also emits
+// one.  They are identical metadata; do not make the source artifact fail on
+// this harmless overlap.
+tasks.named('sourcesJar', Jar).configure {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
+
+// Casts are ordinary generated item models in 26.1.  Keep a build-time guard
+// for the complete model -> layer0 -> PNG chain so an incomplete datagen run
+// cannot silently reintroduce empty cast icons.
+def validateCastModelGraph = tasks.register('validateCastModelGraph') {
+    def modelRoots = [
+            file('src/main/resources/assets/tconstruct/models/item'),
+            file('src/generated/resources/assets/tconstruct/models/item'),
+            file('src/generated/clientResources/assets/tconstruct/models/item')
+    ]
+    def castModelFiles = modelRoots.collectMany { File root ->
+        root.isDirectory() ? fileTree(root).matching { include('*_cast.json') }.files : []
+    }
+    def textureRoot = file('src/main/resources/assets/tconstruct')
+    def generatedTextureRoots = [
+            file('src/generated/resources/assets/tconstruct'),
+            file('src/generated/clientResources/assets/tconstruct')
+    ]
+    inputs.files(castModelFiles + [textureRoot] + generatedTextureRoots)
+    outputs.upToDateWhen { false }
+    doLast {
+        Set<String> checked = [] as Set
+        List<String> errors = []
+        int modelCount = 0
+        castModelFiles.each { File modelFile ->
+            String name = modelFile.name
+            if (!checked.add(name)) return
+            modelCount++
+            Map model = new groovy.json.JsonSlurper().parse(modelFile) as Map
+            Map textures = model.textures instanceof Map ? model.textures as Map : [:]
+            String layer0 = textures.layer0 instanceof String ? textures.layer0 : null
+            if (layer0 == null || !layer0.startsWith('tconstruct:item/')) {
+                errors << "${name}: expected tconstruct:item layer0, got ${layer0}"
+                return
+            }
+            String texturePath = layer0.substring('tconstruct:item/'.length()) + '.png'
+            File texture = new File(textureRoot, "textures/item/${texturePath}")
+            if (!texture.isFile()) {
+                texture = generatedTextureRoots.collect { new File(it, "textures/item/${texturePath}") }.find { it.isFile() }
+            }
+            if (texture == null || !texture.isFile()) {
+                errors << "${name}: missing ${texturePath}"
+                return
+            }
+            byte[] png = texture.bytes
+            if (png.length < 26 || (png[24] & 0xFF) != 8 || (png[25] & 0xFF) != 6) {
+                errors << "${name}: ${texturePath} is not 8-bit RGBA PNG"
+            }
+        }
+        if (!errors.isEmpty()) {
+            throw new GradleException("Cast model graph validation failed:\n" + errors.join('\n'))
+        }
+        logger.lifecycle("Validated ${modelCount} cast item model -> texture chains")
+    }
+}
+
+// Static item and block models can also point at a local texture directly.
+// Validate those references separately from the native item-definition graph;
+// otherwise a missing PNG only becomes visible as a purple/black sprite in
+// the client after a resource reload.
+def validateLocalModelTextures = tasks.register('validateLocalModelTextures') {
+    def assetRoots = [
+            file('src/main/resources/assets'),
+            file('src/generated/resources/assets'),
+            file('src/generated/clientResources/assets')
+    ]
+    def modelFiles = assetRoots.collectMany { File assetRoot ->
+        File modelRoot = new File(assetRoot, 'tconstruct/models')
+        File mantleRoot = new File(assetRoot, 'mantle/models')
+        List<File> files = []
+        [modelRoot, mantleRoot].each { File root ->
+            if (root.isDirectory()) {
+                files.addAll(fileTree(root).matching { include('**/*.json') }.files)
+            }
+        }
+        files
+    }
+    inputs.files(modelFiles)
+    inputs.files(assetRoots)
+    outputs.upToDateWhen { false }
+    doLast {
+        List<String> errors = []
+        int textureReferenceCount = 0
+        Closure<File> resolveTexture = { String id ->
+            if (!(id instanceof String) || id.startsWith('#')) return null
+            String normalized = id.contains(':') ? id : "minecraft:${id}"
+            int separator = normalized.indexOf(':')
+            if (separator <= 0 || separator + 1 >= normalized.length()) return null
+            String namespace = normalized.substring(0, separator)
+            String path = normalized.substring(separator + 1)
+            for (File assetRoot : assetRoots) {
+                File candidate = new File(assetRoot, "${namespace}/textures/${path}.png")
+                if (candidate.isFile()) return candidate
+            }
+            return null
+        }
+        Closure validateValue = { File modelFile, String key, Object value ->
+            if (!(value instanceof String)) return
+            String texture = value as String
+            if (!(texture.startsWith('tconstruct:') || texture.startsWith('mantle:'))) return
+            textureReferenceCount++
+            if (resolveTexture(texture) == null) {
+                errors << "${modelFile}: textures.${key} -> missing ${texture}.png"
+            }
+        }
+        Closure walk
+        walk = { File modelFile, Object value ->
+            if (value instanceof Map) {
+                value.each { Object key, Object child ->
+                    if (key == 'textures' && child instanceof Map) {
+                        child.each { Object textureKey, Object textureValue ->
+                            validateValue(modelFile, textureKey as String, textureValue)
+                        }
+                    }
+                    walk(modelFile, child)
+                }
+            } else if (value instanceof Collection) {
+                value.each { Object child -> walk(modelFile, child) }
+            }
+        }
+        modelFiles.each { File modelFile ->
+            try {
+                walk(modelFile, new groovy.json.JsonSlurper().parse(modelFile))
+            } catch (Exception exception) {
+                errors << "${modelFile}: invalid JSON while checking textures (${exception.message})"
+            }
+        }
+        if (!errors.isEmpty()) {
+            throw new GradleException("Local model texture validation failed:\n" + errors.join('\n'))
+        }
+        logger.lifecycle("Validated ${modelFiles.size()} Tinkers/Mantle model files and ${textureReferenceCount} local texture references")
+    }
+}
+
+tasks.named('processResources').configure {
+    dependsOn(validateCastModelGraph, validateLocalModelTextures)
+}
+
+// Loot codecs can compile and datagen can finish even when a unit codec silently
+// discards every serialized field.  Walk generated data and require the complete
+// shape of TConstruct's dynamic tool-part entries before they enter the JAR.
+def validateDynamicLootEntries = tasks.register('validateDynamicLootEntries') {
+    def resourceRoots = [
+            file('src/main/resources'),
+            file('src/generated/resources')
+    ]
+    def dataFiles = resourceRoots.collectMany { File root ->
+        root.isDirectory() ? fileTree(root).matching { include('data/**/*.json') }.files : []
+    }
+    inputs.files(dataFiles)
+    outputs.upToDateWhen { false }
+    doLast {
+        List<String> errors = []
+        int entryCount = 0
+        Closure walk
+        walk = { File source, Object value, String path ->
+            if (value instanceof Map) {
+                Map map = value as Map
+                if (map.type == 'tconstruct:tool_part') {
+                    entryCount++
+                    if (!(map.tag instanceof String) || (map.tag as String).isBlank()) {
+                        errors << "${source}:${path}: tool_part entry is missing a non-empty tag"
+                    }
+                    if (!(map.material instanceof Map) || (map.material as Map).isEmpty()) {
+                        errors << "${source}:${path}: tool_part entry is missing material data"
+                    }
+                    if (!(map.weight instanceof Number) || (map.weight as Number).intValue() <= 0) {
+                        errors << "${source}:${path}: tool_part entry is missing a positive weight"
+                    }
+                }
+                map.each { Object key, Object child -> walk(source, child, "${path}.${key}") }
+            } else if (value instanceof Collection) {
+                (value as Collection).eachWithIndex { Object child, int index -> walk(source, child, "${path}[${index}]") }
+            }
+        }
+        dataFiles.each { File dataFile ->
+            try {
+                walk(dataFile, new groovy.json.JsonSlurper().parse(dataFile), '$')
+            } catch (Exception exception) {
+                errors << "${dataFile}: invalid JSON while checking dynamic loot entries (${exception.message})"
+            }
+        }
+        if (!errors.isEmpty()) {
+            throw new GradleException("Dynamic loot entry validation failed:\n" + errors.join('\n'))
+        }
+        logger.lifecycle("Validated ${entryCount} serialized TConstruct dynamic tool-part loot entries")
+    }
+}
+
+tasks.named('processResources').configure {
+    dependsOn(validateDynamicLootEntries)
+}
+
+sourceSets.main.resources.srcDir generateModMetadata
+neoForge.ideSyncTask generateModMetadata
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+    options.compilerArgs.addAll(['-Xmaxerrs', '1000', '-Xmaxwarns', '1000'])
+}
+
+tasks.named('compileTestJava', JavaCompile).configure {
+    options.compilerArgs.add('-Xlint:deprecation')
+}
+
+// Emits resolved inputs for the local manual javac fallback, useful when Gradle
+// truncates or rewraps compiler diagnostics in the console.
+tasks.register('writeManualCompileInputs') {
+    def classpathFile = layout.buildDirectory.file('tmp/manual-compile-classpath.txt')
+    def sourcesFile = layout.buildDirectory.file('tmp/manual-compile-sources.txt')
+    inputs.files(project.sourceSets.main.java)
+    outputs.files(classpathFile, sourcesFile)
+    doLast {
+        classpathFile.get().asFile.text = project.sourceSets.main.compileClasspath.asPath
+        sourcesFile.get().asFile.text = project.sourceSets.main.java.files
+            .collect { it.absolutePath }
+            .sort()
+            .join(System.lineSeparator())
+    }
+}
+
+idea {
+    module {
+        downloadSources = true
+        downloadJavadoc = true
+    }
+}

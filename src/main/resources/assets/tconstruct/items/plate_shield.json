@@ -1,0 +1,94 @@
+{
+    "model": {
+        "type": "tconstruct:overrides",
+        "base": {
+            "type": "tconstruct:tool",
+            "parent": "tconstruct:item/native/plate_shield",
+            "textures": {
+                "plating": "tconstruct:item/tool/armor/plate/shield/plating",
+                "core": "tconstruct:item/tool/armor/plate/shield/core",
+                "large_plating": "tconstruct:item/tool/armor/plate/shield/plating_large",
+                "large_core": "tconstruct:item/tool/armor/plate/shield/core_large"
+            },
+            "parts": [
+                {
+                    "name": "core",
+                    "index": 0
+                },
+                {
+                    "name": "plating",
+                    "index": 1
+                }
+            ],
+            "broken_textures": {
+                "plating": "tconstruct:item/tool/armor/plate/shield/plating_broken",
+                "core": "tconstruct:item/tool/armor/plate/shield/core_broken",
+                "large_plating": "tconstruct:item/tool/armor/plate/shield/plating_large_broken",
+                "large_core": "tconstruct:item/tool/armor/plate/shield/core_large_broken"
+            },
+            "large": true,
+            "large_offset": [
+                -8,
+                0
+            ],
+            "modifier_models": {
+                "tconstruct:banner": {
+                    "type": "tconstruct:banner",
+                    "prefix": "tconstruct:item/tool/armor/plate/shield/banner_small/",
+                    "prefix_large": "tconstruct:item/tool/armor/plate/shield/banner_large/"
+                }
+            },
+            "first_modifiers": [
+                "tconstruct:banner"
+            ]
+        },
+        "overrides": [
+            {
+                "predicate": {
+                    "tconstruct:charging": 2.0
+                },
+                "model": {
+                    "type": "tconstruct:tool",
+                    "parent": "tconstruct:item/native/overrides/plate_shield/armor/plate/shield_blocking",
+                    "textures": {
+                        "plating": "tconstruct:item/tool/armor/plate/shield/plating",
+                        "core": "tconstruct:item/tool/armor/plate/shield/core",
+                        "large_plating": "tconstruct:item/tool/armor/plate/shield/plating_large",
+                        "large_core": "tconstruct:item/tool/armor/plate/shield/core_large"
+                    },
+                    "parts": [
+                        {
+                            "name": "core",
+                            "index": 0
+                        },
+                        {
+                            "name": "plating",
+                            "index": 1
+                        }
+                    ],
+                    "broken_textures": {
+                        "plating": "tconstruct:item/tool/armor/plate/shield/plating_broken",
+                        "core": "tconstruct:item/tool/armor/plate/shield/core_broken",
+                        "large_plating": "tconstruct:item/tool/armor/plate/shield/plating_large_broken",
+                        "large_core": "tconstruct:item/tool/armor/plate/shield/core_large_broken"
+                    },
+                    "large": true,
+                    "large_offset": [
+                        -8,
+                        0
+                    ],
+                    "modifier_models": {
+                        "tconstruct:banner": {
+                            "type": "tconstruct:banner",
+                            "prefix": "tconstruct:item/tool/armor/plate/shield/banner_small/",
+                            "prefix_large": "tconstruct:item/tool/armor/plate/shield/banner_large/"
+                        }
+                    },
+                    "first_modifiers": [
+                        "tconstruct:banner"
+                    ]
+                }
+            }
+        ]
+    }
+}

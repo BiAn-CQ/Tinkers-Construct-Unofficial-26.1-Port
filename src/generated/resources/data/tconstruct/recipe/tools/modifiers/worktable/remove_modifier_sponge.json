@@ -1,0 +1,21 @@
+{
+  "type": "tconstruct:remove_modifier",
+  "inputs": [
+    {
+      "ingredient": "minecraft:wet_sponge"
+    }
+  ],
+  "leftovers": [
+    "minecraft:sponge"
+  ],
+  "modifier_predicate": {
+    "type": "mantle:inverted",
+    "inverted_type": "tconstruct:tag",
+    "tag": "tconstruct:remove_blacklist"
+  },
+  "name": "modifiers",
+  "tools": {
+    "neoforge:ingredient_type": "mantle:item_tag",
+    "tag": "tconstruct:modifiable"
+  }
+}

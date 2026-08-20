@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "key": {
+    "C": {
+      "neoforge:ingredient_type": "mantle:item_tag",
+      "tag": "c:ingots/copper"
+    },
+    "G": {
+      "neoforge:ingredient_type": "mantle:item_tag",
+      "tag": "c:glass_panes/colorless"
+    }
+  },
+  "pattern": [
+    " C ",
+    "CGC",
+    " C "
+  ],
+  "result": {
+    "count": 4,
+    "id": "tconstruct:copper_gauge"
+  }
+}

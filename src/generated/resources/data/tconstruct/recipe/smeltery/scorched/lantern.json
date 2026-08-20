@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "B": "tconstruct:scorched_brick",
+    "C": {
+      "neoforge:ingredient_type": "mantle:item_tag",
+      "tag": "c:ingots/iron"
+    },
+    "P": "tconstruct:scorched_glass_pane"
+  },
+  "pattern": [
+    " C ",
+    "PPP",
+    "BBB"
+  ],
+  "result": {
+    "count": 3,
+    "id": "tconstruct:scorched_lantern"
+  }
+}

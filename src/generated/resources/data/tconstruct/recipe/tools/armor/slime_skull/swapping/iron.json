@@ -1,0 +1,14 @@
+{
+  "type": "tconstruct:fixed_material_swapping",
+  "index": 0,
+  "ingredient": {
+    "ingredient": "tconstruct:husk_head"
+  },
+  "material": "tconstruct:iron",
+  "max_stack_size": 16,
+  "repair_value": 6,
+  "tools": {
+    "neoforge:ingredient_type": "mantle:item_tag",
+    "tag": "tconstruct:modifiable/skulls/swappable"
+  }
+}

@@ -1,0 +1,11 @@
+{
+    "model": {
+        "type": "tconstruct:material",
+        "parent": "tconstruct:item/native/hammer_head",
+        "texture": "tconstruct:item/tool/sledge_hammer/head",
+        "offset": [
+            -3,
+            3
+        ]
+    }
+}

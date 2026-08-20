@@ -1,0 +1,19 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "mantle:tag_filled",
+      "tag": "c:coins/electrum"
+    }
+  ],
+  "type": "tconstruct:melting",
+  "ingredient": {
+    "neoforge:ingredient_type": "mantle:item_tag",
+    "tag": "c:coins/electrum"
+  },
+  "result": {
+    "amount": 30,
+    "tag": "c:molten_electrum"
+  },
+  "temperature": 760,
+  "time": 39
+}

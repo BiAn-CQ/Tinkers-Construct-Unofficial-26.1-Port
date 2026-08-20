@@ -1,0 +1,6 @@
+{
+    "parent": "forge:item/default-tool",
+    "textures": {
+        "layer0": "tconstruct:item/tool/melting_pan/head"
+    }
+}

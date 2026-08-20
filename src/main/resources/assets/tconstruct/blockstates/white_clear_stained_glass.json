@@ -1,0 +1,11 @@
+{
+    "variants": {
+        "": {
+            "type": "mantle:connected",
+            "model": "tconstruct:block/clear_glass/white/block",
+            "textures": {
+                "all": "cornerless_full"
+            }
+        }
+    }
+}

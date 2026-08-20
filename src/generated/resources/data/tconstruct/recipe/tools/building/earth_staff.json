@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "C": "tconstruct:earth_slime_crystal",
+    "I": {
+      "neoforge:ingredient_type": "mantle:item_tag",
+      "tag": "c:ingots/cobalt"
+    },
+    "W": {
+      "neoforge:ingredient_type": "mantle:item_tag",
+      "tag": "tconstruct:greenheart_logs"
+    }
+  },
+  "pattern": [
+    "CWC",
+    " I ",
+    " W "
+  ],
+  "result": {
+    "id": "tconstruct:earth_staff"
+  }
+}

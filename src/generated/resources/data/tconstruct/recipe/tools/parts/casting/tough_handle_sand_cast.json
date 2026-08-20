@@ -1,0 +1,10 @@
+{
+  "type": "tconstruct:table_casting_material",
+  "cast": {
+    "neoforge:ingredient_type": "mantle:item_tag",
+    "tag": "tconstruct:casts/single_use/tough_handle"
+  },
+  "cast_consumed": true,
+  "item_cost": 3,
+  "result": "tconstruct:tough_handle"
+}

@@ -1,0 +1,6 @@
+{
+    "parent": "tconstruct:item/base/rod",
+    "textures": {
+        "layer0": "tconstruct:item/tool/fishing_rod/rod"
+    }
+}

@@ -1,0 +1,21 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "mantle:tag_filled",
+      "tag": "c:plates/signalum"
+    }
+  ],
+  "type": "tconstruct:casting_table",
+  "cast": {
+    "neoforge:ingredient_type": "mantle:item_tag",
+    "tag": "tconstruct:casts/multi_use/plate"
+  },
+  "cooling_time": 66,
+  "fluid": {
+    "amount": 90,
+    "tag": "c:molten_signalum"
+  },
+  "result": {
+    "tag": "c:plates/signalum"
+  }
+}

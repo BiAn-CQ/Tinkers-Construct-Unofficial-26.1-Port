@@ -1,0 +1,203 @@
+{
+    "model": {
+        "type": "tconstruct:overrides",
+        "base": {
+            "type": "tconstruct:tool",
+            "parent": "tconstruct:item/native/fishing_rod",
+            "textures": {
+                "rod": "tconstruct:item/tool/fishing_rod/rod",
+                "string": "tconstruct:item/tool/fishing_rod/string",
+                "hook": "tconstruct:item/tool/fishing_rod/hook"
+            },
+            "parts": [
+                {
+                    "name": "rod",
+                    "index": 0
+                },
+                {
+                    "name": "string",
+                    "index": 1
+                },
+                {
+                    "name": "hook",
+                    "index": 2
+                }
+            ],
+            "broken_textures": {
+                "rod": "tconstruct:item/tool/fishing_rod/rod",
+                "string": "tconstruct:item/tool/fishing_rod/string_broken",
+                "hook": "tconstruct:item/tool/fishing_rod/hook_broken"
+            },
+            "modifier_models": {
+                "tconstruct:tank": "tconstruct:item/tool/fishing_rod/modifiers/tank"
+            },
+            "modifier_constants": [
+                {
+                    "type": "tconstruct:tank",
+                    "full": "tconstruct:item/tool/fishing_rod/fluid_full",
+                    "partial": "tconstruct:item/tool/fishing_rod/fluid_partial"
+                },
+                {
+                    "type": "tconstruct:trait",
+                    "model": {
+                        "type": "tconstruct:potion",
+                        "texture": "tconstruct:item/tool/fishing_rod/modifiers/tipped"
+                    },
+                    "modifier": "tconstruct:tipped"
+                }
+            ]
+        },
+        "overrides": [
+            {
+                "predicate": {
+                    "tconstruct:charging": 2.0
+                },
+                "model": {
+                    "type": "tconstruct:tool",
+                    "parent": "tconstruct:item/native/overrides/fishing_rod/tool/fishing_rod/blocking",
+                    "textures": {
+                        "rod": "tconstruct:item/tool/fishing_rod/rod",
+                        "string": "tconstruct:item/tool/fishing_rod/string",
+                        "hook": "tconstruct:item/tool/fishing_rod/hook"
+                    },
+                    "parts": [
+                        {
+                            "name": "rod",
+                            "index": 0
+                        },
+                        {
+                            "name": "string",
+                            "index": 1
+                        },
+                        {
+                            "name": "hook",
+                            "index": 2
+                        }
+                    ],
+                    "broken_textures": {
+                        "rod": "tconstruct:item/tool/fishing_rod/rod",
+                        "string": "tconstruct:item/tool/fishing_rod/string_broken",
+                        "hook": "tconstruct:item/tool/fishing_rod/hook_broken"
+                    },
+                    "modifier_models": {
+                        "tconstruct:tank": "tconstruct:item/tool/fishing_rod/modifiers/tank"
+                    },
+                    "modifier_constants": [
+                        {
+                            "type": "tconstruct:tank",
+                            "full": "tconstruct:item/tool/fishing_rod/fluid_full",
+                            "partial": "tconstruct:item/tool/fishing_rod/fluid_partial"
+                        },
+                        {
+                            "type": "tconstruct:trait",
+                            "model": {
+                                "type": "tconstruct:potion",
+                                "texture": "tconstruct:item/tool/fishing_rod/modifiers/tipped"
+                            },
+                            "modifier": "tconstruct:tipped"
+                        }
+                    ]
+                }
+            },
+            {
+                "predicate": {
+                    "tconstruct:cast": 1.0
+                },
+                "model": {
+                    "type": "tconstruct:tool",
+                    "parent": "tconstruct:item/base/rod",
+                    "textures": {
+                        "rod": "tconstruct:item/tool/fishing_rod/rod",
+                        "string": "tconstruct:item/tool/fishing_rod/string_cast",
+                        "hook": "tconstruct:item/tool/fishing_rod/hook_cast"
+                    },
+                    "parts": [
+                        {
+                            "name": "rod",
+                            "index": 0
+                        },
+                        {
+                            "name": "string",
+                            "index": 1
+                        },
+                        {
+                            "name": "hook",
+                            "index": 2
+                        }
+                    ],
+                    "modifier_models": {
+                        "tconstruct:tank": "tconstruct:item/tool/fishing_rod/modifiers/tank"
+                    },
+                    "modifier_constants": [
+                        {
+                            "type": "tconstruct:empty"
+                        },
+                        {
+                            "type": "tconstruct:tank",
+                            "full": "tconstruct:item/tool/fishing_rod/fluid_full",
+                            "partial": "tconstruct:item/tool/fishing_rod/fluid_partial"
+                        },
+                        {
+                            "type": "tconstruct:trait",
+                            "model": {
+                                "type": "tconstruct:potion",
+                                "texture": "tconstruct:item/tool/fishing_rod/modifiers/tipped"
+                            },
+                            "modifier": "tconstruct:tipped"
+                        }
+                    ]
+                }
+            },
+            {
+                "predicate": {
+                    "tconstruct:cast": 1.0,
+                    "tconstruct:charging": 2.0
+                },
+                "model": {
+                    "type": "tconstruct:tool",
+                    "parent": "tconstruct:item/native/overrides/fishing_rod/tool/fishing_rod/blocking_cast",
+                    "textures": {
+                        "rod": "tconstruct:item/tool/fishing_rod/rod",
+                        "string": "tconstruct:item/tool/fishing_rod/string_cast",
+                        "hook": "tconstruct:item/tool/fishing_rod/hook_cast"
+                    },
+                    "parts": [
+                        {
+                            "name": "rod",
+                            "index": 0
+                        },
+                        {
+                            "name": "string",
+                            "index": 1
+                        },
+                        {
+                            "name": "hook",
+                            "index": 2
+                        }
+                    ],
+                    "modifier_models": {
+                        "tconstruct:tank": "tconstruct:item/tool/fishing_rod/modifiers/tank"
+                    },
+                    "modifier_constants": [
+                        {
+                            "type": "tconstruct:empty"
+                        },
+                        {
+                            "type": "tconstruct:tank",
+                            "full": "tconstruct:item/tool/fishing_rod/fluid_full",
+                            "partial": "tconstruct:item/tool/fishing_rod/fluid_partial"
+                        },
+                        {
+                            "type": "tconstruct:trait",
+                            "model": {
+                                "type": "tconstruct:potion",
+                                "texture": "tconstruct:item/tool/fishing_rod/modifiers/tipped"
+                            },
+                            "modifier": "tconstruct:tipped"
+                        }
+                    ]
+                }
+            }
+        ]
+    }
+}

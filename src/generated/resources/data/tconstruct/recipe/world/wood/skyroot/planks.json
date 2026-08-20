@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "group": "planks",
+  "ingredients": [
+    {
+      "neoforge:ingredient_type": "mantle:item_tag",
+      "tag": "tconstruct:skyroot_logs"
+    }
+  ],
+  "result": {
+    "count": 4,
+    "id": "tconstruct:skyroot_planks"
+  }
+}

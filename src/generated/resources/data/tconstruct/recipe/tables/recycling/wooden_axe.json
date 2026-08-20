@@ -1,0 +1,17 @@
+{
+  "type": "tconstruct:part_builder_recycling",
+  "pattern": "tconstruct:venom_bottle",
+  "results": {
+    "tconstruct:rod": {
+      "count": 8,
+      "item": "minecraft:stick"
+    }
+  },
+  "tool": {
+    "neoforge:ingredient_type": "mantle:or",
+    "ingredients": [
+      "minecraft:wooden_pickaxe",
+      "minecraft:wooden_axe"
+    ]
+  }
+}

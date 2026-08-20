@@ -1,0 +1,80 @@
+{
+    "variants": {
+        "hanging=false": {
+            "type": "tconstruct:tank",
+            "model": "tconstruct:block/smeltery/tank/lantern",
+            "fluid_from": [
+                5.05,
+                1,
+                5.05
+            ],
+            "fluid_to": [
+                10.95,
+                6,
+                10.95
+            ],
+            "increments": 10,
+            "fluid_faces": {
+                "up": {
+                    "flowing": false,
+                    "rotation": 0
+                },
+                "north": {
+                    "flowing": false,
+                    "rotation": 0
+                },
+                "east": {
+                    "flowing": false,
+                    "rotation": 0
+                },
+                "south": {
+                    "flowing": false,
+                    "rotation": 0
+                },
+                "west": {
+                    "flowing": false,
+                    "rotation": 0
+                }
+            },
+            "force_model_fluid": true
+        },
+        "hanging=true": {
+            "type": "tconstruct:tank",
+            "model": "tconstruct:block/smeltery/tank/lantern_hanging",
+            "fluid_from": [
+                5.05,
+                2,
+                5.05
+            ],
+            "fluid_to": [
+                10.95,
+                7,
+                10.95
+            ],
+            "increments": 10,
+            "fluid_faces": {
+                "up": {
+                    "flowing": false,
+                    "rotation": 0
+                },
+                "north": {
+                    "flowing": false,
+                    "rotation": 0
+                },
+                "east": {
+                    "flowing": false,
+                    "rotation": 0
+                },
+                "south": {
+                    "flowing": false,
+                    "rotation": 0
+                },
+                "west": {
+                    "flowing": false,
+                    "rotation": 0
+                }
+            },
+            "force_model_fluid": true
+        }
+    }
+}
