@@ -44,9 +44,10 @@ public interface DurabilityDisplayModifierHook {
 
   /** Checks if the durability bar should show for the given tool stack */
   static boolean showDurabilityBar(ItemStack stack) {
-    // don't show durability bar if the tool does not support durability
-    // we don't use that feature in the base mod, but Tinkers' Things notably has a tool that uses it
-    if (!stack.isDamageableItem() || !stack.is(TinkerTags.Items.DURABILITY)) {
+    // Tinkers tools keep their durability in tool data instead of the vanilla DAMAGE component.
+    // Since 26.1, ItemStack.isDamageableItem() requires that component, so using it here hides
+    // both the normal durability bar and capacity shields such as overslime before hooks can run.
+    if (!supportsDurabilityBar(stack)) {
       return false;
     }
 
@@ -59,6 +60,11 @@ public interface DurabilityDisplayModifierHook {
       }
     }
     return tool.getStats().getIntOr(ToolStats.DURABILITY, 0) > 0 && tool.getDamage() > 0;
+  }
+
+  /** Returns whether the stack participates in Tinkers' virtual durability display. */
+  static boolean supportsDurabilityBar(ItemStack stack) {
+    return stack.is(TinkerTags.Items.DURABILITY);
   }
 
   /**

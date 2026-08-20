@@ -194,28 +194,39 @@ public final class TConstructItemModelProperties {
   }
 
   private static float charging(ItemStack stack, @Nullable LivingEntity holder) {
-    if (holder != null && holder.isUsingItem() && matches(holder.getUseItem(), stack)) {
-      ItemUseAnimation animation = stack.getUseAnimation();
+    if (holder != null && holder.isUsingItem()) {
+      ItemStack useStack = holder.getUseItem();
+      if (!matches(useStack, stack)) {
+        return 0.0f;
+      }
+      // Resolve the animation and transient draw state from the entity's authoritative use stack.
+      // The native renderer may resolve a component-identical copy which does not yet carry the
+      // active interaction data; that notably left battlesigns and both material shields unraised.
+      ItemUseAnimation animation = useStack.getUseAnimation();
       if (animation == ItemUseAnimation.BLOCK) {
-        return ModifierUtil.checkPersistentPresent(stack, ModifiableLauncherItem.KEY_DRAWBACK_AMMO) ? 2.5f : 2.0f;
+        return ModifierUtil.checkPersistentPresent(useStack, ModifiableLauncherItem.KEY_DRAWBACK_AMMO) ? 2.5f : 2.0f;
       }
       if (animation == ItemUseAnimation.TRIDENT) {
         return 1.75f;
       }
       if (animation != ItemUseAnimation.EAT && animation != ItemUseAnimation.DRINK) {
-        return ModifierUtil.checkPersistentPresent(stack, ModifiableLauncherItem.KEY_DRAWBACK_AMMO) ? 1.5f : 1.0f;
+        return ModifierUtil.checkPersistentPresent(useStack, ModifiableLauncherItem.KEY_DRAWBACK_AMMO) ? 1.5f : 1.0f;
       }
     }
     return 0.0f;
   }
 
   private static float charge(ItemStack stack, @Nullable LivingEntity holder) {
-    if (holder == null || !matches(holder.getUseItem(), stack)) {
+    if (holder == null) {
       return 0.0f;
     }
-    int drawtime = ModifierUtil.getPersistentInt(stack, GeneralInteractionModifierHook.KEY_DRAWTIME, -1);
+    ItemStack useStack = holder.getUseItem();
+    if (!matches(useStack, stack)) {
+      return 0.0f;
+    }
+    int drawtime = ModifierUtil.getPersistentInt(useStack, GeneralInteractionModifierHook.KEY_DRAWTIME, -1);
     return drawtime == -1 ? 0.0f
-      : (float) (stack.getUseDuration(holder) - holder.getUseItemRemainingTicks()) / drawtime;
+      : (float) (useStack.getUseDuration(holder) - holder.getUseItemRemainingTicks()) / drawtime;
   }
 
   private static boolean cast(ItemStack stack, @Nullable LivingEntity entity) {

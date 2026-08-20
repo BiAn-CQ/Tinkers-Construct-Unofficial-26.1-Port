@@ -100,13 +100,22 @@ public class CreativeSlotItem extends Item {
     return player.isCreative() || (Config.COMMON.quickApplyToolModifiersSurvival.get() && MantleCommand.hasPermission(player, MantleCommand.PERMISSION_GAME_COMMANDS));
   }
 
+  /**
+   * Checks whether an inventory interaction should mutate the tool on this side.
+   * The player inventory and the client-only creative item picker both use container ID 0,
+   * while server-backed menus use a positive ID and should wait for the server response.
+   */
+  static boolean shouldHandleStackInteraction(Player player) {
+    return !player.level().isClientSide() || (player.isCreative() && player.containerMenu.containerId == 0);
+  }
+
   /** Common logic between two stack methods */
   private static boolean handleStackOn(ItemStack stack, ItemStack toolItem, Player player, int amount) {
     SlotType slotType = getSlot(stack);
     if (slotType != null && !toolItem.isEmpty() && toolItem.is(TinkerTags.Items.MODIFIABLE)) {
-      if (!player.level().isClientSide() || (player.isCreative() && player.containerMenu == player.inventoryMenu)) {
+      if (shouldHandleStackInteraction(player)) {
         if (canApply(player)) {
-          ToolStack tool = ToolStack.from(toolItem);
+          ToolStack tool = ToolStack.copyFrom(toolItem);
           // do nothing if the tool already has 0 slots and we are removing
           if (tool.getFreeSlots(slotType) + amount < 0) {
             return true;
@@ -145,6 +154,8 @@ public class CreativeSlotItem extends Item {
             // neither add or removing modifier, just build it
             tool.rebuildStats();
           }
+          // ItemStack custom data is component-backed in 26.1, so explicitly write the rebuilt tool back.
+          tool.updateStack(toolItem);
           if (amount > 0) {
             FluidTransferHelper.playUISound(player, SoundEvents.ENCHANTMENT_TABLE_USE);
           } else {

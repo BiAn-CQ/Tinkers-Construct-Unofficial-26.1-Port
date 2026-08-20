@@ -26,12 +26,23 @@ public class ModifiableItemClientExtension implements IClientItemExtensions {
   @Override
   public boolean applyForgeHandTransform(PoseStack poseStack, LocalPlayer player, HumanoidArm arm, ItemStack stack, float partialTicks, float equipProgress, float swingProgress) {
     InteractionHand hand = arm == player.getMainArm() ? InteractionHand.MAIN_HAND : InteractionHand.OFF_HAND;
-    if (!player.isUsingItem() || player.getUseItemRemainingTicks() <= 0
-        || player.getUsedItemHand() != hand || stack.getUseAnimation() != ItemUseAnimation.TRIDENT) {
+    if (!player.isUsingItem() || player.getUseItemRemainingTicks() <= 0 || player.getUsedItemHand() != hand) {
       return false;
     }
 
     int sideOffset = arm == HumanoidArm.RIGHT ? 1 : -1;
+    ItemUseAnimation animation = stack.getUseAnimation();
+    if (animation == ItemUseAnimation.BLOCK) {
+      // Tinkers' blocking models already contain their shield-specific display transform. Minecraft 26.1
+      // adds an additional non-ShieldItem block rotation after the base arm transform, which double-rotates
+      // modifiable shields and battlesigns. Handle BLOCK here to preserve their 1.20.1 rendering contract.
+      applyItemArmTransform(poseStack, equipProgress, sideOffset);
+      return true;
+    }
+    if (animation != ItemUseAnimation.TRIDENT) {
+      return false;
+    }
+
     applyItemArmTransform(poseStack, equipProgress, sideOffset);
     poseStack.translate(sideOffset * -0.5f, 0.7f, 0.1f);
     // Tinkers' throwing tools are diagonal item sprites, unlike a vanilla
