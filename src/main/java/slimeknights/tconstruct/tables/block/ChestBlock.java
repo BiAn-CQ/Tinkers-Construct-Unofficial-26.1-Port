@@ -96,7 +96,7 @@ public class ChestBlock extends TabbedTableBlock {
   }
 
   @Override
-  protected void dropInventoryItems(BlockState state, Level worldIn, BlockPos pos, IItemHandler inventory) {
+  public void dropInventoryItems(BlockState state, Level worldIn, BlockPos pos, IItemHandler inventory) {
     if (dropsItems) {
       dropInventoryItems(worldIn, pos, inventory);
     }

@@ -14,9 +14,11 @@ import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
+import net.neoforged.neoforge.model.data.ModelData;
 import slimeknights.mantle.block.entity.NameableBlockEntity;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.TinkerTags;
+import slimeknights.tconstruct.library.client.model.ModelProperties;
 import slimeknights.tconstruct.library.fluid.FluidTankAnimated;
 import slimeknights.tconstruct.library.utils.NBTTags;
 import slimeknights.tconstruct.smeltery.TinkerSmeltery;
@@ -80,6 +82,14 @@ public class AlloyerBlockEntity extends NameableBlockEntity implements ITankBloc
 
   public IFluidHandler getFluidCapability() {
     return tank;
+  }
+
+  /** Supplies the native tank block model with the synchronized alloy output. */
+  @Override
+  public @Nonnull ModelData getModelData() {
+    return ModelData.builder()
+                    .with(ModelProperties.FLUID_STACK, tank.getFluid())
+                    .with(ModelProperties.TANK_CAPACITY, tank.getCapacity()).build();
   }
 
 

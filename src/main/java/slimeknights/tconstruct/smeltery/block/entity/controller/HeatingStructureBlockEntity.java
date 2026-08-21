@@ -26,6 +26,7 @@ import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.ItemHandlerHelper;
+import slimeknights.mantle.block.InventoryBlock;
 import slimeknights.mantle.block.entity.IRetexturedBlockEntity;
 import slimeknights.mantle.block.entity.NameableBlockEntity;
 import slimeknights.mantle.util.BlockEntityHelper;
@@ -408,6 +409,21 @@ public abstract class HeatingStructureBlockEntity extends NameableBlockEntity im
       structure = null;
       errorPos = null;
     }
+  }
+
+  /**
+   * Handles controller contents before 26.1 removes the block entity.
+   * <p>
+   * Melting items are returned to the world, matching the old inventory block removal behavior. Molten fluids remain
+   * in this block entity and are discarded with it; controller drops intentionally do not preserve structure fluids.
+   */
+  @Override
+  public void preRemoveSideEffects(BlockPos pos, BlockState state) {
+    invalidateStructure();
+    if (level != null) {
+      InventoryBlock.dropInventoryItems(level, pos, meltingInventory);
+    }
+    super.preRemoveSideEffects(pos, state);
   }
 
   @Override

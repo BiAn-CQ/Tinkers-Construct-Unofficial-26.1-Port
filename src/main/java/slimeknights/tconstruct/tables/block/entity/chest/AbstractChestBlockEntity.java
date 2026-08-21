@@ -17,6 +17,7 @@ import net.minecraft.world.level.storage.TagValueOutput;
 import net.minecraft.util.ProblemReporter;
 import net.neoforged.neoforge.items.IItemHandler;
 import slimeknights.mantle.block.entity.NameableBlockEntity;
+import slimeknights.tconstruct.tables.block.ChestBlock;
 import slimeknights.tconstruct.tables.block.entity.inventory.IChestItemHandler;
 import slimeknights.tconstruct.tables.menu.TinkerChestContainerMenu;
 
@@ -53,6 +54,18 @@ public abstract class AbstractChestBlockEntity extends NameableBlockEntity {
    */
   public boolean canInsert(Player player, ItemStack heldItem) {
     return true;
+  }
+
+  /**
+   * Minecraft 26.1 removes block entities before the old block removal hook can read their inventory.
+   * Forward the pre-removal callback to the chest block so each chest keeps its configured drop policy.
+   */
+  @Override
+  public void preRemoveSideEffects(BlockPos pos, BlockState state) {
+    if (level != null && state.getBlock() instanceof ChestBlock chest) {
+      chest.dropInventoryItems(state, level, pos, itemHandler);
+    }
+    super.preRemoveSideEffects(pos, state);
   }
 
   @Override

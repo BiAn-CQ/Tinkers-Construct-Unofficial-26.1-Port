@@ -32,7 +32,15 @@ public final class TinkerCapabilityAdapters {
   private TinkerCapabilityAdapters() {}
 
   public static IItemHandler itemHandler(ResourceHandler<ItemResource> handler) {
-    return handler == null ? null : new ModifiableItemHandlerAdapter(handler);
+    if (handler == null) {
+      return null;
+    }
+    // Keep extra interfaces and state exposed by legacy handlers, such as the
+    // scaling chest's visual slot count, when converting our own wrapper back.
+    if (handler instanceof LegacyItemResourceHandler legacy) {
+      return legacy.handler;
+    }
+    return new ModifiableItemHandlerAdapter(handler);
   }
 
   public static IFluidHandler fluidHandler(ResourceHandler<FluidResource> handler) {
