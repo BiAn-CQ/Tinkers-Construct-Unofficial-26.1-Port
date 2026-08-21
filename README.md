@@ -34,7 +34,7 @@ Linux/macOS：
 
 ## 上游与问题反馈
 
-本项目基于 [SlimeKnights/TinkersConstruct](https://github.com/SlimeKnights/TinkersConstruct)
+本项目基于 [SlimeKnights/TinkersConstruct](https://github.com/SlimeKnights/TinkersConstruct)和[zhuchuovo/TinkersConstruct-1.21.1](https://github.com/zhuchuovo/TinkersConstruct-1.21.1)
 移植，不是 SlimeKnights 官方发布。请不要将本移植版的问题提交到上游仓库。
 
 反馈问题时请附上 Minecraft、NeoForge、Mantle 和本模组的版本，以及复现步骤、
