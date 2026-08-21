@@ -1,15 +1,15 @@
 modLoader="javafml"
 loaderVersion="[4,)"
 license="${mod_license}"
-issueTrackerURL="https://github.com/SlimeKnights/TinkersConstruct/issues"
+issueTrackerURL="https://github.com/BiAn-CQ/Tinkers-Construct-Unofficial-26.1-Port/issues"
 
 [[mods]]
 modId="${mod_id}"
 enumExtensions="META-INF/enumextensions.json"
 version="${mod_version}"
 displayName="${mod_name}"
-authors="Slime Knights; unofficial 26.1 port"
-displayURL="https://www.curseforge.com/minecraft/mc-mods/tinkers-construct"
+authors="Slime Knights; unofficial 26.1 port by BiAn-CQ"
+displayURL="https://github.com/BiAn-CQ/Tinkers-Construct-Unofficial-26.1-Port"
 description='''
 Tools, materials, and smeltery for Minecraft.
 This is an unofficial Minecraft 26.1 migration build; do not request upstream support for it.
@@ -44,4 +44,11 @@ modId="jei"
 type="optional"
 versionRange="${jei_range}"
 ordering="NONE"
+side="BOTH"
+
+[[dependencies.${mod_id}]]
+modId="ftbultimine"
+type="optional"
+versionRange="${ftb_ultimine_range}"
+ordering="AFTER"
 side="BOTH"

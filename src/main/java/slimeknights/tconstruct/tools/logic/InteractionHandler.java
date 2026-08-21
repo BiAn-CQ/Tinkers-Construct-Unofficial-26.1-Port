@@ -26,6 +26,7 @@ import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent.EntityInteract;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent.LeftClickBlock;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent.LeftClickBlock.Action;
+import net.neoforged.neoforge.event.level.block.BreakBlockEvent;
 import net.minecraft.util.TriState;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -397,13 +398,6 @@ public class InteractionHandler {
   /** Implements {@link slimeknights.tconstruct.library.modifiers.hook.interaction.BlockInteractionModifierHook} for weapons with left click */
   @SubscribeEvent
   static void leftClickBlock(LeftClickBlock event) {
-    if (event.getAction() == Action.STOP) {
-      ItemStack stack = event.getItemStack();
-      if (stack.getItem() instanceof IModifiable modifiable && modifiable.onBlockStartBreak(stack, event.getPos(), event.getEntity())) {
-        event.setCanceled(true);
-      }
-      return;
-    }
     if (event.getAction() != Action.START) {
       return;
     }
@@ -454,6 +448,20 @@ public class InteractionHandler {
     InteractionResult result = onLeftClickInteraction(tool, player, hand);
     if (result.consumesAction()) {
       setLeftClickEventResult(event, result);
+    }
+  }
+
+  /**
+   * Runs the modifiable tool harvest flow after other block-break handlers have had a chance to take over.
+   * This keeps the primary break on the standard event path and avoids firing the event a second time from
+   * {@link ToolHarvestLogic}.
+   */
+  @SubscribeEvent(priority = EventPriority.LOWEST)
+  static void breakBlock(BreakBlockEvent event) {
+    Player player = event.getPlayer();
+    ItemStack stack = player.getMainHandItem();
+    if (stack.getItem() instanceof IModifiable modifiable && modifiable.onBlockStartBreak(stack, event.getPos(), player)) {
+      event.setCanceled(true);
     }
   }
 

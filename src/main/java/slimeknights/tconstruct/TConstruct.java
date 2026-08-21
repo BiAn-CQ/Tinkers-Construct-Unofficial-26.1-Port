@@ -46,6 +46,7 @@ import slimeknights.tconstruct.library.tools.definition.ToolDefinitionLoader;
 import slimeknights.tconstruct.library.tools.layout.StationSlotLayoutLoader;
 import slimeknights.tconstruct.library.utils.Util;
 import slimeknights.tconstruct.plugin.craftingtweaks.CraftingTweaksPlugin;
+import slimeknights.tconstruct.plugin.ftbultimine.FTBUltiminePlugin;
 import slimeknights.tconstruct.shared.TinkerAttributes;
 import slimeknights.tconstruct.shared.TinkerCommons;
 import slimeknights.tconstruct.shared.TinkerEffects;
@@ -121,6 +122,9 @@ public class TConstruct {
     // never resolved when the corresponding mod is absent.
     if (ModList.get().isLoaded("craftingtweaks")) {
       CraftingTweaksPlugin.onConstruct();
+    }
+    if (ModList.get().isLoaded("ftbultimine")) {
+      FTBUltiminePlugin.onConstruct();
     }
 
     // TODO 26.1: re-enable the remaining optional integrations when their

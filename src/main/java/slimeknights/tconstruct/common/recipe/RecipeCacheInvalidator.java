@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.neoforged.neoforge.event.AddServerReloadListenersEvent;
+import net.neoforged.neoforge.resource.VanillaServerListeners;
 import slimeknights.mantle.data.listener.IEarlySafeManagerReloadListener;
 import slimeknights.tconstruct.TConstruct;
 
@@ -58,7 +59,12 @@ public class RecipeCacheInvalidator implements IEarlySafeManagerReloadListener {
    * @param event  Reload event
    */
   public static void onReloadListenerReload(AddServerReloadListenersEvent event) {
-    event.addListener(TConstruct.getResource("recipe_cache"), INSTANCE);
+    var key = TConstruct.getResource("recipe_cache");
+    event.addListener(key, INSTANCE);
+    // Material recipes populate their caches while RecipeManager prepares the recipe JSONs.
+    // Clear the previous reload's values before that preparation starts; the default ordering
+    // places mod listeners after recipes and would erase the newly populated material cache.
+    event.addDependency(key, VanillaServerListeners.RECIPES);
   }
 
   /** Logic to respond properly to late running of the client */
