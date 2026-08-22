@@ -4,10 +4,12 @@
   "check_trait_level": true,
   "inputs": [
     {
-      "ingredient": "#c:feathers"
+      "neoforge:ingredient_type": "mantle:item_tag",
+      "tag": "c:feathers"
     },
     {
-      "ingredient": "#c:ingots/copper"
+      "neoforge:ingredient_type": "mantle:item_tag",
+      "tag": "c:ingots/copper"
     }
   ],
   "level": 1,

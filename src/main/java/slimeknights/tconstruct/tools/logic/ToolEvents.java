@@ -80,6 +80,7 @@ import slimeknights.tconstruct.library.tools.nbt.ModDataNBT;
 import slimeknights.tconstruct.library.tools.nbt.ModifierNBT;
 import slimeknights.tconstruct.library.tools.nbt.ToolStack;
 import slimeknights.tconstruct.library.utils.BlockSideHitListener;
+import slimeknights.tconstruct.mixin.AbstractArrowAccessor;
 import slimeknights.tconstruct.shared.TinkerAttributes;
 import slimeknights.tconstruct.shared.TinkerEffects;
 import slimeknights.tconstruct.tools.TinkerModifiers;
@@ -516,9 +517,22 @@ public class ToolEvents {
           LivingEntity target = ToolAttackUtil.getLivingEntity(entity);
           if (TinkerEffects.canHitWithProjectile(target) || nbt.getBooleanOr(TinkerEffects.ENDERFERENCE_KEY, false)) {
 
+            // Piercing arrows silently skip hits after their pierce capacity; do not run modifier effects for such hits.
+            boolean canBlock = true;
+            if (projectile instanceof AbstractArrow arrow) {
+              int pierce = arrow.getPierceLevel();
+              if (pierce > 0) {
+                var ignored = ((AbstractArrowAccessor)arrow).tconstruct$getPiercingIgnoreEntityIds();
+                if (ignored != null && ignored.size() >= pierce + 1) {
+                  return;
+                }
+                canBlock = false;
+              }
+            }
+
             // ensure we are not blocking, that means projectile shouldn't hit
             boolean notBlocked = true;
-            if (target != null && target.isBlocking() && (!(projectile instanceof AbstractArrow arrow) || arrow.getPierceLevel() == 0)) {
+            if (canBlock && target != null && target.isBlocking()) {
               Vec3 direction = projectile.position().vectorTo(target.position()).normalize();
               direction = new Vec3(direction.x, 0.0D, direction.z);
               if (direction.dot(target.getViewVector(1.0F)) < 0.0D) {

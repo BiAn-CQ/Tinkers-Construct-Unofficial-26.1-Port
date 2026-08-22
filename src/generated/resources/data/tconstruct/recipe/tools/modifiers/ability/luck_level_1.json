@@ -3,7 +3,8 @@
   "allow_crystal": true,
   "inputs": [
     {
-      "ingredient": "#c:ingots/copper"
+      "neoforge:ingredient_type": "mantle:item_tag",
+      "tag": "c:ingots/copper"
     },
     {
       "ingredient": [
@@ -12,13 +13,16 @@
       ]
     },
     {
-      "ingredient": "#c:ingots/copper"
+      "neoforge:ingredient_type": "mantle:item_tag",
+      "tag": "c:ingots/copper"
     },
     {
-      "ingredient": "#c:storage_blocks/lapis"
+      "neoforge:ingredient_type": "mantle:item_tag",
+      "tag": "c:storage_blocks/lapis"
     },
     {
-      "ingredient": "#c:storage_blocks/lapis"
+      "neoforge:ingredient_type": "mantle:item_tag",
+      "tag": "c:storage_blocks/lapis"
     }
   ],
   "level": 1,

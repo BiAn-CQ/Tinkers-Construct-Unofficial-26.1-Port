@@ -10,7 +10,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.SmithingTemplateItem;
+import net.minecraft.world.item.equipment.trim.ArmorTrim;
 import net.minecraft.world.item.equipment.trim.TrimMaterial;
 import net.minecraft.world.item.equipment.trim.TrimPattern;
 import net.minecraft.world.item.crafting.RecipeSerializer;
@@ -72,7 +72,7 @@ public class ArmorTrimRecipe implements ITinkerStationRecipe, IMultiRecipe<IDisp
       ItemStack stack = inv.getInput(i);
       if (!stack.isEmpty()) {
         // find the two matching tags, but ensure no duplicates
-        if (stack.getItem() instanceof SmithingTemplateItem) {
+        if (stack.is(TinkerTags.Items.TRIM_TEMPLATES)) {
           if (!template.isEmpty()) {
             return null;
           }
@@ -142,7 +142,11 @@ public class ArmorTrimRecipe implements ITinkerStationRecipe, IMultiRecipe<IDisp
     if (tool.getModifierLevel(modifier) == 0) {
       tool.addModifier(modifier, 1);
     }
-    return ITinkerStationRecipe.success(tool, inv);
+    LazyToolStack result = LazyToolStack.copyFrom(tool, inv.getTinkerableStack());
+    if (pattern != null) {
+      result.getStack().set(DataComponents.TRIM, new ArmorTrim(material, pattern));
+    }
+    return RecipeResult.success(result);
   }
 
   @Override
@@ -159,9 +163,8 @@ public class ArmorTrimRecipe implements ITinkerStationRecipe, IMultiRecipe<IDisp
   @Override
   public List<IDisplayModifierRecipe> getRecipes(HolderLookup.Provider access) {
     if (displayRecipes == null) {
-      List<ItemStack> trims = BuiltInRegistries.ITEM.stream()
-        .filter(item -> item instanceof SmithingTemplateItem)
-        .map(ItemStack::new).toList();
+      List<ItemStack> trims = RegistryHelper.getTagValueStream(BuiltInRegistries.ITEM, TinkerTags.Items.TRIM_TEMPLATES)
+                                            .map(ItemStack::new).toList();
       List<ItemStack> toolInputs = RegistryHelper.getTagValueStream(BuiltInRegistries.ITEM, TinkerTags.Items.TRIM)
                                                  .map(IModifiableDisplay::getDisplayStack).toList();
       if (!trims.isEmpty() && !toolInputs.isEmpty()) {

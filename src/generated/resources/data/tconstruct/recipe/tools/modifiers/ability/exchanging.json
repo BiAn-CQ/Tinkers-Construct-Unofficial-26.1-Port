@@ -7,16 +7,19 @@
       "ingredient": "minecraft:sticky_piston"
     },
     {
-      "ingredient": "#c:ingots/hepatizon"
+      "neoforge:ingredient_type": "mantle:item_tag",
+      "tag": "c:ingots/hepatizon"
     },
     {
       "ingredient": "minecraft:sticky_piston"
     },
     {
-      "ingredient": "#c:ender_pearls"
+      "neoforge:ingredient_type": "mantle:item_tag",
+      "tag": "c:ender_pearls"
     },
     {
-      "ingredient": "#c:ender_pearls"
+      "neoforge:ingredient_type": "mantle:item_tag",
+      "tag": "c:ender_pearls"
     }
   ],
   "level": 1,

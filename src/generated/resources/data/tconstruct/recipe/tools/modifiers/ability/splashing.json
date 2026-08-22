@@ -3,7 +3,8 @@
   "allow_crystal": true,
   "inputs": [
     {
-      "ingredient": "#c:bottles/splash"
+      "neoforge:ingredient_type": "mantle:item_tag",
+      "tag": "c:bottles/splash"
     },
     {
       "neoforge:ingredient_type": "tconstruct:no_container",
@@ -13,13 +14,16 @@
       }
     },
     {
-      "ingredient": "#c:bottles/splash"
+      "neoforge:ingredient_type": "mantle:item_tag",
+      "tag": "c:bottles/splash"
     },
     {
-      "ingredient": "#c:ingots/copper"
+      "neoforge:ingredient_type": "mantle:item_tag",
+      "tag": "c:ingots/copper"
     },
     {
-      "ingredient": "#c:ingots/copper"
+      "neoforge:ingredient_type": "mantle:item_tag",
+      "tag": "c:ingots/copper"
     }
   ],
   "result": "tconstruct:splashing",

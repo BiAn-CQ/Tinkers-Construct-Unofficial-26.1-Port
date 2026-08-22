@@ -1,0 +1,11 @@
+{
+  "type": "tconstruct:material",
+  "ingredient": {
+    "neoforge:ingredient_type": "tconstruct:instrument",
+    "ignore": "tconstruct:variant_horns",
+    "item": "minecraft:goat_horn"
+  },
+  "material": "tconstruct:horn",
+  "needed": 1,
+  "value": 4
+}

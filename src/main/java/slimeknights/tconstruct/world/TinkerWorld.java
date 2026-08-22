@@ -13,6 +13,7 @@ import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.SpawnPlacements;
 import net.minecraft.world.entity.SpawnPlacementTypes;
@@ -539,7 +540,7 @@ public final class TinkerWorld extends TinkerModule {
 
   /** Creates a skull wall block for the given head type */
   private static StandingAndWallBlockItem makeHeadItem(TinkerHeadType type) {
-    Item.Properties properties = itemProperties().rarity(Rarity.UNCOMMON);
+    Item.Properties properties = itemProperties().rarity(Rarity.UNCOMMON).equippableUnswappable(EquipmentSlot.HEAD);
     if (type == TinkerHeadType.ENDERMAN) {
       return new EndermanHeadItem(heads.get(type), wallHeads.get(type), properties, Direction.DOWN);
     }

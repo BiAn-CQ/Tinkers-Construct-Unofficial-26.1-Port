@@ -12,6 +12,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Instrument;
 import net.minecraft.world.item.alchemy.Potion;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
@@ -50,6 +51,7 @@ public class TinkerTags {
     DamageTypes.init();
     MenuTypes.init();
     Potions.init();
+    Instruments.init();
     NeoForge.EVENT_BUS.addListener(EventPriority.NORMAL, false, TagsUpdatedEvent.class, event -> tagsLoaded = true);
   }
 
@@ -914,6 +916,9 @@ public class TinkerTags {
 
   public static class DamageTypes {
     private static void init() {}
+    /** Damage types dealt by a melee attack, excluding nearby damage that is not caused by the held tool. */
+    public static final TagKey<DamageType> IS_MELEE = local("is_melee");
+
     /** Damage types reduced by the melee protection modifier */
     public static final TagKey<DamageType> MELEE_PROTECTION = local("protection/melee");
     /** Damage types reduced by the projectile protection modifier */
@@ -929,6 +934,8 @@ public class TinkerTags {
 
     /** Damage types that can use modifiers. */
     public static final TagKey<DamageType> MODIFIER_WHITELIST = local("modifier_whitelist");
+    /** Damage types where the held tool is responsible for the kill and may apply loot modifiers. */
+    public static final TagKey<DamageType> LOOT_MODIFIER_WHITELIST = local("loot_modifier_whitelist");
 
     private static TagKey<DamageType> local(String name) {
       return TagKey.create(Registries.DAMAGE_TYPE, getResource(name));
@@ -947,5 +954,12 @@ public class TinkerTags {
 
     /** Any potion variants in this tag will be hidden from the variants of the potion fluid shown in JEI. */
     public static final TagKey<Potion> HIDDEN_FLUID = TagKey.create(Registries.POTION, getResource("hide_in_fluid"));
+  }
+
+  public static class Instruments {
+    private static void init() {}
+
+    /** Vanilla horn sounds with dedicated material variants. */
+    public static final TagKey<Instrument> VARIANT_HORNS = TagKey.create(Registries.INSTRUMENT, getResource("variant_horns"));
   }
 }

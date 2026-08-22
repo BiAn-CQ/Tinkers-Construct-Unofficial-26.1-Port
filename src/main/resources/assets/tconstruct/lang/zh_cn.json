@@ -2168,10 +2168,34 @@
 
   "__comment": "Slimesuit materials",
 
-  "material.tconstruct.blood": "血",
   "material.tconstruct.clay": "黏土",
+  "material.tconstruct.clay.flavor.slime": "纯天然！",
+  "material.tconstruct.clay.encyclopedia.slime": "每级提供1点护甲值。",
   "material.tconstruct.honey": "蜂蜜",
+  "material.tconstruct.honey.flavor.slime": "甜蜜过头！",
+  "material.tconstruct.honey.encyclopedia.slime": "每级有15%概率食用盔甲并消耗部分耐久，恢复每级1点饥饿值和0.1饱和度，同时解除中毒。",
   "material.tconstruct.phantom": "幻翼膜",
+  "material.tconstruct.phantom.flavor.shell": "像幻翼一样飘浮",
+  "material.tconstruct.phantom.encyclopedia.shell": "每件盔甲使重力降低5%并额外每级降低10%。",
+
+  "material.tconstruct.horn": "山羊角",
+  "material.tconstruct.horn.minecraft.ponder_goat_horn": "沉思山羊角",
+  "material.tconstruct.horn.minecraft.sing_goat_horn": "歌唱山羊角",
+  "material.tconstruct.horn.minecraft.seek_goat_horn": "寻觅山羊角",
+  "material.tconstruct.horn.minecraft.feel_goat_horn": "感受山羊角",
+  "material.tconstruct.horn.minecraft.admire_goat_horn": "赞颂山羊角",
+  "material.tconstruct.horn.minecraft.call_goat_horn": "号召山羊角",
+  "material.tconstruct.horn.minecraft.yearn_goat_horn": "向往山羊角",
+  "material.tconstruct.horn.minecraft.dream_goat_horn": "梦境山羊角",
+  "material.tconstruct.horn.flavor.shell": "像公羊一样冲锋",
+  "material.tconstruct.horn.encyclopedia.shell": "疾跑时徒手攻击每级额外造成4点伤害。",
+
+  "material.tconstruct.cheese": "奶酪",
+  "material.tconstruct.cheese.flavor": "充分熟成！",
+  "material.tconstruct.cheese.ranged": "可以食用并消耗部分耐久，恢复1点饥饿值和0.4饱和度，同时随机移除一种状态效果。",
+  "material.tconstruct.cheese.encyclopedia.slime": "每级有15%概率食用盔甲并消耗部分耐久，恢复每级1点饥饿值和0.4饱和度，同时随机移除一种状态效果。",
+
+  "material.tconstruct.blood": "血",
 
 
   "__comment": "Tier 2 Integration Materials",
@@ -2440,6 +2464,10 @@
   "modifier.tconstruct.charge_attack.flavor": "蛮牛冲撞",
   "modifier.tconstruct.charge_attack.description": "疾跑时可以造成额外伤害",
   "modifier.tconstruct.charge_attack.attack_damage": "冲刺时伤害",
+  "modifier.tconstruct.ram_attack": "公羊冲撞",
+  "modifier.tconstruct.ram_attack.flavor": "横冲直撞",
+  "modifier.tconstruct.ram_attack.description": "疾跑时造成额外伤害",
+  "modifier.tconstruct.ram_attack.attack_damage": "冲撞伤害",
 
 
   "_comment": "Ranged",
@@ -3124,6 +3152,12 @@
   "modifier.tconstruct.tasty": "美味",
   "modifier.tconstruct.tasty.flavor": "吧唧吧唧",
   "modifier.tconstruct.tasty.description": "闻起来真香，香得让你忍不住在这工具上添几道牙印",
+  "modifier.tconstruct.scrumptious": "珍馐",
+  "modifier.tconstruct.scrumptious.flavor": "吧唧咕唧",
+  "modifier.tconstruct.scrumptious.description": "盔甲闻起来太香，让你忍不住咬上几口",
+  "modifier.tconstruct.savory": "鲜香",
+  "modifier.tconstruct.savory.flavor": "咕唧吧唧",
+  "modifier.tconstruct.savory.description": "鞋子闻起来太香，让你忍不住咬上几口",
   "modifier.tconstruct.attractive": "诱引",
   "modifier.tconstruct.attractive.flavor": "现在知道谁的箭好看了",
   "modifier.tconstruct.attractive.description": "弹射物会牵引落点附近的生物",

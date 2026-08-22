@@ -3,19 +3,23 @@
   "allow_crystal": false,
   "inputs": [
     {
-      "ingredient": "#c:ingots/gold"
+      "neoforge:ingredient_type": "mantle:item_tag",
+      "tag": "c:ingots/gold"
     },
     {
       "ingredient": "minecraft:golden_carrot"
     },
     {
-      "ingredient": "#c:ingots/gold"
+      "neoforge:ingredient_type": "mantle:item_tag",
+      "tag": "c:ingots/gold"
     },
     {
-      "ingredient": "#c:ender_pearls"
+      "neoforge:ingredient_type": "mantle:item_tag",
+      "tag": "c:ender_pearls"
     },
     {
-      "ingredient": "#c:ender_pearls"
+      "neoforge:ingredient_type": "mantle:item_tag",
+      "tag": "c:ender_pearls"
     }
   ],
   "level": 2,

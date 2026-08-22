@@ -20,6 +20,7 @@ import slimeknights.tconstruct.common.data.tags.EnchantmentTagProvider;
 import slimeknights.tconstruct.common.data.tags.EntityTypeTagProvider;
 import slimeknights.tconstruct.common.data.tags.FluidTagProvider;
 import slimeknights.tconstruct.common.data.tags.ItemTagProvider;
+import slimeknights.tconstruct.common.data.tags.InstrumentTagProvider;
 import slimeknights.tconstruct.common.data.tags.MaterialTagProvider;
 import slimeknights.tconstruct.common.data.tags.MenuTypeTagProvider;
 import slimeknights.tconstruct.common.data.tags.ModifierTagProvider;
@@ -86,6 +87,7 @@ public final class TConstructDataGen {
     event.createProvider(MenuTypeTagProvider::new);
     event.createProvider(PotionTagProvider::new);
     event.createProvider(DamageTypeTagProvider::new);
+    event.createProvider(InstrumentTagProvider::new);
 
     event.createProvider(TConstructLootTableProvider::new);
     event.createProvider(AdvancementsProvider::new);

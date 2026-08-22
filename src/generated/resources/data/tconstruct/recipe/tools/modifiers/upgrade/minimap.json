@@ -6,7 +6,8 @@
       "ingredient": "minecraft:compass"
     },
     {
-      "ingredient": "#c:slime_balls"
+      "neoforge:ingredient_type": "mantle:item_tag",
+      "tag": "c:slime_balls"
     },
     {
       "ingredient": "minecraft:paper"

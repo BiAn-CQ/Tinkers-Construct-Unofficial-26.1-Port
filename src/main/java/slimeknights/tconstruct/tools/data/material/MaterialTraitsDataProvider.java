@@ -70,6 +70,7 @@ public class MaterialTraitsDataProvider extends AbstractMaterialTraitDataProvide
     addTraits(MaterialIds.venombone, AMMO, ModifierIds.venom);
     addTraits(MaterialIds.venombone, ARMOR, ModifierIds.venom);
     addDefaultTraits(MaterialIds.aluminum, ModifierIds.featherweight);
+    addDefaultTraits(MaterialIds.cheese, ModifierIds.savory);
     // tier 2 - nether
     addDefaultTraits(MaterialIds.necroticBone, ModifierIds.necrotic);
     addTraits(MaterialIds.necroticBone, ARMOR, ModifierIds.restore);
@@ -184,11 +185,12 @@ public class MaterialTraitsDataProvider extends AbstractMaterialTraitDataProvide
     addTraits(MaterialIds.earthslime, SlimeStats.ID, ModifierIds.overgrowth, TinkerModifiers.overslime.getId());
     addTraits(MaterialIds.skyslime, SlimeStats.ID, ModifierIds.skyfall, TinkerModifiers.overslime.getId(), ModifierIds.overslimeFriend);
     addTraits(MaterialIds.ichor, SlimeStats.ID, ModifierIds.godspeed, TinkerModifiers.overslime.getId(), ModifierIds.overslimeFriend);
-    addTraits(MaterialIds.enderslime, SlimeStats.ID, ModifierIds.enderdodging, TinkerModifiers.overslime.getId());
+    addTraits(MaterialIds.enderslime, SlimeStats.ID, ModifierIds.enderdodging, TinkerModifiers.overslime.getId(), ModifierIds.overslimeFriend);
     addTraits(MaterialIds.magma, SlimeStats.ID, ModifierIds.fireProtection, TinkerModifiers.overslime.getId(), ModifierIds.overslimeFriend);
     addTraits(MaterialIds.blood, SlimeStats.ID, ModifierIds.reverted, TinkerModifiers.overslime.getId(), ModifierIds.overslimeFriend);
     // pseudoslime
     addTraits(MaterialIds.clay, SlimeStats.ID, ModifierIds.forming);
+    addTraits(MaterialIds.honey, SlimeStats.ID, ModifierIds.scrumptious);
     addTraits(MaterialIds.enderPearl, SlimeStats.ID, ModifierIds.magicProtection);
 
     // slimeskull
@@ -224,11 +226,14 @@ public class MaterialTraitsDataProvider extends AbstractMaterialTraitDataProvide
     addTraits(MaterialIds.blazingBone, cage, ModifierIds.conductive);
     addDefaultTraits(MaterialIds.jadeite, TinkerModifiers.insatiable);
     addTraits(MaterialIds.endRod, cage, ModifierIds.floaty);
+    addTraits(MaterialIds.horn, cage, ModifierIds.ramAttack);
 
     // slimeshell
     MaterialStatsId shell = RepairStats.SHELL.getId();
     // shells
     addTraits(MaterialIds.turtle, shell, ModifierIds.turtlesGrace);
+    addTraits(MaterialIds.phantom, shell, ModifierIds.skyfall);
+    addTraits(MaterialIds.prismarine, shell, new ModifierEntry(ModifierIds.thorns, 2));
     addTraits(MaterialIds.shulker, shell, ModifierIds.shulkerBox);
     addTraits(MaterialIds.dragonScale, shell, ModifierIds.dragonfall);
     // shards

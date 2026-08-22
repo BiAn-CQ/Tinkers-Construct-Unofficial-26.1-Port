@@ -4,8 +4,10 @@ import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import lombok.Getter;
 import net.minecraft.core.Holder;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.HolderLookup.RegistryLookup;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
@@ -18,6 +20,7 @@ import net.minecraft.world.entity.SlotAccess;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.monster.EnderMan;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ClickAction;
@@ -25,6 +28,7 @@ import net.minecraft.world.inventory.Slot;
 import slimeknights.tconstruct.library.compat.ArmorItem;
 import net.minecraft.world.item.equipment.ArmorMaterial;
 import net.minecraft.world.item.equipment.EquipmentAsset;
+import net.minecraft.world.item.equipment.trim.ArmorTrim;
 import net.minecraft.world.item.ItemInstance;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
@@ -66,6 +70,8 @@ import slimeknights.tconstruct.library.tools.nbt.StatsNBT;
 import slimeknights.tconstruct.library.tools.nbt.ToolStack;
 import slimeknights.tconstruct.library.tools.stat.ToolStats;
 import slimeknights.tconstruct.library.utils.Util;
+import slimeknights.tconstruct.tools.TinkerModifiers;
+import slimeknights.tconstruct.tools.modules.cosmetic.TrimModule;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -202,7 +208,7 @@ public class ModifiableArmorItem extends ArmorItem implements IModifiableDisplay
   }
 
 
-  /* Indestructible items */
+  /* Item entity */
 
   @Override
   public boolean hasCustomEntity(ItemStack stack) {
@@ -213,6 +219,11 @@ public class ModifiableArmorItem extends ArmorItem implements IModifiableDisplay
   @Override
   public Entity createEntity(Level level, Entity original, ItemStack stack) {
     return IndestructibleItemEntity.createFrom(level, original, stack);
+  }
+
+  @Override
+  public void onDestroyed(ItemEntity entity) {
+    ToolInventoryCapability.onDestroyed(entity);
   }
 
 
@@ -343,6 +354,27 @@ public class ModifiableArmorItem extends ArmorItem implements IModifiableDisplay
     } else if (stack.has(DataComponents.GLIDER)) {
       stack.remove(DataComponents.GLIDER);
     }
+
+    // A missing modifier must also clear the vanilla mirror. Resolving a new
+    // trim requires registry access and is handled by inventoryTick below.
+    if (ModifierUtil.getModifierLevel(stack, TinkerModifiers.trim.getId()) <= 0
+        && stack.has(DataComponents.TRIM)) {
+      stack.remove(DataComponents.TRIM);
+    }
+  }
+
+  /** Mirrors Tinkers' persistent trim data to the component used by every native armor renderer. */
+  private static void updateArmorTrimComponent(ItemStack stack, ToolStack tool, RegistryAccess access) {
+    ArmorTrim trim = tool.getModifierLevel(TinkerModifiers.trim.getId()) > 0
+      ? TrimModule.getArmorTrim(tool, TinkerModifiers.trim.getId(), access)
+      : null;
+    if (trim != null) {
+      if (!trim.equals(stack.get(DataComponents.TRIM))) {
+        stack.set(DataComponents.TRIM, trim);
+      }
+    } else if (stack.has(DataComponents.TRIM)) {
+      stack.remove(DataComponents.TRIM);
+    }
   }
 
   public boolean canElytraFly(ItemStack stack, LivingEntity entity) {
@@ -379,8 +411,9 @@ public class ModifiableArmorItem extends ArmorItem implements IModifiableDisplay
       ToolStack tool = ToolStack.from(stack);
       if (!levelIn.isClientSide()) {
         tool.ensureHasData();
-        // Migrates initialized stacks created before GLIDER component support.
+        // Migrates initialized stacks created before native dynamic component support.
         updateDynamicComponents(stack);
+        updateArmorTrimComponent(stack, tool, levelIn.registryAccess());
       }
       List<ModifierEntry> modifiers = tool.getModifierList();
       if (!modifiers.isEmpty()) {

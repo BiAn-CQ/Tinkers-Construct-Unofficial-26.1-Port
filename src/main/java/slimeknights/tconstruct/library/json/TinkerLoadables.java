@@ -17,6 +17,7 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier.Operation;
 import slimeknights.tconstruct.library.compat.ArmorItem;
 import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.Instrument;
 import slimeknights.tconstruct.library.compat.Tier;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.item.enchantment.Enchantment;
@@ -155,6 +156,7 @@ public class TinkerLoadables {
   /* Tag keys */
   public static final StringLoadable<TagKey<Modifier>> MODIFIER_TAGS = Loadables.tagKey(ModifierManager.REGISTRY_KEY);
   public static final StringLoadable<TagKey<IMaterial>> MATERIAL_TAGS = Loadables.tagKey(MaterialManager.REGISTRY_KEY);
+  public static final StringLoadable<TagKey<Instrument>> INSTRUMENT_TAGS = Loadables.tagKey(Registries.INSTRUMENT);
 
   /* Mapped items */
   public static final StringLoadable<IMaterialItem> MATERIAL_ITEM = instance(Loadables.ITEM, IMaterialItem.class, "Expected item to be instance of IMaterialItem");

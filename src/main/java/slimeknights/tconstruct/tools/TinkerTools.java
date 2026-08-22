@@ -53,7 +53,7 @@ import slimeknights.tconstruct.library.materials.definition.IMaterial;
 import slimeknights.tconstruct.library.materials.definition.MaterialVariantId;
 import slimeknights.tconstruct.library.modifiers.ModifierHooks;
 import slimeknights.tconstruct.library.modifiers.ModifierManager;
-import slimeknights.tconstruct.library.modifiers.modules.behavior.EdibleModule;
+import slimeknights.tconstruct.library.modifiers.modules.interaction.edible.EdibleModule;
 import slimeknights.tconstruct.library.modifiers.modules.capacity.OverslimeModule;
 import slimeknights.tconstruct.library.recipe.ingredient.ToolHookIngredient;
 import slimeknights.tconstruct.library.tools.IndestructibleItemEntity;
@@ -317,8 +317,10 @@ public final class TinkerTools extends TinkerModule {
       ToolStats.register(OverslimeModule.OVERSLIME_STAT);
       ToolStats.register(ToolTankHelper.CAPACITY_STAT);
       ToolStats.register(ToolEnergyCapability.MAX_STAT);
-      ToolStats.register(EdibleModule.HUNGER);
-      ToolStats.register(EdibleModule.SATURATION);
+      ToolStats.registerConditional(EdibleModule.HUNGER);
+      ToolStats.registerConditional(EdibleModule.SATURATION);
+      ToolStats.register(EdibleModule.EAT_DURATION);
+      ToolStats.registerConditional(EdibleModule.COUNTER_CHANCE);
 
       ToolModule.LOADER.register(getResource("empty"), ToolModule.EMPTY.getLoader());
       // tool definition components

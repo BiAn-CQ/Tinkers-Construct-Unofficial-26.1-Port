@@ -9,13 +9,15 @@
   "allow_crystal": false,
   "inputs": [
     {
-      "ingredient": "#c:ingots/ironwood"
+      "neoforge:ingredient_type": "mantle:item_tag",
+      "tag": "c:ingots/ironwood"
     },
     {
       "ingredient": "tconstruct:pattern"
     },
     {
-      "ingredient": "#c:ingots/ironwood"
+      "neoforge:ingredient_type": "mantle:item_tag",
+      "tag": "c:ingots/ironwood"
     }
   ],
   "result": {

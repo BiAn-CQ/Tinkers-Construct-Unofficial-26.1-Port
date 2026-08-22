@@ -297,7 +297,7 @@ public class ModifierEvents {
   static void bounceOnFall(LivingFallEvent event) {
     LivingEntity living = event.getEntity();
     // using fall distance as the event distance could be reduced by jump boost
-    if (living == null || (living.getDeltaMovement().y > -0.3 && living.fallDistance < 3)) {
+    if (living == null || (living.fallDistance < 3 && living.getDeltaMovement().y > -0.3) || living.fallDistance <= living.maxUpStep()) {
       return;
     }
     // can the entity bounce?

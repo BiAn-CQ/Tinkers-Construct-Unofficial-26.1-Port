@@ -74,7 +74,10 @@ public class ToolAttackUtil {
     // fetch attribute instance
     AttributeInstance instance = holder.getAttribute(attribute);
     if (instance == null) {
-      return (float) holder.getAttributeBaseValue(attribute);
+      // A missing optional attribute instance must not discard the tool's own stat. This path is
+      // used by attacks from slots whose item attributes are not installed on the holder, notably
+      // offhand attacks. Keep the holder base and merge the tool value just like the normal path.
+      return (float) attributeValue.sanitizeValue(holder.getAttributeBaseValue(attribute) + toolValue);
     }
 
     // Mantle optimizes this method by skipping if the mainhand and offhand have no attributes
@@ -285,7 +288,6 @@ public class ToolAttackUtil {
         targetEntity.push(-Mth.sin(attackerLiving.getYRot() * DEGREE_TO_RADIANS) * knockback, 0.1d, Mth.cos(attackerLiving.getYRot() * DEGREE_TO_RADIANS) * knockback);
       }
       attackerLiving.setDeltaMovement(attackerLiving.getDeltaMovement().multiply(0.6D, 1.0D, 0.6D));
-      attackerLiving.setSprinting(false);
     }
 
     // removed: sword sweep attack, handled above
@@ -326,6 +328,12 @@ public class ToolAttackUtil {
     // removed: bane of arthropods hook, replaced by this
     for (ModifierEntry entry : modifiers) {
       entry.getHook(ModifierHooks.MELEE_HIT).afterMeleeHit(tool, entry, context, damageDealt);
+    }
+
+    // Preserve the state used to compute this attack until all successful-hit hooks finish.
+    // Post-hit predicates can then consistently observe the same state as damage predicates.
+    if (knockback > 0) {
+      attackerLiving.setSprinting(false);
     }
 
     // hurt resistance adjustment for high speed weapons

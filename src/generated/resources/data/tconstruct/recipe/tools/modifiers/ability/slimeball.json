@@ -7,16 +7,19 @@
       "ingredient": "tconstruct:sky_slime_vine"
     },
     {
-      "ingredient": "#c:ingots/slimesteel"
+      "neoforge:ingredient_type": "mantle:item_tag",
+      "tag": "c:ingots/slimesteel"
     },
     {
       "ingredient": "tconstruct:sky_slime_vine"
     },
     {
-      "ingredient": "#tconstruct:slimy_logs"
+      "neoforge:ingredient_type": "mantle:item_tag",
+      "tag": "tconstruct:slimy_logs"
     },
     {
-      "ingredient": "#tconstruct:slimy_logs"
+      "neoforge:ingredient_type": "mantle:item_tag",
+      "tag": "tconstruct:slimy_logs"
     }
   ],
   "level": 1,

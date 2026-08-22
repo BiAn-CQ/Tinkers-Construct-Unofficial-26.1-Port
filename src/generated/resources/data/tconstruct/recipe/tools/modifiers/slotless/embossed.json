@@ -9,7 +9,8 @@
   "allow_crystal": true,
   "inputs": [
     {
-      "ingredient": "#tconstruct:boss_trophies"
+      "neoforge:ingredient_type": "mantle:item_tag",
+      "tag": "tconstruct:boss_trophies"
     }
   ],
   "level": 1,

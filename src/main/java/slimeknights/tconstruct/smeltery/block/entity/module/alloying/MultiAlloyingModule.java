@@ -7,8 +7,10 @@ import slimeknights.tconstruct.library.recipe.TinkerRecipeTypes;
 import slimeknights.tconstruct.library.recipe.alloying.AlloyRecipe;
 import slimeknights.tconstruct.library.recipe.alloying.IAlloyTank;
 import slimeknights.tconstruct.library.recipe.alloying.IMutableAlloyTank;
+import slimeknights.tconstruct.library.utils.TinkerRecipeHelper;
 
 import javax.annotation.Nullable;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -48,9 +50,19 @@ public class MultiAlloyingModule implements IAlloyingModule {
    */
   private List<RecipeHolder<AlloyRecipe>> getRecipes() {
     if (lastRecipes == null) {
-      lastRecipes = slimeknights.tconstruct.library.utils.TinkerRecipeHelper.getRecipesFor(slimeknights.tconstruct.library.utils.TinkerRecipeHelper.getRecipeManager(getLevel()),TinkerRecipeTypes.ALLOYING.get(), alloyTank, getLevel());
+      Level level = getLevel();
+      lastRecipes = createRecipeCache(TinkerRecipeHelper.getRecipesFor(
+        TinkerRecipeHelper.getRecipeManager(level), TinkerRecipeTypes.ALLOYING.get(), alloyTank, level));
     }
     return lastRecipes;
+  }
+
+  /**
+   * Copies recipe lookup results into storage owned by this module.
+   * Recipe helper results may be immutable in 26.1, while this cache is shuffled and pruned in place.
+   */
+  static List<RecipeHolder<AlloyRecipe>> createRecipeCache(List<RecipeHolder<AlloyRecipe>> recipes) {
+    return new ArrayList<>(recipes);
   }
 
   /**

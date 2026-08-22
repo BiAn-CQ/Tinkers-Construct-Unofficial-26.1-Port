@@ -6,7 +6,8 @@
       "ingredient": "minecraft:leather"
     },
     {
-      "ingredient": "#minecraft:wool"
+      "neoforge:ingredient_type": "mantle:item_tag",
+      "tag": "minecraft:wool"
     },
     {
       "ingredient": "minecraft:leather"

@@ -16,6 +16,7 @@ import slimeknights.tconstruct.tools.stats.StatlessMaterialStats;
 public class TinkerPartSpriteProvider extends AbstractPartSpriteProvider {
   public static final MaterialStatsId WOOD = new MaterialStatsId(TConstruct.MOD_ID, "wood");
   public static final MaterialStatsId SLIMESUIT = new MaterialStatsId(TConstruct.MOD_ID, "slimesuit");
+  public static final MaterialStatsId SLIMESUIT_OVERLAY = new MaterialStatsId(TConstruct.MOD_ID, "slimesuit_overlay");
   public static final MaterialStatsId ARMOR_PLATING = new MaterialStatsId(TConstruct.MOD_ID, "armor_plating");
   public static final MaterialStatsId ARMOR_MAILLE = new MaterialStatsId(TConstruct.MOD_ID, "armor_maille");
   public static final MaterialStatsId ARMOR_CUIRASS = new MaterialStatsId(TConstruct.MOD_ID, "armor_cuirass");
@@ -104,11 +105,13 @@ public class TinkerPartSpriteProvider extends AbstractPartSpriteProvider {
       .addBreakablePart("leggings/slime",     SlimeStats.ID)
       .addBreakablePart("leggings/shell",     RepairStats.SHELL.getId())
       .addBreakablePart("boots/slime",        SlimeStats.ID)
-      .addBreakablePart("boots/laces",        RepairStats.LACES.getId())
+      .addPart("boots/laces",                 RepairStats.LACES.getId())
       .addBreakablePart("wings/slime",        SlimeStats.ID);
     addTexture("tinker_armor/slime/armor", SLIMESUIT).disallowAnimated();
     addTexture("tinker_armor/slime/leggings", SLIMESUIT).disallowAnimated();
     addTexture("tinker_armor/slime/wings", SLIMESUIT).disallowAnimated();
+    addTexture("tinker_armor/slime/overlay_armor", SLIMESUIT_OVERLAY).disallowAnimated();
+    addTexture("tinker_armor/slime/overlay_leggings", RepairStats.SHELL.getId()).disallowAnimated();
 
     // tools
     // pickaxe - regular variant uses handle on frypans as a grip so generate those too

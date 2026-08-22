@@ -12,10 +12,12 @@
       "ingredient": "tconstruct:ichor_slime_crystal_cluster"
     },
     {
-      "ingredient": "#c:ingots/manyullyn"
+      "neoforge:ingredient_type": "mantle:item_tag",
+      "tag": "c:ingots/manyullyn"
     },
     {
-      "ingredient": "#c:ingots/manyullyn"
+      "neoforge:ingredient_type": "mantle:item_tag",
+      "tag": "c:ingots/manyullyn"
     }
   ],
   "result": {

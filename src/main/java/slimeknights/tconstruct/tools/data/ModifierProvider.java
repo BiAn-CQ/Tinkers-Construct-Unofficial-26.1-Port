@@ -6,6 +6,7 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.data.PackOutput;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.DamageTypeTags;
+import net.minecraft.tags.InstrumentTags;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.effect.MobEffectCategory;
@@ -107,7 +108,6 @@ import slimeknights.tconstruct.library.modifiers.modules.behavior.AttributeModul
 import slimeknights.tconstruct.library.modifiers.modules.behavior.AttributeModule.TooltipStyle;
 import slimeknights.tconstruct.library.modifiers.modules.behavior.BlockItemProviderModule;
 import slimeknights.tconstruct.library.modifiers.modules.behavior.ConditionalStatModule;
-import slimeknights.tconstruct.library.modifiers.modules.behavior.EdibleModule;
 import slimeknights.tconstruct.library.modifiers.modules.behavior.InfinityModule;
 import slimeknights.tconstruct.library.modifiers.modules.behavior.MaterialRepairModule;
 import slimeknights.tconstruct.library.modifiers.modules.behavior.ReduceToolDamageModule;
@@ -145,9 +145,15 @@ import slimeknights.tconstruct.library.modifiers.modules.combat.ProjectileExplos
 import slimeknights.tconstruct.library.modifiers.modules.combat.SlingForceModule;
 import slimeknights.tconstruct.library.modifiers.modules.display.DurabilityBarColorModule;
 import slimeknights.tconstruct.library.modifiers.modules.display.MaterialVariantColorModule;
+import slimeknights.tconstruct.library.modifiers.modules.display.MeleeInstrumentModule;
 import slimeknights.tconstruct.library.modifiers.modules.display.ModifierVariantColorModule;
 import slimeknights.tconstruct.library.modifiers.modules.display.ModifierVariantNameModule;
 import slimeknights.tconstruct.library.modifiers.modules.display.ShowInteractionSourceModule;
+import slimeknights.tconstruct.library.modifiers.modules.interaction.edible.EdibleConsumeDurabilityModule;
+import slimeknights.tconstruct.library.modifiers.modules.interaction.edible.EdibleCureRandomEffectModule;
+import slimeknights.tconstruct.library.modifiers.modules.interaction.edible.EdibleModule;
+import slimeknights.tconstruct.library.modifiers.modules.interaction.edible.EdibleRemoveEffectModule;
+import slimeknights.tconstruct.library.modifiers.modules.interaction.edible.EdibleRepresentativeItemModule;
 import slimeknights.tconstruct.library.modifiers.modules.mining.ConditionalMiningSpeedModule;
 import slimeknights.tconstruct.library.modifiers.modules.technical.ArmorLevelModule;
 import slimeknights.tconstruct.library.modifiers.modules.util.BooleanPredicate;
@@ -596,6 +602,9 @@ public class ModifierProvider extends AbstractModifierProvider {
       .addModule(pierceBuilder.buildWeapon());
     buildModifier(ModifierIds.piercingGuard).addModule(pierceBuilder.toolTag(TinkerTags.Items.ARMOR).buildCounter());
     buildModifier(ModifierIds.chargeAttack).levelDisplay(ModifierLevelDisplay.NO_LEVELS).addModule(ConditionalMeleeDamageModule.builder().attacker(LivingEntityPredicate.SPRINTING).flat(7));
+    buildModifier(ModifierIds.ramAttack).levelDisplay(ModifierLevelDisplay.SINGLE_LEVEL)
+      .addModule(ConditionalMeleeDamageModule.builder().attacker(LivingEntityPredicate.SPRINTING).eachLevel(4))
+      .addModule(MeleeInstrumentModule.tag(InstrumentTags.REGULAR_GOAT_HORNS).material(MaterialIds.horn).attacker(LivingEntityPredicate.SPRINTING).build(), ModifierHooks.MELEE_HIT, ModifierHooks.MONSTER_MELEE_HIT);
 
     // ranged
     buildModifier(ModifierIds.power).addModule(StatBoostModule.add(ToolStats.PROJECTILE_DAMAGE).amount(0.5f, 0.5f));
@@ -936,6 +945,7 @@ public class ModifierProvider extends AbstractModifierProvider {
     // internal
     buildModifier(ModifierIds.overslimeFriend).tooltipDisplay(TooltipDisplay.NEVER);
     buildModifier(ModifierIds.snowBoots).addModule(new VolatileFlagModule(ModifiableArmorItem.SNOW_BOOTS)).levelDisplay(ModifierLevelDisplay.NO_LEVELS);
+    buildModifier(TinkerModifiers.edible).priority(40).tooltipDisplay(TooltipDisplay.NEVER).addModule(EdibleModule.INSTANCE);
 
     // traits - tier 1
     buildModifier(ModifierIds.cultivated).addModule(RepairModule.builder().eachLevel(0.5f));
@@ -1240,10 +1250,29 @@ public class ModifierProvider extends AbstractModifierProvider {
       .addModule(StatBoostModule.multiplyBase(OverslimeModule.OVERSLIME_STAT).eachLevel(0.5f));
     buildModifier(ModifierIds.crumbling).addModule(ConditionalMiningSpeedModule.builder().blocks(BlockPredicate.REQUIRES_TOOL.inverted()).allowIneffective().eachLevel(1f));
     buildModifier(ModifierIds.enhanced).priority(60).addModule(UPGRADE);
-    buildModifier(ModifierIds.tasty).priority(40)
-      .addModule(new EdibleModule(TinkerCommons.bacon, LevelingInt.flat(16), new LevelingInt(5, 5), LevelingValue.eachLevel(0.15f)))
+    buildModifier(ModifierIds.tasty)
+      .addModule(EdibleModule.EDIBLE_TRAIT)
+      .addModule(new EdibleRepresentativeItemModule(TinkerCommons.bacon))
+      .addModule(new EdibleConsumeDurabilityModule(new LevelingInt(5, 5)))
       .addModule(StatBoostModule.add(EdibleModule.HUNGER).eachLevel(1))
-      .addModule(StatBoostModule.add(EdibleModule.SATURATION).flat(0.6f));
+      .addModule(StatBoostModule.add(EdibleModule.SATURATION).flat(0.6f))
+      .addModule(StatBoostModule.add(EdibleModule.COUNTER_CHANCE).eachLevel(0.15f));
+    buildModifier(ModifierIds.scrumptious).levelDisplay(ModifierLevelDisplay.SINGLE_LEVEL)
+      .addModule(EdibleModule.EDIBLE_TRAIT)
+      .addModule(new EdibleRepresentativeItemModule(Items.HONEY_BOTTLE))
+      .addModule(new EdibleConsumeDurabilityModule(new LevelingInt(5, 3)))
+      .addModule(new EdibleRemoveEffectModule(MobEffects.POISON.value()))
+      .addModule(StatBoostModule.add(EdibleModule.HUNGER).eachLevel(1))
+      .addModule(StatBoostModule.add(EdibleModule.SATURATION).flat(0.1f))
+      .addModule(StatBoostModule.add(EdibleModule.COUNTER_CHANCE).eachLevel(0.15f));
+    buildModifier(ModifierIds.savory).levelDisplay(ModifierLevelDisplay.SINGLE_LEVEL)
+      .addModule(EdibleModule.EDIBLE_TRAIT)
+      .addModule(new EdibleRepresentativeItemModule(TinkerCommons.cheeseIngot))
+      .addModule(new EdibleConsumeDurabilityModule(new LevelingInt(4, 4)))
+      .addModule(new EdibleCureRandomEffectModule())
+      .addModule(StatBoostModule.add(EdibleModule.HUNGER).eachLevel(1))
+      .addModule(StatBoostModule.add(EdibleModule.SATURATION).flat(0.4f))
+      .addModule(StatBoostModule.add(EdibleModule.COUNTER_CHANCE).eachLevel(0.15f));
     buildModifier(ModifierIds.crystalbound)
       .addModule(RestrictAngleModule.INSTANCE)
       .addModule(StatBoostModule.add(ToolStats.VELOCITY).toolTag(TinkerTags.Items.RANGED).eachLevel(0.1f))
@@ -1267,6 +1296,7 @@ public class ModifierProvider extends AbstractModifierProvider {
       .addModule(StatBoostModule.add(ToolStats.VELOCITY).eachLevel(0.03f));
     buildModifier(ModifierIds.cobalamin).levelDisplay(ModifierLevelDisplay.SINGLE_LEVEL)
       .addModule(AttributeModule.builder(Attributes.ATTACK_SPEED, Operation.ADD_MULTIPLIED_TOTAL).tooltipStyle(TooltipStyle.PERCENT).eachLevel(0.05f))
+      .addModule(AttributeModule.builder(TinkerAttributes.USE_ITEM_SPEED.getDelegate(), Operation.ADD_VALUE).tooltipStyle(TooltipStyle.PERCENT).eachLevel(0.10f))
       .addModule(AttributeModule.builder(TinkerAttributes.MINING_SPEED_MULTIPLIER.getDelegate(), Operation.ADD_MULTIPLIED_TOTAL).tooltipStyle(TooltipStyle.PERCENT).eachLevel(0.15f));
     buildModifier(ModifierIds.ductile)
       .addModule(StatBoostModule.multiplyBase(ToolStats.DURABILITY).eachLevel(0.1f))

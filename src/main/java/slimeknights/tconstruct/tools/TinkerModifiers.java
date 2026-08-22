@@ -62,10 +62,12 @@ import slimeknights.tconstruct.library.json.variable.protection.ProtectionVariab
 import slimeknights.tconstruct.library.json.variable.stat.ConditionalStatVariable;
 import slimeknights.tconstruct.library.json.variable.stat.EntityConditionalStatVariable;
 import slimeknights.tconstruct.library.json.variable.tool.ConditionalToolVariable;
+import slimeknights.tconstruct.library.json.variable.tool.FluidAmountVariable;
 import slimeknights.tconstruct.library.json.variable.tool.ModDataVariable;
 import slimeknights.tconstruct.library.json.variable.tool.ModifierLevelVariable;
 import slimeknights.tconstruct.library.json.variable.tool.StatMultiplierVariable;
 import slimeknights.tconstruct.library.json.variable.tool.ToolStatVariable;
+import slimeknights.tconstruct.library.json.variable.tool.TankCapacityVariable;
 import slimeknights.tconstruct.library.json.variable.tool.ToolVariable;
 import slimeknights.tconstruct.library.modifiers.FakeModifier;
 import slimeknights.tconstruct.library.modifiers.Modifier;
@@ -115,7 +117,6 @@ import slimeknights.tconstruct.library.modifiers.modules.armor.ToolActionWalkerT
 import slimeknights.tconstruct.library.modifiers.modules.behavior.AttributeModule;
 import slimeknights.tconstruct.library.modifiers.modules.behavior.BlockItemProviderModule;
 import slimeknights.tconstruct.library.modifiers.modules.behavior.ConditionalStatModule;
-import slimeknights.tconstruct.library.modifiers.modules.behavior.EdibleModule;
 import slimeknights.tconstruct.library.modifiers.modules.behavior.InfinityModule;
 import slimeknights.tconstruct.library.modifiers.modules.behavior.MaterialRepairModule;
 import slimeknights.tconstruct.library.modifiers.modules.behavior.ReduceToolDamageModule;
@@ -137,6 +138,14 @@ import slimeknights.tconstruct.library.modifiers.modules.build.VolatileFlagModul
 import slimeknights.tconstruct.library.modifiers.modules.build.VolatileFloatModule;
 import slimeknights.tconstruct.library.modifiers.modules.build.VolatileIntModule;
 import slimeknights.tconstruct.library.modifiers.modules.capacity.CapacityBarModule;
+import slimeknights.tconstruct.library.modifiers.modules.capacity.FluidAsCapacityModule;
+import slimeknights.tconstruct.library.modifiers.modules.capacity.FluidPredicateAsCapacityModule;
+import slimeknights.tconstruct.library.modifiers.modules.interaction.edible.EdibleConsumeDurabilityModule;
+import slimeknights.tconstruct.library.modifiers.modules.interaction.edible.EdibleCureEffectsModule;
+import slimeknights.tconstruct.library.modifiers.modules.interaction.edible.EdibleCureRandomEffectModule;
+import slimeknights.tconstruct.library.modifiers.modules.interaction.edible.EdibleModule;
+import slimeknights.tconstruct.library.modifiers.modules.interaction.edible.EdibleRemoveEffectModule;
+import slimeknights.tconstruct.library.modifiers.modules.interaction.edible.EdibleRepresentativeItemModule;
 import slimeknights.tconstruct.library.modifiers.modules.capacity.DamageToCapacityModule;
 import slimeknights.tconstruct.library.modifiers.modules.capacity.DurabilityShieldModule;
 import slimeknights.tconstruct.library.modifiers.modules.capacity.EnergyAsCapacityModule;
@@ -155,6 +164,7 @@ import slimeknights.tconstruct.library.modifiers.modules.combat.ProjectileExplos
 import slimeknights.tconstruct.library.modifiers.modules.combat.SlingForceModule;
 import slimeknights.tconstruct.library.modifiers.modules.display.DurabilityBarColorModule;
 import slimeknights.tconstruct.library.modifiers.modules.display.MaterialVariantColorModule;
+import slimeknights.tconstruct.library.modifiers.modules.display.MeleeInstrumentModule;
 import slimeknights.tconstruct.library.modifiers.modules.display.ModifierVariantColorModule;
 import slimeknights.tconstruct.library.modifiers.modules.display.ModifierVariantNameModule;
 import slimeknights.tconstruct.library.modifiers.modules.display.ShowInteractionSourceModule;
@@ -434,6 +444,8 @@ public final class TinkerModifiers extends TinkerModule {
   public static final StaticModifier<Modifier> tankHandler = MODIFIERS.register("tank_handler", () -> ModuleHookMap.builder().addModule(new TankModule(ToolTankHelper.TANK_HELPER)).modifier().levelDisplay(ModifierLevelDisplay.NO_LEVELS).priority(300).build());
   /** Handles the energy bar for Forge Energy using modifiers. */
   public static final StaticModifier<Modifier> energyHandler = MODIFIERS.register("energy_handler", EnergyHandlerModifier::new);
+  /** Handles the shared logic for eating tools. */
+  public static final DynamicModifier edible = MODIFIERS.registerDynamic("edible");
 
   // creative
   /** Handles adding extra modifier slots to a tool in creative */
@@ -853,6 +865,11 @@ public final class TinkerModifiers extends TinkerModule {
       ModifierModule.LOADER.register(getResource("tool_actions"), ToolActionsModule.LOADER);
       ModifierModule.LOADER.register(getResource("tool_action_transform"), ToolActionTransformModule.LOADER);
       ModifierModule.LOADER.register(getResource("edible"), EdibleModule.LOADER);
+      ModifierModule.LOADER.register(getResource("edible_consume_durability"), EdibleConsumeDurabilityModule.LOADER);
+      ModifierModule.LOADER.register(getResource("edible_representative_item"), EdibleRepresentativeItemModule.LOADER);
+      ModifierModule.LOADER.register(getResource("edible_cure_effects"), EdibleCureEffectsModule.LOADER);
+      ModifierModule.LOADER.register(getResource("edible_cure_random_effect"), EdibleCureRandomEffectModule.LOADER);
+      ModifierModule.LOADER.register(getResource("edible_remove_effect"), EdibleRemoveEffectModule.LOADER);
       // build
       ModifierModule.LOADER.register(getResource("conditional_stat"), ConditionalStatModule.LOADER);
       ModifierModule.LOADER.register(getResource("modifier_slot"), ModifierSlotModule.LOADER);
@@ -881,12 +898,14 @@ public final class TinkerModifiers extends TinkerModule {
       ModifierModule.LOADER.register(getResource("counter_mob_effect"), MobEffectModule.ArmorCounter.LOADER);
       ModifierModule.LOADER.register(getResource("tool_usage_mob_effect"), MobEffectModule.ToolUsage.LOADER);
       ModifierModule.LOADER.register(getResource("armor_attack_mob_effect"), MobEffectModule.ArmorAttack.LOADER);
+      ModifierModule.LOADER.register(getResource("edible_mob_effect"), MobEffectModule.Edible.LOADER);
       // display
       ModifierModule.LOADER.register(getResource("durability_color"), DurabilityBarColorModule.LOADER);
       ModifierModule.LOADER.register(getResource("variant_name"), ModifierVariantNameModule.LOADER);
       ModifierModule.LOADER.register(getResource("variant_color"), ModifierVariantColorModule.LOADER);
       ModifierModule.LOADER.register(getResource("material_variant_color"), MaterialVariantColorModule.LOADER);
       ModifierModule.LOADER.register(getResource("show_interaction_source"), ShowInteractionSourceModule.LOADER);
+      ModifierModule.LOADER.register(getResource("melee_instrument"), MeleeInstrumentModule.LOADER);
       // enchantment
       ModifierModule.LOADER.register(getResource("constant_enchantment"), EnchantmentModule.Constant.LOADER);
       ModifierModule.LOADER.register(getResource("main_hand_harvest_enchantment"), EnchantmentModule.MainHandHarvest.LOADER);
@@ -900,6 +919,8 @@ public final class TinkerModifiers extends TinkerModule {
       ModifierModule.LOADER.register(getResource("capacity_bar"), CapacityBarModule.LOADER);
       ModifierModule.LOADER.register(getResource("durability_as_capacity"), DurabilityAsCapacityModule.LOADER);
       ModifierModule.LOADER.register(getResource("energy_as_capacity"), EnergyAsCapacityModule.LOADER);
+      ModifierModule.LOADER.register(getResource("fluid_as_capacity"), FluidAsCapacityModule.LOADER);
+      ModifierModule.LOADER.register(getResource("fluid_predicate_as_capacity"), FluidPredicateAsCapacityModule.LOADER);
       ModifierModule.LOADER.register(getResource("durability_shield"), DurabilityShieldModule.LOADER);
       ModifierModule.LOADER.register(getResource("loot_to_capacity"), LootToCapacityModule.LOADER);
       ModifierModule.LOADER.register(getResource("damage_to_capacity"), DamageToCapacityModule.LOADER);
@@ -1044,6 +1065,8 @@ public final class TinkerModifiers extends TinkerModule {
       ToolVariable.register(getResource("stat_multiplier"), StatMultiplierVariable.LOADER);
       ToolVariable.register(getResource("mod_data"), ModDataVariable.LOADER);
       ToolVariable.register(getResource("modifier_level"), ModifierLevelVariable.LOADER);
+      ToolVariable.register(getResource("fluid_amount"), FluidAmountVariable.LOADER);
+      ToolVariable.register(getResource("tank_capacity"), TankCapacityVariable.LOADER);
       // stat
       ConditionalStatVariable.LOADER.register(getResource("constant"), ConditionalStatVariable.Constant.LOADER);
       ConditionalStatVariable.register(getResource("entity"), EntityConditionalStatVariable.LOADER);

@@ -8,6 +8,7 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.Identifier;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
@@ -26,11 +27,13 @@ import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.world.phys.Vec3;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.Sounds;
 import slimeknights.tconstruct.common.TinkerTags;
 import slimeknights.tconstruct.library.modifiers.ModifierEntry;
 import slimeknights.tconstruct.library.modifiers.ModifierHooks;
+import slimeknights.tconstruct.library.modifiers.entity.ReusableProjectile;
 import slimeknights.tconstruct.library.modifiers.hook.interaction.EntityInteractionModifierHook;
 import slimeknights.tconstruct.library.modifiers.hook.mining.BreakSpeedContext;
 import slimeknights.tconstruct.library.modifiers.hook.ranged.ScheduledProjectileTaskModifierHook;
@@ -51,6 +54,7 @@ import slimeknights.tconstruct.library.tools.nbt.ToolStack;
 import slimeknights.tconstruct.library.tools.stat.ToolStats;
 import slimeknights.tconstruct.library.utils.Schedule;
 import slimeknights.tconstruct.library.utils.TinkerValueCodecs;
+import slimeknights.tconstruct.mixin.ThrownTridentAccessor;
 import slimeknights.tconstruct.shared.TinkerEffects;
 import slimeknights.tconstruct.tools.TinkerTools;
 import slimeknights.tconstruct.tools.data.ModifierIds;
@@ -59,7 +63,7 @@ import slimeknights.tconstruct.tools.modifiers.effect.MagneticEffect;
 import javax.annotation.Nullable;
 
 /** Based on {@link net.minecraft.world.entity.projectile.ThrownTrident} for throwing a modifiable weapon. */
-public class ThrownTool extends ThrownTrident implements ToolProjectile {
+public class ThrownTool extends ThrownTrident implements ToolProjectile, ReusableProjectile {
   /** Key to sync the stack to the client */
   protected static final EntityDataAccessor<ItemStack> STACK = SynchedEntityData.defineId(ThrownTool.class, EntityDataSerializers.ITEM_STACK);
   /** Local replacements for private vanilla trident state. */
@@ -101,11 +105,22 @@ public class ThrownTool extends ThrownTrident implements ToolProjectile {
       this.pickup = AbstractArrow.Pickup.ALLOWED;
     }
     // trident - stack constructor
-    this.tridentItem = stack.copyWithCount(1);
+    setThrownItem(stack);
     this.charge = charge;
     this.multiplier = multiplier;
     this.entityData.set(WATER_INERTIA, waterInertia);
     updateFromStack();
+  }
+
+  /**
+   * Keeps the tool stack used by Tinkers in sync with the pickup stack owned by {@link AbstractArrow}.
+   * Minecraft 26.1 moved the pickup stack out of {@link ThrownTrident}; leaving it at its trident default
+   * causes a thrown tool to turn into a vanilla trident when picked up or returned.
+   */
+  private void setThrownItem(ItemStack stack) {
+    this.tridentItem = stack.copyWithCount(1);
+    this.setPickupItemStack(this.tridentItem);
+    this.tool = null;
   }
 
   /** Sets any relevant properties from the stack */
@@ -172,7 +187,7 @@ public class ThrownTool extends ThrownTrident implements ToolProjectile {
     // don't discard tools below world if they have loyalty
     if (pickup == Pickup.ALLOWED && this.entityData.get(ID_LOYALTY) != 0) {
       // ensure it returns
-      toolDealtDamage = true;
+      markDealtDamage();
       // we don't damage the tool on throw, so instead damage it when it hits a block or an entity
       if (!tridentItem.isEmpty()) {
         ToolDamageUtil.damage(getTool(), 1, getOwner() instanceof LivingEntity l ? l : null, tridentItem);
@@ -193,6 +208,17 @@ public class ThrownTool extends ThrownTrident implements ToolProjectile {
     return tool;
   }
 
+  /** Marks both the Tinkers and vanilla trident lifecycles as having completed their entity hit. */
+  private void markDealtDamage() {
+    this.toolDealtDamage = true;
+    ((ThrownTridentAccessor)this).tconstruct$setDealtDamage(true);
+  }
+
+  @Override
+  public boolean isReusable() {
+    return !tridentItem.isEmpty();
+  }
+
   @Override
   public void tick() {
     // TODO: consider expiry time for loyalty
@@ -204,8 +230,10 @@ public class ThrownTool extends ThrownTrident implements ToolProjectile {
         // need to force since its the same instance, just NBT changes
         this.entityData.set(STACK, tridentItem, true);
       }
-      toolDealtDamage = true;
+      markDealtDamage();
     }
+
+    tickReturning();
     super.tick();
 
     // magnet
@@ -219,9 +247,56 @@ public class ThrownTool extends ThrownTrident implements ToolProjectile {
     }
   }
 
+  /**
+   * Runs the vanilla trident return movement using this entity's modifier-backed loyalty value.
+   * {@link ThrownTrident} keeps its loyalty and dealt-damage state private in 26.1, so its tick method cannot see the
+   * state used by a modifiable thrown tool.
+   */
+  private void tickReturning() {
+    int loyalty = this.entityData.get(ID_LOYALTY);
+    Entity owner = this.getOwner();
+    if (loyalty <= 0 || (!toolDealtDamage && !this.isNoPhysics()) || owner == null) {
+      return;
+    }
+
+    if (!isAcceptableReturnOwner(owner)) {
+      if (this.level() instanceof ServerLevel level && this.pickup == Pickup.ALLOWED) {
+        this.spawnAtLocation(level, this.getPickupItem(), 0.1f);
+      }
+      this.discard();
+      return;
+    }
+
+    if (!(owner instanceof Player) && this.position().distanceTo(owner.getEyePosition()) < owner.getBbWidth() + 1.0) {
+      this.discard();
+      return;
+    }
+
+    this.setNoPhysics(true);
+    Vec3 offset = owner.getEyePosition().subtract(this.position());
+    this.setPosRaw(this.getX(), this.getY() + offset.y * 0.015 * loyalty, this.getZ());
+    this.setDeltaMovement(this.getDeltaMovement().scale(0.95).add(offset.normalize().scale(0.05 * loyalty)));
+    if (this.clientSideReturnTridentTickCount == 0) {
+      this.playSound(SoundEvents.TRIDENT_RETURN, 10.0f, 1.0f);
+    }
+    this.clientSideReturnTridentTickCount++;
+  }
+
+  /** Matches the vanilla trident owner validity check without depending on its private helper. */
+  private static boolean isAcceptableReturnOwner(Entity owner) {
+    return owner.isAlive() && (!(owner instanceof ServerPlayer player) || !player.isSpectator());
+  }
+
+  /** Prevents the projectile from striking a second entity after the tool's own hit state was set. */
+  @Override
+  @Nullable
+  protected EntityHitResult findHitEntity(Vec3 start, Vec3 end) {
+    return toolDealtDamage ? null : super.findHitEntity(start, end);
+  }
+
   @Override
   protected void onHitEntity(EntityHitResult pResult) {
-    this.toolDealtDamage = true;
+    markDealtDamage();
 
     // need a living entity to run our attack hooks, just do nothing if we lack an owner
     if (!tridentItem.isEmpty() && this.getOwner() instanceof LivingEntity owner) {
@@ -328,7 +403,7 @@ public class ThrownTool extends ThrownTrident implements ToolProjectile {
               // if we broke anything, back off and skip standard stick in block logic
               if (harvested > 0) {
                 // no damaging a monster after this, and also reminds loyalty to return
-                toolDealtDamage = true;
+                markDealtDamage();
                 // backing off the block makes the tool easier to collect
                 this.setDeltaMovement(this.getDeltaMovement().multiply(-0.01, -0.1, -0.01));
                 // update the stack so visual changes to the tool render (e.g. broken or fluid)
@@ -395,6 +470,12 @@ public class ThrownTool extends ThrownTrident implements ToolProjectile {
     return this.entityData.get(STACK);
   }
 
+  /** Thrown tools must never fall back to the vanilla trident pickup stack. */
+  @Override
+  protected ItemStack getDefaultPickupItem() {
+    return ItemStack.EMPTY;
+  }
+
 
   /* NBT */
   private static final String KEY_CHARGE = "charge";
@@ -425,12 +506,17 @@ public class ThrownTool extends ThrownTrident implements ToolProjectile {
   @Override
   protected void readAdditionalSaveData(ValueInput input) {
     super.readAdditionalSaveData(input);
+    // AbstractArrow owns and persists the pickup stack in 26.1. Restore our local alias to that same stack
+    // so rendering, tool logic, and pickup/return all continue to refer to the original thrown tool.
+    setThrownItem(this.getPickupItemStackOrigin());
+    updateFromStack();
     // update the tool to sync to client, if its set
     this.charge = input.getFloatOr(KEY_CHARGE, 1.0f);
     this.multiplier = input.getFloatOr(KEY_MULTIPLIER, 1.0f);
     this.entityData.set(WATER_INERTIA, input.getFloatOr(KEY_WATER_INERTIA, 0.6f));
     this.hitBlock = input.getBooleanOr(KEY_HIT_BLOCK, false);
     this.toolDealtDamage = input.getBooleanOr("dealt_damage", false);
+    ((ThrownTridentAccessor)this).tconstruct$setDealtDamage(this.toolDealtDamage);
     this.toolLife = input.getIntOr("tool_life", 0);
     if (input.getInt(KEY_ORIGINAL_SLOT).isPresent()) {
       this.originalSlot = input.getIntOr(KEY_ORIGINAL_SLOT, 0);

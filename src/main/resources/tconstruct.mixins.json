@@ -3,8 +3,13 @@
   "minVersion": "0.8",
   "package": "slimeknights.tconstruct.mixin",
   "compatibilityLevel": "JAVA_25",
+  "mixins": [
+    "AbstractArrowAccessor",
+    "ThrownTridentAccessor"
+  ],
   "client": [
-    "client.CreativeModeInventoryScreenMixin"
+    "client.CreativeModeInventoryScreenMixin",
+    "client.EquipmentLayerRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1

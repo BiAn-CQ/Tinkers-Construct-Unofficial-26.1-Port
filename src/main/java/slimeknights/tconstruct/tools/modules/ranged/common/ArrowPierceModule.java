@@ -16,7 +16,7 @@ import slimeknights.tconstruct.library.module.HookProvider;
 import slimeknights.tconstruct.library.module.ModuleHook;
 import slimeknights.tconstruct.library.tools.nbt.IToolStackView;
 import slimeknights.tconstruct.library.tools.nbt.ModDataNBT;
-import slimeknights.tconstruct.tools.entity.ModifiableArrow;
+import slimeknights.tconstruct.mixin.AbstractArrowAccessor;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -41,9 +41,8 @@ public record ArrowPierceModule(LevelingInt amount, ModifierCondition<IToolStack
     if (condition.matches(tool, modifier) && arrow != null) {
       int amount = this.amount.compute(modifier.getEffectiveLevel());
       if (amount > 0) {
-        if (arrow instanceof ModifiableArrow modifiableArrow) {
-          modifiableArrow.setPierceLevel((byte) amount);
-        }
+        int pierceLevel = Math.min(Byte.MAX_VALUE, arrow.getPierceLevel() + amount);
+        ((AbstractArrowAccessor)arrow).tconstruct$setPierceLevel((byte)pierceLevel);
       }
     }
   }

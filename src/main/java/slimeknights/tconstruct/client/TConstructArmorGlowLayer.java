@@ -36,6 +36,8 @@ import java.util.List;
  * layers whose selected material is emissive.</p>
  */
 final class TConstructArmorGlowLayer extends RenderLayer<AvatarRenderState, PlayerModel> {
+  /** Keep emissive passes above the native equipment layers, whose ordered submissions start at 1. */
+  private static final int OVERLAY_RENDER_ORDER = 8;
   private static final int MAX_LIGHT = LightmapLight.pack(15, 15);
   private static final Identifier ARMOR_ROOT = Identifier.fromNamespaceAndPath("tconstruct", "tinker_armor");
 
@@ -57,7 +59,7 @@ final class TConstructArmorGlowLayer extends RenderLayer<AvatarRenderState, Play
   @Override
   public void submit(PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int lightCoords,
                      AvatarRenderState state, float yRot, float xRot) {
-    int order = 0;
+    int order = OVERLAY_RENDER_ORDER;
     order = renderArmor(poseStack, submitNodeCollector, state, state.chestEquipment,
       EquipmentSlot.CHEST, armorLayerType(state, EquipmentSlot.CHEST), armorModels.get(EquipmentSlot.CHEST), lightCoords, order);
     order = renderArmor(poseStack, submitNodeCollector, state, state.legsEquipment,

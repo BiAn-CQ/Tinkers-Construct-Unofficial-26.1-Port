@@ -8,7 +8,8 @@
       "match": "tconstruct:bow_limb"
     },
     {
-      "ingredient": "#c:ingots/cinderslime"
+      "neoforge:ingredient_type": "mantle:item_tag",
+      "tag": "c:ingots/cinderslime"
     },
     {
       "neoforge:ingredient_type": "tconstruct:material",

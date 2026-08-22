@@ -3,19 +3,23 @@
   "allow_crystal": true,
   "inputs": [
     {
-      "ingredient": "#c:raw_materials"
+      "neoforge:ingredient_type": "mantle:item_tag",
+      "tag": "c:raw_materials"
     },
     {
       "ingredient": "minecraft:blast_furnace"
     },
     {
-      "ingredient": "#c:ingots"
+      "neoforge:ingredient_type": "mantle:item_tag",
+      "tag": "c:ingots"
     },
     {
-      "ingredient": "#c:storage_blocks/coal"
+      "neoforge:ingredient_type": "mantle:item_tag",
+      "tag": "c:storage_blocks/coal"
     },
     {
-      "ingredient": "#c:storage_blocks/coal"
+      "neoforge:ingredient_type": "mantle:item_tag",
+      "tag": "c:storage_blocks/coal"
     }
   ],
   "level": 1,

@@ -4,13 +4,15 @@
   "check_trait_level": true,
   "inputs": [
     {
-      "ingredient": "#c:ingots/hepatizon"
+      "neoforge:ingredient_type": "mantle:item_tag",
+      "tag": "c:ingots/hepatizon"
     },
     {
       "ingredient": "minecraft:iron_chain"
     },
     {
-      "ingredient": "#c:ingots/hepatizon"
+      "neoforge:ingredient_type": "mantle:item_tag",
+      "tag": "c:ingots/hepatizon"
     }
   ],
   "level": 1,

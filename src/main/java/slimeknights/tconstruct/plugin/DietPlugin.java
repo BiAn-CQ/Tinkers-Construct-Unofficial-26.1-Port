@@ -7,8 +7,8 @@ import slimeknights.tconstruct.library.tools.helper.ModifierUtil;
 public class DietPlugin {
   /** Call on mod construct to enable the compat */
   public static void onConstruct() {
-    ModifierUtil.foodConsumer = (player, stack, hunger, saturation) -> {
-      DietCapability.get(player).ifPresent(cap -> cap.consume(stack, hunger, saturation));
+    ModifierUtil.foodConsumer = (player, stacks, hunger, saturation) -> {
+      DietCapability.get(player).ifPresent(cap -> stacks.forEach(stack -> cap.consume(stack, hunger, saturation)));
     };
   }
 }

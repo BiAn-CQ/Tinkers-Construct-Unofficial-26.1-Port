@@ -167,6 +167,8 @@ public class MaterialRenderInfoProvider extends AbstractMaterialRenderInfoProvid
     buildRenderInfo(MaterialIds.clay);
     buildRenderInfo(MaterialIds.honey);
     buildRenderInfo(MaterialIds.phantom);
+    buildRenderInfo(MaterialIds.horn);
+    buildRenderInfo(MaterialIds.cheese);
 
     // UI internal
     redirect(ToolBuildHandler.getRenderMaterial(0), MaterialIds.iron);

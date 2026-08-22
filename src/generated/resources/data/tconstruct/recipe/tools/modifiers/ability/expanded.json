@@ -6,16 +6,19 @@
       "ingredient": "minecraft:piston"
     },
     {
-      "ingredient": "#c:ingots/amethyst_bronze"
+      "neoforge:ingredient_type": "mantle:item_tag",
+      "tag": "c:ingots/amethyst_bronze"
     },
     {
       "ingredient": "minecraft:piston"
     },
     {
-      "ingredient": "#c:slimeball/ichor"
+      "neoforge:ingredient_type": "mantle:item_tag",
+      "tag": "c:slimeball/ichor"
     },
     {
-      "ingredient": "#c:slimeball/ichor"
+      "neoforge:ingredient_type": "mantle:item_tag",
+      "tag": "c:slimeball/ichor"
     }
   ],
   "result": "tconstruct:expanded",

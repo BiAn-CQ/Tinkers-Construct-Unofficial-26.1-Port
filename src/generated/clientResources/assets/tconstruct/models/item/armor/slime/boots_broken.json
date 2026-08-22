@@ -2,7 +2,7 @@
   "loader": "tconstruct:tool",
   "parent": "forge:item/default",
   "textures": {
-    "laces": "tconstruct:item/tool/armor/slime/boots/laces_broken",
+    "laces": "tconstruct:item/tool/armor/slime/boots/laces",
     "slime": "tconstruct:item/tool/armor/slime/boots/slime_broken"
   },
   "modifier_maps": [

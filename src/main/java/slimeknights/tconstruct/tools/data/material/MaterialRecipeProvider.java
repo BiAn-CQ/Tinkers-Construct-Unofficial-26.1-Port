@@ -5,9 +5,13 @@ import slimeknights.tconstruct.library.recipe.TinkerIngredients;
 
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.RecipeOutput;
+import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.item.Instrument;
+import net.minecraft.world.item.Instruments;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.block.Blocks;
@@ -32,6 +36,7 @@ import slimeknights.tconstruct.fluids.TinkerFluids;
 import slimeknights.tconstruct.library.data.recipe.IMaterialRecipeHelper;
 import slimeknights.tconstruct.library.materials.definition.MaterialVariantId;
 import slimeknights.tconstruct.library.recipe.FluidValues;
+import slimeknights.tconstruct.library.recipe.ingredient.InstrumentIngredient;
 import slimeknights.tconstruct.library.recipe.casting.material.MaterialFluidRecipeBuilder;
 import slimeknights.tconstruct.library.recipe.melting.MaterialMeltingRecipeBuilder;
 import slimeknights.tconstruct.shared.TinkerCommons;
@@ -235,7 +240,19 @@ public class MaterialRecipeProvider extends BaseRecipeProvider implements IMater
 
     // slimesuit
     materialRecipe(consumer, MaterialIds.enderslime, TinkerIngredients.of(TinkerWorld.enderGeode), 1, 1, folder + "enderslime");
+    materialRecipe(consumer, MaterialIds.honey,      TinkerIngredients.of(Items.HONEY_BOTTLE), 1, 1, folder + "honey");
     materialRecipe(consumer, MaterialIds.phantom,    TinkerIngredients.of(Items.PHANTOM_MEMBRANE), 1, 1, folder + "phantom_membrane");
+    materialRecipe(consumer, MaterialIds.cheese,     TinkerIngredients.of(TinkerCommons.cheeseIngot), 1, 1, folder + "cheese_ingot");
+    materialRecipe(consumer, MaterialIds.cheese,     TinkerIngredients.of(TinkerCommons.cheeseBlock), 4, 1, folder + "cheese_block");
+    materialRecipe(consumer, MaterialIds.horn, InstrumentIngredient.of(Items.GOAT_HORN, TinkerTags.Instruments.VARIANT_HORNS), 4, 1, folder + "horn/default");
+    hornMaterial(consumer, Instruments.PONDER_GOAT_HORN, folder);
+    hornMaterial(consumer, Instruments.SING_GOAT_HORN, folder);
+    hornMaterial(consumer, Instruments.SEEK_GOAT_HORN, folder);
+    hornMaterial(consumer, Instruments.FEEL_GOAT_HORN, folder);
+    hornMaterial(consumer, Instruments.ADMIRE_GOAT_HORN, folder);
+    hornMaterial(consumer, Instruments.CALL_GOAT_HORN, folder);
+    hornMaterial(consumer, Instruments.YEARN_GOAT_HORN, folder);
+    hornMaterial(consumer, Instruments.DREAM_GOAT_HORN, folder);
   }
 
   private void addMaterialSmeltery(RecipeOutput consumer) {
@@ -358,6 +375,7 @@ public class MaterialRecipeProvider extends BaseRecipeProvider implements IMater
     // slimesuit - pseudoslime
     materialMeltingCasting(consumer, MaterialIds.clay,       TinkerFluids.moltenClay,  FluidValues.BRICK,    folder);
     materialMeltingCasting(consumer, MaterialIds.enderPearl, TinkerFluids.moltenEnder, FluidValues.SLIMEBALL, folder);
+    materialMeltingCasting(consumer, MaterialIds.honey,      TinkerFluids.honey,       FluidValues.BOTTLE,    folder);
     // slimesuit - repair kits
     materialMeltingCasting(consumer, MaterialIds.glass, TinkerFluids.moltenGlass, FluidValues.GLASS_PANE, folder);
   }
@@ -366,5 +384,12 @@ public class MaterialRecipeProvider extends BaseRecipeProvider implements IMater
   private void whitestoneCasting(RecipeOutput consumer, FluidObject<?> fluid, String folder) {
     String name = TinkerFluids.withoutMolten(fluid);
     materialComposite(withCondition(consumer, tagCondition("ingots/" + name)), MaterialIds.rock, MaterialIds.whitestoneComposite, fluid, FluidValues.INGOT, folder, "whitestone_from_" + name);
+  }
+
+  /** Adds a recipe that preserves the horn sound as the material variant. */
+  private void hornMaterial(RecipeOutput consumer, ResourceKey<Instrument> instrument, String folder) {
+    Identifier key = instrument.identifier();
+    materialRecipe(consumer, MaterialVariantId.create(MaterialIds.horn, key.toLanguageKey()),
+      InstrumentIngredient.of(Items.GOAT_HORN, instrument), 4, 1, folder + "horn/" + key.getPath());
   }
 }

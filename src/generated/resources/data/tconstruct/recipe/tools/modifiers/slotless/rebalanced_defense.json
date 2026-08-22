@@ -3,13 +3,15 @@
   "allow_crystal": false,
   "inputs": [
     {
-      "ingredient": "#c:nuggets/cobalt"
+      "neoforge:ingredient_type": "mantle:item_tag",
+      "tag": "c:nuggets/cobalt"
     },
     {
       "ingredient": "minecraft:end_crystal"
     },
     {
-      "ingredient": "#c:nuggets/cobalt"
+      "neoforge:ingredient_type": "mantle:item_tag",
+      "tag": "c:nuggets/cobalt"
     },
     {
       "ingredient": "tconstruct:earth_slime_crystal_block"

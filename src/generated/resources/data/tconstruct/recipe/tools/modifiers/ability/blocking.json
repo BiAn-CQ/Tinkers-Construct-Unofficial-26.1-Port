@@ -4,19 +4,24 @@
   "check_trait_level": true,
   "inputs": [
     {
-      "ingredient": "#minecraft:planks"
+      "neoforge:ingredient_type": "mantle:item_tag",
+      "tag": "minecraft:planks"
     },
     {
-      "ingredient": "#c:ingots/steel"
+      "neoforge:ingredient_type": "mantle:item_tag",
+      "tag": "c:ingots/steel"
     },
     {
-      "ingredient": "#minecraft:planks"
+      "neoforge:ingredient_type": "mantle:item_tag",
+      "tag": "minecraft:planks"
     },
     {
-      "ingredient": "#minecraft:planks"
+      "neoforge:ingredient_type": "mantle:item_tag",
+      "tag": "minecraft:planks"
     },
     {
-      "ingredient": "#minecraft:planks"
+      "neoforge:ingredient_type": "mantle:item_tag",
+      "tag": "minecraft:planks"
     }
   ],
   "level": 1,

@@ -6,16 +6,19 @@
       "ingredient": "minecraft:piston"
     },
     {
-      "ingredient": "#c:ingots/queens_slime"
+      "neoforge:ingredient_type": "mantle:item_tag",
+      "tag": "c:ingots/queens_slime"
     },
     {
       "ingredient": "minecraft:piston"
     },
     {
-      "ingredient": "#c:slimeball/ender"
+      "neoforge:ingredient_type": "mantle:item_tag",
+      "tag": "c:slimeball/ender"
     },
     {
-      "ingredient": "#c:slimeball/ender"
+      "neoforge:ingredient_type": "mantle:item_tag",
+      "tag": "c:slimeball/ender"
     }
   ],
   "level": {

@@ -4,6 +4,7 @@ import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
+import net.minecraft.world.item.equipment.trim.ArmorTrim;
 import net.minecraft.world.item.equipment.trim.TrimMaterial;
 import net.minecraft.world.item.equipment.trim.TrimPattern;
 import slimeknights.mantle.data.loadable.record.RecordLoadable;
@@ -96,5 +97,20 @@ public class TrimModule implements ModifierModule, DisplayNameModifierHook, Modi
   /** Gets the material key for the given modifier ID */
   public static Identifier materialKey(ModifierId modifier) {
     return modifier.withSuffix("_material");
+  }
+
+  /** Resolves the modifier's persistent IDs to the native armor trim component. */
+  @Nullable
+  public static ArmorTrim getArmorTrim(IToolStackView tool, ModifierId modifier, RegistryAccess access) {
+    String materialId = tool.getPersistentData().getString(materialKey(modifier));
+    String patternId = tool.getPersistentData().getString(patternKey(modifier));
+    Identifier materialKey = Identifier.tryParse(materialId);
+    Identifier patternKey = Identifier.tryParse(patternId);
+    if (materialKey == null || patternKey == null) {
+      return null;
+    }
+    var material = access.lookupOrThrow(Registries.TRIM_MATERIAL).get(materialKey).orElse(null);
+    var pattern = access.lookupOrThrow(Registries.TRIM_PATTERN).get(patternKey).orElse(null);
+    return material == null || pattern == null ? null : new ArmorTrim(material, pattern);
   }
 }

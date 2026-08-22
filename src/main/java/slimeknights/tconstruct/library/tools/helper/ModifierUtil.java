@@ -39,6 +39,7 @@ import slimeknights.tconstruct.tools.TinkerToolActions;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 
@@ -84,6 +85,16 @@ public final class ModifierUtil {
       return player;
     }
     return null;
+  }
+
+  /** Returns whether the holder pays tool resource costs; only creative players are exempt. */
+  public static boolean consumesResources(@Nullable LivingEntity entity) {
+    return !(entity instanceof Player player) || consumesResources(player);
+  }
+
+  /** Returns whether the player pays tool resource costs; null and non-creative players do. */
+  public static boolean consumesResources(@Nullable Player player) {
+    return player == null || !player.isCreative();
   }
 
   /**
@@ -282,7 +293,12 @@ public final class ModifierUtil {
   /** Interface used for {@link #foodConsumer} */
   public interface FoodConsumer {
     /** Called when food is eaten to notify compat that food was eaten */
-    void onConsume(Player player, ItemStack stack, int hunger, float saturation);
+    void onConsume(Player player, List<ItemStack> stacks, int hunger, float saturation);
+
+    /** Convenience overload for effects represented by one item. */
+    default void onConsume(Player player, ItemStack stack, int hunger, float saturation) {
+      onConsume(player, List.of(stack), hunger, saturation);
+    }
   }
 
   /** Instance of the current food consumer, will be either no-op or an implementation calling the Diet API, never null. */

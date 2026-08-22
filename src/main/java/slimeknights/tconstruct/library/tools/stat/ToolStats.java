@@ -9,8 +9,11 @@ import slimeknights.tconstruct.common.TinkerTags;
 
 import javax.annotation.Nullable;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import static slimeknights.mantle.data.predicate.item.ItemPredicate.or;
 import static slimeknights.mantle.data.predicate.item.ItemPredicate.tag;
@@ -40,6 +43,23 @@ public class ToolStats {
 
   /** Map of ID to stat */
   private static final Map<ToolStatId,IToolStat<?>> ALL_STATS = new HashMap<>();
+  /** Stats that are valid targets for the generic conditional-stat modifier hook. */
+  private static final Set<INumericToolStat<?>> CONDITIONAL = new HashSet<>();
+  /** Loader restricted to stats that support the generic conditional-stat hook. */
+  public static final StringLoadable<INumericToolStat<?>> CONDITIONAL_LOADER = LOADER.comapFlatMap((stat, error) -> {
+    if (stat instanceof INumericToolStat<?> numeric) {
+      if (!CONDITIONAL.contains(numeric)) {
+        ToolStatId id = stat.getName();
+        if (TConstruct.MOD_ID.equals(id.getNamespace())) {
+          TConstruct.LOG.error("Tool stat {} does not support conditional stats but is used by a conditional stat module", id);
+        } else {
+          TConstruct.LOG.warn("Tool stat {} is not marked as supporting conditional stats", id);
+        }
+      }
+      return numeric;
+    }
+    throw error.create("Invalid tool stat " + stat.getName() + ", must be a numeric stat");
+  }, stat -> stat);
 
   /** Tools durability, determines how long it lasts */
   public static final FloatToolStat DURABILITY = register(new FloatToolStat(name("durability"), 0xFF47CC47, 1, 1, Integer.MAX_VALUE, TinkerTags.Items.DURABILITY));
@@ -70,26 +90,26 @@ public class ToolStats {
   /** Maximum damage blocked by the shield. If more than this number is dealt, the damage is reduced by this number */
   public static final FloatToolStat BLOCK_AMOUNT = register(new FloatToolStat(name("block_amount"), 0xFF78A0CD, 5, 0, 2048, TinkerTags.Items.HELD));
   /** Maximum angle of blocking in degrees. 180 is vanilla (90 degrees either direction). */
-  public static final FloatToolStat BLOCK_ANGLE = register(new FloatToolStat(name("block_angle"), 0xFF78A0CD, 120, 0, 180, TinkerTags.Items.HELD));
+  public static final FloatToolStat BLOCK_ANGLE = registerConditional(new FloatToolStat(name("block_angle"), 0xFF78A0CD, 120, 0, 180, TinkerTags.Items.HELD));
 
   // ranged
   /** Number of times per second a tool can be used */
-  public static final FloatToolStat DRAW_SPEED = register(new FloatToolStat(name("draw_speed"), 0xFF8547CC, 1, 0, 1024f, TinkerTags.Items.RANGED));
+  public static final FloatToolStat DRAW_SPEED = registerConditional(new FloatToolStat(name("draw_speed"), 0xFF8547CC, 1, 0, 1024f, TinkerTags.Items.RANGED));
   /** Starting velocity of the projectile launched from a ranged weapon */
-  public static final FloatToolStat VELOCITY = register(new FloatToolStat(name("velocity"), 0xFF78A0CD, 1, 0, 1024f, or(tag(TinkerTags.Items.RANGED), tag(TinkerTags.Items.AMMO))));
+  public static final FloatToolStat VELOCITY = registerConditional(new FloatToolStat(name("velocity"), 0xFF78A0CD, 1, 0, 1024f, or(tag(TinkerTags.Items.RANGED), tag(TinkerTags.Items.AMMO))));
   /** Starting velocity of the projectile launched from a ranged weapon */
-  public static final FloatToolStat ACCURACY = register(new FloatToolStat(name("accuracy"), 0xFF8547CC, 0.75f, 0.1f, 1f, or(tag(TinkerTags.Items.RANGED), tag(TinkerTags.Items.AMMO))));
+  public static final FloatToolStat ACCURACY = registerConditional(new FloatToolStat(name("accuracy"), 0xFF8547CC, 0.75f, 0.1f, 1f, or(tag(TinkerTags.Items.RANGED), tag(TinkerTags.Items.AMMO))));
   /** Base damage of the projectile, boosted by enchantments such as power. Assumes the arrow itself does 2 damage, so we boost on top of that */
   // TODO 1.21: rename to projectile power?
-  public static final FloatToolStat PROJECTILE_DAMAGE = register(new FloatToolStat(name("projectile_damage"), 0xFFD76464, 2f, 0f, 1024f, or(tag(TinkerTags.Items.LAUNCHERS), tag(TinkerTags.Items.AMMO))));
+  public static final FloatToolStat PROJECTILE_DAMAGE = registerConditional(new FloatToolStat(name("projectile_damage"), 0xFFD76464, 2f, 0f, 1024f, or(tag(TinkerTags.Items.LAUNCHERS), tag(TinkerTags.Items.AMMO))));
   /** Projectile movement speed reduction while underwater */
-  public static final FloatToolStat WATER_INERTIA = register(new FloatToolStat(name("water_inertia"), 0xFF5A82F3, 0.6f, 0.01f, 0.99f));
+  public static final FloatToolStat WATER_INERTIA = registerConditional(new FloatToolStat(name("water_inertia"), 0xFF5A82F3, 0.6f, 0.01f, 0.99f));
 
   // fishing
   /** Luck bonus applied to fishing rods */
-  public static final FloatToolStat SEA_LUCK = register(new FloatToolStat(name("sea_luck"), 0xFF345EC3, 0, 0, 1024f, TinkerTags.Items.FISHING_RODS));
+  public static final FloatToolStat SEA_LUCK = registerConditional(new FloatToolStat(name("sea_luck"), 0xFF345EC3, 0, 0, 1024f, TinkerTags.Items.FISHING_RODS));
   /** Floored value will reduce fishing time by 5 seconds */
-  public static final FloatToolStat LURE = register(new FloatToolStat(name("lure"), 0xFFCBCC18, 0, 0, 5, TinkerTags.Items.FISHING_RODS));
+  public static final FloatToolStat LURE = registerConditional(new FloatToolStat(name("lure"), 0xFFCBCC18, 0, 0, 5, TinkerTags.Items.FISHING_RODS));
 
   /**
    * Gets the tool stat for the given name
@@ -158,5 +178,20 @@ public class ToolStats {
   /** Creates a resource location for a Tinkers stat */
   private static ToolStatId name(String name) {
     return new ToolStatId(TConstruct.MOD_ID, name);
+  }
+
+  /** Marks one or more numeric stats as supporting the generic conditional-stat hook. */
+  public static void markConditional(INumericToolStat<?>... toolStats) {
+    Collections.addAll(CONDITIONAL, toolStats);
+  }
+
+  /** Registers a stat and marks it as supporting the generic conditional-stat hook. */
+  public static <T extends INumericToolStat<?>> T registerConditional(T toolStat) {
+    CONDITIONAL.add(toolStat);
+    return register(toolStat);
+  }
+
+  public static boolean supportsConditional(INumericToolStat<?> toolStat) {
+    return CONDITIONAL.contains(toolStat);
   }
 }

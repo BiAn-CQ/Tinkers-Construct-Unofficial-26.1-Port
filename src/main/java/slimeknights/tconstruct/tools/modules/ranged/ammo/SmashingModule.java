@@ -11,6 +11,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.arrow.AbstractArrow;
 import net.minecraft.world.entity.projectile.arrow.AbstractArrow.Pickup;
+import net.minecraft.world.entity.projectile.arrow.Arrow;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -354,9 +355,13 @@ public enum SmashingModule implements ModifierModule, FluidModifierHook, Project
             } else {
               clearFluid(persistentData);
             }
-            projectile.playSound(SoundEvents.SPLASH_POTION_BREAK);
-            // mark as used to prevent it from dropping later
-            persistentData.putBoolean(KEY_USED, true);
+            if (projectile instanceof Arrow arrow && arrow.getPierceLevel() > 0) {
+              // Piercing arrows must remain alive to process later targets, but cannot drop consumed ammo.
+              persistentData.putBoolean(KEY_USED, true);
+            } else {
+              projectile.playSound(SoundEvents.SPLASH_POTION_BREAK);
+              projectile.discard();
+            }
           }
         }
       } else {

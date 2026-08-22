@@ -3,13 +3,16 @@
   "allow_crystal": true,
   "inputs": [
     {
-      "ingredient": "#minecraft:fishes"
+      "neoforge:ingredient_type": "mantle:item_tag",
+      "tag": "minecraft:fishes"
     },
     {
-      "ingredient": "#c:glass_blocks/colorless"
+      "neoforge:ingredient_type": "mantle:item_tag",
+      "tag": "c:glass_blocks/colorless"
     },
     {
-      "ingredient": "#minecraft:fishes"
+      "neoforge:ingredient_type": "mantle:item_tag",
+      "tag": "minecraft:fishes"
     },
     {
       "ingredient": "minecraft:kelp"

@@ -3,13 +3,15 @@
   "allow_crystal": false,
   "inputs": [
     {
-      "ingredient": "#c:nuggets/manyullyn"
+      "neoforge:ingredient_type": "mantle:item_tag",
+      "tag": "c:nuggets/manyullyn"
     },
     {
       "ingredient": "minecraft:end_crystal"
     },
     {
-      "ingredient": "#c:nuggets/manyullyn"
+      "neoforge:ingredient_type": "mantle:item_tag",
+      "tag": "c:nuggets/manyullyn"
     },
     {
       "ingredient": "tconstruct:ender_slime_crystal_block"

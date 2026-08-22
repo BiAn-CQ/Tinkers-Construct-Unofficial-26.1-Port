@@ -72,7 +72,7 @@ public class ToolDamageUtil {
    * @return  True if the tool is broken now
    */
   public static boolean directDamage(IToolStackView tool, int amount, @Nullable LivingEntity entity, @Nullable ItemStack stack) {
-    if (entity instanceof Player player && player.isCreative()) {
+    if (!ModifierUtil.consumesResources(entity)) {
       return false;
     }
 

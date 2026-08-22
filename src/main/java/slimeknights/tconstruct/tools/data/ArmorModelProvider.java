@@ -45,6 +45,7 @@ public class ArmorModelProvider extends AbstractArmorModelProvider {
     Identifier slime = ArmorDefinitions.SLIMESUIT.getId();
     addModel(slime,
       new MaterialArmorTextureSupplier.Material(slime, "/", 1),
+      new MaterialArmorTextureSupplier.Material(slime, "/overlay_", 0),
       TrimArmorTextureSupplier.INSTANCE
     );
     addModel(SlimeskullItem.MODEL_LOCATION,

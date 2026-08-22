@@ -36,7 +36,7 @@ public record SlimeStats(int durability, int overslime) implements IRepairableMa
   @Override
   public void apply(ModifierStatsBuilder builder, float scale) {
     ToolStats.DURABILITY.update(builder, durability * scale); // TODO: may want to rename this to durability factor
-    OverslimeModule.OVERSLIME_STAT.add(builder, durability * scale);
+    OverslimeModule.OVERSLIME_STAT.add(builder, overslime * scale);
   }
 
   @Override

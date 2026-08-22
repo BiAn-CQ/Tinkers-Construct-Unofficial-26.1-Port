@@ -6,7 +6,8 @@
       "ingredient": "minecraft:netherite_upgrade_smithing_template"
     },
     {
-      "ingredient": "#c:ingots/netherite"
+      "neoforge:ingredient_type": "mantle:item_tag",
+      "tag": "c:ingots/netherite"
     }
   ],
   "level": 1,

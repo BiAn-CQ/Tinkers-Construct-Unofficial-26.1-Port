@@ -3,16 +3,19 @@
   "allow_crystal": false,
   "inputs": [
     {
-      "ingredient": "#c:ingots/rose_gold"
+      "neoforge:ingredient_type": "mantle:item_tag",
+      "tag": "c:ingots/rose_gold"
     },
     {
       "ingredient": "minecraft:rabbit_foot"
     },
     {
-      "ingredient": "#c:ingots/rose_gold"
+      "neoforge:ingredient_type": "mantle:item_tag",
+      "tag": "c:ingots/rose_gold"
     },
     {
-      "ingredient": "#c:gems/diamond"
+      "neoforge:ingredient_type": "mantle:item_tag",
+      "tag": "c:gems/diamond"
     },
     {
       "ingredient": "minecraft:name_tag"

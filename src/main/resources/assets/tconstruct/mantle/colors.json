@@ -185,6 +185,7 @@
     "sweeping_edge": "#888888",
     "swiftstrike":   "#B38EF1",
     "charge_attack": "#A1A1A1",
+    "ram_attack":    "#817E76",
 
     "__ranged_upgrades__": null,
     "blindshot":    "#966C4A",
@@ -244,6 +245,8 @@
     "sturdy":        "#D8D8D8",
     "tanned":        "#C65C35",
     "tasty":         "#F0A8A4",
+    "scrumptious":   "#FABF29",
+    "savory":        "#FFDD59",
     "vintage":       "#7E6059",
     "flamestance":   "#C53439",
     "entangled":     "#14B485",
@@ -550,6 +553,8 @@
     "blood":      "#b50101",
     "clay":       "#AFB9D6",
     "honey":      "#FABF29",
+    "horn":       "#817E76",
+    "cheese":     "#FFDD59",
     "venom":      "#EDEDED",
 
     "__repair_kit__": null,

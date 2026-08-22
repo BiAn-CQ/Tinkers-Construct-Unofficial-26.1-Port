@@ -1,13 +1,16 @@
 {
   "layers": {
-        "humanoid": [
-          { "texture": "tconstruct:tinker_armor/slime/armor" }
-        ],
+    "humanoid": [
+      { "texture": "tconstruct:tinker_armor/slime/armor" },
+      { "texture": "tconstruct:tinker_armor/slime/overlay_armor" }
+    ],
     "humanoid_baby": [
-      { "texture": "tconstruct:tinker_armor/slime/armor" }
+      { "texture": "tconstruct:tinker_armor/slime/armor" },
+      { "texture": "tconstruct:tinker_armor/slime/overlay_armor" }
     ],
     "humanoid_leggings": [
-      { "texture": "tconstruct:tinker_armor/slime/leggings" }
+      { "texture": "tconstruct:tinker_armor/slime/leggings" },
+      { "texture": "tconstruct:tinker_armor/slime/overlay_leggings" }
     ]
   }
 }

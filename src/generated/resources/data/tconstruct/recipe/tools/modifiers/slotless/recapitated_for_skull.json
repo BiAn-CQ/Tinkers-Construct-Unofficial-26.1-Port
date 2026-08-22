@@ -11,7 +11,8 @@
       "subtracted": "minecraft:dragon_head"
     },
     {
-      "ingredient": "#c:slime_balls"
+      "neoforge:ingredient_type": "mantle:item_tag",
+      "tag": "c:slime_balls"
     }
   ],
   "level": 1,

@@ -4,13 +4,15 @@
   "check_trait_level": true,
   "inputs": [
     {
-      "ingredient": "#minecraft:fishes"
+      "neoforge:ingredient_type": "mantle:item_tag",
+      "tag": "minecraft:fishes"
     },
     {
       "ingredient": "minecraft:prismarine_bricks"
     },
     {
-      "ingredient": "#minecraft:fishes"
+      "neoforge:ingredient_type": "mantle:item_tag",
+      "tag": "minecraft:fishes"
     }
   ],
   "level": 1,

@@ -5,7 +5,8 @@
       "ingredient": "tconstruct:earth_slime_crystal"
     },
     {
-      "ingredient": "#c:ingots/gold"
+      "neoforge:ingredient_type": "mantle:item_tag",
+      "tag": "c:ingots/gold"
     }
   ],
   "match_book": false,

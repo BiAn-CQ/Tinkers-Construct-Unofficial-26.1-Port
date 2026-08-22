@@ -12,10 +12,12 @@
       "ingredient": "minecraft:nether_quartz_ore"
     },
     {
-      "ingredient": "#c:ingots/manyullyn"
+      "neoforge:ingredient_type": "mantle:item_tag",
+      "tag": "c:ingots/manyullyn"
     },
     {
-      "ingredient": "#c:ingots/manyullyn"
+      "neoforge:ingredient_type": "mantle:item_tag",
+      "tag": "c:ingots/manyullyn"
     }
   ],
   "result": {

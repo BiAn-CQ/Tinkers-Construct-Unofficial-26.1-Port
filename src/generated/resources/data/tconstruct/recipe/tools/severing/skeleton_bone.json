@@ -3,8 +3,8 @@
   "entity": {
     "types": [
       "minecraft:skeleton",
-      "minecraft:stray",
-      "minecraft:skeleton_horse"
+      "minecraft:skeleton_horse",
+      "minecraft:stray"
     ]
   },
   "looting_bonus": 0.01,

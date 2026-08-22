@@ -8,7 +8,8 @@
       "match": "tconstruct:small_blade"
     },
     {
-      "ingredient": "#c:ingots/steel"
+      "neoforge:ingredient_type": "mantle:item_tag",
+      "tag": "c:ingots/steel"
     },
     {
       "neoforge:ingredient_type": "tconstruct:material",

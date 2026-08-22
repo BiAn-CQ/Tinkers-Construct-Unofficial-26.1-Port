@@ -6,7 +6,8 @@
       "ingredient": "minecraft:shulker_shell"
     },
     {
-      "ingredient": "#c:ingots/iron"
+      "neoforge:ingredient_type": "mantle:item_tag",
+      "tag": "c:ingots/iron"
     },
     {
       "ingredient": "minecraft:shulker_shell"

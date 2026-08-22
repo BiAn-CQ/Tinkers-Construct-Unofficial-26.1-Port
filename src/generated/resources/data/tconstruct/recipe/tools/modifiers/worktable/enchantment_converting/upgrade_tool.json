@@ -5,8 +5,9 @@
       "ingredient": "tconstruct:sky_slime_crystal"
     },
     {
+      "neoforge:ingredient_type": "mantle:item_tag",
       "amount_needed": 3,
-      "ingredient": "#c:gems/lapis"
+      "tag": "c:gems/lapis"
     }
   ],
   "match_book": false,

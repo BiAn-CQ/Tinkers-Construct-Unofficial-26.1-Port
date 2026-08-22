@@ -40,6 +40,9 @@ import javax.annotation.Nullable;
  * cannot see it on its own.
  */
 final class TConstructArmorTrimLayer extends RenderLayer<AvatarRenderState, PlayerModel> {
+  /** Vanilla equipment layers start at order 1; custom overlays must be submitted after every Tinkers armor layer. */
+  private static final int OVERLAY_RENDER_ORDER = 8;
+
   private final ArmorModelSet<PlayerModel> modelSet;
   private final TextureAtlas trimAtlas;
 
@@ -59,7 +62,7 @@ final class TConstructArmorTrimLayer extends RenderLayer<AvatarRenderState, Play
   @Override
   public void submit(PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int lightCoords,
                      AvatarRenderState state, float yRot, float xRot) {
-    int order = 0;
+    int order = OVERLAY_RENDER_ORDER;
     order = renderTrim(poseStack, submitNodeCollector, lightCoords, state,
       state.chestEquipment, EquipmentSlot.CHEST, order);
     order = renderTrim(poseStack, submitNodeCollector, lightCoords, state,
@@ -72,6 +75,12 @@ final class TConstructArmorTrimLayer extends RenderLayer<AvatarRenderState, Play
 
   private int renderTrim(PoseStack poseStack, SubmitNodeCollector submitNodeCollector, int lightCoords,
                          AvatarRenderState state, ItemStack stack, EquipmentSlot slot, int order) {
+    // New and migrated stacks expose the native component, which is rendered by
+    // every humanoid equipment layer. Keep this compatibility layer solely for
+    // old client-side stacks that have not been migrated by the server yet.
+    if (stack.has(DataComponents.TRIM)) {
+      return order;
+    }
     ArmorTrim trim = getTrim(stack);
     if (trim == null) {
       return order;

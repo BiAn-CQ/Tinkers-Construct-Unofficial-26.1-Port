@@ -30,7 +30,7 @@ import java.util.Optional;
  * exposes the final texture choice through {@link IClientItemExtensions}. This
  * class keeps that choice data-driven without reviving the pre-26.1 model API.</p>
  */
-final class TConstructArmorClientExtensions implements IClientItemExtensions {
+public final class TConstructArmorClientExtensions implements IClientItemExtensions {
   private static final Identifier TEXTURE_ROOT = Identifier.fromNamespaceAndPath("tconstruct", "textures/tinker_armor");
   private static final ModifierId DYED = TinkerModifiers.dyed.getId();
   /** Slime wings have one material part; keep all equipment-layer lookups on that part. */
@@ -96,7 +96,7 @@ final class TConstructArmorClientExtensions implements IClientItemExtensions {
    * add the same full-bright pass that {@code TintedArmorTexture} used before
    * the equipment renderer migration.</p>
    */
-  int getArmorLuminosity(ItemStack stack, String layerPath) {
+  public int getArmorLuminosity(ItemStack stack, String layerPath) {
     return switch (family) {
       case TRAVELERS -> {
         if (layerPath.endsWith("/cuirass_armor") || layerPath.endsWith("/cuirass_leggings")) {
@@ -116,8 +116,15 @@ final class TConstructArmorClientExtensions implements IClientItemExtensions {
         }
         yield 0;
       }
-      case SLIME -> layerPath.endsWith("/armor") || layerPath.endsWith("/leggings")
-        ? materialLuminosity(stack, 1) : 0;
+      case SLIME -> {
+        if (layerPath.endsWith("/overlay_armor") || layerPath.endsWith("/overlay_leggings")) {
+          yield materialLuminosity(stack, 0);
+        }
+        if (layerPath.endsWith("/armor") || layerPath.endsWith("/leggings")) {
+          yield materialLuminosity(stack, 1);
+        }
+        yield 0;
+      }
       case SLIME_WINGS -> layerPath.endsWith("/wings") ? materialLuminosity(stack, SLIME_WINGS_MATERIAL_INDEX) : 0;
     };
   }
@@ -202,6 +209,9 @@ final class TConstructArmorClientExtensions implements IClientItemExtensions {
 
   @Nullable
   private Identifier slimeTexture(ItemStack stack, String layerPath, boolean leggings) {
+    if (layerPath.endsWith("/overlay_armor") || layerPath.endsWith("/overlay_leggings")) {
+      return materialTexture(stack, 0, logical("slime/overlay_" + (leggings ? "leggings" : "armor"))).texture();
+    }
     if (layerPath.endsWith("/armor") || layerPath.endsWith("/leggings")) {
       return materialTexture(stack, 1, logical("slime/" + (leggings ? "leggings" : "armor"))).texture();
     }
@@ -209,6 +219,9 @@ final class TConstructArmorClientExtensions implements IClientItemExtensions {
   }
 
   private int slimeColor(ItemStack stack, String layerPath, int layerIdx, int fallbackColor) {
+    if (layerPath.endsWith("/overlay_armor") || layerPath.endsWith("/overlay_leggings")) {
+      return materialTexture(stack, 0, logical("slime/overlay_" + armorPart(layerPath))).color();
+    }
     if (layerPath.endsWith("/armor") || layerPath.endsWith("/leggings")) {
       return materialTexture(stack, 1, logical("slime/" + (layerPath.endsWith("/leggings") ? "leggings" : "armor"))).color();
     }

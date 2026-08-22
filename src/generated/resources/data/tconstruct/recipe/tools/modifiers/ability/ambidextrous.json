@@ -7,16 +7,19 @@
       "ingredient": "minecraft:leather"
     },
     {
-      "ingredient": "#c:gems/diamond"
+      "neoforge:ingredient_type": "mantle:item_tag",
+      "tag": "c:gems/diamond"
     },
     {
       "ingredient": "minecraft:leather"
     },
     {
-      "ingredient": "#c:strings"
+      "neoforge:ingredient_type": "mantle:item_tag",
+      "tag": "c:strings"
     },
     {
-      "ingredient": "#c:strings"
+      "neoforge:ingredient_type": "mantle:item_tag",
+      "tag": "c:strings"
     }
   ],
   "level": 1,

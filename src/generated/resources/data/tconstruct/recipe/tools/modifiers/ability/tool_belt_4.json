@@ -6,7 +6,8 @@
       "ingredient": "minecraft:leather"
     },
     {
-      "ingredient": "#c:ingots/cobalt"
+      "neoforge:ingredient_type": "mantle:item_tag",
+      "tag": "c:ingots/cobalt"
     },
     {
       "ingredient": "minecraft:leather"

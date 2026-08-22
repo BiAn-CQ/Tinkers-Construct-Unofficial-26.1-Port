@@ -3,7 +3,8 @@
   "allow_crystal": true,
   "inputs": [
     {
-      "ingredient": "#c:gems/emerald"
+      "neoforge:ingredient_type": "mantle:item_tag",
+      "tag": "c:gems/emerald"
     }
   ],
   "level": 1,

@@ -6,7 +6,8 @@
       "ingredient": "minecraft:flint"
     },
     {
-      "ingredient": "#c:ingots/netherite_scrap"
+      "neoforge:ingredient_type": "mantle:item_tag",
+      "tag": "c:ingots/netherite_scrap"
     },
     {
       "ingredient": "minecraft:flint"

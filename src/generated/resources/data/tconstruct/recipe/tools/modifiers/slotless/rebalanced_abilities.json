@@ -3,13 +3,15 @@
   "allow_crystal": false,
   "inputs": [
     {
-      "ingredient": "#c:nuggets/queens_slime"
+      "neoforge:ingredient_type": "mantle:item_tag",
+      "tag": "c:nuggets/queens_slime"
     },
     {
       "ingredient": "minecraft:end_crystal"
     },
     {
-      "ingredient": "#c:nuggets/queens_slime"
+      "neoforge:ingredient_type": "mantle:item_tag",
+      "tag": "c:nuggets/queens_slime"
     },
     {
       "ingredient": "tconstruct:ichor_slime_crystal_block"

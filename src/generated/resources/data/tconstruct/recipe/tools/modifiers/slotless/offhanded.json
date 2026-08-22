@@ -9,7 +9,8 @@
       "ingredient": "minecraft:fire_charge"
     },
     {
-      "ingredient": "#c:slimeball/ichor"
+      "neoforge:ingredient_type": "mantle:item_tag",
+      "tag": "c:slimeball/ichor"
     }
   ],
   "level": {

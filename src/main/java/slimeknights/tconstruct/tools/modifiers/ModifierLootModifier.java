@@ -5,6 +5,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.Projectile;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.storage.loot.LootContext;
@@ -70,8 +71,11 @@ public class ModifierLootModifier extends LootModifier {
         return generatedLoot;
       }
 
-      // not a projectile causing it, fetch the killer entity directly from loot context
-      if (context.getOptionalParameter(LootContextParams.ATTACKING_ENTITY) instanceof LivingEntity living) {
+      // The held tool is responsible only for explicitly whitelisted damage. This prevents
+      // explosions and other indirect deaths from inheriting severing or luck from the hand.
+      DamageSource damageSource = context.getOptionalParameter(LootContextParams.DAMAGE_SOURCE);
+      if (damageSource != null && damageSource.is(TinkerTags.DamageTypes.LOOT_MODIFIER_WHITELIST)
+        && context.getOptionalParameter(LootContextParams.ATTACKING_ENTITY) instanceof LivingEntity living) {
         stack = living.getItemBySlot(ModifierLootingHandler.getLootingSlot(living));
       }
     }

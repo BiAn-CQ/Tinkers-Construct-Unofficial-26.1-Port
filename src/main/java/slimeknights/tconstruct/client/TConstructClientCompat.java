@@ -286,16 +286,12 @@ public final class TConstructClientCompat {
     for (PlayerModelType modelType : event.getSkins()) {
       var playerRenderer = event.getPlayerRenderer(modelType);
       if (playerRenderer != null) {
-        playerRenderer.addLayer(new TConstructArmorGlowLayer(playerRenderer, event.getEntityModels(), modelType == PlayerModelType.SLIM));
         playerRenderer.addLayer(new TConstructArmorTrimLayer(playerRenderer, event.getEntityModels(), modelType == PlayerModelType.SLIM));
-        playerRenderer.addLayer(new SlimeskullHeadLayerCompat(playerRenderer, event.getEntityModels()));
       }
 
       var mannequinRenderer = event.getMannequinRenderer(modelType);
       if (mannequinRenderer != null) {
-        mannequinRenderer.addLayer(new TConstructArmorGlowLayer(mannequinRenderer, event.getEntityModels(), modelType == PlayerModelType.SLIM));
         mannequinRenderer.addLayer(new TConstructArmorTrimLayer(mannequinRenderer, event.getEntityModels(), modelType == PlayerModelType.SLIM));
-        mannequinRenderer.addLayer(new SlimeskullHeadLayerCompat(mannequinRenderer, event.getEntityModels()));
       }
     }
   }

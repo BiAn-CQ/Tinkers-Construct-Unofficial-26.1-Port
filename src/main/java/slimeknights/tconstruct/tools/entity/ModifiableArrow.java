@@ -48,7 +48,6 @@ public class ModifiableArrow extends AbstractArrow implements ToolProjectile, Re
   private boolean reclaim = false;
   private boolean dealtDamage = false;
   private float modifierKnockback;
-  private byte modifierPierceLevel;
   /** Tasks queued by modifiers */
   private Schedule tasks = Schedule.EMPTY;
 
@@ -176,16 +175,6 @@ public class ModifiableArrow extends AbstractArrow implements ToolProjectile, Re
     }
   }
 
-  @Override
-  public byte getPierceLevel() {
-    return modifierPierceLevel;
-  }
-
-  public void setPierceLevel(byte pierceLevel) {
-    modifierPierceLevel += pierceLevel;
-  }
-
-
   /* Despawn */
 
   @Override
@@ -271,7 +260,6 @@ public class ModifiableArrow extends AbstractArrow implements ToolProjectile, Re
     output.store(KEY_STACK, TinkerValueCodecs.ITEM_STACK, this.stack);
     output.putFloat(KEY_WATER_INERTIA, this.entityData.get(WATER_INERTIA));
     output.putBoolean(KEY_DEALT_DAMAGE, dealtDamage);
-    output.putByte("pierce_level", modifierPierceLevel);
     if (!this.tasks.isEmpty()) {
       output.store(KEY_TASKS, TinkerValueCodecs.COMPOUND_LIST, java.util.stream.StreamSupport.stream(this.tasks.serialize().spliterator(), false)
         .map(net.minecraft.nbt.Tag::asCompound).flatMap(java.util.Optional::stream).toList());
@@ -284,7 +272,6 @@ public class ModifiableArrow extends AbstractArrow implements ToolProjectile, Re
     input.read(KEY_STACK, TinkerValueCodecs.ITEM_STACK).ifPresent(this::setStack);
     this.entityData.set(WATER_INERTIA, input.getFloatOr(KEY_WATER_INERTIA, 0.6f));
     this.dealtDamage = input.getBooleanOr(KEY_DEALT_DAMAGE, false);
-    this.modifierPierceLevel = input.getByteOr("pierce_level", (byte) 0);
     input.read(KEY_TASKS, TinkerValueCodecs.COMPOUND_LIST).ifPresent(list -> {
       net.minecraft.nbt.ListTag nbt = new net.minecraft.nbt.ListTag();
       list.forEach(nbt::add);
