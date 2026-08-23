@@ -80,7 +80,7 @@ public class ModifierModelMapProvider extends AbstractModifierModelMapProvider {
       .luminosity(15, SMALL, ModifierIds.lightspeed, ModifierIds.glowing)
       .luminosity(10, SMALL, ModifierIds.fiery)
       .luminosity(2, SMALL, ModifierIds.unbreakable);
-    // weapon
+    // melee weapon
     tool(TinkerTools.dagger).basic(SMALL,
         ModifierIds.diamond, ModifierIds.emerald, ModifierIds.netherite,
         ModifierIds.reinforced, ModifierIds.overforced, ModifierIds.magnetic,
@@ -105,6 +105,18 @@ public class ModifierModelMapProvider extends AbstractModifierModelMapProvider {
       .luminosity(15, SMALL, ModifierIds.lightspeed, ModifierIds.glowing)
       .luminosity(10, SMALL, ModifierIds.fiery)
       .luminosity(2, SMALL, ModifierIds.unbreakable);
+    // ranged weapon
+    tool(TinkerTools.crossbow).basic(SMALL,
+        ModifierIds.diamond, ModifierIds.emerald, ModifierIds.netherite,
+        ModifierIds.reinforced, ModifierIds.overforced, ModifierIds.experienced, ModifierIds.freezing,
+        ModifierIds.arrowPierce, ModifierIds.pierce, ModifierIds.trueshot
+      ).luminosity(7, SMALL, ModifierIds.quickCharge)
+      .luminosity(10, SMALL, ModifierIds.fiery)
+      .luminosity(2, SMALL, ModifierIds.unbreakable);
+    for (int i = 1; i < 4; i++) {
+      tool(TinkerTools.crossbow, "/" + i).basic(SMALL, "_" + i, ModifierIds.quickCharge);
+    }
+    tool(TinkerTools.crossbow, "/broken").basic(SMALL, "_broken", ModifierIds.quickCharge);
 
     // broad
     tool(TinkerTools.sledgeHammer).basic('/',
@@ -175,7 +187,7 @@ public class ModifierModelMapProvider extends AbstractModifierModelMapProvider {
       .luminosity(15, SMALL, ModifierIds.glowing)
       .luminosity(10, '/', ModifierIds.fiery)
       .luminosity(2, '/', ModifierIds.unbreakable);
-    // weapon
+    // melee weapon
     tool(TinkerTools.cleaver).basic('/',
         ModifierIds.diamond, ModifierIds.emerald, ModifierIds.netherite,
         ModifierIds.reinforced, ModifierIds.overforced, ModifierIds.magnetic,
@@ -202,6 +214,21 @@ public class ModifierModelMapProvider extends AbstractModifierModelMapProvider {
       .luminosity(15, '/', ModifierIds.lightspeed)
       .luminosity(10, '/', ModifierIds.fiery)
       .luminosity(2, '/', ModifierIds.unbreakable);
+    // ranged weapon
+    tool(TinkerTools.longbow).basic('/',
+        ModifierIds.diamond, ModifierIds.emerald, ModifierIds.netherite,
+        ModifierIds.reinforced, ModifierIds.overforced, ModifierIds.experienced, ModifierIds.freezing,
+        ModifierIds.trueshot, ModifierIds.bounce, ModifierIds.power
+      ).luminosity(10, '/', ModifierIds.fiery)
+      .luminosity(2, '/', ModifierIds.unbreakable);
+    for (int i = 1; i < 4; i++) {
+      tool(TinkerTools.longbow, "/" + i).basic('/', "_" + i,
+          ModifierIds.diamond, ModifierIds.netherite,
+          ModifierIds.reinforced, ModifierIds.overforced, ModifierIds.experienced, ModifierIds.freezing
+        ).luminosity(10, '/', "_" + i, ModifierIds.fiery)
+        .luminosity(2, '/', "_" + i, ModifierIds.unbreakable);
+    }
+    tool(TinkerTools.longbow, "/broken").basic('/', "_broken", ModifierIds.overforced, ModifierIds.reinforced);
 
     // ancient tools
     tool(TinkerTools.battlesign).basic(SMALL,
@@ -229,9 +256,27 @@ public class ModifierModelMapProvider extends AbstractModifierModelMapProvider {
     for (ArmorItem.Type type : slimeknights.tconstruct.library.tools.definition.ModifiableArmorMaterial.ARMOR_TYPES) {
       String root = "armor/plate/" + type.getName() + "/maille";
       String item = "plate/" + type.getName();
-      tool(item).materialFallbackDyed(dyed, 1, root + "_metal", root, "metal").trim(type);
+      String path = "armor/" + item + "/modifiers";
+      tool(item).basic(path, null,
+          ModifierIds.diamond, ModifierIds.emerald, ModifierIds.netherite,
+          ModifierIds.ricochet, ModifierIds.springy, ModifierIds.thorns, ModifierIds.freezing)
+        .luminosity(10, path, null, ModifierIds.fiery)
+        .materialFallbackDyed(dyed, 1, root + "_metal", root, "metal").trim(type);
       tool(item + "_broken").materialFallbackDyed(dyed, 1, root + "_broken_metal", root + "_broken", "metal");
     }
+    tool("plate/helmet").basic("armor/plate/helmet/modifiers", null,
+      ModifierIds.aquaAffinity, TinkerModifiers.itemFrame.getId(), ModifierIds.respiration);
+    tool("plate/chestplate").basic("armor/plate/chestplate/modifiers", null,
+        ModifierIds.strength, ModifierIds.knockback,
+        ModifierIds.reach, TinkerModifiers.sleeves.getId(), TinkerModifiers.ambidextrous.getId())
+      .luminosity(7, "armor/plate/chestplate/modifiers", null, ModifierIds.haste);
+    tool("plate/leggings").basic("armor/plate/leggings/modifiers", null,
+      ModifierIds.leaping, ModifierIds.luck, TinkerModifiers.shieldStrap.getId(),
+      ModifierIds.speedy, ModifierIds.stepUp, ModifierIds.swiftSneak);
+    tool("plate/boots").basic("armor/plate/boots/modifiers", null,
+        ModifierIds.depthStrider, ModifierIds.doubleJump, ModifierIds.featherFalling,
+        ModifierIds.longFall, ModifierIds.soulspeed)
+      .luminosity(15, "armor/plate/boots/modifiers", null, ModifierIds.lightspeed);
     // we include both folders, but limited for small
     tool("plate/shield").banner("armor/plate/shield/banner_small/", "armor/plate/shield/banner_large/");
 
@@ -254,10 +299,25 @@ public class ModifierModelMapProvider extends AbstractModifierModelMapProvider {
       .dyed(dyed, "ammo/arrow_modifiers/dyed", null);
     tool(TinkerTools.shuriken).tipped("ammo/shuriken_modifiers/tipped").smashing("ammo/shuriken_modifiers/smashing");
     tool(TinkerTools.throwingAxe).tipped("ammo/axe_modifiers/tipped").smashing("ammo/axe_modifiers/smashing");
-    // fishing rods just have tipped
-    tool(TinkerTools.fishingRod).tipped("fishing_rod/modifiers/tipped").fluid().compact(ModifierIds.tank);
-    tool(TinkerTools.fishingRod, "/broken").emptyConstant("tipped");
-    tool(TinkerTools.fishingRod, "/cast").emptyConstant("tipped");
+    // fishing rods have tipped
+    tool(TinkerTools.fishingRod).basic(SMALL,
+        ModifierIds.diamond, ModifierIds.emerald, ModifierIds.netherite,
+        ModifierIds.reinforced, ModifierIds.overforced, ModifierIds.experienced, ModifierIds.lure,
+        ModifierIds.punch, ModifierIds.trueshot, ModifierIds.bounce, ModifierIds.collecting,
+        ModifierIds.grapple, ModifierIds.channeling)
+      .luminosity(7, SMALL, ModifierIds.quickCharge)
+      .luminosity(10, SMALL, ModifierIds.fiery)
+      .luminosity(2, SMALL, ModifierIds.unbreakable)
+      .tipped("fishing_rod/modifiers/tipped").fluid().compact(ModifierIds.tank);
+    tool(TinkerTools.fishingRod, "/broken").basic(SMALL, "_broken",
+        ModifierIds.emerald, ModifierIds.netherite, ModifierIds.reinforced, ModifierIds.overforced)
+      .emptyConstant("tipped");
+    // Some modifier textures display on the hook, so hide them when the rod is cast.
+    tool(TinkerTools.fishingRod, "/cast").basic(SMALL, "_broken", ModifierIds.netherite)
+      .empty(ModifierIds.bounce, ModifierIds.collecting, ModifierIds.fiery, ModifierIds.freezing,
+        ModifierIds.lure, ModifierIds.unbreakable, ModifierIds.quickCharge, ModifierIds.trueshot,
+        ModifierIds.grapple)
+      .emptyConstant("tipped");
 
     // tanks
     tool(TinkerTools.meltingPan).fluid();

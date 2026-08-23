@@ -70,7 +70,6 @@ import slimeknights.tconstruct.library.tools.item.ModifiableItem;
 import slimeknights.tconstruct.library.tools.nbt.IToolStackView;
 import slimeknights.tconstruct.library.tools.nbt.ModDataNBT;
 import slimeknights.tconstruct.library.tools.nbt.ToolStack;
-import slimeknights.tconstruct.tools.TinkerToolActions;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -122,6 +121,7 @@ public abstract class ModifiableLauncherItem extends ProjectileWeaponItem implem
     return false;
   }
 
+  @Override
   public boolean supportsEnchantment(ItemStack stack, Holder<Enchantment> enchantment) {
     return enchantment.is(EnchantmentTags.CURSE) && super.supportsEnchantment(stack, enchantment);
   }
@@ -130,10 +130,12 @@ public abstract class ModifiableLauncherItem extends ProjectileWeaponItem implem
     return 0;
   }
 
-  public int getEnchantmentLevel(ItemStack stack, Holder<Enchantment> enchantment) {
+  @Override
+  public int getEnchantmentLevel(ItemInstance stack, Holder<Enchantment> enchantment) {
     return EnchantmentModifierHook.getEnchantmentLevel(stack, enchantment);
   }
 
+  @Override
   public ItemEnchantments getAllEnchantments(ItemStack stack, RegistryLookup<Enchantment> lookup) {
     return EnchantmentModifierHook.getAllEnchantments(stack);
   }
@@ -146,7 +148,13 @@ public abstract class ModifiableLauncherItem extends ProjectileWeaponItem implem
     if (nbt != null) {
       ToolStack.verifyTag(this, nbt, getToolDefinition());
       slimeknights.tconstruct.library.utils.ItemStackDataUtil.setTag(stack, nbt);
+      updateDynamicComponents(stack);
     }
+  }
+
+  @Override
+  public void updateDynamicComponents(ItemStack stack) {
+    ModifierUtil.updateShieldDisableComponent(stack);
   }
 
   @Override
@@ -286,11 +294,6 @@ public abstract class ModifiableLauncherItem extends ProjectileWeaponItem implem
     return slimeknights.tconstruct.library.utils.ItemStackDataUtil.getTag(stack) == null
       ? ItemAttributeModifiers.EMPTY : AttributesModifierHook.getHeldAttributeModifiers(ToolStack.from(stack));
   }
-
-  public boolean canDisableShield(ItemStack stack, ItemStack shield, LivingEntity entity, LivingEntity attacker) {
-    return canPerformAction(stack, TinkerToolActions.SHIELD_DISABLE);
-  }
-
 
   /* Arrow logic */
 

@@ -36,10 +36,11 @@ sourceSets.main {
         // compiled; full migration builds keep the source data available.
     }
     // Optional integrations that have a compatible 26.1 API remain available
-    // to the main runtime artifact.  JEI is compiled conditionally by its
-    // optional dependency; the plugin is only discovered when JEI is present.
+    // to the main runtime artifact. The legacy Json Things client hook used
+    // removed item-predicate APIs; item rendering is handled by the native
+    // 26.1 item model pipeline instead.
     java.exclude(
-        'slimeknights/tconstruct/plugin/jsonthings/**',
+        'slimeknights/tconstruct/plugin/jsonthings/PluginClient.java',
         'slimeknights/tconstruct/plugin/DietPlugin.java',
         'slimeknights/tconstruct/plugin/DummmmmmyPlugin.java',
         'slimeknights/tconstruct/plugin/ImmersiveEngineeringPlugin.java',
@@ -148,9 +149,13 @@ def coreTestSources = [
         'slimeknights/tconstruct/library/materials/traits/MaterialTraitsManagerTest.java',
         'slimeknights/tconstruct/library/materials/traits/UpdateMaterialTraitsPacketTest.java',
         'slimeknights/tconstruct/common/recipe/RecipeCacheInvalidatorTest.java',
+        'slimeknights/tconstruct/fluids/fluids/PotionFluidTypeTest.java',
+        'slimeknights/tconstruct/fluids/item/PotionBucketItemTest.java',
         'slimeknights/tconstruct/library/modifiers/ModifierFixture.java',
         'slimeknights/tconstruct/library/client/item/ModifiableItemClientExtensionTest.java',
         'slimeknights/tconstruct/library/modifiers/hook/display/DurabilityDisplayModifierHookTest.java',
+        'slimeknights/tconstruct/library/tools/item/ModifierEnchantmentBridgeTest.java',
+        'slimeknights/tconstruct/library/tools/helper/ModifierUtilComponentTest.java',
         'slimeknights/tconstruct/library/tools/helper/ArmorUtilMathTest.java',
         'slimeknights/tconstruct/library/tools/helper/ToolAttackUtilTest.java',
         'slimeknights/tconstruct/library/tools/definition/ToolDefinitionDataTest.java',
@@ -284,6 +289,18 @@ dependencies {
             .get()
     implementation files(mantleJar)
 
+    // Compile the optional Json Things integration against an independently
+    // supplied official 26.1.2 jar without bundling it into TConstruct.
+    def jsonThingsJar = providers.gradleProperty('jsonthings_jar')
+            .map { file(it) }
+            .orElse(file("K:/.minecraft/versions/26.1.2-NeoForge_26.1.2.95/mods/JsonThings-${minecraft_version}-${jsonthings_version}.jar"))
+            .get()
+    compileOnly files(jsonThingsJar)
+    if (providers.gradleProperty('enable_jsonthings_runtime')
+            .map(Boolean::parseBoolean).orElse(false).get()) {
+        localRuntime files(jsonThingsJar)
+    }
+
     // JEI 26.1 uses the split common/NeoForge API published by its 26.1
     // branch.  Keep the API compile-only and load the full mod only in local
     // development runs; packaged users may install JEI independently.
@@ -343,6 +360,7 @@ var generateModMetadata = tasks.register('generateModMetadata', ProcessResources
             mantle_version_range   : mantle_version_range,
             jei_range              : jei_range,
             ftb_ultimine_range     : ftb_ultimine_range,
+            jsonthings_range       : jsonthings_range,
     ]
     inputs.properties replaceProperties
     expand replaceProperties
@@ -513,8 +531,80 @@ def validateLocalModelTextures = tasks.register('validateLocalModelTextures') {
     }
 }
 
+// Dynamic ammunition is authored in the generated legacy tool models, while
+// 26.1 renders from assets/<namespace>/items.  Require every distinct legacy
+// ammunition layout to survive that resource-boundary conversion.
+def validateRangedAmmoModelParity = tasks.register('validateRangedAmmoModelParity') {
+    def legacyRoot = file('src/generated/clientResources/assets/tconstruct/models/item/tool')
+    def itemRoot = file('src/main/resources/assets/tconstruct/items')
+    def legacyModels = legacyRoot.isDirectory()
+            ? fileTree(legacyRoot).matching { include('**/*.json') }.files
+            : []
+    inputs.files(legacyModels, itemRoot)
+    outputs.upToDateWhen { false }
+    doLast {
+        Closure<List<Map>> findAmmo
+        findAmmo = { Object value ->
+            List<Map> found = []
+            if (value instanceof Map) {
+                Object ammo = value.ammo
+                if (ammo instanceof Map && ammo.key instanceof String) {
+                    found << (ammo as Map)
+                }
+                value.values().each { Object child -> found.addAll(findAmmo(child)) }
+            } else if (value instanceof Collection) {
+                value.each { Object child -> found.addAll(findAmmo(child)) }
+            }
+            found
+        }
+        Closure<String> formatOffset = { Object value ->
+            value instanceof Collection
+                    ? (value as Collection).collect { Object coordinate ->
+                        coordinate instanceof Number ? (coordinate as Number).doubleValue() : coordinate
+                    }.join(',')
+                    : ''
+        }
+        Closure<String> signature = { Map ammo ->
+            [
+                    ammo.key,
+                    ammo.flip == true,
+                    ammo.left == true,
+                    formatOffset(ammo.offset),
+                    formatOffset(ammo.small_offset),
+                    formatOffset(ammo.large_offset)
+            ].join('|')
+        }
+
+        Map<String,Set<String>> expected = [:].withDefault { [] as Set<String> }
+        legacyModels.each { File modelFile ->
+            Map model = new groovy.json.JsonSlurper().parse(modelFile) as Map
+            findAmmo(model).each { Map ammo -> expected[modelFile.parentFile.name] << signature(ammo) }
+        }
+
+        List<String> errors = []
+        expected.each { String tool, Set<String> expectedSignatures ->
+            File itemFile = new File(itemRoot, "${tool}.json")
+            if (!itemFile.isFile()) {
+                errors << "${tool}: missing native item definition ${itemFile}"
+                return
+            }
+            Map item = new groovy.json.JsonSlurper().parse(itemFile) as Map
+            Set<String> actualSignatures = findAmmo(item).collect { Map ammo -> signature(ammo) } as Set<String>
+            expectedSignatures.each { String expectedSignature ->
+                if (!actualSignatures.contains(expectedSignature)) {
+                    errors << "${tool}: native item definition is missing ammo layout ${expectedSignature}"
+                }
+            }
+        }
+        if (!errors.isEmpty()) {
+            throw new GradleException("Ranged ammunition model parity validation failed:\n" + errors.join('\n'))
+        }
+        logger.lifecycle("Validated ${expected.values().sum { it.size() } ?: 0} distinct ranged ammunition layouts across ${expected.size()} tools")
+    }
+}
+
 tasks.named('processResources').configure {
-    dependsOn(validateCastModelGraph, validateLocalModelTextures)
+    dependsOn(validateCastModelGraph, validateLocalModelTextures, validateRangedAmmoModelParity)
 }
 
 // Loot codecs can compile and datagen can finish even when a unit codec silently

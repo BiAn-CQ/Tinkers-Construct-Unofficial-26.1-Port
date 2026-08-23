@@ -78,7 +78,7 @@ final class TConstructArmorGlowLayer extends RenderLayer<AvatarRenderState, Play
     if (equippable == null || equippable.slot() != slot || equippable.assetId().isEmpty()) {
       return order;
     }
-    if (!(IClientItemExtensions.of(stack) instanceof TConstructArmorClientExtensions extension)) {
+    if (!(IClientItemExtensions.of(stack) instanceof TinkerArmorClientExtension extension)) {
       return order;
     }
 
@@ -117,7 +117,7 @@ final class TConstructArmorGlowLayer extends RenderLayer<AvatarRenderState, Play
     if (equippable == null || equippable.slot() != EquipmentSlot.CHEST || equippable.assetId().isEmpty()) {
       return order;
     }
-    if (!(IClientItemExtensions.of(stack) instanceof TConstructArmorClientExtensions extension)) {
+    if (!(IClientItemExtensions.of(stack) instanceof TinkerArmorClientExtension extension)) {
       return order;
     }
 

@@ -41,6 +41,11 @@ public class MultilayerArmorItem extends ModifiableArmorItem {
     this(material.asArmorMaterial(), slot, properties, toolDefinition, name);
   }
 
+  /** Model identifier used by the data-driven armor renderer. */
+  public Identifier getModelName() {
+    return name;
+  }
+
   public void initializeClient(Consumer<IClientItemExtensions> consumer) {
     consumer.accept(IClientItemExtensions.DEFAULT);
   }

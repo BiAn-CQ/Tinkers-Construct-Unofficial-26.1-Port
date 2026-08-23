@@ -894,12 +894,15 @@ public final class NativeTinkerItemModel implements ItemModel {
    * is an encoded item stack, so tipped arrows and other compatible ammunition
    * use their own model and tint instead of a fixed replacement texture.</p>
    */
-  public record AmmoDefinition(Identifier key, boolean flip, boolean left, Vector2fc offset) {
+  public record AmmoDefinition(Identifier key, boolean flip, boolean left, Vector2fc offset,
+                               Optional<Vector2fc> smallOffset, Optional<Vector2fc> largeOffset) {
     private static final Codec<AmmoDefinition> CODEC = RecordCodecBuilder.create(instance -> instance.group(
       Identifier.CODEC.fieldOf("key").forGetter(AmmoDefinition::key),
       Codec.BOOL.optionalFieldOf("flip", false).forGetter(AmmoDefinition::flip),
       Codec.BOOL.optionalFieldOf("left", false).forGetter(AmmoDefinition::left),
-      ExtraCodecs.VECTOR2F.optionalFieldOf("offset", new Vector2f()).forGetter(AmmoDefinition::offset)
+      ExtraCodecs.VECTOR2F.optionalFieldOf("offset", new Vector2f()).forGetter(AmmoDefinition::offset),
+      ExtraCodecs.VECTOR2F.optionalFieldOf("small_offset").forGetter(AmmoDefinition::smallOffset),
+      ExtraCodecs.VECTOR2F.optionalFieldOf("large_offset").forGetter(AmmoDefinition::largeOffset)
     ).apply(instance, AmmoDefinition::new));
   }
 
@@ -1275,9 +1278,19 @@ public final class NativeTinkerItemModel implements ItemModel {
 
       float flipOffset = definition.flip() ? 1 : 0;
       float z = definition.left() && displayContext.leftHand() ? -1f / 16 : 1f / 16;
-      Vector2fc offset = definition.offset();
+      boolean large = this.definition.large() && usesLargeModel(displayContext);
+      Vector2fc offset = this.definition.large()
+        ? (large ? definition.largeOffset() : definition.smallOffset()).orElseGet(Vector2f::new)
+        : definition.offset();
+      float x = offset.x() / 16 + flipOffset;
+      float y = -offset.y() / 16;
+      if (large) {
+        Vector2fc toolOffset = this.definition.largeOffset();
+        x = (toolOffset.x() / 2 + offset.x() + 4) / 16 + flipOffset;
+        y = (-toolOffset.y() / 2 - offset.y() + 4) / 16;
+      }
       Transformation ammoTransform = new Transformation(
-        new Vector3f(offset.x() / 16 + flipOffset, -offset.y() / 16, z + flipOffset),
+        new Vector3f(x, y, z + flipOffset),
         definition.flip() ? Axis.YP.rotationDegrees(-180) : null, null, null);
       Matrix4fc localTransform = Transformation.compose(transformation, Optional.of(ammoTransform));
 

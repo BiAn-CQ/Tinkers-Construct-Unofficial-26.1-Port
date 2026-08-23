@@ -28,6 +28,7 @@ import slimeknights.mantle.recipe.IMultiRecipe;
 import slimeknights.mantle.recipe.helper.LoadableRecipeSerializer;
 import slimeknights.mantle.recipe.helper.TypeAwareRecipeSerializer;
 import slimeknights.mantle.recipe.ingredient.FluidIngredient;
+import slimeknights.tconstruct.fluids.fluids.PotionFluidType;
 
 import java.util.List;
 
@@ -113,13 +114,16 @@ public class PotionCastingRecipe implements ICastingRecipe, IMultiRecipe<Display
   @Override
   public ItemStack assemble(ICastingContainer inv, HolderLookup.Provider access) {
     ItemStack result = new ItemStack(this.result);
-    PotionContents potion = inv.getFluidStack().get(DataComponents.POTION_CONTENTS);
-    if (potion != null) {
+    PotionContents potion = PotionFluidType.getPotionContents(inv.getFluidStack());
+    if (!potion.equals(PotionContents.EMPTY)) {
       result.set(DataComponents.POTION_CONTENTS, potion);
     }
     CustomData customData = inv.getFluidStack().get(DataComponents.CUSTOM_DATA);
     if (customData != null) {
       result.set(DataComponents.CUSTOM_DATA, customData);
+    }
+    if (!potion.equals(PotionContents.EMPTY)) {
+      PotionFluidType.removeLegacyPotionData(result);
     }
     return result;
   }

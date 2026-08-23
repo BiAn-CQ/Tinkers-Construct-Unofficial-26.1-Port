@@ -86,6 +86,8 @@ import slimeknights.tconstruct.tools.data.material.MaterialIds;
 import slimeknights.tconstruct.tools.network.FluidDataSerializer;
 import slimeknights.tconstruct.world.TinkerWorld;
 
+import java.util.stream.StreamSupport;
+
 import static slimeknights.mantle.Mantle.commonResource;
 import static slimeknights.tconstruct.fluids.block.BurningLiquidBlock.createBurning;
 import static slimeknights.tconstruct.fluids.block.MobEffectLiquidBlock.createEffect;
@@ -499,8 +501,9 @@ public final class TinkerFluids extends TinkerModule {
     acceptMolten(output, moltenBendalloy);
     acceptCompat(output, moltenSteeleaf, MaterialIds.steeleaf);
     acceptCompat(output, fieryLiquid, "fiery", MaterialIds.fiery);
-    BuiltInRegistries.POTION.getTags().flatMap(tag -> tag.stream()).filter(holder -> !holder.is(Potions.WATER)).forEachOrdered(holder ->
-      output.accept(PotionFluidType.potionBucket(holder.value())));
+    StreamSupport.stream(BuiltInRegistries.POTION.asHolderIdMap().spliterator(), false)
+      .filter(holder -> !holder.equals(Potions.WATER))
+      .forEachOrdered(holder -> output.accept(PotionFluidType.potionBucket(holder)));
 
     // add copper cans, tanks, and lanterns for all the fluids
     CopperCanItem.addFilledVariants(output::accept);

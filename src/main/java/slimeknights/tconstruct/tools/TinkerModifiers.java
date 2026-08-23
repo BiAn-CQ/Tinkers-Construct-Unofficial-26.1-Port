@@ -168,6 +168,7 @@ import slimeknights.tconstruct.library.modifiers.modules.display.MeleeInstrument
 import slimeknights.tconstruct.library.modifiers.modules.display.ModifierVariantColorModule;
 import slimeknights.tconstruct.library.modifiers.modules.display.ModifierVariantNameModule;
 import slimeknights.tconstruct.library.modifiers.modules.display.ShowInteractionSourceModule;
+import slimeknights.tconstruct.library.modifiers.modules.display.StatTooltipModule;
 import slimeknights.tconstruct.library.modifiers.modules.mining.ConditionalMiningSpeedModule;
 import slimeknights.tconstruct.library.modifiers.modules.technical.ArmorLevelModule;
 import slimeknights.tconstruct.library.modifiers.modules.technical.ArmorStatModule;
@@ -906,6 +907,7 @@ public final class TinkerModifiers extends TinkerModule {
       ModifierModule.LOADER.register(getResource("material_variant_color"), MaterialVariantColorModule.LOADER);
       ModifierModule.LOADER.register(getResource("show_interaction_source"), ShowInteractionSourceModule.LOADER);
       ModifierModule.LOADER.register(getResource("melee_instrument"), MeleeInstrumentModule.LOADER);
+      ModifierModule.LOADER.register(getResource("stat_tooltip"), StatTooltipModule.LOADER);
       // enchantment
       ModifierModule.LOADER.register(getResource("constant_enchantment"), EnchantmentModule.Constant.LOADER);
       ModifierModule.LOADER.register(getResource("main_hand_harvest_enchantment"), EnchantmentModule.MainHandHarvest.LOADER);

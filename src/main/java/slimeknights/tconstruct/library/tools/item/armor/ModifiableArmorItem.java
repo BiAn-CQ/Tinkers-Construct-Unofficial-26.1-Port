@@ -152,14 +152,17 @@ public class ModifiableArmorItem extends ArmorItem implements IModifiableDisplay
     return false;
   }
 
+  @Override
   public boolean supportsEnchantment(ItemStack stack, Holder<Enchantment> enchantment) {
     return enchantment.is(EnchantmentTags.CURSE);
   }
 
-  public int getEnchantmentLevel(ItemStack stack, Holder<Enchantment> enchantment) {
+  @Override
+  public int getEnchantmentLevel(ItemInstance stack, Holder<Enchantment> enchantment) {
     return EnchantmentModifierHook.getEnchantmentLevel(stack, enchantment);
   }
 
+  @Override
   public ItemEnchantments getAllEnchantments(ItemStack stack, RegistryLookup<Enchantment> lookup) {
     return EnchantmentModifierHook.getAllEnchantments(stack);
   }
@@ -172,6 +175,7 @@ public class ModifiableArmorItem extends ArmorItem implements IModifiableDisplay
     if (nbt != null) {
       ToolStack.verifyTag(this, nbt, getToolDefinition());
       slimeknights.tconstruct.library.utils.ItemStackDataUtil.setTag(stack, nbt);
+      updateDynamicComponents(stack);
     }
   }
 

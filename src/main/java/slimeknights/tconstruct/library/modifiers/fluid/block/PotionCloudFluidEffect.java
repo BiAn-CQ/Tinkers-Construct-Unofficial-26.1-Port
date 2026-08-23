@@ -5,6 +5,7 @@ import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.AreaEffectCloud;
+import net.minecraft.world.item.alchemy.PotionContents;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler.FluidAction;
 import slimeknights.mantle.data.loadable.primitive.FloatLoadable;
@@ -15,7 +16,9 @@ import slimeknights.tconstruct.library.modifiers.fluid.FluidEffectContext;
 import slimeknights.tconstruct.library.recipe.TagPredicate;
 import slimeknights.tconstruct.fluids.fluids.PotionFluidType;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /** Effect to create a lingering cloud at the hit block */
 public record PotionCloudFluidEffect(float scale, TagPredicate predicate) implements FluidEffect<FluidEffectContext.Block> {
@@ -33,11 +36,16 @@ public record PotionCloudFluidEffect(float scale, TagPredicate predicate) implem
   public float apply(FluidStack fluid, EffectLevel level, FluidEffectContext.Block context, FluidAction action) {
     CompoundTag tag = fluid.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY).copyTag();
     if (predicate.test(tag) && context.isOffsetReplaceable()) {
-      List<MobEffectInstance> effects = PotionFluidType.getPotion(fluid).value().getEffects();
+      PotionContents contents = PotionFluidType.getPotionContents(fluid);
+      List<MobEffectInstance> effects = new ArrayList<>();
+      contents.forEachEffect(effects::add, 1.0F);
       if (!effects.isEmpty()) {
         float scale = level.value();
         if (action.execute()) {
           AreaEffectCloud cloud = MobEffectCloudFluidEffect.makeCloud(context);
+          if (contents.customColor().isPresent()) {
+            cloud.setPotionContents(new PotionContents(Optional.empty(), contents.customColor(), List.of(), Optional.empty()));
+          }
           // not using set potion as we want to change the effect duration outself
           float effectScale = this.scale * scale;
           // keep track of how many effects are actually added
@@ -58,8 +66,6 @@ public record PotionCloudFluidEffect(float scale, TagPredicate predicate) implem
               }
             }
           }
-          // TODO: custom effects from potion NBT?
-          // TODO: custom color from potion NBT?
           if (used) {
             context.getLevel().addFreshEntity(cloud);
           } else {

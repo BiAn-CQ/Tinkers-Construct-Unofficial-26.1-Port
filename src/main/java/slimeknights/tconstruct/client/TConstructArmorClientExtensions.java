@@ -21,6 +21,9 @@ import slimeknights.tconstruct.tools.TinkerTools;
 
 import javax.annotation.Nullable;
 import java.util.Optional;
+import java.util.Collections;
+import java.util.IdentityHashMap;
+import java.util.Set;
 
 /**
  * Bridges Tinkers' layered armor textures to the native 26.1 equipment renderer.
@@ -30,7 +33,7 @@ import java.util.Optional;
  * exposes the final texture choice through {@link IClientItemExtensions}. This
  * class keeps that choice data-driven without reviving the pre-26.1 model API.</p>
  */
-public final class TConstructArmorClientExtensions implements IClientItemExtensions {
+public final class TConstructArmorClientExtensions implements TinkerArmorClientExtension {
   private static final Identifier TEXTURE_ROOT = Identifier.fromNamespaceAndPath("tconstruct", "textures/tinker_armor");
   private static final ModifierId DYED = TinkerModifiers.dyed.getId();
   /** Slime wings have one material part; keep all equipment-layer lookups on that part. */
@@ -48,11 +51,21 @@ public final class TConstructArmorClientExtensions implements IClientItemExtensi
   }
 
   /** Registers all Tinkers armor items once the client extension registry is available. */
-  static void register(RegisterClientExtensionsEvent event) {
-    event.registerItem(TRAVELERS, TinkerTools.travelersGear.values().toArray(Item[]::new));
-    event.registerItem(PLATE, TinkerTools.plateArmor.values().toArray(Item[]::new));
-    event.registerItem(SLIME, TinkerTools.slimesuit.values().toArray(Item[]::new));
-    event.registerItem(SLIME_WINGS, TinkerTools.slimeWings.get());
+  static Set<Item> register(RegisterClientExtensionsEvent event) {
+    Set<Item> registered = Collections.newSetFromMap(new IdentityHashMap<>());
+    Item[] travelers = TinkerTools.travelersGear.values().toArray(Item[]::new);
+    Item[] plate = TinkerTools.plateArmor.values().toArray(Item[]::new);
+    Item[] slime = TinkerTools.slimesuit.values().toArray(Item[]::new);
+    Item slimeWings = TinkerTools.slimeWings.get();
+    event.registerItem(TRAVELERS, travelers);
+    event.registerItem(PLATE, plate);
+    event.registerItem(SLIME, slime);
+    event.registerItem(SLIME_WINGS, slimeWings);
+    Collections.addAll(registered, travelers);
+    Collections.addAll(registered, plate);
+    Collections.addAll(registered, slime);
+    registered.add(slimeWings);
+    return registered;
   }
 
   @Override

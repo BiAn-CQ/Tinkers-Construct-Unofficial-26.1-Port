@@ -1,12 +1,9 @@
 package slimeknights.tconstruct.library.recipe.casting;
 
 import net.minecraft.core.HolderLookup;
-import net.minecraft.nbt.Tag;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.alchemy.PotionContents;
-import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -24,6 +21,7 @@ import slimeknights.tconstruct.library.recipe.modifiers.adding.IDisplayModifierR
 import slimeknights.tconstruct.library.tools.helper.ModifierUtil;
 import slimeknights.tconstruct.library.tools.item.IModifiableDisplay;
 import slimeknights.tconstruct.library.tools.nbt.ToolStack;
+import slimeknights.tconstruct.fluids.fluids.PotionFluidType;
 
 import java.util.Arrays;
 import java.util.List;
@@ -50,7 +48,7 @@ public class TippingCastingRecipe extends PotionCastingRecipe {
     if (super.matches(inv, level) && ModifierUtil.getModifierLevel(stack, modifier) > 0) {
       // must also have a specific potion, it's what we are going to copy
       // but it can't match what is already on the stack
-      return inv.getFluidStack().getOrDefault(DataComponents.POTION_CONTENTS, PotionContents.EMPTY).potion()
+      return PotionFluidType.getPotionContents(inv.getFluidStack()).potion()
         .flatMap(potion -> potion.unwrapKey())
         .map(key -> !ModifierUtil.getPersistentString(stack, modifier.location()).equals(key.identifier().toString()))
         .orElse(false);
@@ -61,7 +59,7 @@ public class TippingCastingRecipe extends PotionCastingRecipe {
   @Override
   public ItemStack assemble(ICastingContainer inv, HolderLookup.Provider access) {
     ItemStack result = inv.getStack().copy();
-    inv.getFluidStack().getOrDefault(DataComponents.POTION_CONTENTS, PotionContents.EMPTY).potion()
+    PotionFluidType.getPotionContents(inv.getFluidStack()).potion()
       .flatMap(potion -> potion.unwrapKey())
       .ifPresent(key -> ToolStack.from(result).getPersistentData().putString(modifier, key.identifier().toString()));
     return result;

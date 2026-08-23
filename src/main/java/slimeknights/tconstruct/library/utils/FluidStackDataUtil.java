@@ -22,6 +22,7 @@ import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.SimpleFluidContent;
 
 import java.util.Optional;
+import java.util.List;
 
 /** Component-based helpers for fluid stacks that carried custom NBT before 1.21. */
 public final class FluidStackDataUtil {
@@ -61,14 +62,21 @@ public final class FluidStackDataUtil {
     FluidStack stack = new FluidStack(fluid, amount);
     if (data != null && !data.isEmpty()) {
       CompoundTag remaining = data.copy();
+      Optional<Holder<Potion>> potion = Optional.empty();
       String potionId = remaining.getStringOr("Potion", "");
       if (!potionId.isEmpty()) {
         Identifier id = Identifier.tryParse(potionId);
         if (id != null) {
-          BuiltInRegistries.POTION.get(id).ifPresent(
-            potion -> stack.set(DataComponents.POTION_CONTENTS, new PotionContents(potion)));
+          potion = BuiltInRegistries.POTION.get(id).map(holder -> holder);
         }
         remaining.remove("Potion");
+      }
+      Optional<Integer> customColor = remaining.contains("CustomPotionColor")
+        ? Optional.of(remaining.getIntOr("CustomPotionColor", PotionContents.BASE_POTION_COLOR))
+        : Optional.empty();
+      remaining.remove("CustomPotionColor");
+      if (potion.isPresent() || customColor.isPresent()) {
+        stack.set(DataComponents.POTION_CONTENTS, new PotionContents(potion, customColor, List.of(), Optional.empty()));
       }
       if (!remaining.isEmpty()) {
         stack.set(DataComponents.CUSTOM_DATA, CustomData.of(remaining));

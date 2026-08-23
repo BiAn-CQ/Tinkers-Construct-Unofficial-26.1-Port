@@ -1,5 +1,12 @@
 package slimeknights.tconstruct.test;
 
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.RegistryAccess;
+import net.minecraft.core.component.DataComponentInitializers;
+import net.minecraft.core.component.DataComponentMap;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import slimeknights.tconstruct.library.modifiers.ModifierEntry;
 import slimeknights.tconstruct.library.tools.definition.ToolDefinition;
@@ -14,11 +21,34 @@ import slimeknights.tconstruct.library.tools.nbt.StatsNBT;
 import slimeknights.tconstruct.library.tools.stat.INumericToolStat;
 import slimeknights.tconstruct.library.tools.stat.ModifierStatsBuilder;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.List;
 
 /** Helpers for running tests */
 public class TestHelper {
   private TestHelper() {}
+
+  /** Evaluates one registered item's delayed defaults without binding the whole unit-test registry. */
+  public static DataComponentMap defaultComponents(Item item) throws ReflectiveOperationException {
+    ResourceKey<Item> itemKey = BuiltInRegistries.ITEM.getResourceKey(item).orElseThrow();
+    Field entriesField = DataComponentInitializers.class.getDeclaredField("initializers");
+    entriesField.setAccessible(true);
+    List<?> entries = (List<?>)entriesField.get(BuiltInRegistries.DATA_COMPONENT_INITIALIZERS);
+    DataComponentMap.Builder components = DataComponentMap.builder();
+    HolderLookup.Provider registries = RegistryAccess.fromRegistryOfRegistries(BuiltInRegistries.REGISTRY);
+
+    for (Object entry : entries) {
+      Method keyMethod = entry.getClass().getDeclaredMethod("key");
+      keyMethod.setAccessible(true);
+      if (itemKey.equals(keyMethod.invoke(entry))) {
+        Method runMethod = entry.getClass().getDeclaredMethod("run", DataComponentMap.Builder.class, HolderLookup.Provider.class);
+        runMethod.setAccessible(true);
+        runMethod.invoke(entry, components, registries);
+      }
+    }
+    return components.build();
+  }
 
   /** Helper to fetch traits from the trait hook */
   public static List<ModifierEntry> getTraits(ToolDefinitionData data) {

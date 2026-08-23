@@ -71,7 +71,6 @@ import slimeknights.tconstruct.library.tools.helper.TooltipUtil;
 import slimeknights.tconstruct.library.tools.nbt.IModDataView;
 import slimeknights.tconstruct.library.tools.nbt.IToolStackView;
 import slimeknights.tconstruct.library.tools.nbt.ToolStack;
-import slimeknights.tconstruct.tools.TinkerToolActions;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -136,14 +135,17 @@ public class ModifiableItem extends TieredItem implements IModifiableDisplay {
     return false;
   }
 
+  @Override
   public boolean supportsEnchantment(ItemStack stack, Holder<Enchantment> enchantment) {
     return enchantment.is(EnchantmentTags.CURSE) && super.supportsEnchantment(stack, enchantment);
   }
 
-  public int getEnchantmentLevel(ItemStack stack, Holder<Enchantment> enchantment) {
+  @Override
+  public int getEnchantmentLevel(ItemInstance stack, Holder<Enchantment> enchantment) {
     return EnchantmentModifierHook.getEnchantmentLevel(stack, enchantment);
   }
 
+  @Override
   public ItemEnchantments getAllEnchantments(ItemStack stack, RegistryLookup<Enchantment> lookup) {
     return EnchantmentModifierHook.getAllEnchantments(stack);
   }
@@ -156,7 +158,13 @@ public class ModifiableItem extends TieredItem implements IModifiableDisplay {
     if (nbt != null) {
       ToolStack.verifyTag(this, nbt, getToolDefinition());
       slimeknights.tconstruct.library.utils.ItemStackDataUtil.setTag(stack, nbt);
+      updateDynamicComponents(stack);
     }
+  }
+
+  @Override
+  public void updateDynamicComponents(ItemStack stack) {
+    ModifierUtil.updateShieldDisableComponent(stack);
   }
 
   @Override
@@ -276,11 +284,6 @@ public class ModifiableItem extends TieredItem implements IModifiableDisplay {
     return slimeknights.tconstruct.library.utils.ItemStackDataUtil.getTag(stack) == null
       ? ItemAttributeModifiers.EMPTY : AttributesModifierHook.getHeldAttributeModifiers(ToolStack.from(stack));
   }
-
-  public boolean canDisableShield(ItemStack stack, ItemStack shield, LivingEntity entity, LivingEntity attacker) {
-    return canPerformAction(stack, TinkerToolActions.SHIELD_DISABLE);
-  }
-
 
   /* Harvest logic */
 

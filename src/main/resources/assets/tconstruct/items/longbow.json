@@ -89,7 +89,20 @@
                     "large_offset": [
                         -7,
                         9
-                    ]
+                    ],
+                    "ammo": {
+                        "key": "tconstruct:drawback_ammo",
+                        "flip": true,
+                        "left": true,
+                        "small_offset": [
+                            -3,
+                            -4
+                        ],
+                        "large_offset": [
+                            -2,
+                            -2
+                        ]
+                    }
                 }
             },
             {
@@ -132,7 +145,20 @@
                     "large_offset": [
                         -7,
                         9
-                    ]
+                    ],
+                    "ammo": {
+                        "key": "tconstruct:drawback_ammo",
+                        "flip": true,
+                        "left": true,
+                        "small_offset": [
+                            -2,
+                            -3
+                        ],
+                        "large_offset": [
+                            0,
+                            0
+                        ]
+                    }
                 }
             },
             {
@@ -175,7 +201,20 @@
                     "large_offset": [
                         -7,
                         9
-                    ]
+                    ],
+                    "ammo": {
+                        "key": "tconstruct:drawback_ammo",
+                        "flip": true,
+                        "left": true,
+                        "small_offset": [
+                            -1,
+                            -2
+                        ],
+                        "large_offset": [
+                            1,
+                            1
+                        ]
+                    }
                 }
             },
             {

@@ -47,6 +47,7 @@ import slimeknights.tconstruct.library.tools.layout.StationSlotLayoutLoader;
 import slimeknights.tconstruct.library.utils.Util;
 import slimeknights.tconstruct.plugin.craftingtweaks.CraftingTweaksPlugin;
 import slimeknights.tconstruct.plugin.ftbultimine.FTBUltiminePlugin;
+import slimeknights.tconstruct.plugin.jsonthings.JsonThingsPlugin;
 import slimeknights.tconstruct.shared.TinkerAttributes;
 import slimeknights.tconstruct.shared.TinkerCommons;
 import slimeknights.tconstruct.shared.TinkerEffects;
@@ -125,6 +126,9 @@ public class TConstruct {
     }
     if (ModList.get().isLoaded("ftbultimine")) {
       FTBUltiminePlugin.onConstruct();
+    }
+    if (ModList.get().isLoaded("jsonthings")) {
+      JsonThingsPlugin.onConstruct();
     }
 
     // TODO 26.1: re-enable the remaining optional integrations when their

@@ -52,3 +52,10 @@ type="optional"
 versionRange="${ftb_ultimine_range}"
 ordering="AFTER"
 side="BOTH"
+
+[[dependencies.${mod_id}]]
+modId="jsonthings"
+type="optional"
+versionRange="${jsonthings_range}"
+ordering="AFTER"
+side="BOTH"

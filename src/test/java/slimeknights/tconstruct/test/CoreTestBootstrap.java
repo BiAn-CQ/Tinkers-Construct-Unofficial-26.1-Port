@@ -14,6 +14,7 @@ import net.neoforged.neoforge.network.connection.ConnectionType;
 public abstract class CoreTestBootstrap {
   static {
     bindMissingItemComponents();
+    bindMissingFluidComponents();
   }
 
   /**
@@ -24,6 +25,15 @@ public abstract class CoreTestBootstrap {
    */
   public static synchronized void bindMissingItemComponents() {
     BuiltInRegistries.ITEM.listElements().forEach(holder -> {
+      if (!holder.areComponentsBound()) {
+        holder.bindComponents(DataComponentMap.EMPTY);
+      }
+    });
+  }
+
+  /** Makes fluid holders usable by pure unit tests that construct fluid stacks. */
+  public static synchronized void bindMissingFluidComponents() {
+    BuiltInRegistries.FLUID.listElements().forEach(holder -> {
       if (!holder.areComponentsBound()) {
         holder.bindComponents(DataComponentMap.EMPTY);
       }

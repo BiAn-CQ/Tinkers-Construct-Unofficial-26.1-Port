@@ -3,8 +3,8 @@
   "damage": 4,
   "entity": {
     "types": [
-      "minecraft:guardian",
-      "minecraft:elder_guardian"
+      "minecraft:elder_guardian",
+      "minecraft:guardian"
     ]
   },
   "result": {

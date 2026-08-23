@@ -2,8 +2,8 @@
   "type": "tconstruct:severing",
   "entity": {
     "types": [
-      "minecraft:guardian",
-      "minecraft:elder_guardian"
+      "minecraft:elder_guardian",
+      "minecraft:guardian"
     ]
   },
   "looting_bonus": 0.01,

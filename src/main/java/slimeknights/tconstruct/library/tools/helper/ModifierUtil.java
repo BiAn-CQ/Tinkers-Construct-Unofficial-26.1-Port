@@ -2,6 +2,7 @@ package slimeknights.tconstruct.library.tools.helper;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
@@ -17,6 +18,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ItemUseAnimation;
+import net.minecraft.world.item.component.Weapon;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.common.ItemAbility;
@@ -46,6 +48,9 @@ import java.util.function.Consumer;
 /** Generic modifier hooks that don't quite fit elsewhere */
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class ModifierUtil {
+  /** Weapon component used by 26.1 to disable blocking without applying vanilla durability damage. */
+  private static final Weapon SHIELD_DISABLING_WEAPON = new Weapon(0, Weapon.AXE_DISABLES_BLOCKING_FOR_SECONDS);
+
   /** Drops an item at the given position */
   public static void dropItem(Level level, double x, double y, double z, ItemStack stack) {
     if (!stack.isEmpty() && !level.isClientSide()) {
@@ -298,6 +303,26 @@ public final class ModifierUtil {
     /** Convenience overload for effects represented by one item. */
     default void onConsume(Player player, ItemStack stack, int hunger, float saturation) {
       onConsume(player, List.of(stack), hunger, saturation);
+    }
+  }
+
+  /**
+   * Mirrors Tinkers' dynamic shield-disabling action to the component queried by vanilla 26.1 combat.
+   * The zero item damage keeps durability handling in {@link ToolDamageUtil}.
+   */
+  public static void updateShieldDisableComponent(ItemStack stack) {
+    updateShieldDisableComponent(stack, canPerformAction(ToolStack.from(stack), TinkerToolActions.SHIELD_DISABLE));
+  }
+
+  /** Component-only implementation split out for regression tests. */
+  static void updateShieldDisableComponent(ItemStack stack, boolean disablesShields) {
+    Weapon weapon = stack.get(DataComponents.WEAPON);
+    if (disablesShields) {
+      if (!SHIELD_DISABLING_WEAPON.equals(weapon)) {
+        stack.set(DataComponents.WEAPON, SHIELD_DISABLING_WEAPON);
+      }
+    } else if (SHIELD_DISABLING_WEAPON.equals(weapon)) {
+      stack.remove(DataComponents.WEAPON);
     }
   }
 

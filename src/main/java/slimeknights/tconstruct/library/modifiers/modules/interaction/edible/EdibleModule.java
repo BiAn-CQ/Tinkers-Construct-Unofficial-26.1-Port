@@ -1,6 +1,5 @@
 package slimeknights.tconstruct.library.modifiers.modules.interaction.edible;
 
-import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
@@ -12,9 +11,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ItemUseAnimation;
-import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
-import slimeknights.mantle.client.TooltipKey;
 import slimeknights.mantle.data.loadable.record.RecordLoadable;
 import slimeknights.mantle.data.loadable.record.SingletonLoader;
 import slimeknights.mantle.data.predicate.IJsonPredicate;
@@ -25,7 +22,6 @@ import slimeknights.tconstruct.library.modifiers.ModifierEntry;
 import slimeknights.tconstruct.library.modifiers.ModifierHooks;
 import slimeknights.tconstruct.library.modifiers.hook.armor.OnAttackedModifierHook;
 import slimeknights.tconstruct.library.modifiers.hook.build.ConditionalStatModifierHook;
-import slimeknights.tconstruct.library.modifiers.hook.display.TooltipModifierHook;
 import slimeknights.tconstruct.library.modifiers.hook.interaction.GeneralInteractionModifierHook;
 import slimeknights.tconstruct.library.modifiers.hook.interaction.InteractionSource;
 import slimeknights.tconstruct.library.modifiers.hook.interaction.UsingToolModifierHook;
@@ -36,41 +32,34 @@ import slimeknights.tconstruct.library.module.ModuleHook;
 import slimeknights.tconstruct.library.tools.context.EquipmentContext;
 import slimeknights.tconstruct.library.tools.helper.ModifierUtil;
 import slimeknights.tconstruct.library.tools.nbt.IToolStackView;
-import slimeknights.tconstruct.library.tools.nbt.StatsNBT;
 import slimeknights.tconstruct.library.tools.stat.FloatToolStat;
 import slimeknights.tconstruct.library.tools.stat.ToolStatId;
+import slimeknights.tconstruct.library.tools.stat.impl.IntegerToolStat;
+import slimeknights.tconstruct.library.tools.stat.impl.PercentToolStat;
 import slimeknights.tconstruct.library.utils.Util;
 import slimeknights.tconstruct.tools.TinkerModifiers;
 
-import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
 /** Shared stat-driven behavior for all edible tools and armor. */
-public enum EdibleModule implements ModifierModule, GeneralInteractionModifierHook, UsingToolModifierHook, OnAttackedModifierHook, TooltipModifierHook {
+public enum EdibleModule implements ModifierModule, GeneralInteractionModifierHook, UsingToolModifierHook, OnAttackedModifierHook {
   INSTANCE;
 
   private static final List<ModuleHook<?>> DEFAULT_HOOKS = HookProvider.<EdibleModule>defaultHooks(
-    ModifierHooks.GENERAL_INTERACT, ModifierHooks.TOOL_USING, ModifierHooks.ON_ATTACKED, ModifierHooks.TOOLTIP);
+    ModifierHooks.GENERAL_INTERACT, ModifierHooks.TOOL_USING, ModifierHooks.ON_ATTACKED);
   public static final RecordLoadable<EdibleModule> LOADER = new SingletonLoader<>(INSTANCE);
   private static final IJsonPredicate<Item> VALID_TOOLS = ItemPredicate.or(
     ItemPredicate.tag(TinkerTags.Items.INTERACTABLE_CHARGE), ItemPredicate.tag(TinkerTags.Items.ARMOR));
 
-  public static final FloatToolStat HUNGER = new FloatToolStat(new ToolStatId(TConstruct.MOD_ID, "hunger"), 0xFFF0A8A4, 0, 0, 200, VALID_TOOLS);
+  public static final IntegerToolStat HUNGER = new IntegerToolStat(new ToolStatId(TConstruct.MOD_ID, "hunger"), 0xFFF0A8A4, 0, 0, 200, VALID_TOOLS);
   public static final FloatToolStat SATURATION = new FloatToolStat(new ToolStatId(TConstruct.MOD_ID, "saturation"), 0xFFF0A8A4, 0, 0, 200, VALID_TOOLS);
   public static final FloatToolStat EAT_DURATION = new FloatToolStat(new ToolStatId(TConstruct.MOD_ID, "eat_duration"), 0xFFF0A8A4, 16, 0, 100, VALID_TOOLS);
-  public static final FloatToolStat COUNTER_CHANCE = new FloatToolStat(new ToolStatId(TConstruct.MOD_ID, "edible_counter_chance"), 0xFFF0A8A4, 0, 0, 1, VALID_TOOLS);
-  public static final ModifierModule EDIBLE_TRAIT = new ModifierTraitModule(TinkerModifiers.edible.getId(), 1, false);
+  public static final PercentToolStat COUNTER_CHANCE = new PercentToolStat(new ToolStatId(TConstruct.MOD_ID, "edible_counter_chance"), 0xFFF0A8A4, 0, 0, 1, VALID_TOOLS);
+  public static final ModifierModule EDIBLE_TRAIT = new ModifierTraitModule(TinkerModifiers.edible.getId(), 1, true);
 
   @Override public RecordLoadable<EdibleModule> getLoader() { return LOADER; }
   @Override public List<ModuleHook<?>> getDefaultHooks() { return DEFAULT_HOOKS; }
-
-  @Override
-  public void addTooltip(IToolStackView tool, ModifierEntry modifier, @Nullable Player player, List<Component> tooltip, TooltipKey tooltipKey, TooltipFlag tooltipFlag) {
-    StatsNBT stats = tool.getStats();
-    tooltip.add(HUNGER.formatValue(stats.getIntOr(HUNGER, 0)));
-    tooltip.add(SATURATION.formatValue(stats.get(SATURATION)));
-  }
 
   @Override
   public InteractionResult onToolUse(IToolStackView tool, ModifierEntry modifier, Player player, InteractionHand hand, InteractionSource source) {

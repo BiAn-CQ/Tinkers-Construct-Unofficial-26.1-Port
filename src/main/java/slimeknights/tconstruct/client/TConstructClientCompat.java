@@ -86,6 +86,7 @@ import slimeknights.tconstruct.shared.TinkerCommons;
 import slimeknights.tconstruct.shared.client.FluidParticle;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.alchemy.PotionContents;
 import net.minecraft.world.level.material.FluidState;
 import net.neoforged.neoforge.client.fluid.FluidTintSource;
@@ -93,10 +94,11 @@ import net.neoforged.neoforge.fluids.FluidStack;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import slimeknights.mantle.fluid.texture.FluidTextureManager;
 import slimeknights.tconstruct.fluids.TinkerFluids;
+import slimeknights.tconstruct.library.tools.item.armor.MultilayerArmorItem;
 import slimeknights.tconstruct.tools.clientcompat.ShieldBannerModifierSpriteSource;
-import java.util.List;
 
 /** Client registrations retained while the old model integrations are migrated. */
 @EventBusSubscriber(modid = TConstruct.MOD_ID, value = Dist.CLIENT)
@@ -131,7 +133,7 @@ public final class TConstructClientCompat {
 
   @SubscribeEvent
   static void registerClientExtensions(RegisterClientExtensionsEvent event) {
-    TConstructArmorClientExtensions.register(event);
+    Set<Item> specializedArmor = TConstructArmorClientExtensions.register(event);
     DynamicTableParticleExtensions.register(event);
 
     // NeoForge 26.1 no longer discovers the old per-item initializeClient
@@ -140,13 +142,14 @@ public final class TConstructClientCompat {
     List<Item> tools = new ArrayList<>();
     List<Item> crossbows = new ArrayList<>();
     BuiltInRegistries.ITEM.forEach(item -> {
-      if (!TConstruct.MOD_ID.equals(BuiltInRegistries.ITEM.getKey(item).getNamespace())) {
-        return;
-      }
       if (item instanceof ModifiableCrossbowItem) {
         crossbows.add(item);
       } else if (item instanceof ModifiableItem || item instanceof ModifiableLauncherItem) {
         tools.add(item);
+      }
+      if (item instanceof MultilayerArmorItem armor && !specializedArmor.contains(item)) {
+        Identifier modelName = armor.getModelName();
+        event.registerItem(new LegacyMultilayerArmorClientExtension(modelName), item);
       }
     });
     if (!tools.isEmpty()) {
@@ -173,6 +176,8 @@ public final class TConstructClientCompat {
       ModifierManager.INSTANCE.getAllValues().forEach(modifier -> modifier.clearCache(PackType.CLIENT_RESOURCES)));
     event.addListener(TConstruct.getResource("combat_fishing_hook_cache"),
       (ISafeManagerReloadListener) manager -> CombatFishingHookRendererCompat.clearCache());
+    event.addListener(TConstruct.getResource("addon_armor_model_cache"),
+      (ISafeManagerReloadListener) manager -> LegacyMultilayerArmorClientExtension.invalidateAll());
     // Jade 26.1 registers a listener for later changes to its translated-name
     // option, but does not apply the already-loaded value when registering it.
     // Synchronize that value after reload so creative-tab deduplication,

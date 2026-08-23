@@ -2,8 +2,8 @@
   "type": "tconstruct:severing",
   "entity": {
     "types": [
-      "minecraft:spider",
-      "minecraft:cave_spider"
+      "minecraft:cave_spider",
+      "minecraft:spider"
     ]
   },
   "looting_bonus": 0.01,

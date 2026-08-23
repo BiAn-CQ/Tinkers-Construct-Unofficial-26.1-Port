@@ -3,9 +3,9 @@
   "damage": 4,
   "entity": {
     "types": [
-      "minecraft:husk",
       "minecraft:zombie_horse",
-      "minecraft:zombie"
+      "minecraft:zombie",
+      "minecraft:husk"
     ]
   },
   "result": {

@@ -18,6 +18,7 @@ import slimeknights.tconstruct.library.modifiers.fluid.FluidEffectContext;
 import slimeknights.tconstruct.library.recipe.TagPredicate;
 import slimeknights.tconstruct.fluids.fluids.PotionFluidType;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /** Spilling effect that pulls the potion from a NBT potion fluid and applies it */
@@ -37,7 +38,8 @@ public record PotionFluidEffect(float scale, TagPredicate predicate) implements 
     LivingEntity target = context.getLivingTarget();
     // must match the tag predicate
     if (target != null && predicate.test(fluid.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY).copyTag())) {
-      List<MobEffectInstance> effects = PotionFluidType.getPotion(fluid).value().getEffects();
+      List<MobEffectInstance> effects = new ArrayList<>();
+      PotionFluidType.getPotionContents(fluid).forEachEffect(effects::add, 1.0F);
       if (!effects.isEmpty()) {
         LivingEntity attacker = context.getEntity();
         Entity directSource = context.getDirectSource();

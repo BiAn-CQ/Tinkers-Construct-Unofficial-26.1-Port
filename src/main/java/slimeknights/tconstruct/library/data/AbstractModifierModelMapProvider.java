@@ -172,6 +172,19 @@ public abstract class AbstractModifierModelMapProvider extends GenericDataProvid
       return this;
     }
 
+    /** Overrides a lower-priority modifier map with an empty model. */
+    public Builder empty(ModifierId modifier) {
+      return modifier(modifier, typed("empty"));
+    }
+
+    /** Overrides lower-priority modifier maps with empty models. */
+    public Builder empty(ModifierId... modifiers) {
+      for (ModifierId modifier : modifiers) {
+        empty(modifier);
+      }
+      return this;
+    }
+
     @Nullable
     private String largeFolder(String folder, char separator) {
       return separator == SMALL ? null : folder + "/large" + separator + "modifiers";
@@ -189,9 +202,22 @@ public abstract class AbstractModifierModelMapProvider extends GenericDataProvid
       return this;
     }
 
+    public Builder luminosity(int light, String folder, @Nullable String largeFolder, String textureSuffix, ModifierId... modifierIds) {
+      for (ModifierId modifier : modifierIds) {
+        String suffix = '/' + suffix(modifier) + textureSuffix;
+        luminosity(light, modifier, folder + suffix, largeFolder == null ? null : largeFolder + suffix);
+      }
+      return this;
+    }
+
     public Builder luminosity(int light, char largeSeparator, ModifierId... modifierIds) {
       String path = id.getPath();
       return luminosity(light, path + "/modifiers", largeFolder(path, largeSeparator), modifierIds);
+    }
+
+    public Builder luminosity(int light, char largeSeparator, String textureSuffix, ModifierId... modifierIds) {
+      String path = id.getPath();
+      return luminosity(light, path + "/modifiers", largeFolder(path, largeSeparator), textureSuffix, modifierIds);
     }
 
     public Builder basic(ModifierId modifier, String texture, @Nullable String largeTexture) {
@@ -204,6 +230,10 @@ public abstract class AbstractModifierModelMapProvider extends GenericDataProvid
 
     public Builder basic(char largeSeparator, ModifierId... modifierIds) {
       return luminosity(0, largeSeparator, modifierIds);
+    }
+
+    public Builder basic(char largeSeparator, String textureSuffix, ModifierId... modifierIds) {
+      return luminosity(0, largeSeparator, textureSuffix, modifierIds);
     }
 
     public Builder compact(String folder, ModifierId... modifierIds) {

@@ -1,6 +1,7 @@
 package slimeknights.tconstruct.library.modifiers.hook.behavior;
 
 import net.minecraft.core.Holder;
+import net.minecraft.world.item.ItemInstance;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
@@ -66,6 +67,18 @@ public interface EnchantmentModifierHook {
     }
     // we allow hooks to return negative, such as to cancel out an enchantment
     return Math.max(level, 0);
+  }
+
+  /**
+   * Gets the enchantment level through the 26.1 gameplay-facing item API.
+   * Modifier data is only available on mutable stacks, while other item instances
+   * can still expose their stored enchantments.
+   */
+  static int getEnchantmentLevel(ItemInstance instance, Holder<Enchantment> enchantment) {
+    if (instance instanceof ItemStack stack) {
+      return getEnchantmentLevel(stack, enchantment);
+    }
+    return instance.getTagEnchantments().getLevel(enchantment);
   }
 
   /**

@@ -31,7 +31,6 @@ import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet.Named;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.core.RegistryAccess;
-import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
@@ -404,8 +403,8 @@ public class JEIPlugin implements IModPlugin {
     registry.registerSubtypeInterpreter(VanillaTypes.ITEM_STACK, TinkerTables.scorchedAnvil.asItem(), anvils);
 
     // potions
-    registry.registerSubtypeInterpreter(VanillaTypes.ITEM_STACK, TinkerFluids.potion.asItem(), (PotionSubtypeInterpreter<ItemStack>)stack -> stack.get(DataComponents.POTION_CONTENTS));
-    registry.registerSubtypeInterpreter(NeoForgeTypes.FLUID_STACK, TinkerFluids.potion.get(), (PotionSubtypeInterpreter<FluidStack>)stack -> stack.get(DataComponents.POTION_CONTENTS));
+    registry.registerSubtypeInterpreter(VanillaTypes.ITEM_STACK, TinkerFluids.potion.asItem(), (PotionSubtypeInterpreter<ItemStack>)PotionFluidType::getPotionContents);
+    registry.registerSubtypeInterpreter(NeoForgeTypes.FLUID_STACK, TinkerFluids.potion.get(), (PotionSubtypeInterpreter<FluidStack>)PotionFluidType::getPotionContents);
 
     // parts
     for (Holder<Item> item : BuiltInRegistries.ITEM.getTagOrEmpty(TinkerTags.Items.TOOL_PARTS)) {
@@ -574,7 +573,7 @@ public class JEIPlugin implements IModPlugin {
     if (Config.CLIENT.showPotionFluidInJEI.get()) {
       manager.addIngredientsAtRuntime(NeoForgeTypes.FLUID_STACK,
                                       StreamSupport.stream(BuiltInRegistries.POTION.asHolderIdMap().spliterator(), false)
-                                        .filter(holder -> holder != Potions.WATER && !holder.is(TinkerTags.Potions.HIDDEN_FLUID))
+                                        .filter(holder -> !holder.equals(Potions.WATER) && !holder.is(TinkerTags.Potions.HIDDEN_FLUID))
                                         .map(holder -> PotionFluidType.potionFluid(holder, FluidType.BUCKET_VOLUME))
                                         .toList());
     }
