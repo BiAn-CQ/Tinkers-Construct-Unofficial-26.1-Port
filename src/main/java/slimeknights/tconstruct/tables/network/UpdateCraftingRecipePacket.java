@@ -1,21 +1,18 @@
 package slimeknights.tconstruct.tables.network;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.item.crafting.CraftingRecipe;
 import net.minecraft.world.item.crafting.RecipeHolder;
-import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
-import slimeknights.mantle.network.packet.IThreadsafePacket;
-import slimeknights.mantle.util.BlockEntityHelper;
+import slimeknights.tconstruct.common.network.BlockEntityPacket;
 import slimeknights.tconstruct.tables.block.entity.table.CraftingStationBlockEntity;
 import slimeknights.tconstruct.library.utils.TinkerNetworkBuffer;
 
 /**
  * Packet to send the current crafting recipe to a player who opens the crafting station
  */
-public class UpdateCraftingRecipePacket implements IThreadsafePacket {
+public class UpdateCraftingRecipePacket implements BlockEntityPacket<CraftingStationBlockEntity> {
   private final BlockPos pos;
   private final RecipeHolder<CraftingRecipe> recipe;
 
@@ -40,18 +37,17 @@ public class UpdateCraftingRecipePacket implements IThreadsafePacket {
   }
 
   @Override
-  public void handleThreadsafe(IPayloadContext context) {
-    HandleClient.handle(this);
+  public BlockPos pos() {
+    return pos;
   }
 
-  /** Safely runs client side only code in a method only called on client */
-  private static class HandleClient {
-    private static void handle(UpdateCraftingRecipePacket packet) {
-      Level world = Minecraft.getInstance().level;
-      if (world != null) {
-        BlockEntityHelper.get(CraftingStationBlockEntity.class, world, packet.pos)
-          .ifPresent(te -> te.updateRecipe(packet.recipe));
-      }
-    }
+  @Override
+  public Class<CraftingStationBlockEntity> receiverType() {
+    return CraftingStationBlockEntity.class;
+  }
+
+  @Override
+  public void handleBlockEntity(IPayloadContext context, CraftingStationBlockEntity blockEntity) {
+    blockEntity.updateRecipe(recipe);
   }
 }

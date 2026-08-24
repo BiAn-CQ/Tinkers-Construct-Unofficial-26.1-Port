@@ -177,6 +177,7 @@ def coreTestSources = [
         'slimeknights/tconstruct/smeltery/block/entity/module/alloying/MultiAlloyingModuleTest.java',
         'slimeknights/tconstruct/smeltery/block/entity/controller/AlloyerBlockEntityTest.java',
         'slimeknights/tconstruct/smeltery/block/entity/controller/HeatingStructureBlockEntityTest.java',
+        'slimeknights/tconstruct/smeltery/block/entity/component/SmelteryInputOutputBlockEntityTest.java',
         'slimeknights/tconstruct/tables/block/entity/chest/AbstractChestBlockEntityTest.java',
         'slimeknights/tconstruct/tools/logic/InteractionHandlerTest.java',
         'slimeknights/tconstruct/tools/modules/ranged/common/ArrowPierceModuleTest.java',

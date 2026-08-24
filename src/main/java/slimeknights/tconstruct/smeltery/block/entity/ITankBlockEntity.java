@@ -1,6 +1,8 @@
 package slimeknights.tconstruct.smeltery.block.entity;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -12,6 +14,7 @@ import slimeknights.tconstruct.library.client.SafeClient;
 import slimeknights.tconstruct.library.fluid.FluidTankAnimated;
 import slimeknights.tconstruct.library.fluid.IFluidTankUpdater;
 import slimeknights.tconstruct.smeltery.network.FluidUpdatePacket;
+import slimeknights.tconstruct.smeltery.item.TankItem;
 
 /**
  * Common logic between the tank and the melter
@@ -22,6 +25,11 @@ public interface ITankBlockEntity extends IFluidTankUpdater, FluidUpdatePacket.I
    * @return  Tank
    */
   FluidTankAnimated getTank();
+
+  /** Stores this block entity's fluid in the picked block stack. */
+  default void setTankTag(ItemStack stack) {
+    TankItem.setTank(stack, getTank());
+  }
 
   /*
    * Comparator
@@ -133,11 +141,18 @@ public interface ITankBlockEntity extends IFluidTankUpdater, FluidUpdatePacket.I
    * @return  Comparator power
    */
   static int getComparatorInputOverride(LevelAccessor world, BlockPos pos) {
-    BlockEntity te = world.getBlockEntity(pos);
-    if (!(te instanceof ITankBlockEntity)) {
-      return 0;
+    if (world.getBlockEntity(pos) instanceof ITankBlockEntity tank) {
+      return tank.comparatorStrength();
     }
-    return ((ITankBlockEntity) te).comparatorStrength();
+    return 0;
+  }
+
+  /** Copies a tank block and preserves its contained fluid. */
+  static ItemStack getCloneItemStack(ItemStack stack, BlockGetter world, BlockPos pos) {
+    if (world.getBlockEntity(pos) instanceof ITankBlockEntity tank) {
+      tank.setTankTag(stack);
+    }
+    return stack;
   }
 
   /** Represents a  tank block entity with an inventory */

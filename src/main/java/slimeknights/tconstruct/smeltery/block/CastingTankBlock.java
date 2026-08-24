@@ -28,7 +28,6 @@ import net.minecraft.world.phys.HitResult;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.SimpleFluidContent;
 import slimeknights.mantle.block.InventoryBlock;
-import slimeknights.mantle.util.BlockEntityHelper;
 import slimeknights.tconstruct.common.TinkerModule;
 import slimeknights.tconstruct.library.utils.NBTTags;
 import slimeknights.tconstruct.smeltery.block.component.SearedTankBlock;
@@ -151,9 +150,7 @@ public class CastingTankBlock extends InventoryBlock implements ITankBlock, Enti
 
   @Override
   public ItemStack getCloneItemStack(LevelReader world, BlockPos pos, BlockState state, boolean includeData, Player player) {
-    ItemStack stack = new ItemStack(this);
-    BlockEntityHelper.get(CastingTankBlockEntity.class, world, pos).ifPresent(te -> te.setTankTag(stack));
-    return stack;
+    return ITankBlockEntity.getCloneItemStack(new ItemStack(this), world, pos);
   }
 
   @Override

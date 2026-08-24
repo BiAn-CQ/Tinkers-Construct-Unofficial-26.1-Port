@@ -37,13 +37,13 @@ public class AlloyerBlock extends TinyMultiblockControllerBlock {
 
   @Override
   public void neighborChanged(BlockState state, Level world, BlockPos pos, Block blockIn, net.minecraft.world.level.redstone.Orientation orientation, boolean isMoving) {
-    BlockEntityHelper.get(AlloyerBlockEntity.class, world, pos).ifPresent(te -> {
+    if (world.getBlockEntity(pos) instanceof AlloyerBlockEntity te) {
       for (Direction direction : Direction.values()) {
         if (direction != Direction.DOWN) {
           te.neighborChanged(direction);
         }
       }
-    });
+    }
   }
 
   /*

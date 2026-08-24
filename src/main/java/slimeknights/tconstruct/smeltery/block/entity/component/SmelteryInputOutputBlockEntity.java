@@ -68,6 +68,12 @@ public abstract class SmelteryInputOutputBlockEntity<T> extends SmelteryComponen
   @Override
   public void onMasterLoad(IMasterLogic master) {
     clearHandler();
+    // The exposed capability changes when the controller block entity is recreated,
+    // including when it is placed back at the same position. Notify neighboring
+    // capability caches such as faucets so they query this I/O block again.
+    if (level != null) {
+      level.invalidateCapabilities(worldPosition);
+    }
   }
 
   @Override

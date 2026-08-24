@@ -1,15 +1,14 @@
 package slimeknights.tconstruct.smeltery.network;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
-import slimeknights.mantle.network.packet.IThreadsafePacket;
-import slimeknights.mantle.util.BlockEntityHelper;
+import slimeknights.tconstruct.common.network.BlockEntityPacket;
 import slimeknights.tconstruct.library.utils.TinkerNetworkBuffer;
+import slimeknights.tconstruct.smeltery.network.FluidUpdatePacket.IFluidPacketReceiver;
 
-public class FluidUpdatePacket implements IThreadsafePacket {
+public class FluidUpdatePacket implements BlockEntityPacket<IFluidPacketReceiver> {
 
   protected final BlockPos pos;
   protected final FluidStack fluid;
@@ -33,8 +32,18 @@ public class FluidUpdatePacket implements IThreadsafePacket {
   }
 
   @Override
-  public void handleThreadsafe(IPayloadContext context) {
-    HandleClient.handle(this);
+  public BlockPos pos() {
+    return pos;
+  }
+
+  @Override
+  public Class<IFluidPacketReceiver> receiverType() {
+    return IFluidPacketReceiver.class;
+  }
+
+  @Override
+  public void handleBlockEntity(IPayloadContext context, IFluidPacketReceiver blockEntity) {
+    blockEntity.updateFluidTo(fluid);
   }
 
   /** Interface to implement for anything wishing to receive fluid updates */
@@ -48,10 +57,4 @@ public class FluidUpdatePacket implements IThreadsafePacket {
     void updateFluidTo(FluidStack fluid);
   }
 
-  /** Safely runs client side only code in a method only called on client */
-  private static class HandleClient {
-    private static void handle(FluidUpdatePacket packet) {
-      BlockEntityHelper.get(IFluidPacketReceiver.class, Minecraft.getInstance().level, packet.pos).ifPresent(te -> te.updateFluidTo(packet.fluid));
-    }
-  }
 }

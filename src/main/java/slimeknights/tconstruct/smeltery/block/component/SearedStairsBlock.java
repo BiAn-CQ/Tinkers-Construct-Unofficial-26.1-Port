@@ -8,7 +8,6 @@ import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.StairBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import slimeknights.mantle.util.BlockEntityHelper;
 import slimeknights.tconstruct.smeltery.block.entity.component.SmelteryComponentBlockEntity;
 
 import javax.annotation.Nullable;
@@ -27,9 +26,9 @@ public class SearedStairsBlock extends StairBlock implements EntityBlock {
   }
 
   @Deprecated
-  public void onRemove(BlockState state, Level worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
-    if (!newState.is(this)) {
-      BlockEntityHelper.get(SmelteryComponentBlockEntity.class, worldIn, pos).ifPresent(te -> te.notifyMasterOfChange(pos, newState));
+  public void onRemove(BlockState state, Level world, BlockPos pos, BlockState newState, boolean isMoving) {
+    if (!newState.is(this) && world.getBlockEntity(pos) instanceof SmelteryComponentBlockEntity te) {
+      te.notifyMasterOfChange(pos, newState);
     }
   }
 

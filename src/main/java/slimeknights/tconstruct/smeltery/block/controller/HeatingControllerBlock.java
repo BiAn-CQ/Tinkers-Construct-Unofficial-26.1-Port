@@ -1,6 +1,7 @@
 package slimeknights.tconstruct.smeltery.block.controller;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -9,10 +10,11 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.block.Mirror;
+import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.HitResult;
 import slimeknights.mantle.block.RetexturedBlock;
-import slimeknights.mantle.util.BlockEntityHelper;
 import slimeknights.mantle.util.RetexturedHelper;
 import slimeknights.tconstruct.common.network.TinkerNetwork;
 import slimeknights.tconstruct.smeltery.block.entity.controller.HeatingStructureBlockEntity;
@@ -34,27 +36,23 @@ public abstract class HeatingControllerBlock extends ControllerBlock {
   protected boolean openGui(Player player, Level world, BlockPos pos) {
     super.openGui(player, world, pos);
     // only need to update if holding the proper items
-    if (!world.isClientSide()) {
-      BlockEntityHelper.get(HeatingStructureBlockEntity.class, world, pos).ifPresent(te -> {
-        MultiblockResult result = te.getStructureResult();
-        if (!result.isSuccess() && te.showDebugBlockBorder(player)) {
-          TinkerNetwork.getInstance().sendTo(new StructureErrorPositionPacket(pos, result.getPos()), player);
-        }
-      });
+    if (!world.isClientSide() && world.getBlockEntity(pos) instanceof HeatingStructureBlockEntity te) {
+      MultiblockResult result = te.getStructureResult();
+      if (!result.isSuccess() && te.showDebugBlockBorder(player)) {
+        TinkerNetwork.getInstance().sendTo(new StructureErrorPositionPacket(pos, result.getPos()), player);
+      }
     }
     return true;
   }
 
   @Override
   protected boolean displayStatus(Player player, Level world, BlockPos pos, BlockState state) {
-    if (!world.isClientSide()) {
-      BlockEntityHelper.get(HeatingStructureBlockEntity.class, world, pos).ifPresent(te -> {
-        MultiblockResult result = te.getStructureResult();
-        if (!result.isSuccess()) {
-          player.sendOverlayMessage(result.getMessage());
-          TinkerNetwork.getInstance().sendTo(new StructureErrorPositionPacket(pos, result.getPos()), player);
-        }
-      });
+    if (!world.isClientSide() && world.getBlockEntity(pos) instanceof HeatingStructureBlockEntity te) {
+      MultiblockResult result = te.getStructureResult();
+      if (!result.isSuccess()) {
+        player.sendOverlayMessage(result.getMessage());
+        TinkerNetwork.getInstance().sendTo(new StructureErrorPositionPacket(pos, result.getPos()), player);
+      }
     }
     return true;
   }
@@ -66,11 +64,36 @@ public abstract class HeatingControllerBlock extends ControllerBlock {
   @Override
   public void setPlacedBy(Level world, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {
     super.setPlacedBy(world, pos, state, placer, stack);
-    RetexturedBlock.updateTextureBlock(world, pos, stack);
+    if (world.getBlockEntity(pos) instanceof HeatingStructureBlockEntity te) {
+      if (stack.has(DataComponents.CUSTOM_DATA)) {
+        te.updateTexture(RetexturedHelper.getTextureName(stack));
+      }
+      te.updateStructure();
+    }
   }
 
   @Override
   public ItemStack getCloneItemStack(LevelReader world, BlockPos pos, BlockState state, boolean includeData, Player player) {
     return RetexturedBlock.getPickBlock(world, pos, state);
+  }
+
+  /* No rotation if in a structure */
+
+  @Deprecated
+  @Override
+  public BlockState rotate(BlockState state, Rotation rotation) {
+    if (state.getValue(IN_STRUCTURE)) {
+      return state;
+    }
+    return super.rotate(state, rotation);
+  }
+
+  @Deprecated
+  @Override
+  public BlockState mirror(BlockState state, Mirror mirror) {
+    if (state.getValue(IN_STRUCTURE)) {
+      return state;
+    }
+    return super.mirror(state, mirror);
   }
 }

@@ -40,7 +40,6 @@ import slimeknights.tconstruct.smeltery.TinkerSmeltery;
 import slimeknights.tconstruct.smeltery.block.CastingTankBlock;
 import slimeknights.tconstruct.smeltery.block.entity.component.TankBlockEntity;
 import slimeknights.tconstruct.smeltery.block.entity.component.TankBlockEntity.ITankBlock;
-import slimeknights.tconstruct.smeltery.item.TankItem;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -257,14 +256,6 @@ public class CastingTankBlockEntity extends TableBlockEntity implements ITankBlo
    * NBT
    */
   private static final String TAG_REDSTONE = "redstone";
-
-  /**
-   * Sets the tag on the stack based on the contained tank
-   * @param stack  Stack
-   */
-  public void setTankTag(ItemStack stack) {
-    TankItem.setTank(stack, tank);
-  }
 
   /** Loads fluid directly from the tank item's data component. */
   public void setTankFluid(FluidStack fluid) {

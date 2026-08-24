@@ -6,7 +6,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -25,7 +24,6 @@ import slimeknights.tconstruct.smeltery.TinkerSmeltery;
 import slimeknights.tconstruct.smeltery.block.component.SearedTankBlock;
 import slimeknights.tconstruct.smeltery.block.component.SearedTankBlock.TankType;
 import slimeknights.tconstruct.smeltery.block.entity.ITankBlockEntity;
-import slimeknights.tconstruct.smeltery.item.TankItem;
 
 import javax.annotation.Nullable;
 
@@ -130,14 +128,6 @@ public class TankBlockEntity extends SmelteryComponentBlockEntity implements ITa
   /*
    * NBT
    */
-
-  /**
-   * Sets the tag on the stack based on the contained tank
-   * @param stack  Stack
-   */
-  public void setTankTag(ItemStack stack) {
-    TankItem.setTank(stack, tank);
-  }
 
   /** Loads fluid directly from the tank item's data component. */
   public void setTankFluid(FluidStack fluid) {

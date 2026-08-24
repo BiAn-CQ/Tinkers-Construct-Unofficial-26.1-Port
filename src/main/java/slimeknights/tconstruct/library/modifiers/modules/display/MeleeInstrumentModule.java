@@ -46,7 +46,7 @@ import java.util.List;
 public record MeleeInstrumentModule(@Nullable MaterialId material, TagKey<Instrument> tag,
                                     IJsonPredicate<LivingEntity> attacker, IJsonPredicate<LivingEntity> target,
                                     ModifierCondition<IToolStackView> condition)
-  implements ModifierModule, ConditionalModule<IToolStackView>, MonsterMeleeHitModifierHook.RedirectAfter, DamageDealtModifierHook {
+  implements ModifierModule, ConditionalModule<IToolStackView>, MonsterMeleeHitModifierHook.RedirectBefore, DamageDealtModifierHook {
   private static final List<ModuleHook<?>> DEFAULT_HOOKS = HookProvider.<MeleeInstrumentModule>defaultHooks(
     ModifierHooks.MELEE_HIT, ModifierHooks.MONSTER_MELEE_HIT, ModifierHooks.DAMAGE_DEALT);
   public static final RecordLoadable<MeleeInstrumentModule> LOADER = RecordLoadable.create(
@@ -94,7 +94,7 @@ public record MeleeInstrumentModule(@Nullable MaterialId material, TagKey<Instru
   }
 
   @Override
-  public void afterMeleeHit(IToolStackView tool, ModifierEntry modifier, ToolAttackContext context, float damageDealt) {
+  public void onMonsterMeleeHit(IToolStackView tool, ModifierEntry modifier, ToolAttackContext context, float damage) {
     if (condition.matches(tool, modifier) && TinkerPredicate.matches(target, context.getLivingTarget())) {
       playSound(tool, context.getAttacker(), context.getPlayerAttacker(), context.getTarget());
     }

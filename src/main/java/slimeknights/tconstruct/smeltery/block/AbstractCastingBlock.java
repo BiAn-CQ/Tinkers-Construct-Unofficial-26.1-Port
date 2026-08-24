@@ -16,7 +16,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition.Builder;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.phys.BlockHitResult;
-import slimeknights.mantle.util.BlockEntityHelper;
 import slimeknights.tconstruct.shared.block.TableBlock;
 import slimeknights.tconstruct.smeltery.block.entity.CastingBlockEntity;
 
@@ -75,18 +74,19 @@ public abstract class AbstractCastingBlock extends TableBlock {
   @SuppressWarnings("deprecation")
   @Deprecated
   @Override
-  protected void neighborChanged(BlockState state, Level worldIn, BlockPos pos, Block blockIn, net.minecraft.world.level.redstone.Orientation orientation, boolean isMoving) {
-    if (worldIn.isClientSide()) {
-      return;
+  protected void neighborChanged(BlockState state, Level world, BlockPos pos, Block blockIn, net.minecraft.world.level.redstone.Orientation orientation, boolean isMoving) {
+    if (!world.isClientSide() && world.getBlockEntity(pos) instanceof CastingBlockEntity casting) {
+      casting.handleRedstone(world.hasNeighborSignal(pos));
     }
-    BlockEntityHelper.get(CastingBlockEntity.class, worldIn, pos).ifPresent(casting -> casting.handleRedstone(worldIn.hasNeighborSignal(pos)));
   }
 
   @SuppressWarnings("deprecation")
   @Deprecated
   @Override
-  public void tick(BlockState state, ServerLevel worldIn, BlockPos pos, RandomSource rand) {
-    BlockEntityHelper.get(CastingBlockEntity.class, worldIn, pos).ifPresent(CastingBlockEntity::swap);
+  public void tick(BlockState state, ServerLevel world, BlockPos pos, RandomSource rand) {
+    if (world.getBlockEntity(pos) instanceof CastingBlockEntity casting) {
+      casting.swap();
+    }
   }
 
   @Override
@@ -99,7 +99,10 @@ public abstract class AbstractCastingBlock extends TableBlock {
     return true;
   }
 
-  public int getAnalogOutputSignal(BlockState blockState, Level worldIn, BlockPos pos) {
-    return BlockEntityHelper.get(CastingBlockEntity.class, worldIn, pos).map(CastingBlockEntity::getAnalogSignal).orElse(0);
+  public int getAnalogOutputSignal(BlockState blockState, Level world, BlockPos pos) {
+    if (world.getBlockEntity(pos) instanceof CastingBlockEntity casting) {
+      return casting.getAnalogSignal();
+    }
+    return 0;
   }
 }

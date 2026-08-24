@@ -1,46 +1,50 @@
 package slimeknights.tconstruct.smeltery.network;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
+import slimeknights.tconstruct.common.network.BlockEntityPacket;
+import slimeknights.tconstruct.library.utils.TinkerNetworkBuffer;
 import slimeknights.tconstruct.smeltery.block.entity.FaucetBlockEntity;
 
 /** Sent to clients to activate the faucet animation clientside **/
-public class FaucetActivationPacket extends FluidUpdatePacket {
+public class FaucetActivationPacket implements BlockEntityPacket<FaucetBlockEntity> {
 
+  private final BlockPos pos;
+  private final FluidStack fluid;
   private final boolean isPouring;
   public FaucetActivationPacket(BlockPos pos, FluidStack fluid, boolean isPouring) {
-    super(pos, fluid);
+    this.pos = pos.immutable();
+    this.fluid = fluid.copy();
     this.isPouring = isPouring;
   }
 
   public FaucetActivationPacket(FriendlyByteBuf buffer) {
-    super(buffer);
+    this.pos = buffer.readBlockPos();
+    this.fluid = FluidStack.OPTIONAL_STREAM_CODEC.decode(TinkerNetworkBuffer.registry(buffer));
     this.isPouring = buffer.readBoolean();
   }
 
   @Override
-  public void encode(FriendlyByteBuf packetBuffer) {
-    super.encode(packetBuffer);
-    packetBuffer.writeBoolean(isPouring);
+  public void encode(FriendlyByteBuf buffer) {
+    buffer.writeBlockPos(pos);
+    FluidStack.OPTIONAL_STREAM_CODEC.encode(TinkerNetworkBuffer.registry(buffer), fluid);
+    buffer.writeBoolean(isPouring);
   }
 
   @Override
-  public void handleThreadsafe(IPayloadContext context) {
-    HandleClient.handle(this);
+  public BlockPos pos() {
+    return pos;
   }
 
-  /** Safely runs client side only code in a method only called on client */
-  private static class HandleClient {
-    private static void handle(FaucetActivationPacket packet) {
-      assert Minecraft.getInstance().level != null;
-      BlockEntity te = Minecraft.getInstance().level.getBlockEntity(packet.pos);
-      if (te instanceof FaucetBlockEntity) {
-        ((FaucetBlockEntity) te).onActivationPacket(packet.fluid, packet.isPouring);
-      }
-    }
+  @Override
+  public Class<FaucetBlockEntity> receiverType() {
+    return FaucetBlockEntity.class;
+  }
+
+  @Override
+  public void handleBlockEntity(IPayloadContext context, FaucetBlockEntity blockEntity) {
+    blockEntity.onActivationPacket(fluid, isPouring);
   }
 }

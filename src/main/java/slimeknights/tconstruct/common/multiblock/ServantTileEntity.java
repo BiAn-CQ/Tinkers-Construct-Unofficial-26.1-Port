@@ -11,7 +11,6 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import slimeknights.mantle.block.entity.MantleBlockEntity;
-import slimeknights.mantle.util.BlockEntityHelper;
 import slimeknights.tconstruct.library.utils.TagUtil;
 
 import javax.annotation.Nullable;
@@ -77,9 +76,8 @@ public class ServantTileEntity extends MantleBlockEntity implements IServantLogi
 
   @Override
   public void notifyMasterOfChange(BlockPos pos, BlockState state) {
-    if (validateMaster()) {
-      assert masterPos != null;
-      BlockEntityHelper.get(IMasterLogic.class, level, masterPos).ifPresent(te -> te.notifyChange(pos, state));
+    if (level != null && masterPos != null && validateMaster() && level.getBlockEntity(masterPos) instanceof IMasterLogic te) {
+      te.notifyChange(pos, state);
     }
   }
 
@@ -90,6 +88,10 @@ public class ServantTileEntity extends MantleBlockEntity implements IServantLogi
     if (newMaster.equals(this.masterPos)) {
       masterBlock = master.getMasterBlock().getBlock();
       this.setChangedFast();
+      // A controller replaced at the same position is a new block entity even though its
+      // position and block are unchanged. Refresh servant caches so they do not retain the
+      // old controller's handlers.
+      onMasterLoad(master);
     // otherwise, only set if we don't have a master
     } else if (!validateMaster()) {
       setMaster(newMaster, master.getMasterBlock().getBlock());

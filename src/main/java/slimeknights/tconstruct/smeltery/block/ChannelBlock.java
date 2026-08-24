@@ -344,9 +344,8 @@ public class ChannelBlock extends Block implements EntityBlock {
 
 		// if we have changes, apply them and return success
 		if (newState != null) {
-			Direction finalSide = side;
-			if (!world.isClientSide()) {
-				BlockEntityHelper.get(ChannelBlockEntity.class, world, pos).ifPresent(te -> te.refreshNeighbor(newState, finalSide));
+			if (!world.isClientSide() && world.getBlockEntity(pos) instanceof ChannelBlockEntity te) {
+				te.refreshNeighbor(newState, side);
 			}
 			world.setBlockAndUpdate(pos, newState);
 			return InteractionResult.SUCCESS;
@@ -366,12 +365,11 @@ public class ChannelBlock extends Block implements EntityBlock {
 				state = state.setValue(POWERED, isPowered).setValue(DOWN, isPowered && canConnect(worldIn, pos, Direction.DOWN));
 				worldIn.setBlock(pos, state, Block.UPDATE_CLIENTS);
 			}
-      BlockEntityHelper.get(ChannelBlockEntity.class, worldIn, pos)
-                       .ifPresent(te -> {
-                         for (Direction direction : Direction.values()) {
-                           te.removeCachedNeighbor(direction);
-                         }
-                       });
+      if (worldIn.getBlockEntity(pos) instanceof ChannelBlockEntity te) {
+        for (Direction direction : Direction.values()) {
+          te.removeCachedNeighbor(direction);
+        }
+      }
 		}
 	}
 

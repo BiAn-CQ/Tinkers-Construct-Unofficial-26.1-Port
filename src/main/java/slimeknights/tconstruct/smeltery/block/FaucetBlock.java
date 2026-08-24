@@ -36,7 +36,6 @@ import slimeknights.tconstruct.smeltery.block.entity.FaucetBlockEntity;
 
 import javax.annotation.Nullable;
 import java.util.EnumMap;
-import java.util.Optional;
 
 public class FaucetBlock extends Block implements EntityBlock {
   public static final EnumProperty<net.minecraft.core.Direction> FACING = BlockStateProperties.FACING_HOPPER;
@@ -104,7 +103,9 @@ public class FaucetBlock extends Block implements EntityBlock {
     if (player.isShiftKeyDown()) {
       return InteractionResult.PASS;
     }
-    getFaucet(worldIn, pos).ifPresent(FaucetBlockEntity::activate);
+    if (worldIn.getBlockEntity(pos) instanceof FaucetBlockEntity faucet) {
+      faucet.activate();
+    }
     return InteractionResult.SUCCESS;
   }
 
@@ -114,17 +115,16 @@ public class FaucetBlock extends Block implements EntityBlock {
     if (player.isShiftKeyDown()) {
       return InteractionResult.PASS;
     }
-    getFaucet(worldIn, pos).ifPresent(FaucetBlockEntity::activate);
+    if (worldIn.getBlockEntity(pos) instanceof FaucetBlockEntity faucet) {
+      faucet.activate();
+    }
     return InteractionResult.SUCCESS;
   }
 
   @SuppressWarnings("deprecation")
   @Override
   public void neighborChanged(BlockState state, Level worldIn, BlockPos pos, Block blockIn, net.minecraft.world.level.redstone.Orientation orientation, boolean isMoving) {
-    if (worldIn.isClientSide()) {
-      return;
-    }
-    getFaucet(worldIn, pos).ifPresent(faucet -> {
+    if (!worldIn.isClientSide() && worldIn.getBlockEntity(pos) instanceof FaucetBlockEntity faucet) {
       if (orientation == null) {
         // Some 26.1 neighbor updates do not carry a directional orientation.
         // The changed position is unknown, so invalidate both capability
@@ -134,23 +134,15 @@ public class FaucetBlock extends Block implements EntityBlock {
         faucet.neighborChanged(pos.relative(orientation.getFront()));
       }
       faucet.handleRedstone(worldIn.hasNeighborSignal(pos));
-    });
+    }
   }
 
   @SuppressWarnings("deprecation")
   @Override
   public void tick(BlockState state, ServerLevel worldIn, BlockPos pos, RandomSource rand) {
-    getFaucet(worldIn, pos).ifPresent(FaucetBlockEntity::activate);
-  }
-
-  /**
-   * Gets the facuet tile entity at the given position
-   * @param world  World instance
-   * @param pos    Faucet position
-   * @return  Optional of faucet, empty if missing or wrong type
-   */
-  private Optional<FaucetBlockEntity> getFaucet(Level world, BlockPos pos) {
-    return BlockEntityHelper.get(FaucetBlockEntity.class, world, pos);
+    if (worldIn.getBlockEntity(pos) instanceof FaucetBlockEntity faucet) {
+      faucet.activate();
+    }
   }
 
   /* Display */
@@ -171,11 +163,10 @@ public class FaucetBlock extends Block implements EntityBlock {
   }
 
   @Override
-  public void animateTick(BlockState stateIn, Level worldIn, BlockPos pos, RandomSource rand) {
-    getFaucet(worldIn, pos).ifPresent(faucet -> {
-      if (faucet.isPouring() && faucet.getRenderFluid().isEmpty() && rand.nextFloat() < 0.25F) {
-        addParticles(stateIn, worldIn, pos);
-      }
-    });
+  public void animateTick(BlockState stateIn, Level world, BlockPos pos, RandomSource rand) {
+    if (rand.nextFloat() < 0.25F && world.getBlockEntity(pos) instanceof FaucetBlockEntity faucet
+        && faucet.isPouring() && faucet.getRenderFluid().isEmpty()) {
+      addParticles(stateIn, world, pos);
+    }
   }
 }
