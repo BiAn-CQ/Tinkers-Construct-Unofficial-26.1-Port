@@ -20,28 +20,16 @@
             "plating": "tconstruct:item/tool/armor/plate/leggings/plating_broken",
             "maille": "tconstruct:item/tool/armor/plate/leggings/maille_broken"
         },
-        "modifier_models": {
-            "tconstruct:dyed": {
-                "type": "tconstruct:material_has_fallback",
-                "fallback": "metal",
-                "if_false": {
-                    "type": "tconstruct:dyed",
-                    "texture": "tconstruct:item/tool/armor/plate/leggings/maille"
-                },
-                "if_true": {
-                    "type": "tconstruct:dyed",
-                    "texture": "tconstruct:item/tool/armor/plate/leggings/maille_metal"
-                },
-                "index": 1
-            },
-            "tconstruct:trim": {
-                "type": "tconstruct:armor_trim",
-                "slot": "leggings"
-            }
-        },
         "first_modifiers": [
             "tconstruct:dyed",
             "tconstruct:trim"
+        ],
+        "modifier_maps": [
+            "tconstruct:plate/leggings"
+        ],
+        "broken_modifier_maps": [
+            "tconstruct:plate/leggings_broken",
+            "tconstruct:plate/leggings"
         ]
     }
 }

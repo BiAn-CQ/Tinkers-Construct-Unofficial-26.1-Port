@@ -20,19 +20,16 @@
             "cuirass": "tconstruct:item/tool/armor/travelers/vest/cuirass_broken",
             "metal": "tconstruct:item/tool/armor/travelers/vest/metal_broken"
         },
-        "modifier_models": {
-            "tconstruct:dyed": {
-                "type": "tconstruct:dyed",
-                "texture": "tconstruct:item/tool/armor/travelers/vest/modifiers/dyed"
-            },
-            "tconstruct:trim": {
-                "type": "tconstruct:armor_trim",
-                "slot": "chestplate"
-            }
-        },
         "first_modifiers": [
             "tconstruct:dyed",
             "tconstruct:trim"
+        ],
+        "modifier_maps": [
+            "tconstruct:travelers/vest"
+        ],
+        "broken_modifier_maps": [
+            "tconstruct:travelers/vest_broken",
+            "tconstruct:travelers/vest"
         ]
     }
 }

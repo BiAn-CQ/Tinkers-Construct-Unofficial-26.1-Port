@@ -22,14 +22,15 @@
                 "cuirass": "tconstruct:item/tool/armor/travelers/shield/cuirass_broken",
                 "wood": "tconstruct:item/tool/armor/travelers/shield/wood_broken"
             },
-            "modifier_models": {
-                "tconstruct:dyed": {
-                    "type": "tconstruct:dyed",
-                    "texture": "tconstruct:item/tool/armor/travelers/shield/modifiers/dyed"
-                }
-            },
             "first_modifiers": [
                 "tconstruct:dyed"
+            ],
+            "modifier_maps": [
+                "tconstruct:travelers/shield"
+            ],
+            "broken_modifier_maps": [
+                "tconstruct:travelers/shield_broken",
+                "tconstruct:travelers/shield"
             ]
         },
         "overrides": [
@@ -58,14 +59,15 @@
                         "cuirass": "tconstruct:item/tool/armor/travelers/shield/cuirass_broken",
                         "wood": "tconstruct:item/tool/armor/travelers/shield/wood_broken"
                     },
-                    "modifier_models": {
-                        "tconstruct:dyed": {
-                            "type": "tconstruct:dyed",
-                            "texture": "tconstruct:item/tool/armor/travelers/shield/modifiers/dyed"
-                        }
-                    },
                     "first_modifiers": [
                         "tconstruct:dyed"
+                    ],
+                    "modifier_maps": [
+                        "tconstruct:travelers/shield"
+                    ],
+                    "broken_modifier_maps": [
+                        "tconstruct:travelers/shield_broken",
+                        "tconstruct:travelers/shield"
                     ]
                 }
             }

@@ -17,17 +17,18 @@
             }
         ],
         "broken_textures": {
-            "laces": "tconstruct:item/tool/armor/slime/boots/laces_broken",
+            "laces": "tconstruct:item/tool/armor/slime/boots/laces",
             "slime": "tconstruct:item/tool/armor/slime/boots/slime_broken"
-        },
-        "modifier_models": {
-            "tconstruct:trim": {
-                "type": "tconstruct:armor_trim",
-                "slot": "boots"
-            }
         },
         "first_modifiers": [
             "tconstruct:trim"
+        ],
+        "modifier_maps": [
+            "tconstruct:slime/boots"
+        ],
+        "broken_modifier_maps": [
+            "tconstruct:slime/boots_broken",
+            "tconstruct:slime/boots"
         ]
     }
 }

@@ -10,23 +10,13 @@
             "broken_textures": {
                 "tool": "tconstruct:item/tool/flint_and_brick/tool_broken"
             },
-            "modifier_models": {
-                "tconstruct:diamond": "tconstruct:item/tool/flint_and_brick/modifiers/tconstruct_diamond",
-                "tconstruct:emerald": "tconstruct:item/tool/flint_and_brick/modifiers/tconstruct_emerald",
-                "tconstruct:glowing": {
-                    "type": "tconstruct:basic",
-                    "luminosity": 15,
-                    "texture": "tconstruct:item/tool/flint_and_brick/modifiers/tconstruct_glowing"
-                },
-                "tconstruct:netherite": "tconstruct:item/tool/flint_and_brick/modifiers/tconstruct_netherite",
-                "tconstruct:overforced": "tconstruct:item/tool/flint_and_brick/modifiers/tconstruct_overforced",
-                "tconstruct:reinforced": "tconstruct:item/tool/flint_and_brick/modifiers/tconstruct_reinforced",
-                "tconstruct:unbreakable": {
-                    "type": "tconstruct:basic",
-                    "luminosity": 2,
-                    "texture": "tconstruct:item/tool/flint_and_brick/modifiers/tconstruct_unbreakable"
-                }
-            }
+            "modifier_maps": [
+                "tconstruct:flint_and_brick"
+            ],
+            "broken_modifier_maps": [
+                "tconstruct:flint_and_brick_broken",
+                "tconstruct:flint_and_brick"
+            ]
         },
         "overrides": [
             {
@@ -42,23 +32,13 @@
                     "broken_textures": {
                         "tool": "tconstruct:item/tool/flint_and_brick/tool_broken"
                     },
-                    "modifier_models": {
-                        "tconstruct:diamond": "tconstruct:item/tool/flint_and_brick/modifiers/tconstruct_diamond",
-                        "tconstruct:emerald": "tconstruct:item/tool/flint_and_brick/modifiers/tconstruct_emerald",
-                        "tconstruct:glowing": {
-                            "type": "tconstruct:basic",
-                            "luminosity": 15,
-                            "texture": "tconstruct:item/tool/flint_and_brick/modifiers/tconstruct_glowing"
-                        },
-                        "tconstruct:netherite": "tconstruct:item/tool/flint_and_brick/modifiers/tconstruct_netherite",
-                        "tconstruct:overforced": "tconstruct:item/tool/flint_and_brick/modifiers/tconstruct_overforced",
-                        "tconstruct:reinforced": "tconstruct:item/tool/flint_and_brick/modifiers/tconstruct_reinforced",
-                        "tconstruct:unbreakable": {
-                            "type": "tconstruct:basic",
-                            "luminosity": 2,
-                            "texture": "tconstruct:item/tool/flint_and_brick/modifiers/tconstruct_unbreakable"
-                        }
-                    }
+                    "modifier_maps": [
+                        "tconstruct:flint_and_brick"
+                    ],
+                    "broken_modifier_maps": [
+                        "tconstruct:flint_and_brick_broken",
+                        "tconstruct:flint_and_brick"
+                    ]
                 }
             }
         ]

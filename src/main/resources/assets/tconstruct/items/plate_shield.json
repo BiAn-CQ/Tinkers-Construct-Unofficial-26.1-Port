@@ -31,15 +31,15 @@
                 -8,
                 0
             ],
-            "modifier_models": {
-                "tconstruct:banner": {
-                    "type": "tconstruct:banner",
-                    "prefix": "tconstruct:item/tool/armor/plate/shield/banner_small/",
-                    "prefix_large": "tconstruct:item/tool/armor/plate/shield/banner_large/"
-                }
-            },
             "first_modifiers": [
                 "tconstruct:banner"
+            ],
+            "modifier_maps": [
+                "tconstruct:plate/shield"
+            ],
+            "broken_modifier_maps": [
+                "tconstruct:plate/shield_broken",
+                "tconstruct:plate/shield"
             ]
         },
         "overrides": [
@@ -77,15 +77,15 @@
                         -8,
                         0
                     ],
-                    "modifier_models": {
-                        "tconstruct:banner": {
-                            "type": "tconstruct:banner",
-                            "prefix": "tconstruct:item/tool/armor/plate/shield/banner_small/",
-                            "prefix_large": "tconstruct:item/tool/armor/plate/shield/banner_large/"
-                        }
-                    },
                     "first_modifiers": [
                         "tconstruct:banner"
+                    ],
+                    "modifier_maps": [
+                        "tconstruct:plate/shield"
+                    ],
+                    "broken_modifier_maps": [
+                        "tconstruct:plate/shield_broken",
+                        "tconstruct:plate/shield"
                     ]
                 }
             }

@@ -22,12 +22,12 @@
                 "head": "tconstruct:item/tool/melting_pan/head_broken",
                 "handle": "tconstruct:item/tool/melting_pan/handle"
             },
-            "modifier_constants": [
-                {
-                    "type": "tconstruct:tank",
-                    "full": "tconstruct:item/tool/melting_pan/fluid_full",
-                    "partial": "tconstruct:item/tool/melting_pan/fluid_partial"
-                }
+            "modifier_maps": [
+                "tconstruct:melting_pan"
+            ],
+            "broken_modifier_maps": [
+                "tconstruct:melting_pan/broken",
+                "tconstruct:melting_pan"
             ]
         },
         "overrides": [
@@ -56,12 +56,27 @@
                             "name": "overlay"
                         }
                     ],
-                    "modifier_constants": [
+                    "broken_textures": {
+                        "head": "tconstruct:item/tool/melting_pan/head_broken",
+                        "handle": "tconstruct:item/tool/melting_pan/handle"
+                    },
+                    "broken_parts": [
                         {
-                            "type": "tconstruct:tank",
-                            "full": "tconstruct:item/tool/melting_pan/fluid_full",
-                            "partial": "tconstruct:item/tool/melting_pan/fluid_partial"
+                            "name": "handle",
+                            "index": 1
+                        },
+                        {
+                            "name": "head",
+                            "index": 0
                         }
+                    ],
+                    "modifier_maps": [
+                        "tconstruct:melting_pan/charged",
+                        "tconstruct:melting_pan"
+                    ],
+                    "broken_modifier_maps": [
+                        "tconstruct:melting_pan/broken",
+                        "tconstruct:melting_pan"
                     ]
                 }
             },
@@ -90,12 +105,12 @@
                         "head": "tconstruct:item/tool/melting_pan/head_broken",
                         "handle": "tconstruct:item/tool/melting_pan/handle"
                     },
-                    "modifier_constants": [
-                        {
-                            "type": "tconstruct:tank",
-                            "full": "tconstruct:item/tool/melting_pan/fluid_full",
-                            "partial": "tconstruct:item/tool/melting_pan/fluid_partial"
-                        }
+                    "modifier_maps": [
+                        "tconstruct:melting_pan"
+                    ],
+                    "broken_modifier_maps": [
+                        "tconstruct:melting_pan/broken",
+                        "tconstruct:melting_pan"
                     ]
                 }
             },
@@ -125,12 +140,27 @@
                             "name": "overlay"
                         }
                     ],
-                    "modifier_constants": [
+                    "broken_textures": {
+                        "head": "tconstruct:item/tool/melting_pan/head_broken",
+                        "handle": "tconstruct:item/tool/melting_pan/handle"
+                    },
+                    "broken_parts": [
                         {
-                            "type": "tconstruct:tank",
-                            "full": "tconstruct:item/tool/melting_pan/fluid_full",
-                            "partial": "tconstruct:item/tool/melting_pan/fluid_partial"
+                            "name": "handle",
+                            "index": 1
+                        },
+                        {
+                            "name": "head",
+                            "index": 0
                         }
+                    ],
+                    "modifier_maps": [
+                        "tconstruct:melting_pan/charged",
+                        "tconstruct:melting_pan"
+                    ],
+                    "broken_modifier_maps": [
+                        "tconstruct:melting_pan/broken",
+                        "tconstruct:melting_pan"
                     ]
                 }
             }

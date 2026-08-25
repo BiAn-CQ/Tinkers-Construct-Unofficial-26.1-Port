@@ -28,23 +28,12 @@
                 "string": "tconstruct:item/tool/fishing_rod/string_broken",
                 "hook": "tconstruct:item/tool/fishing_rod/hook_broken"
             },
-            "modifier_models": {
-                "tconstruct:tank": "tconstruct:item/tool/fishing_rod/modifiers/tank"
-            },
-            "modifier_constants": [
-                {
-                    "type": "tconstruct:tank",
-                    "full": "tconstruct:item/tool/fishing_rod/fluid_full",
-                    "partial": "tconstruct:item/tool/fishing_rod/fluid_partial"
-                },
-                {
-                    "type": "tconstruct:trait",
-                    "model": {
-                        "type": "tconstruct:potion",
-                        "texture": "tconstruct:item/tool/fishing_rod/modifiers/tipped"
-                    },
-                    "modifier": "tconstruct:tipped"
-                }
+            "modifier_maps": [
+                "tconstruct:fishing_rod"
+            ],
+            "broken_modifier_maps": [
+                "tconstruct:fishing_rod/broken",
+                "tconstruct:fishing_rod"
             ]
         },
         "overrides": [
@@ -79,23 +68,12 @@
                         "string": "tconstruct:item/tool/fishing_rod/string_broken",
                         "hook": "tconstruct:item/tool/fishing_rod/hook_broken"
                     },
-                    "modifier_models": {
-                        "tconstruct:tank": "tconstruct:item/tool/fishing_rod/modifiers/tank"
-                    },
-                    "modifier_constants": [
-                        {
-                            "type": "tconstruct:tank",
-                            "full": "tconstruct:item/tool/fishing_rod/fluid_full",
-                            "partial": "tconstruct:item/tool/fishing_rod/fluid_partial"
-                        },
-                        {
-                            "type": "tconstruct:trait",
-                            "model": {
-                                "type": "tconstruct:potion",
-                                "texture": "tconstruct:item/tool/fishing_rod/modifiers/tipped"
-                            },
-                            "modifier": "tconstruct:tipped"
-                        }
+                    "modifier_maps": [
+                        "tconstruct:fishing_rod"
+                    ],
+                    "broken_modifier_maps": [
+                        "tconstruct:fishing_rod/broken",
+                        "tconstruct:fishing_rod"
                     ]
                 }
             },
@@ -125,26 +103,18 @@
                             "index": 2
                         }
                     ],
-                    "modifier_models": {
-                        "tconstruct:tank": "tconstruct:item/tool/fishing_rod/modifiers/tank"
+                    "broken_textures": {
+                        "rod": "tconstruct:item/tool/fishing_rod/rod",
+                        "string": "tconstruct:item/tool/fishing_rod/string_broken",
+                        "hook": "tconstruct:item/tool/fishing_rod/hook_broken"
                     },
-                    "modifier_constants": [
-                        {
-                            "type": "tconstruct:empty"
-                        },
-                        {
-                            "type": "tconstruct:tank",
-                            "full": "tconstruct:item/tool/fishing_rod/fluid_full",
-                            "partial": "tconstruct:item/tool/fishing_rod/fluid_partial"
-                        },
-                        {
-                            "type": "tconstruct:trait",
-                            "model": {
-                                "type": "tconstruct:potion",
-                                "texture": "tconstruct:item/tool/fishing_rod/modifiers/tipped"
-                            },
-                            "modifier": "tconstruct:tipped"
-                        }
+                    "modifier_maps": [
+                        "tconstruct:fishing_rod/cast",
+                        "tconstruct:fishing_rod"
+                    ],
+                    "broken_modifier_maps": [
+                        "tconstruct:fishing_rod/broken",
+                        "tconstruct:fishing_rod"
                     ]
                 }
             },
@@ -175,26 +145,18 @@
                             "index": 2
                         }
                     ],
-                    "modifier_models": {
-                        "tconstruct:tank": "tconstruct:item/tool/fishing_rod/modifiers/tank"
+                    "broken_textures": {
+                        "rod": "tconstruct:item/tool/fishing_rod/rod",
+                        "string": "tconstruct:item/tool/fishing_rod/string_broken",
+                        "hook": "tconstruct:item/tool/fishing_rod/hook_broken"
                     },
-                    "modifier_constants": [
-                        {
-                            "type": "tconstruct:empty"
-                        },
-                        {
-                            "type": "tconstruct:tank",
-                            "full": "tconstruct:item/tool/fishing_rod/fluid_full",
-                            "partial": "tconstruct:item/tool/fishing_rod/fluid_partial"
-                        },
-                        {
-                            "type": "tconstruct:trait",
-                            "model": {
-                                "type": "tconstruct:potion",
-                                "texture": "tconstruct:item/tool/fishing_rod/modifiers/tipped"
-                            },
-                            "modifier": "tconstruct:tipped"
-                        }
+                    "modifier_maps": [
+                        "tconstruct:fishing_rod/cast",
+                        "tconstruct:fishing_rod"
+                    ],
+                    "broken_modifier_maps": [
+                        "tconstruct:fishing_rod/broken",
+                        "tconstruct:fishing_rod"
                     ]
                 }
             }

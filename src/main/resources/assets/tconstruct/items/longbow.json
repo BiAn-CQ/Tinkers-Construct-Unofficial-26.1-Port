@@ -46,6 +46,13 @@
             "large_offset": [
                 -7,
                 9
+            ],
+            "modifier_maps": [
+                "tconstruct:longbow"
+            ],
+            "broken_modifier_maps": [
+                "tconstruct:longbow/broken",
+                "tconstruct:longbow"
             ]
         },
         "overrides": [
@@ -95,14 +102,32 @@
                         "flip": true,
                         "left": true,
                         "small_offset": [
-                            -3,
-                            -4
+                            -3.0,
+                            -4.0
                         ],
                         "large_offset": [
-                            -2,
-                            -2
+                            -2.0,
+                            -2.0
                         ]
-                    }
+                    },
+                    "broken_textures": {
+                        "limb_bottom": "tconstruct:item/tool/longbow/limb_bottom",
+                        "limb_top": "tconstruct:item/tool/longbow/limb_top",
+                        "grip": "tconstruct:item/tool/longbow/grip",
+                        "bowstring": "tconstruct:item/tool/longbow/bowstring_broken",
+                        "large_limb_bottom": "tconstruct:item/tool/longbow/large/limb_bottom",
+                        "large_limb_top": "tconstruct:item/tool/longbow/large/limb_top",
+                        "large_grip": "tconstruct:item/tool/longbow/large/grip",
+                        "large_bowstring": "tconstruct:item/tool/longbow/large/bowstring_broken"
+                    },
+                    "modifier_maps": [
+                        "tconstruct:longbow/1",
+                        "tconstruct:longbow"
+                    ],
+                    "broken_modifier_maps": [
+                        "tconstruct:longbow/broken",
+                        "tconstruct:longbow"
+                    ]
                 }
             },
             {
@@ -151,14 +176,32 @@
                         "flip": true,
                         "left": true,
                         "small_offset": [
-                            -2,
-                            -3
+                            -2.0,
+                            -3.0
                         ],
                         "large_offset": [
-                            0,
-                            0
+                            0.0,
+                            0.0
                         ]
-                    }
+                    },
+                    "broken_textures": {
+                        "limb_bottom": "tconstruct:item/tool/longbow/limb_bottom",
+                        "limb_top": "tconstruct:item/tool/longbow/limb_top",
+                        "grip": "tconstruct:item/tool/longbow/grip",
+                        "bowstring": "tconstruct:item/tool/longbow/bowstring_broken",
+                        "large_limb_bottom": "tconstruct:item/tool/longbow/large/limb_bottom",
+                        "large_limb_top": "tconstruct:item/tool/longbow/large/limb_top",
+                        "large_grip": "tconstruct:item/tool/longbow/large/grip",
+                        "large_bowstring": "tconstruct:item/tool/longbow/large/bowstring_broken"
+                    },
+                    "modifier_maps": [
+                        "tconstruct:longbow/2",
+                        "tconstruct:longbow"
+                    ],
+                    "broken_modifier_maps": [
+                        "tconstruct:longbow/broken",
+                        "tconstruct:longbow"
+                    ]
                 }
             },
             {
@@ -207,14 +250,32 @@
                         "flip": true,
                         "left": true,
                         "small_offset": [
-                            -1,
-                            -2
+                            -1.0,
+                            -2.0
                         ],
                         "large_offset": [
-                            1,
-                            1
+                            1.0,
+                            1.0
                         ]
-                    }
+                    },
+                    "broken_textures": {
+                        "limb_bottom": "tconstruct:item/tool/longbow/limb_bottom",
+                        "limb_top": "tconstruct:item/tool/longbow/limb_top",
+                        "grip": "tconstruct:item/tool/longbow/grip",
+                        "bowstring": "tconstruct:item/tool/longbow/bowstring_broken",
+                        "large_limb_bottom": "tconstruct:item/tool/longbow/large/limb_bottom",
+                        "large_limb_top": "tconstruct:item/tool/longbow/large/limb_top",
+                        "large_grip": "tconstruct:item/tool/longbow/large/grip",
+                        "large_bowstring": "tconstruct:item/tool/longbow/large/bowstring_broken"
+                    },
+                    "modifier_maps": [
+                        "tconstruct:longbow/3",
+                        "tconstruct:longbow"
+                    ],
+                    "broken_modifier_maps": [
+                        "tconstruct:longbow/broken",
+                        "tconstruct:longbow"
+                    ]
                 }
             },
             {
@@ -266,6 +327,13 @@
                     "large_offset": [
                         -7,
                         9
+                    ],
+                    "modifier_maps": [
+                        "tconstruct:longbow"
+                    ],
+                    "broken_modifier_maps": [
+                        "tconstruct:longbow/broken",
+                        "tconstruct:longbow"
                     ]
                 }
             },
@@ -309,6 +377,37 @@
                     "large_offset": [
                         -7,
                         9
+                    ],
+                    "ammo": {
+                        "key": "tconstruct:drawback_ammo",
+                        "flip": true,
+                        "left": true,
+                        "small_offset": [
+                            -3.0,
+                            -4.0
+                        ],
+                        "large_offset": [
+                            -2.0,
+                            -2.0
+                        ]
+                    },
+                    "broken_textures": {
+                        "limb_bottom": "tconstruct:item/tool/longbow/limb_bottom",
+                        "limb_top": "tconstruct:item/tool/longbow/limb_top",
+                        "grip": "tconstruct:item/tool/longbow/grip",
+                        "bowstring": "tconstruct:item/tool/longbow/bowstring_broken",
+                        "large_limb_bottom": "tconstruct:item/tool/longbow/large/limb_bottom",
+                        "large_limb_top": "tconstruct:item/tool/longbow/large/limb_top",
+                        "large_grip": "tconstruct:item/tool/longbow/large/grip",
+                        "large_bowstring": "tconstruct:item/tool/longbow/large/bowstring_broken"
+                    },
+                    "modifier_maps": [
+                        "tconstruct:longbow/1",
+                        "tconstruct:longbow"
+                    ],
+                    "broken_modifier_maps": [
+                        "tconstruct:longbow/broken",
+                        "tconstruct:longbow"
                     ]
                 }
             },
@@ -352,6 +451,37 @@
                     "large_offset": [
                         -7,
                         9
+                    ],
+                    "ammo": {
+                        "key": "tconstruct:drawback_ammo",
+                        "flip": true,
+                        "left": true,
+                        "small_offset": [
+                            -2.0,
+                            -3.0
+                        ],
+                        "large_offset": [
+                            0.0,
+                            0.0
+                        ]
+                    },
+                    "broken_textures": {
+                        "limb_bottom": "tconstruct:item/tool/longbow/limb_bottom",
+                        "limb_top": "tconstruct:item/tool/longbow/limb_top",
+                        "grip": "tconstruct:item/tool/longbow/grip",
+                        "bowstring": "tconstruct:item/tool/longbow/bowstring_broken",
+                        "large_limb_bottom": "tconstruct:item/tool/longbow/large/limb_bottom",
+                        "large_limb_top": "tconstruct:item/tool/longbow/large/limb_top",
+                        "large_grip": "tconstruct:item/tool/longbow/large/grip",
+                        "large_bowstring": "tconstruct:item/tool/longbow/large/bowstring_broken"
+                    },
+                    "modifier_maps": [
+                        "tconstruct:longbow/2",
+                        "tconstruct:longbow"
+                    ],
+                    "broken_modifier_maps": [
+                        "tconstruct:longbow/broken",
+                        "tconstruct:longbow"
                     ]
                 }
             },
@@ -395,6 +525,37 @@
                     "large_offset": [
                         -7,
                         9
+                    ],
+                    "ammo": {
+                        "key": "tconstruct:drawback_ammo",
+                        "flip": true,
+                        "left": true,
+                        "small_offset": [
+                            -1.0,
+                            -2.0
+                        ],
+                        "large_offset": [
+                            1.0,
+                            1.0
+                        ]
+                    },
+                    "broken_textures": {
+                        "limb_bottom": "tconstruct:item/tool/longbow/limb_bottom",
+                        "limb_top": "tconstruct:item/tool/longbow/limb_top",
+                        "grip": "tconstruct:item/tool/longbow/grip",
+                        "bowstring": "tconstruct:item/tool/longbow/bowstring_broken",
+                        "large_limb_bottom": "tconstruct:item/tool/longbow/large/limb_bottom",
+                        "large_limb_top": "tconstruct:item/tool/longbow/large/limb_top",
+                        "large_grip": "tconstruct:item/tool/longbow/large/grip",
+                        "large_bowstring": "tconstruct:item/tool/longbow/large/bowstring_broken"
+                    },
+                    "modifier_maps": [
+                        "tconstruct:longbow/3",
+                        "tconstruct:longbow"
+                    ],
+                    "broken_modifier_maps": [
+                        "tconstruct:longbow/broken",
+                        "tconstruct:longbow"
                     ]
                 }
             }

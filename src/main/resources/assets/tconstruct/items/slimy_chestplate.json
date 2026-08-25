@@ -20,14 +20,15 @@
             "ribcage": "tconstruct:item/tool/armor/slime/chestplate/ribcage_broken",
             "slime": "tconstruct:item/tool/armor/slime/chestplate/slime_broken"
         },
-        "modifier_models": {
-            "tconstruct:trim": {
-                "type": "tconstruct:armor_trim",
-                "slot": "chestplate"
-            }
-        },
         "first_modifiers": [
             "tconstruct:trim"
+        ],
+        "modifier_maps": [
+            "tconstruct:slime/chestplate"
+        ],
+        "broken_modifier_maps": [
+            "tconstruct:slime/chestplate_broken",
+            "tconstruct:slime/chestplate"
         ]
     }
 }

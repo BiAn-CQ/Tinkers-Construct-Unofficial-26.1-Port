@@ -17,10 +17,8 @@ import net.minecraft.client.renderer.item.ItemModelResolver;
 import net.minecraft.client.renderer.item.ItemStackRenderState;
 import net.minecraft.client.renderer.item.ModelRenderProperties;
 import net.minecraft.client.renderer.texture.MissingTextureAtlasSprite;
-import net.minecraft.client.renderer.texture.SpriteContents;
 import net.minecraft.client.resources.model.ModelBaker;
 import net.minecraft.client.resources.model.ResolvedModel;
-import net.minecraft.client.resources.model.cuboid.ItemModelGenerator;
 import net.minecraft.client.resources.model.cuboid.CuboidFace;
 import net.minecraft.client.resources.model.cuboid.CuboidModelElement;
 import net.minecraft.client.resources.model.cuboid.UnbakedCuboidGeometry;
@@ -56,6 +54,7 @@ import org.joml.Matrix4fc;
 import org.jspecify.annotations.Nullable;
 import org.apache.commons.lang3.mutable.MutableObject;
 import slimeknights.mantle.fluid.texture.FluidTextureManager;
+import slimeknights.mantle.client.model.util.MantleItemLayerGenerator;
 import slimeknights.mantle.client.model.util.ModelHelper;
 import slimeknights.mantle.util.ItemLayerPixels;
 import slimeknights.mantle.util.RetexturedHelper;
@@ -68,6 +67,7 @@ import slimeknights.tconstruct.library.materials.definition.IMaterial;
 import slimeknights.tconstruct.library.materials.definition.MaterialVariantId;
 import slimeknights.tconstruct.library.modifiers.ModifierEntry;
 import slimeknights.tconstruct.library.modifiers.ModifierId;
+import slimeknights.tconstruct.library.recipe.worktable.ModifierSetWorktableRecipe;
 import slimeknights.tconstruct.library.tools.capability.fluid.ToolTankHelper;
 import slimeknights.tconstruct.library.tools.helper.ToolDamageUtil;
 import slimeknights.tconstruct.library.tools.nbt.IToolStackView;
@@ -220,32 +220,41 @@ public final class NativeTinkerItemModel implements ItemModel {
    * Forge's {@code ItemOverrides}; 26.1 has no equivalent callback, so the
    * dynamic tool cache bakes the selected layers once per tool component set.
    */
-  private static void addModifierQuads(ModelBaker baker, ResolvedModel parent, QuadCollection.Builder quads,
+  private static void addModifierQuads(ModelBaker baker, ResolvedModel parent,
+                                       List<QuadCollection> reversedLayers, ItemLayerPixels usedPixels,
                                        ModifierRenderData data, boolean large) {
     ModifierNBT active = data.showTraits() ? data.tool().getModifiers() : data.tool().getUpgrades();
+    List<ModifierEntry> activeList = new ArrayList<>();
     Map<Identifier, ModifierEntry> activeEntries = new HashMap<>();
     for (ModifierEntry entry : active) {
+      activeList.add(entry);
       activeEntries.put(entry.getId().location(), entry);
     }
     Set<Identifier> first = new HashSet<>(data.firstModifiers());
+    Set<ModifierId> hidden = ModifierSetWorktableRecipe.getModifierSet(
+      data.tool().getPersistentData(), TConstruct.getResource("invisible_modifiers"));
 
-    // Regular modifiers retain their stored order; first modifiers are delayed
-    // to match the layering order of the 1.20.1 ReversedListBuilder.
-    for (ModifierEntry entry : active) {
+    // Generate from visually highest to lowest. The finished collection is
+    // reversed once, exactly like the 1.20.1 ReversedListBuilder pipeline.
+    for (int index = activeList.size() - 1; index >= 0; index--) {
+      ModifierEntry entry = activeList.get(index);
       Identifier id = entry.getId().location();
-      if (!first.contains(id)) {
+      if (!first.contains(id) && !hidden.contains(entry.getId())) {
         NativeModifierModel definition = data.modifiers().get(id);
         if (definition != null) {
-          addModifierDefinition(baker, parent, quads, definition.definition(), entry, data.tool(), large);
+          addModifierDefinition(baker, parent, reversedLayers, usedPixels,
+            definition.definition(), entry, data.tool(), large);
         }
       }
     }
-    for (Identifier id : data.firstModifiers()) {
+    for (int index = data.firstModifiers().size() - 1; index >= 0; index--) {
+      Identifier id = data.firstModifiers().get(index);
       ModifierEntry entry = activeEntries.get(id);
       if (entry != null) {
         NativeModifierModel definition = data.modifiers().get(id);
         if (definition != null) {
-          addModifierDefinition(baker, parent, quads, definition.definition(), entry, data.tool(), large);
+          addModifierDefinition(baker, parent, reversedLayers, usedPixels,
+            definition.definition(), entry, data.tool(), large);
         }
       }
     }
@@ -253,12 +262,14 @@ public final class NativeTinkerItemModel implements ItemModel {
     // wrapper supplies its own modifier condition; entries without a condition
     // are genuinely unconditional.
     for (NativeModifierModel definition : data.constants()) {
-      addModifierDefinition(baker, parent, quads, definition.definition(), null, data.tool(), large);
+      addModifierDefinition(baker, parent, reversedLayers, usedPixels,
+        definition.definition(), null, data.tool(), large);
     }
   }
 
   /** Resolves a modifier definition that was validated and typed by the item-model codec. */
-  private static void addModifierDefinition(ModelBaker baker, ResolvedModel parent, QuadCollection.Builder quads,
+  private static void addModifierDefinition(ModelBaker baker, ResolvedModel parent,
+                                             List<QuadCollection> reversedLayers, ItemLayerPixels usedPixels,
                                              NativeModifierModel.Definition definition,
                                              @Nullable ModifierEntry entry, IToolStackView tool, boolean large) {
     if (definition instanceof NativeModifierModel.Empty) {
@@ -266,14 +277,15 @@ public final class NativeTinkerItemModel implements ItemModel {
     }
     if (definition instanceof NativeModifierModel.Compound compound) {
       for (NativeModifierModel.Definition child : compound.models()) {
-        addModifierDefinition(baker, parent, quads, child, entry, tool, large);
+        addModifierDefinition(baker, parent, reversedLayers, usedPixels, child, entry, tool, large);
       }
       return;
     }
     if (definition instanceof NativeModifierModel.Trait traitDefinition) {
       ModifierEntry trait = getTraitEntry(tool, traitDefinition.modifier());
       if (trait != null && trait.getLevel() > 0) {
-        addModifierDefinition(baker, parent, quads, traitDefinition.model(), trait, tool, large);
+        addModifierDefinition(baker, parent, reversedLayers, usedPixels,
+          traitDefinition.model(), trait, tool, large);
       }
       return;
     }
@@ -281,7 +293,8 @@ public final class NativeTinkerItemModel implements ItemModel {
       boolean hasFallback = fallback.index() < tool.getMaterials().size()
                              && MaterialRenderInfoLoader.INSTANCE.hasFallback(
                                tool.getMaterials().get(fallback.index()).getVariant(), fallback.fallbacks());
-      addModifierDefinition(baker, parent, quads, hasFallback ? fallback.ifTrue() : fallback.ifFalse(), entry, tool, large);
+      addModifierDefinition(baker, parent, reversedLayers, usedPixels,
+        hasFallback ? fallback.ifTrue() : fallback.ifFalse(), entry, tool, large);
       return;
     }
     if (definition instanceof NativeModifierModel.Texture textureDefinition) {
@@ -308,10 +321,11 @@ public final class NativeTinkerItemModel implements ItemModel {
         if (renderInfo.isPresent()) {
           MaterialRenderInfo.TintedSprite sprite = renderInfo.get().getSprite(
             base, materialRef -> baker.materials().get(materialRef, parent).sprite());
-          addModifierBakedTexture(baker, quads,
+          addModifierBakedTexture(baker, reversedLayers, usedPixels,
             new Material.Baked(sprite.sprite(), baseBaked.forceTranslucent()), sprite.color(), sprite.emissivity());
         } else {
-          addModifierTexture(baker, parent, quads, texture, color, textureDefinition.luminosity());
+          addModifierTexture(baker, parent, reversedLayers, usedPixels,
+            texture, color, textureDefinition.luminosity());
         }
         return;
       } else if (textureDefinition.kind() == NativeModifierModel.TextureKind.POTION) {
@@ -329,7 +343,8 @@ public final class NativeTinkerItemModel implements ItemModel {
         }
         color = potionColor.get();
       }
-      addModifierTexture(baker, parent, quads, texture, color, textureDefinition.luminosity());
+      addModifierTexture(baker, parent, reversedLayers, usedPixels,
+        texture, color, textureDefinition.luminosity());
       return;
     }
     if (definition instanceof NativeModifierModel.Fluid fluidDefinition) {
@@ -350,7 +365,7 @@ public final class NativeTinkerItemModel implements ItemModel {
                   ? fluidDefinition.maskLarge() : fluidDefinition.mask();
       }
       if (texture != null) {
-        addFluidModifierTexture(baker, parent, quads, texture, fluidModel.stillMaterial(), color,
+        addFluidModifierTexture(baker, parent, reversedLayers, texture, fluidModel.stillMaterial(), color,
           fluid.getFluid().getFluidType().getLightLevel(fluid));
       }
       return;
@@ -381,18 +396,18 @@ public final class NativeTinkerItemModel implements ItemModel {
                   ? tankDefinition.maskLarge() : tankDefinition.mask();
       }
       if (texture != null) {
-        addFluidModifierTexture(baker, parent, quads, texture, fluidModel.stillMaterial(), color,
+        addFluidModifierTexture(baker, parent, reversedLayers, texture, fluidModel.stillMaterial(), color,
           fluid.getFluid().getFluidType().getLightLevel(fluid));
       }
       return;
     }
     if (definition instanceof NativeModifierModel.Banner banner) {
-      addBannerModifierTextures(baker, parent, quads, banner, entry, tool, large);
+      addBannerModifierTextures(baker, parent, reversedLayers, banner, entry, tool, large);
       return;
     }
     if (definition instanceof NativeModifierModel.ArmorTrim trim) {
       if (entry != null && !large && tool.getItem() instanceof ArmorItem) {
-        addTrimModifierTexture(baker, parent, quads, entry, tool,
+        addTrimModifierTexture(baker, parent, reversedLayers, usedPixels, entry, tool,
           Identifier.withDefaultNamespace("trims/items/" + trim.slot() + "_trim"));
       }
       return;
@@ -400,7 +415,7 @@ public final class NativeTinkerItemModel implements ItemModel {
     if (definition instanceof NativeModifierModel.CustomTrim trim) {
       if (entry != null) {
         Identifier root = large && trim.rootLarge() != null ? trim.rootLarge() : trim.root();
-        addTrimModifierTexture(baker, parent, quads, entry, tool, root);
+        addTrimModifierTexture(baker, parent, reversedLayers, usedPixels, entry, tool, root);
       }
     }
   }
@@ -432,19 +447,27 @@ public final class NativeTinkerItemModel implements ItemModel {
   }
 
   /** Bakes a modifier texture using the same item-layer path as tool parts. */
-  private static void addModifierTexture(ModelBaker baker, ResolvedModel parent, QuadCollection.Builder quads,
+  private static void addModifierTexture(ModelBaker baker, ResolvedModel parent,
+                                         List<QuadCollection> reversedLayers, ItemLayerPixels usedPixels,
                                          Identifier texture, int color, int luminosity) {
-    addModifierBakedTexture(baker, quads, baker.materials().get(new Material(texture), parent), color, luminosity);
+    addModifierBakedTexture(baker, reversedLayers, usedPixels,
+      baker.materials().get(new Material(texture), parent), color, luminosity);
   }
 
   /** Bakes an already resolved sprite as a complete item-layer overlay. */
-  private static void addModifierBakedTexture(ModelBaker baker, QuadCollection.Builder quads,
+  private static void addModifierBakedTexture(ModelBaker baker, List<QuadCollection> reversedLayers,
+                                              @Nullable ItemLayerPixels usedPixels,
                                               Material.Baked baked, int color, int luminosity) {
+    reversedLayers.add(bakeModifierBakedTexture(baker, usedPixels, baked, color, luminosity));
+  }
+
+  private static QuadCollection bakeModifierBakedTexture(ModelBaker baker,
+                                                          @Nullable ItemLayerPixels usedPixels,
+                                                          Material.Baked baked, int color, int luminosity) {
     int argb = color == -1 ? 0xFFFFFFFF : color;
     ExtraFaceData faceData = new ExtraFaceData(argb, Math.max(0, Math.min(15, luminosity)), true);
-    QuadCollection generated = baker.compute(new ItemModelGenerator.ItemLayerKey(
-      baked, BlockModelRotation.IDENTITY, -1, faceData));
-    generated.getAll().forEach(quads::addUnculledFace);
+    return MantleItemLayerGenerator.bake(
+      baker, baked, BlockModelRotation.IDENTITY, -1, faceData, usedPixels);
   }
 
   /** Small depth offset copied from NeoForge's dynamic fluid container model. */
@@ -452,7 +475,8 @@ public final class NativeTinkerItemModel implements ItemModel {
     new Vector3f(), new org.joml.Quaternionf(), new Vector3f(1, 1, 1.002f), new org.joml.Quaternionf());
 
   /** Bakes a real fluid sprite in the opaque pixels of a modifier mask. */
-  private static void addFluidModifierTexture(ModelBaker baker, ResolvedModel parent, QuadCollection.Builder quads,
+  private static void addFluidModifierTexture(ModelBaker baker, ResolvedModel parent,
+                                              List<QuadCollection> reversedLayers,
                                               Identifier maskId, Material.Baked fluid, int color, int luminosity) {
     Material.Baked mask = baker.materials().get(new Material(maskId), parent);
     if (isMissing(mask) || isMissing(fluid)) {
@@ -463,11 +487,12 @@ public final class NativeTinkerItemModel implements ItemModel {
     QuadCollection generated = UnbakedElementsHelper.bakeItemMaskQuads(
       baker, -1, mask, fluid,
       new ComposedModelState(BlockModelRotation.IDENTITY, FLUID_MODIFIER_TRANSFORM), faceData);
-    generated.getAll().forEach(quads::addUnculledFace);
+    reversedLayers.add(generated);
   }
 
   /** Adds all stored banner layers using the generated Tinkers banner sprites. */
-  private static void addBannerModifierTextures(ModelBaker baker, ResolvedModel parent, QuadCollection.Builder quads,
+  private static void addBannerModifierTextures(ModelBaker baker, ResolvedModel parent,
+                                                 List<QuadCollection> reversedLayers,
                                                  NativeModifierModel.Banner definition, @Nullable ModifierEntry entry,
                                                  IToolStackView tool, boolean large) {
     if (entry == null) {
@@ -489,14 +514,19 @@ public final class NativeTinkerItemModel implements ItemModel {
       Material.Baked baked = baker.materials().get(new Material(texture), parent);
       if (!isMissing(baked)) {
         int patternColor = 0xFF000000 | tag.getIntOr(BannerModule.KEY_COLOR, 0);
-        addModifierBakedTexture(baker, quads, baked, patternColor, 0);
+        // Legacy banner overlays were GUI-style front quads and intentionally
+        // did not participate in the side-face pixel map.
+        reversedLayers.add(frontOnly(bakeModifierBakedTexture(
+          baker, null, baked, patternColor, 0)));
       }
     }
   }
 
   /** Adds an armor/custom trim, using a tinted base sprite if the palette sprite is absent. */
-  private static void addTrimModifierTexture(ModelBaker baker, ResolvedModel parent, QuadCollection.Builder quads,
-                                              ModifierEntry entry, IToolStackView tool, Identifier root) {
+  private static void addTrimModifierTexture(ModelBaker baker, ResolvedModel parent,
+                                             List<QuadCollection> reversedLayers,
+                                             ItemLayerPixels usedPixels,
+                                             ModifierEntry entry, IToolStackView tool, Identifier root) {
     String materialId = tool.getPersistentData().getString(TrimModule.materialKey(entry.getId()));
     Identifier materialLocation = tryParseIdentifier(materialId);
     if (materialLocation == null) {
@@ -522,7 +552,7 @@ public final class NativeTinkerItemModel implements ItemModel {
       }
     }
     if (!isMissing(baked)) {
-      addModifierBakedTexture(baker, quads, baked, color, 0);
+      addModifierBakedTexture(baker, reversedLayers, usedPixels, baked, color, 0);
     }
   }
 
@@ -706,8 +736,10 @@ public final class NativeTinkerItemModel implements ItemModel {
     ModelBaker baker = context.blockModelBaker();
     ModelRenderProperties parentProperties = ModelRenderProperties.fromResolvedModel(baker, parent, parent.getTopTextureSlots());
     QuadCollection.Builder quads = new QuadCollection.Builder();
+    List<QuadCollection> reversedLayers = new ArrayList<>();
+    ItemLayerPixels usedPixels = new ItemLayerPixels();
     List<ToolPartLayer> partLayers = new ArrayList<>();
-    Material.Baked particle = parentProperties.particleMaterial();
+    Material.Baked particle = null;
     for (Part part : parts) {
       Material base = large ? textures.get("large_" + part.name()) : null;
       if (base == null) {
@@ -732,20 +764,22 @@ public final class NativeTinkerItemModel implements ItemModel {
           luminosity = sprite.emissivity();
         }
       }
-      particle = rendered;
+      if (particle == null) {
+        particle = rendered;
+      }
 
       // A negative layer index disables runtime tint lookup.  Material color
       // and light emission are baked into the quad by ExtraFaceData instead.
       ExtraFaceData faceData = new ExtraFaceData(color, luminosity, true);
-      QuadCollection generated = baker.compute(new ItemModelGenerator.ItemLayerKey(
-        rendered, BlockModelRotation.IDENTITY, -1, faceData));
-      partLayers.add(new ToolPartLayer(generated, rendered));
+      partLayers.add(new ToolPartLayer(rendered, faceData));
     }
 
-    addToolPartLayers(quads, partLayers);
-
     if (modifierData != null && (!modifierData.modifiers().isEmpty() || !modifierData.constants().isEmpty())) {
-      addModifierQuads(baker, parent, quads, modifierData, large);
+      addModifierQuads(baker, parent, reversedLayers, usedPixels, modifierData, large);
+    }
+    addToolPartLayers(baker, reversedLayers, partLayers, usedPixels);
+    for (int index = reversedLayers.size() - 1; index >= 0; index--) {
+      reversedLayers.get(index).getAll().forEach(quads::addUnculledFace);
     }
 
     if (particle == null) {
@@ -771,97 +805,19 @@ public final class NativeTinkerItemModel implements ItemModel {
       new CuboidItemModelWrapper(List.of(), guiQuads, properties, transform));
   }
 
-  /** One generated sprite layer before legacy cross-layer side-face suppression. */
-  private record ToolPartLayer(QuadCollection quads, Material.Baked material) {}
+  /** One resolved material layer before legacy geometry generation. */
+  private record ToolPartLayer(Material.Baked material, ExtraFaceData faceData) {}
 
   /**
-   * Restores Mantle's 1.20.1 item-layer behavior. Tool sprites are inspected
-   * from top to bottom; side faces belonging to pixels already occupied by a
-   * higher layer are omitted. Front and back faces are deliberately retained.
+   * Generates layers from top to bottom for pixel suppression, then restores
+   * their original display order in the finished model.
    */
-  private static void addToolPartLayers(QuadCollection.Builder target, List<ToolPartLayer> layers) {
-    if (layers.size() <= 1) {
-      layers.forEach(layer -> layer.quads().getAll().forEach(target::addUnculledFace));
-      return;
-    }
-
-    ItemLayerPixels usedPixels = new ItemLayerPixels();
-    List<QuadCollection> filtered = new ArrayList<>(layers.size());
-    for (int i = 0; i < layers.size(); i++) {
-      filtered.add(QuadCollection.EMPTY);
-    }
+  private static void addToolPartLayers(ModelBaker baker, List<QuadCollection> reversedLayers,
+                                        List<ToolPartLayer> layers, ItemLayerPixels usedPixels) {
     for (int i = layers.size() - 1; i >= 0; i--) {
       ToolPartLayer layer = layers.get(i);
-      filtered.set(i, filterCoveredSideFaces(layer.quads(), layer.material().sprite().contents(), usedPixels));
-      markOpaquePixels(layer.material().sprite().contents(), usedPixels);
-    }
-    filtered.forEach(layer -> layer.getAll().forEach(target::addUnculledFace));
-  }
-
-  /** Drops only generated side quads whose owning pixel is hidden by a higher layer. */
-  private static QuadCollection filterCoveredSideFaces(QuadCollection source, SpriteContents sprite,
-                                                       ItemLayerPixels usedPixels) {
-    QuadCollection.Builder result = new QuadCollection.Builder();
-    int width = sprite.width();
-    int height = sprite.height();
-    source.getAll().forEach(quad -> {
-      int pixel = getSideFacePixel(quad, width, height);
-      if (pixel < 0 || !usedPixels.get(pixel % width, pixel / width, width, height)) {
-        result.addUnculledFace(quad);
-      }
-    });
-    return result.build();
-  }
-
-  /**
-   * Recovers the opaque sprite pixel used to generate one vanilla item side
-   * quad. The 26.1 generator emits exactly one side quad per boundary pixel.
-   */
-  private static int getSideFacePixel(BakedQuad quad, int width, int height) {
-    Direction direction = quad.direction();
-    if (direction.getAxis() == Direction.Axis.Z) {
-      return -1;
-    }
-
-    float centerX = 0;
-    float centerY = 0;
-    for (int vertex = 0; vertex < BakedQuad.VERTEX_COUNT; vertex++) {
-      centerX += quad.position(vertex).x();
-      centerY += quad.position(vertex).y();
-    }
-    centerX /= BakedQuad.VERTEX_COUNT;
-    centerY /= BakedQuad.VERTEX_COUNT;
-
-    int x;
-    int y;
-    if (direction.getAxis() == Direction.Axis.Y) {
-      x = Mth.floor(centerX * width);
-      int boundary = Math.round((1 - centerY) * height);
-      y = direction == Direction.DOWN ? boundary - 1 : boundary;
-    } else {
-      int boundary = Math.round(centerX * width);
-      x = direction == Direction.WEST ? boundary - 1 : boundary;
-      y = Mth.floor((1 - centerY) * height);
-    }
-    if (x < 0 || x >= width || y < 0 || y >= height) {
-      return -1;
-    }
-    return y * width + x;
-  }
-
-  /** Records first-frame opaque pixels, matching the legacy animated-layer policy. */
-  private static void markOpaquePixels(SpriteContents sprite, ItemLayerPixels usedPixels) {
-    if (sprite.getUniqueFrames().isEmpty()) {
-      return;
-    }
-    int width = sprite.width();
-    int height = sprite.height();
-    for (int y = 0; y < height; y++) {
-      for (int x = 0; x < width; x++) {
-        if (!sprite.isTransparent(0, x, y)) {
-          usedPixels.set(x, y, width, height);
-        }
-      }
+      reversedLayers.add(MantleItemLayerGenerator.bake(
+        baker, layer.material(), BlockModelRotation.IDENTITY, -1, layer.faceData(), usedPixels));
     }
   }
 
@@ -908,8 +864,12 @@ public final class NativeTinkerItemModel implements ItemModel {
 
   /** Native model definition corresponding to {@code loader: tconstruct:tool}. */
   public record ToolUnbaked(Identifier parent, Map<String, Material> textures, Map<String, Material> brokenTextures,
-                            List<Part> parts, boolean large, Vector2fc largeOffset,
-                            Map<Identifier, NativeModifierModel> modifierModels, List<NativeModifierModel> modifierConstants,
+                            List<Part> parts, Optional<List<Part>> brokenParts, boolean large, Vector2fc largeOffset,
+                            List<Identifier> modifierMaps, Map<Identifier, NativeModifierModel> modifierModels,
+                            List<NativeModifierModel> modifierConstants,
+                            Optional<List<Identifier>> brokenModifierMaps,
+                            Optional<Map<Identifier, NativeModifierModel>> brokenModifierModels,
+                            Optional<List<NativeModifierModel>> brokenModifierConstants,
                             List<Identifier> firstModifiers, boolean showTraits,
                             Optional<AmmoDefinition> ammo) implements ItemModel.Unbaked {
     public static final MapCodec<ToolUnbaked> MAP_CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
@@ -917,10 +877,15 @@ public final class NativeTinkerItemModel implements ItemModel {
       Codec.unboundedMap(Codec.STRING, Material.CODEC).optionalFieldOf("textures", Map.of()).forGetter(ToolUnbaked::textures),
       Codec.unboundedMap(Codec.STRING, Material.CODEC).optionalFieldOf("broken_textures", Map.of()).forGetter(ToolUnbaked::brokenTextures),
       Part.CODEC.listOf().optionalFieldOf("parts", List.of()).forGetter(ToolUnbaked::parts),
+      Part.CODEC.listOf().optionalFieldOf("broken_parts").forGetter(ToolUnbaked::brokenParts),
       Codec.BOOL.optionalFieldOf("large", false).forGetter(ToolUnbaked::large),
       ExtraCodecs.VECTOR2F.optionalFieldOf("large_offset", new Vector2f()).forGetter(ToolUnbaked::largeOffset),
+      Identifier.CODEC.listOf().optionalFieldOf("modifier_maps", List.of()).forGetter(ToolUnbaked::modifierMaps),
       Codec.unboundedMap(Identifier.CODEC, NativeModifierModel.CODEC).optionalFieldOf("modifier_models", Map.of()).forGetter(ToolUnbaked::modifierModels),
       NativeModifierModel.CODEC.listOf().optionalFieldOf("modifier_constants", List.of()).forGetter(ToolUnbaked::modifierConstants),
+      Identifier.CODEC.listOf().optionalFieldOf("broken_modifier_maps").forGetter(ToolUnbaked::brokenModifierMaps),
+      Codec.unboundedMap(Identifier.CODEC, NativeModifierModel.CODEC).optionalFieldOf("broken_modifier_models").forGetter(ToolUnbaked::brokenModifierModels),
+      NativeModifierModel.CODEC.listOf().optionalFieldOf("broken_modifier_constants").forGetter(ToolUnbaked::brokenModifierConstants),
       Identifier.CODEC.listOf().optionalFieldOf("first_modifiers", List.of()).forGetter(ToolUnbaked::firstModifiers),
       Codec.BOOL.optionalFieldOf("show_traits", false).forGetter(ToolUnbaked::showTraits),
       AmmoDefinition.CODEC.optionalFieldOf("ammo").forGetter(ToolUnbaked::ammo)
@@ -1246,9 +1211,20 @@ public final class NativeTinkerItemModel implements ItemModel {
       String dynamicKey = item.getComponents().toString();
       ToolKey key = new ToolKey(materials, broken, dynamicKey);
       Map<String, Material> textures = broken ? definition.brokenTextures() : definition.textures();
+      List<Part> parts = broken ? definition.brokenParts().orElse(definition.parts()) : definition.parts();
+      List<Identifier> modifierMapIds = broken
+        ? definition.brokenModifierMaps().orElse(definition.modifierMaps())
+        : definition.modifierMaps();
+      NativeModifierModelMapManager.ModelMap sharedModels = NativeModifierModelMapManager.INSTANCE.get(modifierMapIds);
+      Map<Identifier, NativeModifierModel> inlineModels = broken
+        ? definition.brokenModifierModels().orElse(definition.modifierModels()) : definition.modifierModels();
+      List<NativeModifierModel> inlineConstants = broken
+        ? definition.brokenModifierConstants().orElse(definition.modifierConstants()) : definition.modifierConstants();
+      Map<Identifier, NativeModifierModel> modifierModels = mergeModifierModels(sharedModels.modifiers(), inlineModels);
+      List<NativeModifierModel> modifierConstants = mergeModifierConstants(sharedModels.constantModels(), inlineConstants);
       cache.computeIfAbsent(key, values -> bakeTool(context, transformation, definition.parent(), textures,
-        definition.parts(), values.materials(), definition.large(), definition.largeOffset(),
-        definition.modifierModels(), definition.modifierConstants(), definition.firstModifiers(), definition.showTraits(), tool))
+        parts, values.materials(), definition.large(), definition.largeOffset(),
+        modifierModels, modifierConstants, definition.firstModifiers(), definition.showTraits(), tool))
         .update(output, item, resolver, displayContext, level, owner, seed);
       definition.ammo().ifPresent(ammo -> appendAmmo(
         output, resolver, displayContext, level, owner, seed, tool, ammo));
@@ -1309,6 +1285,33 @@ public final class NativeTinkerItemModel implements ItemModel {
     }
 
     private record ToolKey(List<MaterialVariantId> materials, boolean broken, String dynamicKey) {}
+  }
+
+  private static Map<Identifier, NativeModifierModel> mergeModifierModels(
+    Map<Identifier, NativeModifierModel> shared, Map<Identifier, NativeModifierModel> inline) {
+    if (shared.isEmpty()) {
+      return inline;
+    }
+    if (inline.isEmpty()) {
+      return shared;
+    }
+    Map<Identifier, NativeModifierModel> merged = new HashMap<>(shared);
+    merged.putAll(inline);
+    return Map.copyOf(merged);
+  }
+
+  private static List<NativeModifierModel> mergeModifierConstants(
+    List<NativeModifierModel> shared, List<NativeModifierModel> inline) {
+    if (shared.isEmpty()) {
+      return inline;
+    }
+    if (inline.isEmpty()) {
+      return shared;
+    }
+    List<NativeModifierModel> merged = new ArrayList<>(shared.size() + inline.size());
+    merged.addAll(shared);
+    merged.addAll(inline);
+    return List.copyOf(merged);
   }
 
   /** Exposes layers emitted by an arbitrary item model without reflecting into render state internals. */

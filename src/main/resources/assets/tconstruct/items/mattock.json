@@ -28,68 +28,13 @@
                 "pick": "tconstruct:item/tool/mattock/pick_broken",
                 "handle": "tconstruct:item/tool/pickaxe/handle"
             },
-            "modifier_models": {
-                "tconstruct:antiaquatic": "tconstruct:item/tool/mattock/modifiers/tconstruct_antiaquatic",
-                "tconstruct:bane_of_sssss": "tconstruct:item/tool/mattock/modifiers/tconstruct_bane_of_sssss",
-                "tconstruct:blasting": "tconstruct:item/tool/mattock/modifiers/tconstruct_blasting",
-                "tconstruct:bucketing": [
-                    {
-                        "type": "tconstruct:fluid",
-                        "mask": "tconstruct:item/tool/mattock/modifiers/tconstruct_bucketing_full"
-                    },
-                    "tconstruct:item/tool/mattock/modifiers/tconstruct_bucketing"
-                ],
-                "tconstruct:cooling": "tconstruct:item/tool/mattock/modifiers/tconstruct_cooling",
-                "tconstruct:diamond": "tconstruct:item/tool/mattock/modifiers/tconstruct_diamond",
-                "tconstruct:emerald": "tconstruct:item/tool/mattock/modifiers/tconstruct_emerald",
-                "tconstruct:experienced": "tconstruct:item/tool/mattock/modifiers/tconstruct_experienced",
-                "tconstruct:fiery": {
-                    "type": "tconstruct:basic",
-                    "luminosity": 10,
-                    "texture": "tconstruct:item/tool/mattock/modifiers/tconstruct_fiery"
-                },
-                "tconstruct:glowing": {
-                    "type": "tconstruct:basic",
-                    "luminosity": 15,
-                    "texture": "tconstruct:item/tool/mattock/modifiers/tconstruct_glowing"
-                },
-                "tconstruct:haste": {
-                    "type": "tconstruct:basic",
-                    "luminosity": 7,
-                    "texture": "tconstruct:item/tool/mattock/modifiers/tconstruct_haste"
-                },
-                "tconstruct:hydraulic": "tconstruct:item/tool/mattock/modifiers/tconstruct_hydraulic",
-                "tconstruct:knockback": "tconstruct:item/tool/mattock/modifiers/tconstruct_knockback",
-                "tconstruct:lightspeed": {
-                    "type": "tconstruct:basic",
-                    "luminosity": 15,
-                    "texture": "tconstruct:item/tool/mattock/modifiers/tconstruct_lightspeed"
-                },
-                "tconstruct:luck": "tconstruct:item/tool/mattock/modifiers/tconstruct_luck",
-                "tconstruct:magnetic": "tconstruct:item/tool/mattock/modifiers/tconstruct_magnetic",
-                "tconstruct:necrotic": "tconstruct:item/tool/mattock/modifiers/tconstruct_necrotic",
-                "tconstruct:netherite": "tconstruct:item/tool/mattock/modifiers/tconstruct_netherite",
-                "tconstruct:overforced": "tconstruct:item/tool/mattock/modifiers/tconstruct_overforced",
-                "tconstruct:reinforced": "tconstruct:item/tool/mattock/modifiers/tconstruct_reinforced",
-                "tconstruct:severing": "tconstruct:item/tool/mattock/modifiers/tconstruct_severing",
-                "tconstruct:sharpness": "tconstruct:item/tool/mattock/modifiers/tconstruct_sharpness",
-                "tconstruct:silky": "tconstruct:item/tool/mattock/modifiers/tconstruct_silky",
-                "tconstruct:smite": "tconstruct:item/tool/mattock/modifiers/tconstruct_smite",
-                "tconstruct:soulbound": "tconstruct:item/tool/mattock/modifiers/tconstruct_soulbound",
-                "tconstruct:tank": [
-                    {
-                        "type": "tconstruct:tank",
-                        "full": "tconstruct:item/tool/mattock/modifiers/tconstruct_tank_full",
-                        "partial": "tconstruct:item/tool/mattock/modifiers/tconstruct_tank_partial"
-                    },
-                    "tconstruct:item/tool/mattock/modifiers/tconstruct_tank"
-                ],
-                "tconstruct:unbreakable": {
-                    "type": "tconstruct:basic",
-                    "luminosity": 2,
-                    "texture": "tconstruct:item/tool/mattock/modifiers/tconstruct_unbreakable"
-                }
-            }
+            "modifier_maps": [
+                "tconstruct:mattock"
+            ],
+            "broken_modifier_maps": [
+                "tconstruct:mattock_broken",
+                "tconstruct:mattock"
+            ]
         },
         "overrides": [
             {
@@ -123,68 +68,13 @@
                         "pick": "tconstruct:item/tool/mattock/pick_broken",
                         "handle": "tconstruct:item/tool/pickaxe/handle"
                     },
-                    "modifier_models": {
-                        "tconstruct:antiaquatic": "tconstruct:item/tool/mattock/modifiers/tconstruct_antiaquatic",
-                        "tconstruct:bane_of_sssss": "tconstruct:item/tool/mattock/modifiers/tconstruct_bane_of_sssss",
-                        "tconstruct:blasting": "tconstruct:item/tool/mattock/modifiers/tconstruct_blasting",
-                        "tconstruct:bucketing": [
-                            {
-                                "type": "tconstruct:fluid",
-                                "mask": "tconstruct:item/tool/mattock/modifiers/tconstruct_bucketing_full"
-                            },
-                            "tconstruct:item/tool/mattock/modifiers/tconstruct_bucketing"
-                        ],
-                        "tconstruct:cooling": "tconstruct:item/tool/mattock/modifiers/tconstruct_cooling",
-                        "tconstruct:diamond": "tconstruct:item/tool/mattock/modifiers/tconstruct_diamond",
-                        "tconstruct:emerald": "tconstruct:item/tool/mattock/modifiers/tconstruct_emerald",
-                        "tconstruct:experienced": "tconstruct:item/tool/mattock/modifiers/tconstruct_experienced",
-                        "tconstruct:fiery": {
-                            "type": "tconstruct:basic",
-                            "luminosity": 10,
-                            "texture": "tconstruct:item/tool/mattock/modifiers/tconstruct_fiery"
-                        },
-                        "tconstruct:glowing": {
-                            "type": "tconstruct:basic",
-                            "luminosity": 15,
-                            "texture": "tconstruct:item/tool/mattock/modifiers/tconstruct_glowing"
-                        },
-                        "tconstruct:haste": {
-                            "type": "tconstruct:basic",
-                            "luminosity": 7,
-                            "texture": "tconstruct:item/tool/mattock/modifiers/tconstruct_haste"
-                        },
-                        "tconstruct:hydraulic": "tconstruct:item/tool/mattock/modifiers/tconstruct_hydraulic",
-                        "tconstruct:knockback": "tconstruct:item/tool/mattock/modifiers/tconstruct_knockback",
-                        "tconstruct:lightspeed": {
-                            "type": "tconstruct:basic",
-                            "luminosity": 15,
-                            "texture": "tconstruct:item/tool/mattock/modifiers/tconstruct_lightspeed"
-                        },
-                        "tconstruct:luck": "tconstruct:item/tool/mattock/modifiers/tconstruct_luck",
-                        "tconstruct:magnetic": "tconstruct:item/tool/mattock/modifiers/tconstruct_magnetic",
-                        "tconstruct:necrotic": "tconstruct:item/tool/mattock/modifiers/tconstruct_necrotic",
-                        "tconstruct:netherite": "tconstruct:item/tool/mattock/modifiers/tconstruct_netherite",
-                        "tconstruct:overforced": "tconstruct:item/tool/mattock/modifiers/tconstruct_overforced",
-                        "tconstruct:reinforced": "tconstruct:item/tool/mattock/modifiers/tconstruct_reinforced",
-                        "tconstruct:severing": "tconstruct:item/tool/mattock/modifiers/tconstruct_severing",
-                        "tconstruct:sharpness": "tconstruct:item/tool/mattock/modifiers/tconstruct_sharpness",
-                        "tconstruct:silky": "tconstruct:item/tool/mattock/modifiers/tconstruct_silky",
-                        "tconstruct:smite": "tconstruct:item/tool/mattock/modifiers/tconstruct_smite",
-                        "tconstruct:soulbound": "tconstruct:item/tool/mattock/modifiers/tconstruct_soulbound",
-                        "tconstruct:tank": [
-                            {
-                                "type": "tconstruct:tank",
-                                "full": "tconstruct:item/tool/mattock/modifiers/tconstruct_tank_full",
-                                "partial": "tconstruct:item/tool/mattock/modifiers/tconstruct_tank_partial"
-                            },
-                            "tconstruct:item/tool/mattock/modifiers/tconstruct_tank"
-                        ],
-                        "tconstruct:unbreakable": {
-                            "type": "tconstruct:basic",
-                            "luminosity": 2,
-                            "texture": "tconstruct:item/tool/mattock/modifiers/tconstruct_unbreakable"
-                        }
-                    }
+                    "modifier_maps": [
+                        "tconstruct:mattock"
+                    ],
+                    "broken_modifier_maps": [
+                        "tconstruct:mattock_broken",
+                        "tconstruct:mattock"
+                    ]
                 }
             }
         ]

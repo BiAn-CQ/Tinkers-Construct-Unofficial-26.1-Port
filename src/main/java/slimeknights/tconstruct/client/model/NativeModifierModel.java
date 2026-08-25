@@ -3,6 +3,9 @@ package slimeknights.tconstruct.client.model;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.Dynamic;
+import com.mojang.serialization.JsonOps;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonSyntaxException;
 import net.minecraft.resources.Identifier;
 import org.jspecify.annotations.Nullable;
 
@@ -37,6 +40,11 @@ final class NativeModifierModel {
 
   Definition definition() {
     return definition;
+  }
+
+  /** Parses one entry from a modifier-model map resource. */
+  static NativeModifierModel fromJson(JsonElement json) {
+    return CODEC.parse(JsonOps.INSTANCE, json).getOrThrow(JsonSyntaxException::new);
   }
 
   private static DataResult<NativeModifierModel> decode(Dynamic<?> source) {

@@ -33,12 +33,12 @@
                 "handle": "tconstruct:item/tool/swasher/handle",
                 "tank": "tconstruct:item/tool/swasher/tank"
             },
-            "modifier_constants": [
-                {
-                    "type": "tconstruct:tank",
-                    "full": "tconstruct:item/tool/swasher/fluid_full",
-                    "partial": "tconstruct:item/tool/swasher/fluid_partial"
-                }
+            "modifier_maps": [
+                "tconstruct:swasher"
+            ],
+            "broken_modifier_maps": [
+                "tconstruct:swasher/broken",
+                "tconstruct:swasher"
             ]
         },
         "overrides": [
@@ -72,12 +72,19 @@
                             "name": "tank"
                         }
                     ],
-                    "modifier_constants": [
-                        {
-                            "type": "tconstruct:tank",
-                            "full": "tconstruct:item/tool/swasher/fluid_full",
-                            "partial": "tconstruct:item/tool/swasher/fluid_partial"
-                        }
+                    "broken_textures": {
+                        "blade": "tconstruct:item/tool/swasher/blade_broken",
+                        "barrel": "tconstruct:item/tool/swasher/barrel",
+                        "handle": "tconstruct:item/tool/swasher/handle",
+                        "tank": "tconstruct:item/tool/swasher/tank"
+                    },
+                    "modifier_maps": [
+                        "tconstruct:swasher/1",
+                        "tconstruct:swasher"
+                    ],
+                    "broken_modifier_maps": [
+                        "tconstruct:swasher/broken",
+                        "tconstruct:swasher"
                     ]
                 }
             },
@@ -112,12 +119,19 @@
                             "name": "tank"
                         }
                     ],
-                    "modifier_constants": [
-                        {
-                            "type": "tconstruct:tank",
-                            "full": "tconstruct:item/tool/swasher/fluid_full",
-                            "partial": "tconstruct:item/tool/swasher/fluid_partial"
-                        }
+                    "broken_textures": {
+                        "blade": "tconstruct:item/tool/swasher/blade_broken",
+                        "barrel": "tconstruct:item/tool/swasher/barrel",
+                        "handle": "tconstruct:item/tool/swasher/handle",
+                        "tank": "tconstruct:item/tool/swasher/tank"
+                    },
+                    "modifier_maps": [
+                        "tconstruct:swasher/2",
+                        "tconstruct:swasher"
+                    ],
+                    "broken_modifier_maps": [
+                        "tconstruct:swasher/broken",
+                        "tconstruct:swasher"
                     ]
                 }
             },
@@ -157,12 +171,12 @@
                         "handle": "tconstruct:item/tool/swasher/handle",
                         "tank": "tconstruct:item/tool/swasher/tank"
                     },
-                    "modifier_constants": [
-                        {
-                            "type": "tconstruct:tank",
-                            "full": "tconstruct:item/tool/swasher/fluid_full",
-                            "partial": "tconstruct:item/tool/swasher/fluid_partial"
-                        }
+                    "modifier_maps": [
+                        "tconstruct:swasher"
+                    ],
+                    "broken_modifier_maps": [
+                        "tconstruct:swasher/broken",
+                        "tconstruct:swasher"
                     ]
                 }
             },
@@ -197,12 +211,19 @@
                             "name": "tank"
                         }
                     ],
-                    "modifier_constants": [
-                        {
-                            "type": "tconstruct:tank",
-                            "full": "tconstruct:item/tool/swasher/fluid_full",
-                            "partial": "tconstruct:item/tool/swasher/fluid_partial"
-                        }
+                    "broken_textures": {
+                        "blade": "tconstruct:item/tool/swasher/blade_broken",
+                        "barrel": "tconstruct:item/tool/swasher/barrel",
+                        "handle": "tconstruct:item/tool/swasher/handle",
+                        "tank": "tconstruct:item/tool/swasher/tank"
+                    },
+                    "modifier_maps": [
+                        "tconstruct:swasher/1",
+                        "tconstruct:swasher"
+                    ],
+                    "broken_modifier_maps": [
+                        "tconstruct:swasher/broken",
+                        "tconstruct:swasher"
                     ]
                 }
             },
@@ -237,12 +258,19 @@
                             "name": "tank"
                         }
                     ],
-                    "modifier_constants": [
-                        {
-                            "type": "tconstruct:tank",
-                            "full": "tconstruct:item/tool/swasher/fluid_full",
-                            "partial": "tconstruct:item/tool/swasher/fluid_partial"
-                        }
+                    "broken_textures": {
+                        "blade": "tconstruct:item/tool/swasher/blade_broken",
+                        "barrel": "tconstruct:item/tool/swasher/barrel",
+                        "handle": "tconstruct:item/tool/swasher/handle",
+                        "tank": "tconstruct:item/tool/swasher/tank"
+                    },
+                    "modifier_maps": [
+                        "tconstruct:swasher/2",
+                        "tconstruct:swasher"
+                    ],
+                    "broken_modifier_maps": [
+                        "tconstruct:swasher/broken",
+                        "tconstruct:swasher"
                     ]
                 }
             }

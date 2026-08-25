@@ -20,14 +20,15 @@
             "shell": "tconstruct:item/tool/armor/slime/leggings/shell_broken",
             "slime": "tconstruct:item/tool/armor/slime/leggings/slime_broken"
         },
-        "modifier_models": {
-            "tconstruct:trim": {
-                "type": "tconstruct:armor_trim",
-                "slot": "leggings"
-            }
-        },
         "first_modifiers": [
             "tconstruct:trim"
+        ],
+        "modifier_maps": [
+            "tconstruct:slime/leggings"
+        ],
+        "broken_modifier_maps": [
+            "tconstruct:slime/leggings_broken",
+            "tconstruct:slime/leggings"
         ]
     }
 }

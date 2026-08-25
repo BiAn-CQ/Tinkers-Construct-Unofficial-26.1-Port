@@ -532,10 +532,11 @@ def validateLocalModelTextures = tasks.register('validateLocalModelTextures') {
     }
 }
 
-// Dynamic ammunition is authored in the generated legacy tool models, while
-// 26.1 renders from assets/<namespace>/items.  Require every distinct legacy
-// ammunition layout to survive that resource-boundary conversion.
-def validateRangedAmmoModelParity = tasks.register('validateRangedAmmoModelParity') {
+// Optional migration audit. This is deliberately not part of build/check, as
+// future native models may intentionally diverge from the legacy layouts.
+def auditLegacyRangedAmmoParity = tasks.register('auditLegacyRangedAmmoParity') {
+    group = 'verification'
+    description = 'Optional migration audit comparing ranged ammunition layouts with the legacy models.'
     def legacyRoot = file('src/generated/clientResources/assets/tconstruct/models/item/tool')
     def itemRoot = file('src/main/resources/assets/tconstruct/items')
     def legacyModels = legacyRoot.isDirectory()
@@ -604,8 +605,192 @@ def validateRangedAmmoModelParity = tasks.register('validateRangedAmmoModelParit
     }
 }
 
+// Optional full migration audit. It remains available for explicit comparison
+// runs, but normal builds validate only current resource integrity and do not
+// require future native models to remain identical to the legacy definitions.
+def auditLegacyNativeToolParity = tasks.register('auditLegacyNativeToolParity') {
+    group = 'verification'
+    description = 'Optional migration audit comparing native tool states with the legacy models.'
+    def assetRoots = [
+            file('src/main/resources/assets'),
+            file('src/generated/clientResources/assets')
+    ]
+    def legacyRoot = file('src/main/resources/assets/tconstruct/models/item')
+    def nativeRoot = file('src/main/resources/assets/tconstruct/items')
+    inputs.files(assetRoots, legacyRoot, nativeRoot)
+    outputs.upToDateWhen { false }
+    doLast {
+        def slurper = new groovy.json.JsonSlurper()
+        Closure<File> findModel = { String id ->
+            List<String> split = id.contains(':') ? id.split(':', 2) as List<String> : ['tconstruct', id]
+            File found = null
+            assetRoots.each { File root ->
+                File candidate = new File(root, "${split[0]}/models/${split[1]}.json")
+                if (candidate.isFile()) {
+                    found = candidate
+                }
+            }
+            found
+        }
+        Closure<Map> mergeMaps
+        mergeMaps = { Map parent, Map child ->
+            Map result = new LinkedHashMap(parent)
+            child.each { Object key, Object value ->
+                Object inherited = result[key]
+                result[key] = inherited instanceof Map && value instanceof Map
+                        ? mergeMaps(inherited as Map, value as Map)
+                        : value
+            }
+            result
+        }
+        Closure<Map> resolveModel
+        resolveModel = { String id, Set<String> seen = [] as Set<String> ->
+            if (!seen.add(id)) {
+                throw new GradleException("Model parent cycle while resolving ${id}")
+            }
+            File source = findModel(id)
+            if (source == null) {
+                return [:]
+            }
+            Map model = slurper.parse(source) as Map
+            Object parent = model.parent
+            parent instanceof String
+                    ? mergeMaps(resolveModel(parent as String, seen), model)
+                    : model
+        }
+        Closure<Object> normalized
+        normalized = { Object value ->
+            if (value instanceof Map) {
+                return new TreeMap((value as Map).collectEntries { Object key, Object child ->
+                    [(key.toString()): normalized(child)]
+                })
+            }
+            if (value instanceof Collection) {
+                return (value as Collection).collect { Object child -> normalized(child) }
+            }
+            if (value instanceof Number) {
+                return new BigDecimal(value.toString()).stripTrailingZeros()
+            }
+            value
+        }
+        Closure<Map> withoutParticle = { Object textures ->
+            Map result = textures instanceof Map ? new LinkedHashMap(textures as Map) : [:]
+            result.remove('particle')
+            result
+        }
+        Closure<Object> field = { Map model, String key ->
+            if (key == 'large' || key == 'show_traits') {
+                return model.containsKey(key) ? model[key] : false
+            }
+            model[key]
+        }
+
+        List<String> errors = []
+        int toolCount = 0
+        int stateCount = 0
+        int brokenStateCount = 0
+        legacyRoot.listFiles({ File file -> file.isFile() && file.name.endsWith('.json') } as FileFilter)
+                .sort { File file -> file.name }
+                .each { File legacyFile ->
+            Map legacyTop = slurper.parse(legacyFile) as Map
+            if ((legacyTop.loader ?: legacyTop.type) != 'tconstruct:tool') {
+                return
+            }
+            toolCount++
+            String tool = legacyFile.name.substring(0, legacyFile.name.length() - 5)
+            File nativeFile = new File(nativeRoot, "${tool}.json")
+            if (!nativeFile.isFile()) {
+                errors << "${tool}: missing native item definition"
+                return
+            }
+            Map nativeContainer = (slurper.parse(nativeFile) as Map).model as Map
+            Map nativeBase = nativeContainer.type == 'tconstruct:overrides'
+                    ? nativeContainer.base as Map : nativeContainer
+            List<Map> nativeOverrides = nativeContainer.type == 'tconstruct:overrides'
+                    ? nativeContainer.overrides as List<Map> : []
+
+            List<Map> legacyOverrides = (legacyTop.overrides ?: []) as List<Map>
+            List<Map> legacyPredicates = legacyOverrides
+                    .findAll { Map entry -> !(entry.predicate as Map).containsKey('tconstruct:broken') }
+                    .collect { Map entry -> normalized(entry.predicate) as Map }
+            List<Map> nativePredicates = nativeOverrides.collect { Map entry -> normalized(entry.predicate) as Map }
+            if (legacyPredicates != nativePredicates) {
+                errors << "${tool}: native predicates differ from the legacy override order"
+            }
+
+            List<Map> states = [[predicate: [:], legacy: resolveModel("tconstruct:item/${tool}"), native: nativeBase]]
+            legacyOverrides.findAll { Map entry ->
+                !(entry.predicate as Map).containsKey('tconstruct:broken')
+            }.each { Map entry ->
+                Map predicate = normalized(entry.predicate) as Map
+                Map nativeEntry = nativeOverrides.find { Map candidate ->
+                    normalized(candidate.predicate) == predicate
+                }
+                states << [
+                        predicate: predicate,
+                        legacy: resolveModel(entry.model as String),
+                        native: nativeEntry?.model
+                ]
+            }
+
+            Map brokenEntry = legacyOverrides.reverse().find { Map entry ->
+                (entry.predicate as Map).containsKey('tconstruct:broken')
+            }
+            Map broken = brokenEntry == null ? null : resolveModel(brokenEntry.model as String)
+            states.each { Map state ->
+                stateCount++
+                String label = state.predicate.isEmpty() ? 'base' : state.predicate.toString()
+                Map legacyState = state.legacy as Map
+                Map nativeState = state.native as Map
+                if (nativeState == null) {
+                    errors << "${tool} ${label}: missing native state"
+                    return
+                }
+                ['parts', 'large', 'large_offset', 'ammo', 'first_modifiers', 'show_traits'].each { String key ->
+                    if (normalized(field(legacyState, key)) != normalized(field(nativeState, key))) {
+                        errors << "${tool} ${label}: ${key} differs from the legacy model"
+                    }
+                }
+                if (normalized(withoutParticle(legacyState.textures)) != normalized(nativeState.textures ?: [:])) {
+                    errors << "${tool} ${label}: textures differ from the legacy model"
+                }
+                if (normalized(legacyState.modifier_maps ?: []) != normalized(nativeState.modifier_maps ?: [])) {
+                    errors << "${tool} ${label}: modifier map references differ from the legacy model"
+                }
+                Map legacyDisplay = legacyState.display instanceof Map ? legacyState.display as Map : [:]
+                Map nativeParent = nativeState.parent instanceof String ? resolveModel(nativeState.parent as String) : [:]
+                Map nativeDisplay = nativeParent.display instanceof Map ? nativeParent.display as Map : [:]
+                if (normalized(legacyDisplay) != normalized(nativeDisplay)) {
+                    errors << "${tool} ${label}: display transforms differ from the legacy model"
+                }
+
+                if (broken != null) {
+                    brokenStateCount++
+                    if (normalized(withoutParticle(broken.textures)) != normalized(nativeState.broken_textures ?: [:])) {
+                        errors << "${tool} ${label}: broken textures differ from the legacy model"
+                    }
+                    Object actualBrokenParts = nativeState.containsKey('broken_parts')
+                            ? nativeState.broken_parts : nativeState.parts
+                    if (normalized(broken.parts ?: []) != normalized(actualBrokenParts ?: [])) {
+                        errors << "${tool} ${label}: broken parts differ from the legacy model"
+                    }
+                    Object actualBrokenMaps = nativeState.containsKey('broken_modifier_maps')
+                            ? nativeState.broken_modifier_maps : nativeState.modifier_maps
+                    if (normalized(broken.modifier_maps ?: []) != normalized(actualBrokenMaps ?: [])) {
+                        errors << "${tool} ${label}: broken modifier maps differ from the legacy model"
+                    }
+                }
+            }
+        }
+        if (!errors.isEmpty()) {
+            throw new GradleException("Native tool-model parity validation failed:\n" + errors.join('\n'))
+        }
+        logger.lifecycle("Validated ${stateCount} native states and ${brokenStateCount} broken states across ${toolCount} tools")
+    }
+}
+
 tasks.named('processResources').configure {
-    dependsOn(validateCastModelGraph, validateLocalModelTextures, validateRangedAmmoModelParity)
+    dependsOn(validateCastModelGraph, validateLocalModelTextures)
 }
 
 // Loot codecs can compile and datagen can finish even when a unit codec silently

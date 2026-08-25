@@ -36,6 +36,7 @@ import slimeknights.mantle.client.render.InventoryRenderState;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.client.model.NativeTinkerItemModel;
 import slimeknights.tconstruct.client.model.NativeFluidContainerItemModel;
+import slimeknights.tconstruct.client.model.NativeModifierModelMapManager;
 import slimeknights.tconstruct.client.model.NativeTinkerBlockStateModel;
 import slimeknights.tconstruct.library.client.materials.MaterialRenderInfoLoader;
 import slimeknights.tconstruct.library.client.materials.MaterialTooltipCache;
@@ -166,6 +167,7 @@ public final class TConstructClientCompat {
     // this small listener active so native material item models see render
     // information before the model manager bakes them.
     MaterialRenderInfoLoader.init(event);
+    event.addListener(TConstruct.getResource("native_modifier_models"), NativeModifierModelMapManager.INSTANCE);
     ModifierIconManager.init(event);
     MaterialTooltipCache.init(event);
     DomainDisplayName.addResourceListener(event);

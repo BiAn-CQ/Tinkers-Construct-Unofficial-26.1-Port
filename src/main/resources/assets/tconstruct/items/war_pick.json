@@ -27,7 +27,14 @@
                 "limb": "tconstruct:item/tool/war_pick/limb",
                 "body": "tconstruct:item/tool/war_pick/body",
                 "bowstring": "tconstruct:item/tool/war_pick/bowstring_broken"
-            }
+            },
+            "modifier_maps": [
+                "tconstruct:war_pick"
+            ],
+            "broken_modifier_maps": [
+                "tconstruct:war_pick/broken",
+                "tconstruct:war_pick"
+            ]
         },
         "overrides": [
             {
@@ -55,6 +62,19 @@
                             "name": "limb",
                             "index": 0
                         }
+                    ],
+                    "broken_textures": {
+                        "limb": "tconstruct:item/tool/war_pick/limb",
+                        "body": "tconstruct:item/tool/war_pick/body",
+                        "bowstring": "tconstruct:item/tool/war_pick/bowstring_broken"
+                    },
+                    "modifier_maps": [
+                        "tconstruct:war_pick/1",
+                        "tconstruct:war_pick"
+                    ],
+                    "broken_modifier_maps": [
+                        "tconstruct:war_pick/broken",
+                        "tconstruct:war_pick"
                     ]
                 }
             },
@@ -84,6 +104,19 @@
                             "name": "limb",
                             "index": 0
                         }
+                    ],
+                    "broken_textures": {
+                        "limb": "tconstruct:item/tool/war_pick/limb",
+                        "body": "tconstruct:item/tool/war_pick/body",
+                        "bowstring": "tconstruct:item/tool/war_pick/bowstring_broken"
+                    },
+                    "modifier_maps": [
+                        "tconstruct:war_pick/2",
+                        "tconstruct:war_pick"
+                    ],
+                    "broken_modifier_maps": [
+                        "tconstruct:war_pick/broken",
+                        "tconstruct:war_pick"
                     ]
                 }
             },
@@ -118,8 +151,24 @@
                         "key": "tconstruct:crossbow_ammo",
                         "flip": false,
                         "left": true,
-                        "offset": [1.0, -1.0]
-                    }
+                        "offset": [
+                            1.0,
+                            -1.0
+                        ]
+                    },
+                    "broken_textures": {
+                        "limb": "tconstruct:item/tool/war_pick/limb",
+                        "body": "tconstruct:item/tool/war_pick/body",
+                        "bowstring": "tconstruct:item/tool/war_pick/bowstring_broken"
+                    },
+                    "modifier_maps": [
+                        "tconstruct:war_pick/3",
+                        "tconstruct:war_pick"
+                    ],
+                    "broken_modifier_maps": [
+                        "tconstruct:war_pick/broken",
+                        "tconstruct:war_pick"
+                    ]
                 }
             },
             {
@@ -152,7 +201,14 @@
                         "limb": "tconstruct:item/tool/war_pick/limb",
                         "body": "tconstruct:item/tool/war_pick/body",
                         "bowstring": "tconstruct:item/tool/war_pick/bowstring_broken"
-                    }
+                    },
+                    "modifier_maps": [
+                        "tconstruct:war_pick"
+                    ],
+                    "broken_modifier_maps": [
+                        "tconstruct:war_pick/broken",
+                        "tconstruct:war_pick"
+                    ]
                 }
             },
             {
@@ -181,6 +237,19 @@
                             "name": "limb",
                             "index": 0
                         }
+                    ],
+                    "broken_textures": {
+                        "limb": "tconstruct:item/tool/war_pick/limb",
+                        "body": "tconstruct:item/tool/war_pick/body",
+                        "bowstring": "tconstruct:item/tool/war_pick/bowstring_broken"
+                    },
+                    "modifier_maps": [
+                        "tconstruct:war_pick/1",
+                        "tconstruct:war_pick"
+                    ],
+                    "broken_modifier_maps": [
+                        "tconstruct:war_pick/broken",
+                        "tconstruct:war_pick"
                     ]
                 }
             },
@@ -210,6 +279,19 @@
                             "name": "limb",
                             "index": 0
                         }
+                    ],
+                    "broken_textures": {
+                        "limb": "tconstruct:item/tool/war_pick/limb",
+                        "body": "tconstruct:item/tool/war_pick/body",
+                        "bowstring": "tconstruct:item/tool/war_pick/bowstring_broken"
+                    },
+                    "modifier_maps": [
+                        "tconstruct:war_pick/2",
+                        "tconstruct:war_pick"
+                    ],
+                    "broken_modifier_maps": [
+                        "tconstruct:war_pick/broken",
+                        "tconstruct:war_pick"
                     ]
                 }
             },
@@ -244,8 +326,24 @@
                         "key": "tconstruct:crossbow_ammo",
                         "flip": false,
                         "left": true,
-                        "offset": [1.0, -1.0]
-                    }
+                        "offset": [
+                            1.0,
+                            -1.0
+                        ]
+                    },
+                    "broken_textures": {
+                        "limb": "tconstruct:item/tool/war_pick/limb",
+                        "body": "tconstruct:item/tool/war_pick/body",
+                        "bowstring": "tconstruct:item/tool/war_pick/bowstring_broken"
+                    },
+                    "modifier_maps": [
+                        "tconstruct:war_pick/3",
+                        "tconstruct:war_pick"
+                    ],
+                    "broken_modifier_maps": [
+                        "tconstruct:war_pick/broken",
+                        "tconstruct:war_pick"
+                    ]
                 }
             },
             {
@@ -278,8 +376,24 @@
                         "key": "tconstruct:crossbow_ammo",
                         "flip": false,
                         "left": true,
-                        "offset": [1.0, -1.0]
-                    }
+                        "offset": [
+                            1.0,
+                            -1.0
+                        ]
+                    },
+                    "broken_textures": {
+                        "limb": "tconstruct:item/tool/war_pick/limb",
+                        "body": "tconstruct:item/tool/war_pick/body",
+                        "bowstring": "tconstruct:item/tool/war_pick/bowstring_broken"
+                    },
+                    "modifier_maps": [
+                        "tconstruct:war_pick/3",
+                        "tconstruct:war_pick"
+                    ],
+                    "broken_modifier_maps": [
+                        "tconstruct:war_pick/broken",
+                        "tconstruct:war_pick"
+                    ]
                 }
             },
             {
@@ -313,8 +427,24 @@
                         "key": "tconstruct:crossbow_ammo",
                         "flip": false,
                         "left": true,
-                        "offset": [1.0, -1.0]
-                    }
+                        "offset": [
+                            1.0,
+                            -1.0
+                        ]
+                    },
+                    "broken_textures": {
+                        "limb": "tconstruct:item/tool/war_pick/limb",
+                        "body": "tconstruct:item/tool/war_pick/body",
+                        "bowstring": "tconstruct:item/tool/war_pick/bowstring_broken"
+                    },
+                    "modifier_maps": [
+                        "tconstruct:war_pick/3",
+                        "tconstruct:war_pick"
+                    ],
+                    "broken_modifier_maps": [
+                        "tconstruct:war_pick/broken",
+                        "tconstruct:war_pick"
+                    ]
                 }
             },
             {
@@ -346,6 +476,32 @@
                         {
                             "name": "ammo"
                         }
+                    ],
+                    "broken_textures": {
+                        "limb": "tconstruct:item/tool/war_pick/limb",
+                        "body": "tconstruct:item/tool/war_pick/body",
+                        "bowstring": "tconstruct:item/tool/war_pick/bowstring_broken"
+                    },
+                    "broken_parts": [
+                        {
+                            "name": "body",
+                            "index": 1
+                        },
+                        {
+                            "name": "bowstring",
+                            "index": 2
+                        },
+                        {
+                            "name": "limb",
+                            "index": 0
+                        }
+                    ],
+                    "modifier_maps": [
+                        "tconstruct:war_pick"
+                    ],
+                    "broken_modifier_maps": [
+                        "tconstruct:war_pick/broken",
+                        "tconstruct:war_pick"
                     ]
                 }
             },
@@ -379,6 +535,32 @@
                         {
                             "name": "ammo"
                         }
+                    ],
+                    "broken_textures": {
+                        "limb": "tconstruct:item/tool/war_pick/limb",
+                        "body": "tconstruct:item/tool/war_pick/body",
+                        "bowstring": "tconstruct:item/tool/war_pick/bowstring_broken"
+                    },
+                    "broken_parts": [
+                        {
+                            "name": "body",
+                            "index": 1
+                        },
+                        {
+                            "name": "bowstring",
+                            "index": 2
+                        },
+                        {
+                            "name": "limb",
+                            "index": 0
+                        }
+                    ],
+                    "modifier_maps": [
+                        "tconstruct:war_pick"
+                    ],
+                    "broken_modifier_maps": [
+                        "tconstruct:war_pick/broken",
+                        "tconstruct:war_pick"
                     ]
                 }
             }

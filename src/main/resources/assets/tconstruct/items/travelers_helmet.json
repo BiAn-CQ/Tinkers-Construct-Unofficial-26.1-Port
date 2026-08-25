@@ -25,18 +25,15 @@
             "cuirass": "tconstruct:item/tool/armor/travelers/goggles/cuirass_broken",
             "metal": "tconstruct:item/tool/armor/travelers/goggles/metal_broken"
         },
-        "modifier_models": {
-            "tconstruct:dyed": {
-                "type": "tconstruct:dyed",
-                "texture": "tconstruct:item/tool/armor/travelers/goggles/modifiers/dyed"
-            },
-            "tconstruct:trim": {
-                "type": "tconstruct:custom_trim",
-                "root": "tconstruct:item/tool/armor/travelers/goggles/trim"
-            }
-        },
         "first_modifiers": [
             "tconstruct:dyed"
+        ],
+        "modifier_maps": [
+            "tconstruct:travelers/goggles"
+        ],
+        "broken_modifier_maps": [
+            "tconstruct:travelers/goggles_broken",
+            "tconstruct:travelers/goggles"
         ]
     }
 }

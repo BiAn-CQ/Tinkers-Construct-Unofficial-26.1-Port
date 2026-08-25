@@ -20,19 +20,16 @@
             "cuirass": "tconstruct:item/tool/armor/travelers/boots/cuirass_broken",
             "metal": "tconstruct:item/tool/armor/travelers/boots/metal_broken"
         },
-        "modifier_models": {
-            "tconstruct:dyed": {
-                "type": "tconstruct:dyed",
-                "texture": "tconstruct:item/tool/armor/travelers/boots/modifiers/dyed"
-            },
-            "tconstruct:trim": {
-                "type": "tconstruct:armor_trim",
-                "slot": "boots"
-            }
-        },
         "first_modifiers": [
             "tconstruct:dyed",
             "tconstruct:trim"
+        ],
+        "modifier_maps": [
+            "tconstruct:travelers/boots"
+        ],
+        "broken_modifier_maps": [
+            "tconstruct:travelers/boots_broken",
+            "tconstruct:travelers/boots"
         ]
     }
 }

@@ -16,24 +16,8 @@
                 "index": 0
             }
         ],
-        "modifier_constants": [
-            {
-                "type": "tconstruct:trait",
-                "model": {
-                    "type": "tconstruct:fluid",
-                    "mask": "tconstruct:item/tool/ammo/shuriken_modifiers/smashing",
-                    "tank_helper": "tconstruct:smashing"
-                },
-                "modifier": "tconstruct:smashing"
-            },
-            {
-                "type": "tconstruct:trait",
-                "model": {
-                    "type": "tconstruct:potion",
-                    "texture": "tconstruct:item/tool/ammo/shuriken_modifiers/tipped"
-                },
-                "modifier": "tconstruct:tipped"
-            }
+        "modifier_maps": [
+            "tconstruct:shuriken"
         ]
     }
 }

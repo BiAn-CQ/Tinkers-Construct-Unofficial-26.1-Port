@@ -27,7 +27,14 @@
                 "front": "tconstruct:item/tool/minotaur_axe/front_broken",
                 "back": "tconstruct:item/tool/minotaur_axe/back",
                 "handle": "tconstruct:item/tool/pickaxe/handle"
-            }
+            },
+            "modifier_maps": [
+                "tconstruct:minotaur_axe"
+            ],
+            "broken_modifier_maps": [
+                "tconstruct:minotaur_axe_broken",
+                "tconstruct:minotaur_axe"
+            ]
         },
         "overrides": [
             {
@@ -60,7 +67,14 @@
                         "front": "tconstruct:item/tool/minotaur_axe/front_broken",
                         "back": "tconstruct:item/tool/minotaur_axe/back",
                         "handle": "tconstruct:item/tool/pickaxe/handle"
-                    }
+                    },
+                    "modifier_maps": [
+                        "tconstruct:minotaur_axe"
+                    ],
+                    "broken_modifier_maps": [
+                        "tconstruct:minotaur_axe_broken",
+                        "tconstruct:minotaur_axe"
+                    ]
                 }
             }
         ]

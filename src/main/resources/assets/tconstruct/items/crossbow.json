@@ -27,7 +27,14 @@
                 "limb": "tconstruct:item/tool/crossbow/limb",
                 "body": "tconstruct:item/tool/crossbow/body",
                 "bowstring": "tconstruct:item/tool/crossbow/bowstring_broken"
-            }
+            },
+            "modifier_maps": [
+                "tconstruct:crossbow"
+            ],
+            "broken_modifier_maps": [
+                "tconstruct:crossbow/broken",
+                "tconstruct:crossbow"
+            ]
         },
         "overrides": [
             {
@@ -56,6 +63,19 @@
                             "name": "bowstring",
                             "index": 2
                         }
+                    ],
+                    "broken_textures": {
+                        "limb": "tconstruct:item/tool/crossbow/limb",
+                        "body": "tconstruct:item/tool/crossbow/body",
+                        "bowstring": "tconstruct:item/tool/crossbow/bowstring_broken"
+                    },
+                    "modifier_maps": [
+                        "tconstruct:crossbow/1",
+                        "tconstruct:crossbow"
+                    ],
+                    "broken_modifier_maps": [
+                        "tconstruct:crossbow/broken",
+                        "tconstruct:crossbow"
                     ]
                 }
             },
@@ -85,6 +105,19 @@
                             "name": "bowstring",
                             "index": 2
                         }
+                    ],
+                    "broken_textures": {
+                        "limb": "tconstruct:item/tool/crossbow/limb",
+                        "body": "tconstruct:item/tool/crossbow/body",
+                        "bowstring": "tconstruct:item/tool/crossbow/bowstring_broken"
+                    },
+                    "modifier_maps": [
+                        "tconstruct:crossbow/2",
+                        "tconstruct:crossbow"
+                    ],
+                    "broken_modifier_maps": [
+                        "tconstruct:crossbow/broken",
+                        "tconstruct:crossbow"
                     ]
                 }
             },
@@ -119,8 +152,24 @@
                         "key": "tconstruct:crossbow_ammo",
                         "flip": true,
                         "left": false,
-                        "offset": [-1.0, -1.0]
-                    }
+                        "offset": [
+                            -1.0,
+                            -1.0
+                        ]
+                    },
+                    "broken_textures": {
+                        "limb": "tconstruct:item/tool/crossbow/limb",
+                        "body": "tconstruct:item/tool/crossbow/body",
+                        "bowstring": "tconstruct:item/tool/crossbow/bowstring_broken"
+                    },
+                    "modifier_maps": [
+                        "tconstruct:crossbow/3",
+                        "tconstruct:crossbow"
+                    ],
+                    "broken_modifier_maps": [
+                        "tconstruct:crossbow/broken",
+                        "tconstruct:crossbow"
+                    ]
                 }
             },
             {
@@ -153,7 +202,14 @@
                         "limb": "tconstruct:item/tool/crossbow/limb",
                         "body": "tconstruct:item/tool/crossbow/body",
                         "bowstring": "tconstruct:item/tool/crossbow/bowstring_broken"
-                    }
+                    },
+                    "modifier_maps": [
+                        "tconstruct:crossbow"
+                    ],
+                    "broken_modifier_maps": [
+                        "tconstruct:crossbow/broken",
+                        "tconstruct:crossbow"
+                    ]
                 }
             },
             {
@@ -182,6 +238,19 @@
                             "name": "bowstring",
                             "index": 2
                         }
+                    ],
+                    "broken_textures": {
+                        "limb": "tconstruct:item/tool/crossbow/limb",
+                        "body": "tconstruct:item/tool/crossbow/body",
+                        "bowstring": "tconstruct:item/tool/crossbow/bowstring_broken"
+                    },
+                    "modifier_maps": [
+                        "tconstruct:crossbow/1",
+                        "tconstruct:crossbow"
+                    ],
+                    "broken_modifier_maps": [
+                        "tconstruct:crossbow/broken",
+                        "tconstruct:crossbow"
                     ]
                 }
             },
@@ -211,6 +280,19 @@
                             "name": "bowstring",
                             "index": 2
                         }
+                    ],
+                    "broken_textures": {
+                        "limb": "tconstruct:item/tool/crossbow/limb",
+                        "body": "tconstruct:item/tool/crossbow/body",
+                        "bowstring": "tconstruct:item/tool/crossbow/bowstring_broken"
+                    },
+                    "modifier_maps": [
+                        "tconstruct:crossbow/2",
+                        "tconstruct:crossbow"
+                    ],
+                    "broken_modifier_maps": [
+                        "tconstruct:crossbow/broken",
+                        "tconstruct:crossbow"
                     ]
                 }
             },
@@ -245,8 +327,24 @@
                         "key": "tconstruct:crossbow_ammo",
                         "flip": true,
                         "left": false,
-                        "offset": [-1.0, -1.0]
-                    }
+                        "offset": [
+                            -1.0,
+                            -1.0
+                        ]
+                    },
+                    "broken_textures": {
+                        "limb": "tconstruct:item/tool/crossbow/limb",
+                        "body": "tconstruct:item/tool/crossbow/body",
+                        "bowstring": "tconstruct:item/tool/crossbow/bowstring_broken"
+                    },
+                    "modifier_maps": [
+                        "tconstruct:crossbow/3",
+                        "tconstruct:crossbow"
+                    ],
+                    "broken_modifier_maps": [
+                        "tconstruct:crossbow/broken",
+                        "tconstruct:crossbow"
+                    ]
                 }
             },
             {
@@ -279,8 +377,24 @@
                         "key": "tconstruct:crossbow_ammo",
                         "flip": true,
                         "left": false,
-                        "offset": [-1.0, -1.0]
-                    }
+                        "offset": [
+                            -1.0,
+                            -1.0
+                        ]
+                    },
+                    "broken_textures": {
+                        "limb": "tconstruct:item/tool/crossbow/limb",
+                        "body": "tconstruct:item/tool/crossbow/body",
+                        "bowstring": "tconstruct:item/tool/crossbow/bowstring_broken"
+                    },
+                    "modifier_maps": [
+                        "tconstruct:crossbow/3",
+                        "tconstruct:crossbow"
+                    ],
+                    "broken_modifier_maps": [
+                        "tconstruct:crossbow/broken",
+                        "tconstruct:crossbow"
+                    ]
                 }
             },
             {
@@ -314,8 +428,24 @@
                         "key": "tconstruct:crossbow_ammo",
                         "flip": true,
                         "left": false,
-                        "offset": [-1.0, -1.0]
-                    }
+                        "offset": [
+                            -1.0,
+                            -1.0
+                        ]
+                    },
+                    "broken_textures": {
+                        "limb": "tconstruct:item/tool/crossbow/limb",
+                        "body": "tconstruct:item/tool/crossbow/body",
+                        "bowstring": "tconstruct:item/tool/crossbow/bowstring_broken"
+                    },
+                    "modifier_maps": [
+                        "tconstruct:crossbow/3",
+                        "tconstruct:crossbow"
+                    ],
+                    "broken_modifier_maps": [
+                        "tconstruct:crossbow/broken",
+                        "tconstruct:crossbow"
+                    ]
                 }
             },
             {
@@ -347,6 +477,32 @@
                         {
                             "name": "ammo"
                         }
+                    ],
+                    "broken_textures": {
+                        "limb": "tconstruct:item/tool/crossbow/limb",
+                        "body": "tconstruct:item/tool/crossbow/body",
+                        "bowstring": "tconstruct:item/tool/crossbow/bowstring_broken"
+                    },
+                    "broken_parts": [
+                        {
+                            "name": "limb",
+                            "index": 0
+                        },
+                        {
+                            "name": "body",
+                            "index": 1
+                        },
+                        {
+                            "name": "bowstring",
+                            "index": 2
+                        }
+                    ],
+                    "modifier_maps": [
+                        "tconstruct:crossbow"
+                    ],
+                    "broken_modifier_maps": [
+                        "tconstruct:crossbow/broken",
+                        "tconstruct:crossbow"
                     ]
                 }
             },
@@ -380,6 +536,32 @@
                         {
                             "name": "ammo"
                         }
+                    ],
+                    "broken_textures": {
+                        "limb": "tconstruct:item/tool/crossbow/limb",
+                        "body": "tconstruct:item/tool/crossbow/body",
+                        "bowstring": "tconstruct:item/tool/crossbow/bowstring_broken"
+                    },
+                    "broken_parts": [
+                        {
+                            "name": "limb",
+                            "index": 0
+                        },
+                        {
+                            "name": "body",
+                            "index": 1
+                        },
+                        {
+                            "name": "bowstring",
+                            "index": 2
+                        }
+                    ],
+                    "modifier_maps": [
+                        "tconstruct:crossbow"
+                    ],
+                    "broken_modifier_maps": [
+                        "tconstruct:crossbow/broken",
+                        "tconstruct:crossbow"
                     ]
                 }
             }
