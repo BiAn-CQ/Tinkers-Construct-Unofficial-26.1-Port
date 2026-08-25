@@ -21,6 +21,7 @@ import mezz.jei.api.registration.IRecipeCategoryRegistration;
 import mezz.jei.api.registration.IRecipeRegistration;
 import mezz.jei.api.registration.IRecipeTransferRegistration;
 import mezz.jei.api.registration.ISubtypeRegistration;
+import mezz.jei.api.recipe.types.IRecipeType;
 import mezz.jei.api.registration.IVanillaCategoryExtensionRegistration;
 import mezz.jei.api.runtime.IIngredientManager;
 import mezz.jei.api.runtime.IJeiRuntime;
@@ -28,7 +29,6 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.core.Holder;
-import net.minecraft.core.HolderSet.Named;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -61,8 +61,10 @@ import slimeknights.tconstruct.common.TinkerTags;
 import slimeknights.tconstruct.common.config.Config;
 import slimeknights.tconstruct.fluids.TinkerFluids;
 import slimeknights.tconstruct.fluids.fluids.PotionFluidType;
+import slimeknights.tconstruct.library.modifiers.Modifier;
 import slimeknights.tconstruct.library.modifiers.ModifierEntry;
 import slimeknights.tconstruct.library.modifiers.ModifierId;
+import slimeknights.tconstruct.library.modifiers.ModifierManager;
 import slimeknights.tconstruct.library.recipe.TinkerRecipeTypes;
 import slimeknights.tconstruct.library.recipe.alloying.AlloyRecipe;
 import slimeknights.tconstruct.library.recipe.casting.IDisplayableCastingRecipe;
@@ -141,8 +143,6 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
-
-import static slimeknights.mantle.Mantle.commonResource;
 
 @JeiPlugin
 public class JEIPlugin implements IModPlugin {
@@ -321,9 +321,17 @@ public class JEIPlugin implements IModPlugin {
     }
   }
 
+  /** Adds all entries from the given modifier tag as catalysts for the given recipe types. */
+  private static void addModifierCatalyst(IRecipeCatalystRegistration registry, TagKey<Modifier> tag, IRecipeType<?>... types) {
+    for (Modifier modifier : ModifierManager.getTagValues(tag)) {
+      registry.addRecipeCatalyst(TConstructJEIConstants.MODIFIER_TYPE, new ModifierEntry(modifier, 1), types);
+    }
+  }
+
   @Override
   public void registerRecipeCatalysts(IRecipeCatalystRegistration registry) {
     // tables
+    registry.addRecipeCatalyst(new ItemStack(TinkerTables.craftingStation), RecipeTypes.CRAFTING);
     registry.addRecipeCatalyst(new ItemStack(TinkerTables.partBuilder), TConstructJEIConstants.PART_BUILDER);
     registry.addRecipeCatalyst(new ItemStack(TinkerTables.tinkerStation), TConstructJEIConstants.MODIFIERS, TConstructJEIConstants.TOOL_BUILDING);
     registry.addRecipeCatalyst(new ItemStack(TinkerTables.tinkersAnvil), TConstructJEIConstants.MODIFIERS, TConstructJEIConstants.TOOL_BUILDING);
@@ -344,17 +352,25 @@ public class JEIPlugin implements IModPlugin {
     registry.addRecipeCatalyst(new ItemStack(TinkerSmeltery.foundryController), TConstructJEIConstants.FOUNDRY);
 
     // modifiers
-    registry.addRecipeCatalyst(TConstructJEIConstants.MODIFIER_TYPE, new ModifierEntry(TinkerModifiers.severing, 1), TConstructJEIConstants.SEVERING);
-    registry.addRecipeCatalyst(TConstructJEIConstants.MODIFIER_TYPE, new ModifierEntry(TinkerModifiers.melting, 1), TConstructJEIConstants.MELTING, TConstructJEIConstants.ENTITY_MELTING);
+    addModifierCatalyst(registry, TinkerTags.Modifiers.CRAFTING, RecipeTypes.CRAFTING);
+    addModifierCatalyst(registry, TinkerTags.Modifiers.SMELTING, RecipeTypes.SMELTING);
+    addModifierCatalyst(registry, TinkerTags.Modifiers.SEVERING, TConstructJEIConstants.SEVERING);
+    addModifierCatalyst(registry, TinkerTags.Modifiers.MELTING, TConstructJEIConstants.MELTING, TConstructJEIConstants.ENTITY_MELTING);
     for (Holder<Item> item : BuiltInRegistries.ITEM.getTagOrEmpty(TinkerTags.Items.MODIFIABLE)) {
       if (item.value() instanceof IModifiableDisplay modifiable) {
         // add any tools with a severing trait to severing
         ModifierNBT traits = ToolTraitHook.getTraits(modifiable.getToolDefinition(), MaterialNBT.EMPTY);
-        if (traits.getLevel(TinkerModifiers.severing.getId()) > 0) {
+        if (traits.has(TinkerTags.Modifiers.CRAFTING)) {
+          registry.addRecipeCatalyst(modifiable.getRenderTool(), RecipeTypes.CRAFTING);
+        }
+        if (traits.has(TinkerTags.Modifiers.SMELTING)) {
+          registry.addRecipeCatalyst(modifiable.getRenderTool(), RecipeTypes.SMELTING);
+        }
+        if (traits.has(TinkerTags.Modifiers.SEVERING)) {
           registry.addRecipeCatalyst(modifiable.getRenderTool(), TConstructJEIConstants.SEVERING);
         }
         // add any tools with a melting trait to melting
-        if (traits.getLevel(TinkerModifiers.melting.getId()) > 0) {
+        if (traits.has(TinkerTags.Modifiers.MELTING)) {
           // only add to entity melting if its melee too
           if (item.is(TinkerTags.Items.MELEE)) {
             registry.addRecipeCatalyst(modifiable.getRenderTool(), TConstructJEIConstants.MELTING, TConstructJEIConstants.ENTITY_MELTING);
@@ -466,12 +482,6 @@ public class JEIPlugin implements IModPlugin {
     remove.add(new FluidStack(fluid, FluidType.BUCKET_VOLUME));
   }
 
-  /** Checks if the given tag exists */
-  @SuppressWarnings("deprecation")
-  private static boolean tagExists(String name) {
-    return BuiltInRegistries.ITEM.getTagOrEmpty(ItemTags.create(commonResource(name))).iterator().hasNext();
-  }
-
   /** Removes any retextured variants that shouldn't show */
   private static void cleanupRetexturedBlock(Predicate<ItemStack> remover, boolean showAll, ItemLike item, TagKey<Item> tag) {
     if (!showAll) {
@@ -508,7 +518,7 @@ public class JEIPlugin implements IModPlugin {
     }
     // tool config filters to 1 material, easiest to just remove all then add back the 1
     String showOnlyTools = Config.CLIENT.showOnlyToolMaterial.get();
-    if (!showOnlyTools.isEmpty()) {
+    if (!showOnlyTools.isEmpty() && Config.COMMON.showOnlyToolMaterial.get().isEmpty()) {
       for (Holder<Item> item : BuiltInRegistries.ITEM.getTagOrEmpty(TinkerTags.Items.MODIFIABLE)) {
         if (item.value() instanceof IModifiable modifiable) {
           ToolBuildHandler.addVariants(removeItem, modifiable, "");
@@ -517,7 +527,7 @@ public class JEIPlugin implements IModPlugin {
       }
     }
     String showOnlyParts = Config.CLIENT.showOnlyPartMaterial.get();
-    if (!showOnlyParts.isEmpty()) {
+    if (!showOnlyParts.isEmpty() && Config.COMMON.showOnlyPartMaterial.get().isEmpty()) {
       for (Holder<Item> item : BuiltInRegistries.ITEM.getTagOrEmpty(TinkerTags.Items.TOOL_PARTS)) {
         if (item.value() instanceof IMaterialItem part) {
           part.addVariants(removeItem, "");
@@ -532,28 +542,31 @@ public class JEIPlugin implements IModPlugin {
       return false;
     };
     // wooden
-    boolean showTables = Config.CLIENT.showAllTableVariants.get();
-    cleanupRetexturedBlock(cleanupItem, showTables, TinkerTables.craftingStation, ItemTags.LOGS);
-    cleanupRetexturedBlock(cleanupItem, showTables, TinkerTables.partBuilder, ItemTags.PLANKS);
-    cleanupRetexturedBlock(cleanupItem, showTables, TinkerTables.tinkerStation, ItemTags.PLANKS);
-    cleanupRetexturedBlock(cleanupItem, showTables, TinkerTables.modifierWorktable, TinkerTags.Items.WORKSTATION_ROCK);
+    if (Config.COMMON.showAllTableVariants.get()) {
+      boolean showTables = Config.CLIENT.showAllTableVariants.get();
+      cleanupRetexturedBlock(cleanupItem, showTables, TinkerTables.craftingStation, ItemTags.LOGS);
+      cleanupRetexturedBlock(cleanupItem, showTables, TinkerTables.partBuilder, ItemTags.PLANKS);
+      cleanupRetexturedBlock(cleanupItem, showTables, TinkerTables.tinkerStation, ItemTags.PLANKS);
+      cleanupRetexturedBlock(cleanupItem, showTables, TinkerTables.modifierWorktable, TinkerTags.Items.WORKSTATION_ROCK);
+    }
+    // smeltery
+    if (Config.COMMON.showAllSmelteryVariants.get()) {
+      boolean showSmeltery = Config.CLIENT.showAllSmelteryVariants.get();
+      cleanupRetexturedBlock(cleanupItem, showSmeltery, TinkerSmeltery.smelteryController, TinkerTags.Items.SEARED_BLOCKS);
+      cleanupRetexturedBlock(cleanupItem, showSmeltery, TinkerSmeltery.searedDrain, TinkerTags.Items.SEARED_BLOCKS);
+      cleanupRetexturedBlock(cleanupItem, showSmeltery, TinkerSmeltery.searedDuct, TinkerTags.Items.SEARED_BLOCKS);
+      cleanupRetexturedBlock(cleanupItem, showSmeltery, TinkerSmeltery.searedChute, TinkerTags.Items.SEARED_BLOCKS);
+      cleanupRetexturedBlock(cleanupItem, showSmeltery, TinkerSmeltery.foundryController, TinkerTags.Items.SCORCHED_BLOCKS);
+      cleanupRetexturedBlock(cleanupItem, showSmeltery, TinkerSmeltery.scorchedDrain, TinkerTags.Items.SCORCHED_BLOCKS);
+      cleanupRetexturedBlock(cleanupItem, showSmeltery, TinkerSmeltery.scorchedDuct, TinkerTags.Items.SCORCHED_BLOCKS);
+      cleanupRetexturedBlock(cleanupItem, showSmeltery, TinkerSmeltery.scorchedChute, TinkerTags.Items.SCORCHED_BLOCKS);
+    }
     // anvils
-    boolean showAnvils = Config.CLIENT.showAllAnvilVariants.get();
-    if (!showAnvils) {
+    if (Config.COMMON.showAllAnvilVariants.get() && !Config.CLIENT.showAllAnvilVariants.get()) {
       Consumer<ItemStack> consumer = removeItems::add;
       ((IMaterialItem) TinkerTables.tinkersAnvil.asItem()).addVariants(consumer, "");
       ((IMaterialItem) TinkerTables.scorchedAnvil.asItem()).addVariants(consumer, "");
     }
-    // smeltery
-    boolean showSmeltery = Config.CLIENT.showAllSmelteryVariants.get();
-    cleanupRetexturedBlock(cleanupItem, showSmeltery, TinkerSmeltery.smelteryController, TinkerTags.Items.SEARED_BLOCKS);
-    cleanupRetexturedBlock(cleanupItem, showSmeltery, TinkerSmeltery.searedDrain, TinkerTags.Items.SEARED_BLOCKS);
-    cleanupRetexturedBlock(cleanupItem, showSmeltery, TinkerSmeltery.searedDuct, TinkerTags.Items.SEARED_BLOCKS);
-    cleanupRetexturedBlock(cleanupItem, showSmeltery, TinkerSmeltery.searedChute, TinkerTags.Items.SEARED_BLOCKS);
-    cleanupRetexturedBlock(cleanupItem, showSmeltery, TinkerSmeltery.foundryController, TinkerTags.Items.SCORCHED_BLOCKS);
-    cleanupRetexturedBlock(cleanupItem, showSmeltery, TinkerSmeltery.scorchedDrain, TinkerTags.Items.SCORCHED_BLOCKS);
-    cleanupRetexturedBlock(cleanupItem, showSmeltery, TinkerSmeltery.scorchedDuct, TinkerTags.Items.SCORCHED_BLOCKS);
-    cleanupRetexturedBlock(cleanupItem, showSmeltery, TinkerSmeltery.scorchedChute, TinkerTags.Items.SCORCHED_BLOCKS);
 
     if (!removeItems.isEmpty()) {
       manager.removeIngredientsAtRuntime(VanillaTypes.ITEM_STACK, removeItems);

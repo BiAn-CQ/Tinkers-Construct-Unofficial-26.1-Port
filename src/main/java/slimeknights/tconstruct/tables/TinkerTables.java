@@ -27,6 +27,7 @@ import slimeknights.mantle.util.RetexturedHelper;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.TinkerModule;
 import slimeknights.tconstruct.common.TinkerTags;
+import slimeknights.tconstruct.common.config.Config;
 import slimeknights.tconstruct.library.recipe.material.MaterialRecipe;
 import slimeknights.tconstruct.library.recipe.material.ShapedMaterialRecipe;
 import slimeknights.tconstruct.library.recipe.material.ShapedMaterialsRecipe;
@@ -212,16 +213,16 @@ public final class TinkerTables extends TinkerModule {
       output.accept(stack);
       return false;
     };
-    // crafting tables
-    // add crafting station with the default variant, its nice
-    RetexturedHelper.addTagVariants(variants, craftingStation, ItemTags.LOGS);
-    // rest the default variant is the same as oak
-    RetexturedHelper.addTagVariants(variants, partBuilder, ItemTags.PLANKS);
-    RetexturedHelper.addTagVariants(variants, tinkerStation, ItemTags.PLANKS);
-    // anvil variants use their own config prop as the variants are less obvious
-    Consumer<ItemStack> consumer = output::accept;
-    ((IMaterialItem) tinkersAnvil.asItem()).addVariants(consumer, "");
-    ((IMaterialItem) scorchedAnvil.asItem()).addVariants(consumer, "");
-    RetexturedHelper.addTagVariants(variants, modifierWorktable, TinkerTags.Items.WORKSTATION_ROCK);
+    if (Config.COMMON.showAllTableVariants.get()) {
+      RetexturedHelper.addTagVariants(variants, craftingStation, ItemTags.LOGS);
+      RetexturedHelper.addTagVariants(variants, partBuilder, ItemTags.PLANKS);
+      RetexturedHelper.addTagVariants(variants, tinkerStation, ItemTags.PLANKS);
+      RetexturedHelper.addTagVariants(variants, modifierWorktable, TinkerTags.Items.WORKSTATION_ROCK);
+    }
+    if (Config.COMMON.showAllAnvilVariants.get()) {
+      Consumer<ItemStack> consumer = output::accept;
+      ((IMaterialItem) tinkersAnvil.asItem()).addVariants(consumer, "");
+      ((IMaterialItem) scorchedAnvil.asItem()).addVariants(consumer, "");
+    }
   }
 }

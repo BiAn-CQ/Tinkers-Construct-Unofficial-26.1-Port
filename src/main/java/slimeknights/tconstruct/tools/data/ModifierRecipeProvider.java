@@ -1494,7 +1494,7 @@ public class ModifierRecipeProvider extends BaseRecipeProvider {
                          .save(consumer, prefix(ModifierIds.firestarter, abilityFolder));
     ModifierRecipeBuilder.modifier(ModifierIds.fireprimer)
                          .setTools(TinkerIngredients.of(TinkerTools.flintAndBrick))
-                         .addInput(TinkerMaterials.steel.getIngotTag())
+                         .addInput(TinkerMaterials.amethystBronze.getIngotTag())
                          .addInput(Items.FLINT)
                          .setMaxLevel(1)
                          .setSlots(SlotType.UPGRADE, 1)

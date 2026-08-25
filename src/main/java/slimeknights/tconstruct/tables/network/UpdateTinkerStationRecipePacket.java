@@ -8,7 +8,7 @@ import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import slimeknights.mantle.network.packet.IThreadsafePacket;
 import slimeknights.tconstruct.TConstruct;
-import slimeknights.tconstruct.common.network.BlockEntityPacket;
+import slimeknights.mantle.network.packet.BlockEntityPacket;
 import slimeknights.tconstruct.library.recipe.tinkerstation.ITinkerStationRecipe;
 import slimeknights.tconstruct.library.utils.TinkerNetworkBuffer;
 import slimeknights.tconstruct.tables.block.entity.table.TinkerStationBlockEntity;

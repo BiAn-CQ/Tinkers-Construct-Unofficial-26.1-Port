@@ -80,6 +80,7 @@ public class NormalModifierModel implements SimpleModifierModel {
     }
   }
 
+  @Deprecated
   private record Unbaked(int color, int luminosity) implements IUnbakedModifierModel {
     @Nullable
     @Override
@@ -92,6 +93,7 @@ public class NormalModifierModel implements SimpleModifierModel {
       return null;
     }
 
+    @Deprecated
     @Override
     public IUnbakedModifierModel configure(JsonObject data) {
       // parse the two keys, if we ended up with something new create an instance

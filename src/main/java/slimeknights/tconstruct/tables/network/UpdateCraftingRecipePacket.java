@@ -5,7 +5,7 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.item.crafting.CraftingRecipe;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
-import slimeknights.tconstruct.common.network.BlockEntityPacket;
+import slimeknights.mantle.network.packet.BlockEntityPacket;
 import slimeknights.tconstruct.tables.block.entity.table.CraftingStationBlockEntity;
 import slimeknights.tconstruct.library.utils.TinkerNetworkBuffer;
 

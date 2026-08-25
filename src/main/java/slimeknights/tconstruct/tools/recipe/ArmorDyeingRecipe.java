@@ -33,7 +33,6 @@ import slimeknights.tconstruct.tools.TinkerModifiers;
 
 import javax.annotation.Nullable;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -213,7 +212,7 @@ public class ArmorDyeingRecipe implements ITinkerStationRecipe, IMultiRecipe<IDi
       if (slot == 0) {
         return dyes;
       }
-      return Collections.emptyList();
+      return List.of();
     }
 
     @Override

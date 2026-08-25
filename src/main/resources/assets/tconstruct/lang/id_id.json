@@ -1332,24 +1332,18 @@
   "material.tconstruct.rock.blackstone": "Blackstone",
   "material.tconstruct.rock.deepslate":  "Deepslate",
   "material.tconstruct.rock.flavor": "Rock solid",
-  "material.tconstruct.rock.encyclopedia": "Causes the tool to mine faster by half of the square root of lost durability",
 
   "material.tconstruct.flint": "Flint",
   "material.tconstruct.flint.basalt": "Basalt",
   "material.tconstruct.flint.flavor": "This will spark the flames of a Tinker's heart!",
-  "material.tconstruct.flint.encyclopedia": "Increases damage by a quarter of the square root of the lost durability",
 
   "material.tconstruct.bone": "Bone",
   "material.tconstruct.bone.flavor": "I am the bone of my sword",
   "material.tconstruct.bone.encyclopedia": "Converts 0.5 damage into 1 piercing damage",
-  "material.tconstruct.bone.skull_flavor": "Got Milk?",
-  "material.tconstruct.bone.skull_encyclopedia": "Grants resistance for 1 minute after drinking milk",
 
   "material.tconstruct.necrotic_bone": "Necrotic Bone",
   "material.tconstruct.necrotic_bone.flavor": "Do you have a bone to pick with me?",
   "material.tconstruct.necrotic_bone.encyclopedia": "Heals a percentage of damage dealt from critical hits",
-  "material.tconstruct.necrotic_bone.skull_flavor": "Spooky Scary Skeleton!",
-  "material.tconstruct.necrotic_bone.skull_encyclopedia": "Melee attacks cause withering. After drinking milk the effect becomes faster",
 
   "material.tconstruct.string": "String",
   "material.tconstruct.string.flavor": "Theoretically the best material.",
@@ -1368,8 +1362,6 @@
   "material.tconstruct.iron": "Iron",
   "material.tconstruct.iron.flavor": "Ironic. He could save others from death, but not himself.",
   "material.tconstruct.iron.encyclopedia": "Gives an extra 10% durability per part",
-  "material.tconstruct.iron.skull_flavor": "Violation of quarantine",
-  "material.tconstruct.iron.skull_encyclopedia": "Melee attacks copy all negative status effects from the wearer to the target",
 
   "material.tconstruct.seared_stone": "Seared Stone",
   "material.tconstruct.seared_stone.flavor": "Hotter Grout.",
@@ -1381,9 +1373,6 @@
 
   "material.tconstruct.copper": "Copper",
   "material.tconstruct.copper.flavor": "Don't let this tarnish your day.",
-  "material.tconstruct.copper.encyclopedia": "Grants mining speed at lower depth, +6 per 64 blocks below 64",
-  "material.tconstruct.copper.skull_flavor": "Knocks the wind right out of them",
-  "material.tconstruct.copper.skull_encyclopedia": "Melee attacks steal 3 seconds of air from the target",
 
   "material.tconstruct.slimewood": "Slimewood",
   "material.tconstruct.slimewood.greenheart":  "Greenheart",
@@ -1395,14 +1384,10 @@
   "material.tconstruct.bloodbone": "Bloodbone",
   "material.tconstruct.bloodbone.flavor": "Isn't the blood supposed to be inside the bone?",
   "material.tconstruct.bloodbone.encyclopedia": "Boosts damage at low health, up to +4 damage per level at 1 heart",
-  "material.tconstruct.bloodbone.skull_flavor": "Chills straight to the bone",
-  "material.tconstruct.bloodbone.skull_encyclopedia": "Projectiles cause slowness to the target. After drinking milk, melee attacks cause slowness and the level is stronger.",
 
   "material.tconstruct.rose_gold": "Rose Gold",
   "material.tconstruct.rose_gold.flavor": "Disclaimer: Not actually made with roses.",
   "material.tconstruct.rose_gold.encyclopedia": "Grants 1 extra upgrade slot per part",
-  "material.tconstruct.rose_gold.skull_flavor": "Putting that arm shield to good use",
-  "material.tconstruct.rose_gold.skull_encyclopedia": "Boosts health by 1 heart, plus an additional heart per piece of golden armor.",
 
   "material.tconstruct.chain": "Chain",
   "material.tconstruct.chain.flavor": "You too can become the chain user now.",
@@ -1410,7 +1395,6 @@
 
   "material.tconstruct.skyslime_vine": "Slimy Vine",
   "material.tconstruct.skyslime_vine.flavor": "Float like a butterfly, sting like a bee.",
-  "material.tconstruct.skyslime_vine.encyclopedia": "Cancels out the mining speed reduction when not on the ground",
 
 
   "__comment": "Tier 3 Materials",
@@ -1424,13 +1408,10 @@
 
   "material.tconstruct.amethyst_bronze": "Amethyst Bronze",
   "material.tconstruct.amethyst_bronze.flavor": "Not to be confused with bronze.",
-  "material.tconstruct.amethyst_bronze.encyclopedia": "Grants +0.25 mining speed per level to blocks that don't require tools, even ones where the tool is not effective",
 
   "material.tconstruct.pig_iron": "Pig Iron",
   "material.tconstruct.pig_iron.flavor": "The absolute best material, no debates.",
   "material.tconstruct.pig_iron.encyclopedia": "Can be eaten to restore 1 hunger and 0.1 saturation per level",
-  "material.tconstruct.pig_iron.skull_flavor": "You won't like me when I'm angry!",
-  "material.tconstruct.pig_iron.skull_encyclopedia": "Grants 15 seconds of strength when damaged by another mob",
 
   "material.tconstruct.darkthread": "Darkthread",
   "material.tconstruct.darkthread.flavor": "Come to the dark side, we have sowing",
@@ -1440,7 +1421,6 @@
   "__comment": "Tier Nether Materials",
   "material.tconstruct.cobalt": "Cobalt",
   "material.tconstruct.cobalt.flavor": "Coblat. The material of the Red Army.",
-  "material.tconstruct.cobalt.encyclopedia": "Boosts mining and attack speed by 7% per level",
 
   "material.tconstruct.manyullyn": "Manyullyn",
   "material.tconstruct.manyullyn.flavor": "The metal that most Tinkers will never pronounce right. Also known as a star cutting material.",
@@ -1448,7 +1428,6 @@
 
   "material.tconstruct.hepatizon": "Hepatizon",
   "material.tconstruct.hepatizon.flavor": "He-pa-ti-zon - boil it, mash it, put it in a stew.",
-  "material.tconstruct.hepatizon.encyclopedia": "Boosts mining speed by 25% per level after mining 32 consecutive blocks",
 
   "material.tconstruct.queens_slime": "Queen's Slime",
   "material.tconstruct.queens_slime.flavor": "Princesses are evil, get yourself a Queen.",
@@ -1457,14 +1436,11 @@
   "material.tconstruct.blazing_bone": "Blazing Bone",
   "material.tconstruct.blazing_bone.flavor": "Harness the full power of the Nether Fortress - bone and blaze",
   "material.tconstruct.blazing_bone.encyclopedia": "Grants +1% damage per second of fire, up to +15% from lava's 15 seconds. Bonus reduced by fire resistance.",
-  "material.tconstruct.blazing_bone.skull_flavor": "I told them this is technically firespit, not firebreath, but apparently I don't get to decide the names for things I invent",
-  "material.tconstruct.blazing_bone.skull_encyclopedia": "Allows spitting firecharges from the inventory as fireballs. Has a cooldown of 5 seconds and does not work underwater",
 
   "material.tconstruct.soulsteel": "Soulsteel",
 
   "material.tconstruct.ancient_hide": "Ancient Hide",
   "material.tconstruct.ancient_hide.flavor": "Leather tanned by the oldest of stone",
-  "material.tconstruct.ancient_hide.encyclopedia": "Increases drop chances from blocks, stacking with luck",
 
   "__comment": "Tier End Materials",
   "material.tconstruct.endstone": "End",
@@ -1472,32 +1448,19 @@
 
   "material.tconstruct.enderslime_vine": "Slimy Vine",
   "material.tconstruct.enderslime_vine.flavor": "The End?",
-  "material.tconstruct.enderslime_vine.encyclopedia": "Teleports the holder to the location of mined blocks or killed monsters",
 
   "__comment": "Slimesuit materials",
   "material.tconstruct.gunpowder": "Gunpowder",
-  "material.tconstruct.gunpowder.skull_flavor": "Whose nice things are being destroyed now, creeper?",
-  "material.tconstruct.gunpowder.skull_encyclopedia": "Holding the helmet interact key causes the wearer to explode",
 
   "material.tconstruct.ender_pearl": "Ender Pearl",
-  "material.tconstruct.ender_pearl.skull_flavor": "Endermen know how to stay away from harm, and scientists. They have been ignoring my interview requests for weeks!",
-  "material.tconstruct.ender_pearl.skull_encyclopedia": "Teleports automatically when attacked by a projectile, and randomly from melee. Has a 15 second cooldown",
 
   "material.tconstruct.spider": "Spider",
-  "material.tconstruct.spider.skull_flavor": "Spiders are a master of potions, maybe their secret can help me enhance potions...",
-  "material.tconstruct.spider.skull_encyclopedia": "Causes positive potion effects to last 25% longer",
 
   "material.tconstruct.venom": "Venom",
-  "material.tconstruct.venom.skull_flavor": "Perfect for battles of wits, when you have to decide and drink to find out who is right.",
-  "material.tconstruct.venom.skull_encyclopedia": "Makes the wearer immune to poison, though will not remove existing poison",
 
   "material.tconstruct.rotten_flesh": "Rotten Flesh",
-  "material.tconstruct.rotten_flesh.skull_flavor": "This is fine",
-  "material.tconstruct.rotten_flesh.skull_encyclopedia": "Melee attacks increase the targets fire time based on the wearer's fire time",
 
   "material.tconstruct.gold": "Gold",
-  "material.tconstruct.gold.skull_flavor": "So shiny",
-  "material.tconstruct.gold.skull_encyclopedia": "Causes some gold ores to drop extra gold nuggets, and increases drop chance of gold armor by 4%. Nuggets and armor drops are further boosted by each piece of golden armor worn.",
 
   "material.tconstruct.obsidian":   "Obsidian",
   "material.tconstruct.debris":     "Debris",
@@ -1536,7 +1499,6 @@
 
   "material.tconstruct.lead": "Lead",
   "material.tconstruct.lead.flavor": "Could try and make a sandwich out of this.",
-  "material.tconstruct.lead.encyclopedia": "Grants +10% attack and -10% movement speed per level",
 
   "material.tconstruct.silver": "Silver",
   "material.tconstruct.silver.flavor": "You know, this tool isn't going to look so shiny in a few days.",
@@ -1544,7 +1506,6 @@
 
   "material.tconstruct.whitestone": "Whitestone",
   "material.tconstruct.whitestone.flavor": "Take your useless white metals and make a useful tool",
-  "material.tconstruct.whitestone.encyclopedia": "Mining stone has a 20% per level of granting +3 stoneshield",
 
 
   "__comment": "Tier 3 Integration Materials",
@@ -1554,11 +1515,9 @@
 
   "material.tconstruct.bronze": "Bronze",
   "material.tconstruct.bronze.flavor": "Not to be confused with amethyst bronze.",
-  "material.tconstruct.bronze.encyclopedia": "Grants +6 mining speed per level at full durability, 0 boost below 50% durability",
 
   "material.tconstruct.constantan": "Constantan",
   "material.tconstruct.constantan.flavor": "Constantantantantantantan... Sorry it's fun to add more \"tans.\"",
-  "material.tconstruct.constantan.encyclopedia": "Grants +7.5 mining speed in extreme heat or cold",
 
   "material.tconstruct.invar": "Invar",
   "material.tconstruct.invar.flavor": "Resists both temperature and arrest.",
@@ -2641,6 +2600,47 @@
   "advancements.tconstruct.world.slime_sling.title": "Sling Expert",
   "advancements.tconstruct.world.slime_sling.description": "Sufficiently use each of the 4 slime sling types",
   "advancements.tconstruct.world.piggybackpack.title": "Pig Piggyback",
-  "advancements.tconstruct.world.piggybackpack.description": "Pick up a pig with a piggybackpack"
+  "advancements.tconstruct.world.piggybackpack.description": "Pick up a pig with a piggybackpack",
 
+"material.tconstruct.amethyst_bronze.encyclopedia.melee_harvest": "Grants +0.25 mining speed per level to blocks that don't require tools, even ones where the tool is not effective",
+"material.tconstruct.ancient_hide.encyclopedia.melee_harvest": "Increases drop chances from blocks, stacking with luck",
+"material.tconstruct.blazing_bone.encyclopedia.skull": "Allows spitting firecharges from the inventory as fireballs. Has a cooldown of 5 seconds and does not work underwater",
+"material.tconstruct.blazing_bone.flavor.skull": "I told them this is technically firespit, not firebreath, but apparently I don't get to decide the names for things I invent",
+"material.tconstruct.bloodbone.encyclopedia.skull": "Projectiles cause slowness to the target. After drinking milk, melee attacks cause slowness and the level is stronger.",
+"material.tconstruct.bloodbone.flavor.skull": "Chills straight to the bone",
+"material.tconstruct.bone.encyclopedia.skull": "Grants resistance for 1 minute after drinking milk",
+"material.tconstruct.bone.flavor.skull": "Got Milk?",
+"material.tconstruct.bronze.encyclopedia.melee_harvest": "Grants +6 mining speed per level at full durability, 0 boost below 50% durability",
+"material.tconstruct.cobalt.encyclopedia.melee_harvest": "Boosts mining and attack speed by 7% per level",
+"material.tconstruct.constantan.encyclopedia.melee_harvest": "Grants +7.5 mining speed in extreme heat or cold",
+"material.tconstruct.copper.encyclopedia.melee_harvest": "Grants mining speed at lower depth, +6 per 64 blocks below 64",
+"material.tconstruct.copper.encyclopedia.skull": "Melee attacks steal 3 seconds of air from the target",
+"material.tconstruct.copper.flavor.skull": "Knocks the wind right out of them",
+"material.tconstruct.ender_pearl.encyclopedia.skull": "Teleports automatically when attacked by a projectile, and randomly from melee. Has a 15 second cooldown",
+"material.tconstruct.ender_pearl.flavor.skull": "Endermen know how to stay away from harm, and scientists. They have been ignoring my interview requests for weeks!",
+"material.tconstruct.enderslime_vine.encyclopedia.melee_harvest": "Teleports the holder to the location of mined blocks or killed monsters",
+"material.tconstruct.flint.encyclopedia.melee_harvest": "Increases damage by a quarter of the square root of the lost durability",
+"material.tconstruct.gold.encyclopedia.skull": "Causes some gold ores to drop extra gold nuggets, and increases drop chance of gold armor by 4%. Nuggets and armor drops are further boosted by each piece of golden armor worn.",
+"material.tconstruct.gold.flavor.skull": "So shiny",
+"material.tconstruct.gunpowder.encyclopedia.skull": "Holding the helmet interact key causes the wearer to explode",
+"material.tconstruct.gunpowder.flavor.skull": "Whose nice things are being destroyed now, creeper?",
+"material.tconstruct.hepatizon.encyclopedia.melee_harvest": "Boosts mining speed by 25% per level after mining 32 consecutive blocks",
+"material.tconstruct.iron.encyclopedia.skull": "Melee attacks copy all negative status effects from the wearer to the target",
+"material.tconstruct.iron.flavor.skull": "Violation of quarantine",
+"material.tconstruct.lead.encyclopedia.melee_harvest": "Grants +10% attack and -10% movement speed per level",
+"material.tconstruct.necrotic_bone.encyclopedia.skull": "Melee attacks cause withering. After drinking milk the effect becomes faster",
+"material.tconstruct.necrotic_bone.flavor.skull": "Spooky Scary Skeleton!",
+"material.tconstruct.pig_iron.encyclopedia.skull": "Grants 15 seconds of strength when damaged by another mob",
+"material.tconstruct.pig_iron.flavor.skull": "You won't like me when I'm angry!",
+"material.tconstruct.rock.encyclopedia.melee_harvest": "Causes the tool to mine faster by half of the square root of lost durability",
+"material.tconstruct.rose_gold.encyclopedia.skull": "Boosts health by 1 heart, plus an additional heart per piece of golden armor.",
+"material.tconstruct.rose_gold.flavor.skull": "Putting that arm shield to good use",
+"material.tconstruct.rotten_flesh.encyclopedia.skull": "Melee attacks increase the targets fire time based on the wearer's fire time",
+"material.tconstruct.rotten_flesh.flavor.skull": "This is fine",
+"material.tconstruct.skyslime_vine.encyclopedia.melee_harvest": "Cancels out the mining speed reduction when not on the ground",
+"material.tconstruct.spider.encyclopedia.skull": "Causes positive potion effects to last 25% longer",
+"material.tconstruct.spider.flavor.skull": "Spiders are a master of potions, maybe their secret can help me enhance potions...",
+"material.tconstruct.venom.encyclopedia.skull": "Makes the wearer immune to poison, though will not remove existing poison",
+"material.tconstruct.venom.flavor.skull": "Perfect for battles of wits, when you have to decide and drink to find out who is right.",
+"material.tconstruct.whitestone.encyclopedia.melee_harvest": "Mining stone has a 20% per level of granting +3 stoneshield"
 }

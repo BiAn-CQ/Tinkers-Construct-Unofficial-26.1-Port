@@ -4,7 +4,7 @@
   "inputs": [
     {
       "neoforge:ingredient_type": "mantle:item_tag",
-      "tag": "c:ingots/steel"
+      "tag": "c:ingots/amethyst_bronze"
     },
     {
       "ingredient": "minecraft:flint"
