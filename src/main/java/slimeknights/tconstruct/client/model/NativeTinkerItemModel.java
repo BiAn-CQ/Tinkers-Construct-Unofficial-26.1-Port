@@ -98,6 +98,7 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public final class NativeTinkerItemModel implements ItemModel {
   private static final Identifier DEFAULT_PARENT = Identifier.withDefaultNamespace("item/generated");
+  private static final Set<ItemDisplayContext> SMALL_MODEL_CONTEXTS = ConcurrentHashMap.newKeySet();
 
   private final ItemModel smallModel;
   @Nullable
@@ -126,9 +127,14 @@ public final class NativeTinkerItemModel implements ItemModel {
     selected.update(output, item, resolver, displayContext, level, owner, seed);
   }
 
-  /** Large tool geometry is for normal world/hand contexts; GUI and modded machine contexts use the small form. */
+  /** Registers a display context that should use compact rather than doubled tool geometry. */
+  public static void registerSmallModelContext(ItemDisplayContext context) {
+    SMALL_MODEL_CONTEXTS.add(context);
+  }
+
+  /** Large geometry is used except in GUI and contexts registered for the compact tool model. */
   private static boolean usesLargeModel(ItemDisplayContext context) {
-    return context != ItemDisplayContext.GUI && !context.isModded();
+    return context != ItemDisplayContext.GUI && !SMALL_MODEL_CONTEXTS.contains(context);
   }
 
   /** One compact entry from the old 1.20.1 item-property override list. */

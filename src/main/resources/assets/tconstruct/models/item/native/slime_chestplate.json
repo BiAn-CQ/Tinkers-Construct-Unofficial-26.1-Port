@@ -1,6 +1,0 @@
-{
-    "parent": "forge:item/default",
-    "textures": {
-        "layer0": "tconstruct:item/tool/armor/slime/wings/slime"
-    }
-}

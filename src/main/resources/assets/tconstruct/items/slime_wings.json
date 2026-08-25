@@ -12,28 +12,23 @@
             }
         ],
         "broken_textures": {
-            "ribcage": "tconstruct:item/tool/armor/slime/chestplate/ribcage_broken",
-            "slime": "tconstruct:item/tool/armor/slime/chestplate/slime_broken"
+            "slime": "tconstruct:item/tool/armor/slime/wings/slime_broken"
         },
         "first_modifiers": [
             "tconstruct:trim"
         ],
         "broken_parts": [
             {
-                "name": "ribcage",
-                "index": 0
-            },
-            {
                 "name": "slime",
-                "index": 1
+                "index": 0
             }
         ],
         "modifier_maps": [
             "tconstruct:slime/wings"
         ],
         "broken_modifier_maps": [
-            "tconstruct:slime/chestplate_broken",
-            "tconstruct:slime/chestplate"
+            "tconstruct:slime/wings_broken",
+            "tconstruct:slime/wings"
         ]
     }
 }

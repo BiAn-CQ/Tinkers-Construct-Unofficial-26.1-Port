@@ -38,6 +38,7 @@ import slimeknights.tconstruct.client.model.NativeTinkerItemModel;
 import slimeknights.tconstruct.client.model.NativeFluidContainerItemModel;
 import slimeknights.tconstruct.client.model.NativeModifierModelMapManager;
 import slimeknights.tconstruct.client.model.NativeTinkerBlockStateModel;
+import slimeknights.tconstruct.library.TinkerItemDisplays;
 import slimeknights.tconstruct.library.client.materials.MaterialRenderInfoLoader;
 import slimeknights.tconstruct.library.client.materials.MaterialTooltipCache;
 import slimeknights.tconstruct.library.client.item.ModifiableCrossbowClientExtension;
@@ -123,6 +124,9 @@ public final class TConstructClientCompat {
   @SubscribeEvent
   static void initializeClient(FMLClientSetupEvent event) {
     ClientDataSerializers.initialize();
+    NativeTinkerItemModel.registerSmallModelContext(TinkerItemDisplays.MELTER);
+    NativeTinkerItemModel.registerSmallModelContext(TinkerItemDisplays.CASTING_BASIN);
+    NativeTinkerItemModel.registerSmallModelContext(TinkerItemDisplays.CASTING_TABLE);
     FluidTextureManager.registerTintSource(TinkerFluids.potion.get().getFluidType(), POTION_TINT);
     // Register book page types and transformers before the first resource
     // reload.  Lazy initialization from the item use path is too late for

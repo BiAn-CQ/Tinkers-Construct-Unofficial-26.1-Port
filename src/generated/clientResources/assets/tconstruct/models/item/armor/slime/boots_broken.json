@@ -11,12 +11,12 @@
   ],
   "parts": [
     {
-      "name": "laces",
-      "index": 0
-    },
-    {
       "name": "slime",
       "index": 1
+    },
+    {
+      "name": "laces",
+      "index": 0
     }
   ],
   "first_modifiers": [

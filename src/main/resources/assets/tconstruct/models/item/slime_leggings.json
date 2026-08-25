@@ -7,8 +7,8 @@
   },
   "modifier_maps": ["tconstruct:slime/leggings"],
   "parts": [
-    { "name": "shell", "index": 0 },
-    { "name": "slime", "index": 1 }
+    { "name": "slime", "index": 1 },
+    { "name": "shell", "index": 0 }
   ],
   "first_modifiers": [ "tconstruct:trim" ],
   "overrides": [
