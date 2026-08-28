@@ -158,6 +158,8 @@ def coreTestSources = [
         'slimeknights/tconstruct/library/tools/helper/ModifierUtilComponentTest.java',
         'slimeknights/tconstruct/library/tools/helper/ArmorUtilMathTest.java',
         'slimeknights/tconstruct/library/tools/helper/ToolAttackUtilTest.java',
+        'slimeknights/tconstruct/library/tools/helper/ToolHarvestLifecycleTest.java',
+        'slimeknights/tconstruct/library/tools/helper/PrimaryBlockBreakContextTest.java',
         'slimeknights/tconstruct/library/tools/definition/ToolDefinitionDataTest.java',
         'slimeknights/tconstruct/library/tools/definition/ToolDefinitionLoaderTest.java',
         'slimeknights/tconstruct/library/tools/definition/UpdateToolDefinitionDataPacketTest.java',
@@ -179,7 +181,7 @@ def coreTestSources = [
         'slimeknights/tconstruct/smeltery/block/entity/controller/HeatingStructureBlockEntityTest.java',
         'slimeknights/tconstruct/smeltery/block/entity/component/SmelteryInputOutputBlockEntityTest.java',
         'slimeknights/tconstruct/tables/block/entity/chest/AbstractChestBlockEntityTest.java',
-        'slimeknights/tconstruct/tools/logic/InteractionHandlerTest.java',
+        'slimeknights/tconstruct/library/tools/helper/PrimaryBlockBreakHookTest.java',
         'slimeknights/tconstruct/tools/modules/ranged/common/ArrowPierceModuleTest.java',
         'slimeknights/tconstruct/tools/stats/SlimeStatsTest.java',
         'slimeknights/tconstruct/tools/item/ChineseLanguageTest.java',
@@ -206,10 +208,6 @@ repositories {
         content {
             includeGroup 'net.blay09.mods'
         }
-    }
-    maven {
-        name = 'FTB'
-        url = uri('https://maven.ftb.dev/releases')
     }
 }
 
@@ -313,20 +311,6 @@ dependencies {
     // earlier NeoForge event API and must not break ordinary development runs.
     compileOnly "net.blay09.mods:craftingtweaks-common:${crafting_tweaks_version}"
 
-    // FTB Ultimine exposes a native block-break handler API. Keep it optional
-    // in production and load it in development only for explicit compat runs.
-    compileOnly("dev.ftb.mods:ftb-ultimine-neoforge:${ftb_ultimine_version}") {
-        transitive = false
-    }
-    compileOnly("dev.ftb.mods:ftb-library-neoforge:${ftb_library_version}") {
-        transitive = false
-    }
-    if (providers.gradleProperty('enable_ftb_ultimine_runtime')
-            .map(Boolean::parseBoolean).orElse(false).get()) {
-        localRuntime "dev.ftb.mods:ftb-ultimine-neoforge:${ftb_ultimine_version}"
-        localRuntime "dev.ftb.mods:ftb-library-neoforge:${ftb_library_version}"
-    }
-
     compileOnly 'org.projectlombok:lombok:1.18.46'
     annotationProcessor 'org.projectlombok:lombok:1.18.46'
     testCompileOnly 'org.projectlombok:lombok:1.18.46'
@@ -360,7 +344,6 @@ var generateModMetadata = tasks.register('generateModMetadata', ProcessResources
             mod_version            : mod_version,
             mantle_version_range   : mantle_version_range,
             jei_range              : jei_range,
-            ftb_ultimine_range     : ftb_ultimine_range,
             jsonthings_range       : jsonthings_range,
     ]
     inputs.properties replaceProperties

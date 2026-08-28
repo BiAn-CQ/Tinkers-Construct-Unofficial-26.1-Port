@@ -77,9 +77,10 @@ public class ToolHarvestLogic {
    * Actually removes a block from the world. Cloned from {@link net.minecraft.server.level.ServerPlayerGameMode}
    * @param tool     Tool used in breaking
    * @param context  Harvest context
-   * @return  True if the block was removed
+   * @return  State used to remove the block, or null if it was not removed
    */
-  private static boolean removeBlock(IToolStackView tool, ItemStack stack, ToolHarvestContext context) {
+  @Nullable
+  static BlockState removeBlock(IToolStackView tool, ItemStack stack, ToolHarvestContext context) {
     Boolean removed = null;
     if (!tool.isBroken()) {
       for (ModifierEntry entry : tool.getModifierList()) {
@@ -94,13 +95,15 @@ public class ToolHarvestLogic {
     ServerLevel world = context.getWorld();
     BlockPos pos = context.getPos();
     if (removed == null) {
+      state = state.getBlock().playerWillDestroy(world, pos, state, Objects.requireNonNull(context.getPlayer()));
       removed = state.onDestroyedByPlayer(world, pos, context.getPlayer(), stack, context.canHarvest(), world.getFluidState(pos));
     }
     // if removed by anything, finally destroy it
     if (removed) {
       state.getBlock().destroy(world, pos, state);
+      return state;
     }
-    return removed;
+    return null;
   }
 
   /** @deprecated use {@link #breakBlock(ToolStack, ItemStack, ToolHarvestContext, boolean)}*/
@@ -111,8 +114,8 @@ public class ToolHarvestLogic {
 
   /** @deprecated use {@link #breakBlock(IToolStackView, ItemStack, ToolHarvestContext, boolean)} */
   @Deprecated(forRemoval = true)
-  protected static boolean breakBlock(ToolStack tool, ItemStack stack, ToolHarvestContext context, boolean useLastXP) {
-    return breakBlock((IToolStackView) tool, stack, context, useLastXP);
+  protected static boolean breakBlock(ToolStack tool, ItemStack stack, ToolHarvestContext context, boolean eventAlreadyFired) {
+    return breakBlock((IToolStackView) tool, stack, context, eventAlreadyFired);
   }
 
   /**
@@ -120,17 +123,17 @@ public class ToolHarvestLogic {
    * @param tool      Tool instance
    * @param stack     Stack instance for vanilla functions
    * @param context   Harvest context
-   * @param useLastXP If true, skips firing the break event a second time for the primary block.
+   * @param eventAlreadyFired If true, skips firing the break event a second time for the primary block.
    * @return  True if broken
    */
-  protected static boolean breakBlock(IToolStackView tool, ItemStack stack, ToolHarvestContext context, boolean useLastXP) {
-    // have to rerun the event to get the EXP, also ensures extra blocks broken get EXP properly
+  protected static boolean breakBlock(IToolStackView tool, ItemStack stack, ToolHarvestContext context, boolean eventAlreadyFired) {
+    // Secondary and direct-harvest callers still need the standard permission and integration event.
     ServerPlayer player = Objects.requireNonNull(context.getPlayer());
     ServerLevel world = context.getWorld();
     BlockPos pos = context.getPos();
     GameType type = player.gameMode.getGameModeForPlayer();
     BlockState state = context.getState();
-    if (!useLastXP && CommonHooks.fireBlockBreak(world, type, player, pos, state).isCanceled()) {
+    if (!eventAlreadyFired && CommonHooks.fireBlockBreak(world, type, player, pos, state).isCanceled()) {
       return false;
     }
     // Keep the vanilla restriction check for the primary-block path, where the event already fired.
@@ -150,12 +153,13 @@ public class ToolHarvestLogic {
     // remove the block
     boolean canHarvest = context.canHarvest();
     BlockEntity te = canHarvest ? world.getBlockEntity(pos) : null; // ensures tile entity is fetched so it's around for afterBlockBreak
-    boolean removed = removeBlock(tool, stack, context);
+    Block block = state.getBlock();
+    BlockState removedState = removeBlock(tool, stack, context);
+    boolean removed = removedState != null;
 
     // harvest drops
-    Block block = state.getBlock();
     if (removed && canHarvest) {
-      block.playerDestroy(world, player, pos, state, te, stack);
+      block.playerDestroy(world, player, pos, removedState, te, stack);
     }
 
     // handle modifiers if not broken
@@ -207,7 +211,7 @@ public class ToolHarvestLogic {
 
   /**
    * Call on block break to break a block.
-   * Used in {@link net.neoforged.neoforge.common.extensions.IForgeItem#onBlockStartBreak(ItemStack, BlockPos, Player)}.
+   * Used by {@link PrimaryBlockBreakHook} from the server's primary block-breaking pipeline.
    * See also {@link net.minecraft.client.multiplayer.MultiPlayerGameMode#destroyBlock(BlockPos)} (client)
    * and {@link net.minecraft.server.level.ServerPlayerGameMode#destroyBlock(BlockPos)} (server)
    * @param stack   Stack instance
@@ -259,12 +263,31 @@ public class ToolHarvestLogic {
    * Called serverside to break a block and run all relevant hooks
    * @param stack    Stack used for breaking
    * @param tool     Tool for the stack
+   * @param state    State being broken
    * @param pos      Position being broken
    * @param sideHit  Side of the block being broken
    * @param player   Player breaking the block
+   * @param projectile Projectile performing the break, if any
    * @return Number of blocks broken
    */
   public static int runBlockBreak(ItemStack stack, IToolStackView tool, BlockState state, BlockPos pos, Direction sideHit, ServerPlayer player, @Nullable Projectile projectile) {
+    return runBlockBreak(stack, tool, state, pos, sideHit, player, projectile, true);
+  }
+
+  /**
+   * Called serverside to break a block and run all relevant hooks.
+   * @param stack              Stack used for breaking
+   * @param tool               Tool for the stack
+   * @param state              State being broken
+   * @param pos                Position being broken
+   * @param sideHit            Side of the block being broken
+   * @param player             Player breaking the block
+   * @param projectile         Projectile performing the break, if any
+   * @param primaryEventFired  Whether the caller already posted the primary block-break event
+   * @return Number of blocks broken
+   */
+  public static int runBlockBreak(ItemStack stack, IToolStackView tool, BlockState state, BlockPos pos, Direction sideHit, ServerPlayer player,
+                                  @Nullable Projectile projectile, boolean primaryEventFired) {
     // create contexts
     ServerLevel world = (ServerLevel) player.level();
 
@@ -286,7 +309,7 @@ public class ToolHarvestLogic {
 
     // actually break the block, run AOE if successful
     int harvested = 0;
-    if (breakBlock(tool, stack, context, true)) {
+    if (breakBlock(tool, stack, context, primaryEventFired)) {
       harvested += 1;
       for (BlockPos extraPos : extraBlocks) {
         BlockState extraState = world.getBlockState(extraPos);
