@@ -138,7 +138,9 @@ public class ModifierWorktableBlockEntity extends RetexturedTableBlockEntity imp
         return updateRecipe(lastRecipe);
       }
       // look for a new recipe, if it matches cache it
-      Optional<RecipeHolder<IModifierWorktableRecipe>> recipe = slimeknights.tconstruct.library.utils.TinkerRecipeHelper.getRecipeManager(level).getRecipeFor(TinkerRecipeTypes.MODIFIER_WORKTABLE.get(), inventoryWrapper, level);
+      var recipeManager = slimeknights.tconstruct.library.utils.TinkerRecipeHelper.getRecipeManager(level);
+      Optional<RecipeHolder<IModifierWorktableRecipe>> recipe = slimeknights.tconstruct.library.utils.TinkerRecipeHelper.getRecipeFor(
+        recipeManager, TinkerRecipeTypes.MODIFIER_WORKTABLE.get(), inventoryWrapper, level);
       if (recipe.isPresent()) {
         return updateRecipe(recipe.get());
       }

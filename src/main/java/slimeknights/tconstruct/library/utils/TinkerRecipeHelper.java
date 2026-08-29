@@ -13,6 +13,7 @@ import slimeknights.mantle.recipe.IMultiRecipe;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
@@ -76,6 +77,20 @@ public final class TinkerRecipeHelper {
       .filter(holder -> ((Recipe<I>) holder.value()).matches(input, level))
       .map(holder -> (RecipeHolder<T>) holder)
       .toList();
+  }
+
+  /**
+   * Finds the first matching recipe from either the authoritative server
+   * manager or the custom recipe values synchronized to a 26.1 client.
+   *
+   * <p>Vanilla no longer stores the full recipe map in the normal client
+   * {@link RecipeManager}. Calling {@code RecipeManager#getRecipeFor} there
+   * therefore always returns empty for TConstruct's synchronized recipe
+   * types, even though {@link #setClientRecipeMap(RecipeMap)} received them.</p>
+   */
+  public static <I extends RecipeInput, T extends Recipe<I>> Optional<RecipeHolder<T>> getRecipeFor(
+    RecipeManager manager, RecipeType<T> type, I input, Level level) {
+    return getRecipesFor(manager, type, input, level).stream().findFirst();
   }
 
   /**

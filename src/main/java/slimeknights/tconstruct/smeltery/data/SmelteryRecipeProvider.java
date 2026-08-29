@@ -1730,8 +1730,8 @@ public class SmelteryRecipeProvider extends BaseRecipeProvider implements ISmelt
                         .save(consumer, location(folder + "diamond/horse_armor"));
 
     // netherite
-    MeltingRecipeBuilder.melting(TinkerIngredients.of(Blocks.LODESTONE), TinkerFluids.moltenNetherite, FluidValues.INGOT)
-                        .save(consumer, location(metalFolder + "netherite/lodestone"));
+    MeltingRecipeBuilder.melting(TinkerIngredients.of(Blocks.LODESTONE), TinkerFluids.moltenIron, FluidValues.INGOT)
+      .save(consumer, location(metalFolder + "iron/lodestone"));
     // armor
     int[] netheriteSizes = {FluidValues.NUGGET, FluidValues.GEM_SHARD};
     MeltingRecipeBuilder.melting(TinkerIngredients.of(Items.NETHERITE_HELMET), TinkerFluids.moltenNetherite, FluidValues.INGOT)
