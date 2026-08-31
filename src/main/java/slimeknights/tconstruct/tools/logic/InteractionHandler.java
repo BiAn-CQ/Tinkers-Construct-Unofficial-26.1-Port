@@ -19,11 +19,13 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.pattern.BlockInWorld;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.neoforge.common.CommonHooks;
 import net.neoforged.neoforge.event.EventHooks;
 import net.neoforged.neoforge.event.entity.living.LivingShieldBlockEvent;
 import net.neoforged.neoforge.event.entity.player.AttackEntityEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent.EntityInteract;
+import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent.EntityInteractSpecific;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent.LeftClickBlock;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent.LeftClickBlock.Action;
 import net.minecraft.util.TriState;
@@ -101,7 +103,7 @@ public class InteractionHandler {
 
   /** Implements {@link EntityInteractionModifierHook#afterEntityUse(IToolStackView, ModifierEntry, Player, LivingEntity, InteractionHand, InteractionSource)} for chestplates */
   @SubscribeEvent(priority = EventPriority.LOWEST)
-  static void afterEntityInteract(EntityInteract event) {
+  static void afterEntityInteract(EntityInteractSpecific event) {
     Player player = event.getEntity();
     if (event.getItemStack().isEmpty() && !player.isSpectator()) {
       ItemStack chestplate = player.getItemBySlot(EquipmentSlot.CHEST);
@@ -109,18 +111,25 @@ public class InteractionHandler {
         // from this point on, we are taking over interaction logic, to ensure chestplate hooks run in the right order
         event.setCanceled(true);
 
-        ToolStack tool = ToolStack.from(chestplate);
         Entity target = event.getTarget();
         InteractionHand hand = event.getHand();
 
-        // initial entity interaction
-        InteractionResult result = target.interact(player, hand, target.position());
+        // The general event has no hit position. Run it once here, preserving
+        // before-use hooks and cancellations, then pass the specific event's
+        // entity-relative hit to the unified 26.1 interaction method.
+        InteractionResult result = CommonHooks.onInteractEntity(player, target, hand);
+        if (result != null) {
+          event.setCancellationResult(result);
+          return;
+        }
+        result = target.interact(player, hand, event.getLocalPos());
         if (result.consumesAction()) {
           event.setCancellationResult(result);
           return;
         }
 
         // after entity use for chestplates
+        ToolStack tool = ToolStack.from(chestplate);
         if (target instanceof LivingEntity livingTarget) {
           for (ModifierEntry entry : tool.getModifierList()) {
             // exit on first successful result

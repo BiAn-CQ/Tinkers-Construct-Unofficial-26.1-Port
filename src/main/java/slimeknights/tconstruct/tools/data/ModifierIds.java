@@ -129,6 +129,8 @@ public class ModifierIds {
   public static final ModifierId magicProtection = id("magic_protection");
   public static final ModifierId turtleShell = id("turtle_shell");
   public static final ModifierId turtlesGrace = id("turtles_grace");
+  public static final ModifierId shellGut = id("shell_gut");
+  public static final ModifierId thornsShell = id("thorns_shell");
   public static final ModifierId shulking = id("shulking");
   public static final ModifierId dragonborn = id("dragonborn");
   public static final ModifierId dragonfall = id("dragonfall");
@@ -323,6 +325,9 @@ public class ModifierIds {
   public static final ModifierId savory = id("savory");
   public static final ModifierId scrumptious = id("scrumptious");
   // traits - slimeskull
+  public static final ModifierId consecratedSkull = id("consecrated_skull");
+  public static final ModifierId respirationSkull = id("respiration_skull");
+  public static final ModifierId vitalProtectionSkull = id("vital_protection_skull");
   public static final ModifierId boonOfSssss = id("boon_of_sssss");
   public static final ModifierId balmOfSssss = id("balm_of_sssss");
   public static final ModifierId slowBones = id("slow_bones");
@@ -330,6 +335,8 @@ public class ModifierIds {
   public static final ModifierId flamingBones = id("flaming_bones");
   public static final ModifierId decayedBones = id("decayed_bones");
   public static final ModifierId revenge = id("revenge");
+  public static final ModifierId goldGuard = id("gold_guard");
+  public static final ModifierId chrysophilite = id("chrysophilite");
   public static final ModifierId fireborn = id("fireborn");
   public static final ModifierId dragonheart = id("dragonheart");
   /** @deprecated cave spider's trait was switched to {@link #balmOfSssss}. Reimplement if you need this functionality */

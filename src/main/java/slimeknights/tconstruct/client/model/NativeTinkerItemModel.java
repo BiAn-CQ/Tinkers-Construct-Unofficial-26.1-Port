@@ -287,6 +287,14 @@ public final class NativeTinkerItemModel implements ItemModel {
       }
       return;
     }
+    if (definition instanceof NativeModifierModel.Crafted craftedDefinition) {
+      ModifierEntry crafted = tool.getUpgrades().getEntry(new ModifierId(craftedDefinition.modifier()));
+      if (crafted.getLevel() > 0) {
+        addModifierDefinition(baker, parent, reversedLayers, usedPixels,
+          craftedDefinition.model(), crafted, tool, large);
+      }
+      return;
+    }
     if (definition instanceof NativeModifierModel.Trait traitDefinition) {
       ModifierEntry trait = getTraitEntry(tool, traitDefinition.modifier());
       if (trait != null && trait.getLevel() > 0) {
@@ -301,6 +309,36 @@ public final class NativeTinkerItemModel implements ItemModel {
                                tool.getMaterials().get(fallback.index()).getVariant(), fallback.fallbacks());
       addModifierDefinition(baker, parent, reversedLayers, usedPixels,
         hasFallback ? fallback.ifTrue() : fallback.ifFalse(), entry, tool, large);
+      return;
+    }
+    if (definition instanceof NativeModifierModel.PersistentMaterial materialDefinition) {
+      if (entry == null) {
+        return;
+      }
+      Identifier key = materialDefinition.key() == null ? entry.getId().location() : materialDefinition.key();
+      MaterialVariantId material = MaterialVariantId.tryParse(tool.getPersistentData().getStringOr(key, ""));
+      if (material != null) {
+        Identifier texture = large && materialDefinition.textureLarge() != null
+                             ? materialDefinition.textureLarge() : materialDefinition.texture();
+        addMaterialModifierTexture(baker, parent, reversedLayers, usedPixels, texture, material, null);
+      }
+      return;
+    }
+    if (definition instanceof NativeModifierModel.Slimeskull slimeskull) {
+      if (slimeskull.skullIndex() >= tool.getMaterials().size()
+          || slimeskull.slimeIndex() >= tool.getMaterials().size()) {
+        return;
+      }
+      int color = MaterialRenderInfoLoader.INSTANCE
+        .getRenderInfo(tool.getMaterials().get(slimeskull.slimeIndex()).getVariant())
+        .map(MaterialRenderInfo::vertexColor)
+        .orElse(-1);
+      Identifier dyed = TConstruct.getResource("dyed");
+      if (tool.getPersistentData().contains(dyed)) {
+        color = 0xFF000000 | tool.getPersistentData().getIntOr(dyed, 0);
+      }
+      addMaterialModifierTexture(baker, parent, reversedLayers, usedPixels, slimeskull.texture(),
+        tool.getMaterials().get(slimeskull.skullIndex()).getVariant(), color);
       return;
     }
     if (definition instanceof NativeModifierModel.Texture textureDefinition) {
@@ -321,18 +359,8 @@ public final class NativeTinkerItemModel implements ItemModel {
         if (material == null) {
           return;
         }
-        Material base = new Material(texture);
-        Material.Baked baseBaked = baker.materials().get(base, parent);
-        Optional<MaterialRenderInfo> renderInfo = MaterialRenderInfoLoader.INSTANCE.getRenderInfo(material);
-        if (renderInfo.isPresent()) {
-          MaterialRenderInfo.TintedSprite sprite = renderInfo.get().getSprite(
-            base, materialRef -> baker.materials().get(materialRef, parent).sprite());
-          addModifierBakedTexture(baker, reversedLayers, usedPixels,
-            new Material.Baked(sprite.sprite(), baseBaked.forceTranslucent()), sprite.color(), sprite.emissivity());
-        } else {
-          addModifierTexture(baker, parent, reversedLayers, usedPixels,
-            texture, color, textureDefinition.luminosity());
-        }
+        addMaterialModifierTexture(baker, parent, reversedLayers, usedPixels, texture, material,
+          color == -1 ? null : color);
         return;
       } else if (textureDefinition.kind() == NativeModifierModel.TextureKind.POTION) {
         if (entry == null) {
@@ -458,6 +486,27 @@ public final class NativeTinkerItemModel implements ItemModel {
                                          Identifier texture, int color, int luminosity) {
     addModifierBakedTexture(baker, reversedLayers, usedPixels,
       baker.materials().get(new Material(texture), parent), color, luminosity);
+  }
+
+  /** Resolves a material-aware texture and optionally overrides its normal vertex tint. */
+  private static void addMaterialModifierTexture(ModelBaker baker, ResolvedModel parent,
+                                                 List<QuadCollection> reversedLayers,
+                                                 @Nullable ItemLayerPixels usedPixels,
+                                                 Identifier texture, MaterialVariantId material,
+                                                 @Nullable Integer colorOverride) {
+    Material base = new Material(texture);
+    Material.Baked baseBaked = baker.materials().get(base, parent);
+    Optional<MaterialRenderInfo> renderInfo = MaterialRenderInfoLoader.INSTANCE.getRenderInfo(material);
+    if (renderInfo.isPresent()) {
+      MaterialRenderInfo.TintedSprite sprite = renderInfo.get().getSprite(
+        base, materialRef -> baker.materials().get(materialRef, parent).sprite());
+      int color = colorOverride == null ? sprite.color() : colorOverride;
+      addModifierBakedTexture(baker, reversedLayers, usedPixels,
+        new Material.Baked(sprite.sprite(), baseBaked.forceTranslucent()), color, sprite.emissivity());
+    } else {
+      addModifierTexture(baker, parent, reversedLayers, usedPixels, texture,
+        colorOverride == null ? -1 : colorOverride, 0);
+    }
   }
 
   /** Bakes an already resolved sprite as a complete item-layer overlay. */

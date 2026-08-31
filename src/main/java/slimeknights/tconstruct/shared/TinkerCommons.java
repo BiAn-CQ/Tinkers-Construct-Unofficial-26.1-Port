@@ -81,6 +81,7 @@ import slimeknights.tconstruct.shared.item.CheeseItem;
 import slimeknights.tconstruct.shared.item.TinkerBookItem;
 import slimeknights.tconstruct.shared.item.TinkerBookItem.BookType;
 import slimeknights.tconstruct.shared.particle.FluidParticleData;
+import slimeknights.tconstruct.tables.TinkerTables;
 import slimeknights.tconstruct.tools.TinkerModifiers;
 
 import static slimeknights.tconstruct.TConstruct.getResource;
@@ -263,6 +264,9 @@ public final class TinkerCommons extends TinkerModule {
 
   /** Adds all relevant items to the creative tab */
   private static void addTabItems(ItemDisplayParameters itemDisplayParameters, CreativeModeTab.Output output) {
+    // tables
+    TinkerTables.addTabItems(itemDisplayParameters, output);
+
     // books
     output.accept(materialsAndYou);
     output.accept(punySmelting);

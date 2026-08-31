@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "B": "tconstruct:seared_paver_slab",
+    "S": {
+      "neoforge:ingredient_type": "mantle:item_tag",
+      "tag": "tconstruct:bones"
+    }
+  },
+  "pattern": [
+    "SSS",
+    " S ",
+    "SBS"
+  ],
+  "result": {
+    "id": "tconstruct:bone_armor_stand"
+  }
+}

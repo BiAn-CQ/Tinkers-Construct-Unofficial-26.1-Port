@@ -50,7 +50,6 @@ import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.Fluid;
-import net.minecraft.world.level.material.Fluids;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.FluidType;
 import net.neoforged.fml.ModList;
@@ -482,14 +481,6 @@ public class JEIPlugin implements IModPlugin {
     remove.add(new FluidStack(fluid, FluidType.BUCKET_VOLUME));
   }
 
-  /** Removes any retextured variants that shouldn't show */
-  private static void cleanupRetexturedBlock(Predicate<ItemStack> remover, boolean showAll, ItemLike item, TagKey<Item> tag) {
-    if (!showAll) {
-      RetexturedHelper.addTagVariants(remover, item, tag);
-    }
-    // do not remove blank if not showing all as that removes all anvils from the catalyst display due to recipe context
-  }
-
   @Override
   public void onRuntimeAvailable(IJeiRuntime jeiRuntime) {
     IIngredientManager manager = jeiRuntime.getIngredientManager();
@@ -505,20 +496,9 @@ public class JEIPlugin implements IModPlugin {
     removeItems.add(new ItemStack(TinkerModifiers.creativeSlotItem));
     TinkerModifiers.creativeSlotItem.get().addVariants(removeItem);
 
-    // fluids can be clutter so remove them by default
-    if (!Config.CLIENT.showFilledFluidTanks.get()) {
-      CopperCanItem.addFilledVariants(removeItem);
-      TankItem.addFilledVariants(removeItem);
-      // add back lava and blazing blood filled tanks, since they are useful and not much clutter
-      // easier to do this than to filter the list
-      addItems.add(TankItem.fillTank(TinkerSmeltery.searedTank, TankType.FUEL_TANK, Fluids.LAVA));
-      addItems.add(TankItem.fillTank(TinkerSmeltery.searedTank, TankType.FUEL_TANK, TinkerFluids.blazingBlood.get()));
-      addItems.add(TankItem.fillTank(TinkerSmeltery.scorchedTank, TankType.FUEL_TANK, Fluids.LAVA));
-      addItems.add(TankItem.fillTank(TinkerSmeltery.scorchedTank, TankType.FUEL_TANK, TinkerFluids.blazingBlood.get()));
-    }
     // tool config filters to 1 material, easiest to just remove all then add back the 1
     String showOnlyTools = Config.CLIENT.showOnlyToolMaterial.get();
-    if (!showOnlyTools.isEmpty() && Config.COMMON.showOnlyToolMaterial.get().isEmpty()) {
+    if (!showOnlyTools.isEmpty()) {
       for (Holder<Item> item : BuiltInRegistries.ITEM.getTagOrEmpty(TinkerTags.Items.MODIFIABLE)) {
         if (item.value() instanceof IModifiable modifiable) {
           ToolBuildHandler.addVariants(removeItem, modifiable, "");
@@ -527,7 +507,7 @@ public class JEIPlugin implements IModPlugin {
       }
     }
     String showOnlyParts = Config.CLIENT.showOnlyPartMaterial.get();
-    if (!showOnlyParts.isEmpty() && Config.COMMON.showOnlyPartMaterial.get().isEmpty()) {
+    if (!showOnlyParts.isEmpty()) {
       for (Holder<Item> item : BuiltInRegistries.ITEM.getTagOrEmpty(TinkerTags.Items.TOOL_PARTS)) {
         if (item.value() instanceof IMaterialItem part) {
           part.addVariants(removeItem, "");
@@ -535,37 +515,34 @@ public class JEIPlugin implements IModPlugin {
         }
       }
     }
-    // for smeltery and tables, if the relevant config is true clear the blank variant
-    // if its false clear the special variants
-    Predicate<ItemStack> cleanupItem = stack -> {
-      removeItems.add(stack);
+    // The decoration and tank creative tabs are hidden from JEI, so add requested variants explicitly.
+    Predicate<ItemStack> addVariant = stack -> {
+      addItems.add(stack);
       return false;
     };
-    // wooden
-    if (Config.COMMON.showAllTableVariants.get()) {
-      boolean showTables = Config.CLIENT.showAllTableVariants.get();
-      cleanupRetexturedBlock(cleanupItem, showTables, TinkerTables.craftingStation, ItemTags.LOGS);
-      cleanupRetexturedBlock(cleanupItem, showTables, TinkerTables.partBuilder, ItemTags.PLANKS);
-      cleanupRetexturedBlock(cleanupItem, showTables, TinkerTables.tinkerStation, ItemTags.PLANKS);
-      cleanupRetexturedBlock(cleanupItem, showTables, TinkerTables.modifierWorktable, TinkerTags.Items.WORKSTATION_ROCK);
+    if (Config.CLIENT.showAllTableVariants.get()) {
+      RetexturedHelper.addTagVariants(addVariant, TinkerTables.craftingStation, ItemTags.LOGS);
+      RetexturedHelper.addTagVariants(addVariant, TinkerTables.partBuilder, ItemTags.PLANKS);
+      RetexturedHelper.addTagVariants(addVariant, TinkerTables.tinkerStation, ItemTags.PLANKS);
+      RetexturedHelper.addTagVariants(addVariant, TinkerTables.modifierWorktable, TinkerTags.Items.WORKSTATION_ROCK);
     }
-    // smeltery
-    if (Config.COMMON.showAllSmelteryVariants.get()) {
-      boolean showSmeltery = Config.CLIENT.showAllSmelteryVariants.get();
-      cleanupRetexturedBlock(cleanupItem, showSmeltery, TinkerSmeltery.smelteryController, TinkerTags.Items.SEARED_BLOCKS);
-      cleanupRetexturedBlock(cleanupItem, showSmeltery, TinkerSmeltery.searedDrain, TinkerTags.Items.SEARED_BLOCKS);
-      cleanupRetexturedBlock(cleanupItem, showSmeltery, TinkerSmeltery.searedDuct, TinkerTags.Items.SEARED_BLOCKS);
-      cleanupRetexturedBlock(cleanupItem, showSmeltery, TinkerSmeltery.searedChute, TinkerTags.Items.SEARED_BLOCKS);
-      cleanupRetexturedBlock(cleanupItem, showSmeltery, TinkerSmeltery.foundryController, TinkerTags.Items.SCORCHED_BLOCKS);
-      cleanupRetexturedBlock(cleanupItem, showSmeltery, TinkerSmeltery.scorchedDrain, TinkerTags.Items.SCORCHED_BLOCKS);
-      cleanupRetexturedBlock(cleanupItem, showSmeltery, TinkerSmeltery.scorchedDuct, TinkerTags.Items.SCORCHED_BLOCKS);
-      cleanupRetexturedBlock(cleanupItem, showSmeltery, TinkerSmeltery.scorchedChute, TinkerTags.Items.SCORCHED_BLOCKS);
+    if (Config.CLIENT.showAllSmelteryVariants.get()) {
+      RetexturedHelper.addTagVariants(addVariant, TinkerSmeltery.smelteryController, TinkerTags.Items.SEARED_BLOCKS);
+      RetexturedHelper.addTagVariants(addVariant, TinkerSmeltery.searedDrain, TinkerTags.Items.SEARED_BLOCKS);
+      RetexturedHelper.addTagVariants(addVariant, TinkerSmeltery.searedDuct, TinkerTags.Items.SEARED_BLOCKS);
+      RetexturedHelper.addTagVariants(addVariant, TinkerSmeltery.searedChute, TinkerTags.Items.SEARED_BLOCKS);
+      RetexturedHelper.addTagVariants(addVariant, TinkerSmeltery.foundryController, TinkerTags.Items.SCORCHED_BLOCKS);
+      RetexturedHelper.addTagVariants(addVariant, TinkerSmeltery.scorchedDrain, TinkerTags.Items.SCORCHED_BLOCKS);
+      RetexturedHelper.addTagVariants(addVariant, TinkerSmeltery.scorchedDuct, TinkerTags.Items.SCORCHED_BLOCKS);
+      RetexturedHelper.addTagVariants(addVariant, TinkerSmeltery.scorchedChute, TinkerTags.Items.SCORCHED_BLOCKS);
     }
-    // anvils
-    if (Config.COMMON.showAllAnvilVariants.get() && !Config.CLIENT.showAllAnvilVariants.get()) {
-      Consumer<ItemStack> consumer = removeItems::add;
-      ((IMaterialItem) TinkerTables.tinkersAnvil.asItem()).addVariants(consumer, "");
-      ((IMaterialItem) TinkerTables.scorchedAnvil.asItem()).addVariants(consumer, "");
+    if (Config.CLIENT.showAllAnvilVariants.get()) {
+      ((IMaterialItem) TinkerTables.tinkersAnvil.asItem()).addVariants(addItem, "");
+      ((IMaterialItem) TinkerTables.scorchedAnvil.asItem()).addVariants(addItem, "");
+    }
+    if (Config.CLIENT.showFilledFluidTanks.get()) {
+      CopperCanItem.addFilledVariants(addItem);
+      TankItem.addFilledVariants(addItem);
     }
 
     if (!removeItems.isEmpty()) {

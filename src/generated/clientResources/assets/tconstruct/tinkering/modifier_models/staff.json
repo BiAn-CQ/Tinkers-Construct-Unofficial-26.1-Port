@@ -1,4 +1,15 @@
 {
+  "constant": {
+    "__embellishment": {
+      "type": "tconstruct:crafted",
+      "model": {
+        "type": "tconstruct:persistent_material",
+        "texture": "tconstruct:item/tool/staff/modifiers/tconstruct_embellishment",
+        "texture_large": "tconstruct:item/tool/staff/large_modifiers/tconstruct_embellishment"
+      },
+      "modifier": "tconstruct:embellishment"
+    }
+  },
   "modifiers": {
     "tconstruct:bucketing": [
       {
@@ -7,43 +18,34 @@
         "mask_large": "tconstruct:item/tool/staff/large_modifiers/tconstruct_bucketing_full"
       },
       {
-        "type": "tconstruct:basic",
         "texture": "tconstruct:item/tool/staff/modifiers/tconstruct_bucketing",
         "texture_large": "tconstruct:item/tool/staff/large_modifiers/tconstruct_bucketing"
       }
     ],
     "tconstruct:diamond": {
-      "type": "tconstruct:basic",
       "texture": "tconstruct:item/tool/staff/modifiers/tconstruct_diamond",
       "texture_large": "tconstruct:item/tool/staff/large_modifiers/tconstruct_diamond"
     },
     "tconstruct:embellishment": {
-      "type": "tconstruct:material",
-      "texture": "tconstruct:item/tool/staff/modifiers/tconstruct_embellishment",
-      "texture_large": "tconstruct:item/tool/staff/large_modifiers/tconstruct_embellishment"
+      "type": "tconstruct:empty"
     },
     "tconstruct:emerald": {
-      "type": "tconstruct:basic",
       "texture": "tconstruct:item/tool/staff/modifiers/tconstruct_emerald",
       "texture_large": "tconstruct:item/tool/staff/large_modifiers/tconstruct_emerald"
     },
     "tconstruct:firestarter": {
-      "type": "tconstruct:basic",
       "texture": "tconstruct:item/tool/staff/modifiers/tconstruct_firestarter",
       "texture_large": "tconstruct:item/tool/staff/large_modifiers/tconstruct_firestarter"
     },
     "tconstruct:netherite": {
-      "type": "tconstruct:basic",
       "texture": "tconstruct:item/tool/staff/modifiers/tconstruct_netherite",
       "texture_large": "tconstruct:item/tool/staff/large_modifiers/tconstruct_netherite"
     },
     "tconstruct:overforced": {
-      "type": "tconstruct:basic",
       "texture": "tconstruct:item/tool/staff/modifiers/tconstruct_overforced",
       "texture_large": "tconstruct:item/tool/staff/large_modifiers/tconstruct_overforced"
     },
     "tconstruct:reinforced": {
-      "type": "tconstruct:basic",
       "texture": "tconstruct:item/tool/staff/modifiers/tconstruct_reinforced",
       "texture_large": "tconstruct:item/tool/staff/large_modifiers/tconstruct_reinforced"
     },
@@ -56,13 +58,11 @@
         "partial_large": "tconstruct:item/tool/staff/large_modifiers/tconstruct_tank_partial"
       },
       {
-        "type": "tconstruct:basic",
         "texture": "tconstruct:item/tool/staff/modifiers/tconstruct_tank",
         "texture_large": "tconstruct:item/tool/staff/large_modifiers/tconstruct_tank"
       }
     ],
     "tconstruct:unbreakable": {
-      "type": "tconstruct:basic",
       "luminosity": 2,
       "texture": "tconstruct:item/tool/staff/modifiers/tconstruct_unbreakable",
       "texture_large": "tconstruct:item/tool/staff/large_modifiers/tconstruct_unbreakable"

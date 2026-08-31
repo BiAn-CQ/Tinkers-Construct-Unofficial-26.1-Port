@@ -13,11 +13,13 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.player.Inventory;
@@ -29,6 +31,7 @@ import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ItemUseAnimation;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.item.enchantment.EnchantmentEffectComponents;
 import net.minecraft.world.level.gamerules.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.EntityHitResult;
@@ -40,6 +43,7 @@ import net.neoforged.neoforge.common.util.FakePlayer;
 import net.neoforged.neoforge.event.entity.EntityTeleportEvent;
 import net.neoforged.neoforge.event.entity.ProjectileImpactEvent;
 import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
+import net.neoforged.neoforge.event.entity.living.LivingDropsEvent;
 import net.neoforged.neoforge.event.entity.living.LivingEvent.LivingJumpEvent;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
 import net.neoforged.neoforge.event.entity.living.LivingExperienceDropEvent;
@@ -157,11 +161,41 @@ public class ModifierEvents {
       if (multiset != null) {
         // only grant immunity if the amount is high enough
         MobEffectInstance effectInstance = event.getEffectInstance();
-        if (multiset.count(effectInstance.getEffect()) > effectInstance.getAmplifier()) {
+        if (multiset.count(effectInstance.getEffect().value()) > effectInstance.getAmplifier()) {
           event.setResult(MobEffectEvent.Applicable.Result.DO_NOT_APPLY);
         }
       }
-    };
+    }
+  }
+
+  /** Causes mobs killed by a wearer with chrysophilite to drop more golden equipment. */
+  @SubscribeEvent
+  static void onLivingDrops(LivingDropsEvent event) {
+    if (!(event.getSource().getEntity() instanceof LivingEntity attacker)) {
+      return;
+    }
+    float gold = (float) attacker.getAttributeValue(TinkerAttributes.CHRYSOPHILITE);
+    if (gold <= 0) {
+      return;
+    }
+    LivingEntity target = event.getEntity();
+    float extraChance = 0.04f * gold;
+    RandomSource random = target.getRandom();
+    for (EquipmentSlot slot : EquipmentSlot.values()) {
+      ItemStack stack = target.getItemBySlot(slot);
+      if (!stack.isEmpty()
+          && !EnchantmentHelper.has(stack, EnchantmentEffectComponents.PREVENT_EQUIPMENT_DROP)
+          && stack.makesPiglinsNeutral(target)
+          && random.nextFloat() < extraChance) {
+        if (stack.isDamageableItem()) {
+          stack.setDamageValue(stack.getMaxDamage() - random.nextInt(1 + random.nextInt(Math.max(stack.getMaxDamage() - 3, 1))));
+        }
+        if (target.level() instanceof ServerLevel serverLevel) {
+          event.getDrops().add(target.spawnAtLocation(serverLevel, stack));
+        }
+        target.setItemSlot(slot, ItemStack.EMPTY);
+      }
+    }
   }
 
   /** Called when the player dies to store the item in the original inventory */

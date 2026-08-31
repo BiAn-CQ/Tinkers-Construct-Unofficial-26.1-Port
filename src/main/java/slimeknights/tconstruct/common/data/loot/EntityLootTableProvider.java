@@ -28,6 +28,7 @@ import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 import net.minecraft.core.registries.BuiltInRegistries;
 import slimeknights.tconstruct.TConstruct;
+import slimeknights.tconstruct.gadgets.TinkerGadgets;
 import slimeknights.tconstruct.shared.TinkerCommons;
 import slimeknights.tconstruct.shared.block.SlimeType;
 import slimeknights.tconstruct.smeltery.TinkerSmeltery;
@@ -78,6 +79,8 @@ public class EntityLootTableProvider extends EntityLootSubProvider {
                                                      .apply(SetItemCountFunction.setCount(ConstantValue.exactly(1.0F)))
                                                      .when(killedByFrog))
                                         .apply(SmeltItemFunction.smelted().when(LootItemEntityPropertyCondition.hasProperties(LootContext.EntityTarget.THIS, onFire)))));
+    // Vanilla armor stands also have an empty loot table; register one for our custom entity.
+    this.add(TinkerGadgets.armorStandEntity.get(), LootTable.lootTable());
   }
 
   /** Drops an item using the same chances as slimeballs */

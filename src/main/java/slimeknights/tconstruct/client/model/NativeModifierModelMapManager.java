@@ -50,8 +50,11 @@ public final class NativeModifierModelMapManager extends MergingJsonDataLoader<N
                                    Map<Identifier, NativeModifierModel> modifiers) {
       Map<String, NativeModifierModel> orderedConstants = constants.isEmpty() ? Map.of()
         : Collections.unmodifiableMap(new LinkedHashMap<>(constants));
-      return new ModelMap(orderedConstants, modifiers.isEmpty() ? Map.of() : Map.copyOf(modifiers),
-        List.copyOf(orderedConstants.values()));
+      List<NativeModifierModel> sortedConstants = orderedConstants.entrySet().stream()
+        .sorted(Entry.<String,NativeModifierModel>comparingByKey().reversed())
+        .map(Entry::getValue)
+        .toList();
+      return new ModelMap(orderedConstants, modifiers.isEmpty() ? Map.of() : Map.copyOf(modifiers), sortedConstants);
     }
   }
 

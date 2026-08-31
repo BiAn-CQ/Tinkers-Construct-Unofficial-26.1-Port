@@ -25,7 +25,7 @@ public interface FluidTooltipCallback extends IRecipeSlotRichTooltipCallback {
   /** Default instance, simply replaces mb units with our unit handler. */
   FluidTooltipCallback UNITS = (fluid, recipeSlotView, tooltip) -> FluidTooltipHandler.appendMaterial(fluid, tooltip);
 
-  /** Default instance, simply replaces mb units with our unit handler. */
+  /** Instance that removes the amount from fluid tooltips. */
   FluidTooltipCallback NO_AMOUNT = (fluid, recipeSlotView, tooltip) -> {};
 
   @Override

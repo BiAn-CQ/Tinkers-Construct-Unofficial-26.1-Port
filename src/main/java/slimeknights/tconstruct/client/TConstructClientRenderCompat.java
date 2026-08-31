@@ -133,6 +133,7 @@ public final class TConstructClientRenderCompat {
     event.registerEntityRenderer(TinkerWorld.terracubeEntity.get(), TerracubeRendererCompat::new);
 
     event.registerEntityRenderer(TinkerGadgets.itemFrameEntity.get(), FancyItemFrameRendererCompat::new);
+    event.registerEntityRenderer(TinkerGadgets.armorStandEntity.get(), FancyArmorStandRendererCompat::new);
     event.registerEntityRenderer(TinkerGadgets.glowBallEntity.get(), ThrownItemRenderer::new);
     event.registerEntityRenderer(TinkerGadgets.eflnEntity.get(), ThrownItemRenderer::new);
     event.registerEntityRenderer(TinkerGadgets.quartzShurikenEntity.get(), ThrownShurikenRenderer::new);

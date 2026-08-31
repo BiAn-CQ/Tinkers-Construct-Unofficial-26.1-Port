@@ -6,13 +6,14 @@ import com.google.common.collect.ImmutableSet;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.util.context.ContextKey;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.functions.LootItemConditionalFunction;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import slimeknights.tconstruct.tools.TinkerModifiers;
-import slimeknights.tconstruct.tools.modifiers.traits.skull.ChrysophiliteModifier;
+import slimeknights.tconstruct.shared.TinkerAttributes;
 
 import java.util.List;
 import java.util.Set;
@@ -55,12 +56,14 @@ public class ChrysophiliteBonusFunction extends LootItemConditionalFunction {
   }
 
   protected ItemStack run(ItemStack stack, LootContext context) {
-    int level = ChrysophiliteModifier.getTotalGold(context.getOptionalParameter(LootContextParams.THIS_ENTITY));
-    if (!includeBase) {
-      level--;
-    }
-    if (level > 0) {
-      stack.setCount(formula.calculateNewCount(context.getRandom(), stack.getCount(), level));
+    if (context.getOptionalParameter(LootContextParams.THIS_ENTITY) instanceof LivingEntity entity) {
+      int level = (int) entity.getAttributeValue(TinkerAttributes.CHRYSOPHILITE);
+      if (!includeBase) {
+        level--;
+      }
+      if (level > 0) {
+        stack.setCount(formula.calculateNewCount(context.getRandom(), stack.getCount(), level));
+      }
     }
     return stack;
   }

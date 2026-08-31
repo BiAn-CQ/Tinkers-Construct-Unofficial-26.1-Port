@@ -1,13 +1,10 @@
 {
-  "_comment": "Onarıcı Ortak ",
-
   "block.tconstruct.sky_slime": "Gökbalçığı Bloğu",
   "block.tconstruct.sky_slime.tooltip": "Hem balçığa hem de bala yapışır",
   "block.tconstruct.ichor_slime": "Od Bloğu",
   "block.tconstruct.ichor_slime.tooltip": "Od dışındaki bütün yapışkan bloklara yapışır",
   "block.tconstruct.ender_slime": "Enderbalçığı Bloğu",
   "block.tconstruct.ender_slime.tooltip": "Bitişiğinde yapışkan blok olmadıkça itince yapışır",
-
   "block.tconstruct.earth_congealed_slime": "Katılaşmış Balçık Bloğu",
   "block.tconstruct.earth_congealed_slime.tooltip": "Aşırı yükseğe zıplamanızı sağlar",
   "block.tconstruct.sky_congealed_slime": "Katılaşmış Gökbalçığı Bloğu",
@@ -16,43 +13,34 @@
   "block.tconstruct.ender_congealed_slime.tooltip": "Aşırı yükseğe zıplamanızı sağlar",
   "block.tconstruct.ichor_congealed_slime": "Katılaşmış Od",
   "block.tconstruct.ichor_congealed_slime.tooltip": "Aşırı yükseğe zıplamanızı sağlar",
-
   "block.tconstruct.mud_bricks": "Kerpiç Bloğu",
   "block.tconstruct.mud_bricks_slab": "Kerpiç Basamak",
   "block.tconstruct.mud_bricks_stairs": "Kerpiç Merdiven",
-
   "block.tconstruct.blazewood": "Alazodunu",
   "block.tconstruct.blazewood_slab": "Alazodunu Basamak",
   "block.tconstruct.blazewood_stairs": "Alazodunu Merdiven",
-
   "block.tconstruct.nahuatl": "Nahuatl Tahtası",
   "block.tconstruct.nahuatl_slab": "Nahuatl Basamak",
   "block.tconstruct.nahuatl_stairs": "Nahuatl Merdiven",
   "block.tconstruct.nahuatl_fence": "Nahuatl Çit",
-
   "block.tconstruct.clear_glass": "Saydam Cam",
   "block.tconstruct.clear_glass_pane": "Saydam İnce Cam",
   "block.tconstruct.clear_tinted_glass": "Gölgeli Saydam Cam",
-
   "block.tconstruct.obsidian_pane": "İnce Obsidyen",
   "block.tconstruct.gold_bars": "Altın Parmaklık",
   "block.tconstruct.gold_bars.tooltip": "Döküm masasında boş kalıp görevi görür",
-
   "block.tconstruct.gold_platform": "Altın İskele",
   "block.tconstruct.gold_platform.tooltip": "Döküm çanağında boş kalıp görevi görür",
   "block.tconstruct.iron_platform": "Demir İskele",
   "block.tconstruct.cobalt_platform": "Kobalt İskele",
-
-  "block.tconstruct.copper_platform":           "Bakır İskele",
-  "block.tconstruct.exposed_copper_platform":   "Açıkta Kalmış Bakır İskele",
+  "block.tconstruct.copper_platform": "Bakır İskele",
+  "block.tconstruct.exposed_copper_platform": "Açıkta Kalmış Bakır İskele",
   "block.tconstruct.weathered_copper_platform": "Yıpranmış Bakır İskele",
-  "block.tconstruct.oxidized_copper_platform":  "Oksitlenmiş Bakır İskele",
-
-  "block.tconstruct.waxed_copper_platform":           "Cilalı Bakır İskele",
-  "block.tconstruct.waxed_exposed_copper_platform":   "Cilalı Açıkta Kalmış Bakır İskele",
+  "block.tconstruct.oxidized_copper_platform": "Oksitlenmiş Bakır İskele",
+  "block.tconstruct.waxed_copper_platform": "Cilalı Bakır İskele",
+  "block.tconstruct.waxed_exposed_copper_platform": "Cilalı Açıkta Kalmış Bakır İskele",
   "block.tconstruct.waxed_weathered_copper_platform": "Cilalı Yıpranmış Bakır İskele",
-  "block.tconstruct.waxed_oxidized_copper_platform":  "Cilalı Oksitlenmiş Bakır İskele",
-
+  "block.tconstruct.waxed_oxidized_copper_platform": "Cilalı Oksitlenmiş Bakır İskele",
   "block.tconstruct.white_clear_stained_glass": "Saydam Beyaz Boyalı Cam",
   "block.tconstruct.orange_clear_stained_glass": "Saydam Turuncu Boyalı Cam",
   "block.tconstruct.magenta_clear_stained_glass": "Saydam Eflatun Boyalı Cam",
@@ -69,7 +57,6 @@
   "block.tconstruct.green_clear_stained_glass": "Saydam Yeşil Boyalı Cam",
   "block.tconstruct.red_clear_stained_glass": "Saydam Kırmızı Boyalı Cam",
   "block.tconstruct.black_clear_stained_glass": "Saydam Siyah Boyalı Cam",
-
   "block.tconstruct.white_clear_stained_glass_pane": "Saydam Beyaz Boyalı İnce Cam",
   "block.tconstruct.orange_clear_stained_glass_pane": "Saydam Turuncu Boyalı İnce Cam",
   "block.tconstruct.magenta_clear_stained_glass_pane": "Saydam Eflatun Boyalı İnce Cam",
@@ -86,106 +73,72 @@
   "block.tconstruct.green_clear_stained_glass_pane": "Saydam Yeşil Boyalı İnce Cam",
   "block.tconstruct.red_clear_stained_glass_pane": "Saydam Kırmızı Boyalı İnce Cam",
   "block.tconstruct.black_clear_stained_glass_pane": "Saydam Siyah Boyalı İnce Cam",
-
   "block.tconstruct.soul_glass": "Ruh Camı",
   "block.tconstruct.soul_glass.tooltip": "Sağlam davranır ancak içinden geçilebilir",
   "block.tconstruct.soul_glass_pane": "Ruh İnce Camı",
   "block.tconstruct.soul_glass_pane.tooltip": "Sağlam davranır ancak içinden geçilebilir",
-
   "block.tconstruct.glow": "Parıltı",
-
-
-  "__comment": "Metal Cevherleri",
-
   "item.tconstruct.copper_nugget": "Bakır Parçası",
-
   "block.tconstruct.cobalt_ore": "Nether Kobalt Cevheri",
   "item.tconstruct.raw_cobalt": "Ham Kobalt",
   "block.tconstruct.raw_cobalt_block": "Ham Kobalt Bloğu",
-
   "block.tconstruct.cobalt_block": "Kobalt Bloğu",
   "block.tconstruct.cobalt_block.tooltip": "Fener tabanı olarak kullanılabilir",
   "item.tconstruct.cobalt_ingot": "Kobalt Külçesi",
   "item.tconstruct.cobalt_nugget": "Kobalt Parçası",
-
-
-  "__comment": "3. Aşama Metalleri",
-
   "block.tconstruct.slimesteel_block": "Balçıkçeliği Bloğu",
   "item.tconstruct.slimesteel_ingot": "Balçıkçeliği Külçesi",
   "item.tconstruct.slimesteel_nugget": "Balçıkçeliği Parçası",
-
   "block.tconstruct.amethyst_bronze_block": "Ametist Tuncu Bloğu",
   "item.tconstruct.amethyst_bronze_ingot": "Ametist Tuncu Külçesi",
   "item.tconstruct.amethyst_bronze_nugget": "Ametist Tuncu Parçası",
-
   "block.tconstruct.rose_gold_block": "Pembe Altın Bloğu",
   "item.tconstruct.rose_gold_ingot": "Pembe Altın Külçesi",
   "item.tconstruct.rose_gold_nugget": "Pembe Altın Parçası",
-
   "block.tconstruct.pig_iron_block": "Domuz Demiri Bloğu",
   "item.tconstruct.pig_iron_ingot": "Domuz Demiri Külçesi",
   "item.tconstruct.pig_iron_nugget": "Domuz Demiri Parçası",
-
-
-  "__comment": "4. Aşama Metalleri",
-
   "block.tconstruct.manyullyn_block": "Menyullen Bloğu",
   "block.tconstruct.manyullyn_block.tooltip": "Fener tabanı olarak kullanılabilir",
   "item.tconstruct.manyullyn_ingot": "Menyullen Külçesi",
   "item.tconstruct.manyullyn_nugget": "Menyullen Parçası",
-
   "block.tconstruct.hepatizon_block": "Hepatizon Bloğu",
   "block.tconstruct.hepatizon_block.tooltip": "Fener tabanı olarak kullanılabilir",
   "item.tconstruct.hepatizon_ingot": "Hepatizon Külçesi",
   "item.tconstruct.hepatizon_nugget": "Hepatizon Parçası",
-
   "block.tconstruct.queens_slime_block": "Ecenin Balçığı Bloğu",
   "block.tconstruct.queens_slime_block.tooltip": "Fener tabanı olarak kullanılabilir",
   "item.tconstruct.queens_slime_ingot": "Ecenin Balçığı Külçesi",
   "item.tconstruct.queens_slime_nugget": "Ecenin Balçığı Parçası",
-
   "block.tconstruct.soulsteel_block": "Ruhçeliği Bloğu",
   "block.tconstruct.soulsteel_block.tooltip": "Fener tabanı olarak kullanılabilir",
   "item.tconstruct.soulsteel_ingot": "Ruhçeliği Külçesi",
   "item.tconstruct.soulsteel_nugget": "Ruhçeliği Parçası",
-
   "item.tconstruct.netherite_nugget": "Netherit Parçası",
   "item.tconstruct.debris_nugget": "Kalıntı Hurdası",
   "item.tconstruct.debris_nugget.tooltip": "Küçük antik netherit kırığı, muhtemelen kurtarmak için ergitilebilir",
-
-
-  "__comment": "5. Aşama Metalleri",
-
   "block.tconstruct.knightslime_block": "Şövalyebalçığı Bloğu",
   "item.tconstruct.knightslime_ingot": "Şövalyebalçığı Külçesi",
   "item.tconstruct.knightslime_nugget": "Şövalyebalçığı Parçası",
-
   "item.tconstruct.materials_and_you": "Malzemeler ve Sen",
   "item.tconstruct.materials_and_you.tooltip": "Araçların ve malzemelerin tanıtım kitabı\nSelena tarafından",
   "item.tconstruct.encyclopedia": "Onarıcılığın Bilgiliği",
   "item.tconstruct.encyclopedia.tooltip": "Her onarıcıya gerekecek kaynak kitabı\nSelena tarafından",
-
   "item.tconstruct.tinkers_gadgetry": "Onarıcının Ivır Zıvırlığı",
   "item.tconstruct.tinkers_gadgetry.tooltip": "Günlük görevler için balçık kullanımı kitabı\nMelvin tarafından",
-
   "item.tconstruct.puny_smelting": "Cılız Kallama",
   "item.tconstruct.puny_smelting.tooltip": "Çaylaklar için kallama ve dökümleme kılavuzu\nThruul M'Gon tarafından",
   "item.tconstruct.mighty_smelting": "Yavuz Kallama",
   "item.tconstruct.mighty_smelting.tooltip": "Ergitme, dökümleme ve alaşımlamada uzmanlaşmak için ders kitabı\nThruul M'Gon tarafından",
-
   "item.tconstruct.fantastic_foundry": "Düşlemsel Dökümevi",
   "item.tconstruct.fantastic_foundry.tooltip": "Sıpsıcak ergimiş metallerin uygulayımları hakkındaki kitap\nNemea tarafından",
-
   "item.tconstruct.sky_slime_ball": "Gökbalçığı Topu",
   "item.tconstruct.ender_slime_ball": "Enderbalçığı Topu",
   "item.tconstruct.ichor_slime_ball": "Od Topu",
-
   "item.tconstruct.bacon": "Domuz Pastırması",
   "item.tconstruct.cheese_ingot": "Peynir",
   "block.tconstruct.cheese_block": "Peynir Bloğu",
   "item.tconstruct.cheese.tooltip": "Yenince rastgele bir etkiyi kaldırır",
-
   "item.tconstruct.earth_slime_crystal": "Karabalçığı Kristali",
   "block.tconstruct.earth_slime_crystal_block": "Karabalçığı Kristali Bloğu",
   "block.tconstruct.small_earth_slime_crystal_bud": "Küçük Karabalçığı Kristali Tomurcuğu",
@@ -193,7 +146,6 @@
   "block.tconstruct.large_earth_slime_crystal_bud": "Büyük Karabalçığı Kristali Tomurcuğu",
   "block.tconstruct.earth_slime_crystal_cluster": "Karabalçığı Kristali Demeti",
   "block.tconstruct.budding_earth_slime_crystal": "Tomurcuklanan Karabalçığı Kristali",
-
   "item.tconstruct.sky_slime_crystal": "Gökbalçığı Kristali",
   "block.tconstruct.sky_slime_crystal_block": "Gökbalçığı Kristali Bloğu",
   "block.tconstruct.small_sky_slime_crystal_bud": "Küçük Gökbalçığı Kristali Tomurcuğu",
@@ -201,7 +153,6 @@
   "block.tconstruct.large_sky_slime_crystal_bud": "Büyük Gökbalçığı Kristali Tomurcuğu",
   "block.tconstruct.sky_slime_crystal_cluster": "Gökbalçığı Kristali Demeti",
   "block.tconstruct.budding_sky_slime_crystal": "Tomurcuklanan Gökbalçığı Kristali",
-
   "item.tconstruct.ichor_slime_crystal": "Od Kristali",
   "block.tconstruct.ichor_slime_crystal_block": "Od Kristali Bloğu",
   "block.tconstruct.small_ichor_slime_crystal_bud": "Küçük Od Kristali Tomurcuğu",
@@ -209,7 +160,6 @@
   "block.tconstruct.large_ichor_slime_crystal_bud": "Büyük Od Kristali Tomurcuğu",
   "block.tconstruct.ichor_slime_crystal_cluster": "Od Kristali Demeti",
   "block.tconstruct.budding_ichor_slime_crystal": "Tomurcuklanan Od Kristali",
-
   "item.tconstruct.ender_slime_crystal": "Enderbalçığı Kristali",
   "block.tconstruct.ender_slime_crystal_block": "Enderbalçığı Kristali Bloğu",
   "block.tconstruct.small_ender_slime_crystal_bud": "Küçük Enderbalçığı Kristali Tomurcuğu",
@@ -217,7 +167,6 @@
   "block.tconstruct.large_ender_slime_crystal_bud": "Büyük Enderbalçığı Kristali Tomurcuğu",
   "block.tconstruct.ender_slime_crystal_cluster": "Enderbalçığı Kristali Demeti",
   "block.tconstruct.budding_ender_slime_crystal": "Tomurcuklanan Enderbalçığı Kristali",
-
   "item.tconstruct.iron_reinforcement": "Demir Güçlendirme",
   "item.tconstruct.iron_reinforcement.tooltip": "Uzun menzilli hasara karşı zırh direncini artırır",
   "item.tconstruct.slimesteel_reinforcement": "Balçıkçeliği Güçlendirme",
@@ -240,12 +189,10 @@
   "item.tconstruct.blazing_bone": "Alazlı Kemik",
   "item.tconstruct.dragon_scale": "Ejderha Pulu",
   "item.tconstruct.dragon_scale.tooltip": "Ender ejderhası patlarken fırladı",
-
   "item.tconstruct.modifier_crystal": "Değiştirici Kristali",
   "item.tconstruct.modifier_crystal.format": "%s Kristali",
   "item.tconstruct.modifier_crystal.missing": "Değiştirici türü tanımlarken eksik ya da geçersiz NBT",
   "item.tconstruct.modifier_crystal.tooltip": "1 Seviye değiştirici kazanamak için uygulayın, uygun yuvayı kullanır",
-
   "item.tconstruct.creative_slot": "Yaratıcı Yuvası",
   "item.tconstruct.creative_slot.upgrades": "Yaratıcı Yükseltmesi",
   "item.tconstruct.creative_slot.abilities": "Yaratıcı Yeteneği",
@@ -253,704 +200,481 @@
   "item.tconstruct.creative_slot.defense": "Yaratıcı Savunma Yuvası",
   "item.tconstruct.creative_slot.missing": "Yuva türü tanımlanırken eksik ya da geçersiz NBT",
   "item.tconstruct.creative_slot.tooltip": "Araca ek olarak bir %s yuvası ekler",
-
   "item.tconstruct.copper_can": "Bakır Teneke Kutu",
   "item.tconstruct.copper_can.tooltip": "Yığınlanabilir, 1 külçelik sıvı tutabilen kap",
   "item.tconstruct.copper_can.contents": "İçindeki: 1 külçe %s",
-
-
-  "_comment": "Onarıcının Taslakları",
-
   "pattern.tconstruct.repair_kit": "Onarım Takımı",
-
-  "_comment": "Küçük Baş Taslakları",
-
   "pattern.tconstruct.pick_head": "Kazma Başı",
   "pattern.tconstruct.small_axe_head": "Küçük Balta Başı",
   "pattern.tconstruct.small_blade": "Küçük Bıçak Ağzı",
   "pattern.tconstruct.bow_limb": "Yay Kanadı",
-
-  "_comment": "Büyük Baş Taslakları",
-
   "pattern.tconstruct.hammer_head": "Çekiç Başı",
   "pattern.tconstruct.broad_axe_head": "Savaş Baltası Başı",
   "pattern.tconstruct.broad_blade": "Koca Bıçak Ağzı",
-
-  "_comment": "Bağlayıcı Taslakları",
-
   "pattern.tconstruct.tool_binding": "Araç Bağlayıcı",
   "pattern.tconstruct.large_plate": "Büyük Sac",
   "pattern.tconstruct.bowstring": "Yay İpi",
-
-  "_comment": "Araç Sapı Taslakları",
-
   "pattern.tconstruct.tool_handle": "Araç Sapı",
   "pattern.tconstruct.tough_handle": "Sert Sap",
   "pattern.tconstruct.bow_grip": "Yay Tutamacı",
-
-
-  "_comment": "Onarıcının Altın Kalıpları",
-
   "item.tconstruct.blank_cast": "Düz Altın Kalıp",
   "item.tconstruct.ingot_cast": "Külçe Altın Kalıbı",
   "item.tconstruct.nugget_cast": "Parça Altın Kalıbı",
   "item.tconstruct.gem_cast": "Değerli Taş Altın Kalıbı",
   "item.tconstruct.rod_cast": "Çubuk Altın Kalıbı",
-
   "item.tconstruct.gear_cast": "Dişli Altın Kalıbı",
   "item.tconstruct.plate_cast": "Küçük Sac Altın Kalıbı",
   "item.tconstruct.coin_cast": "Akça Altın Kalıbı",
   "item.tconstruct.wire_cast": "Kablo Altın Kalıbı",
-
   "item.tconstruct.repair_kit_cast": "Onarım Takımı Altın Kalıbı",
-
-  "_comment": "Küçük Baş Altın Kalıpları",
-
   "item.tconstruct.pick_head_cast": "Kazma Başı Altın Kalıbı",
   "item.tconstruct.small_axe_head_cast": "Küçük Balta Başı Altın Kalıbı",
   "item.tconstruct.small_blade_cast": "Küçük Bıçak Ağzı Altın Kalıbı",
   "item.tconstruct.bow_limb_cast": "Yay Kanadı Altın Kalıbı",
   "item.tconstruct.bow_grip_cast": "Yay Tutamacı Altın Kalıbı",
-
-  "_comment": "Büyük Baş Altın Kalıpları",
-
   "item.tconstruct.hammer_head_cast": "Çekiç Başı Altın Kalıbı",
   "item.tconstruct.broad_axe_head_cast": "Savaş Baltası Başı Altın Kalıbı",
   "item.tconstruct.broad_blade_cast": "Koca Bıçak Ağzı Altın Kalıbı",
-
-  "_comment": "Bağlayıcı Altın Kalıpları",
-
   "item.tconstruct.tool_binding_cast": "Araç Bağlayıcı Altın Kalıbı",
   "item.tconstruct.large_plate_cast": "Büyük Sac Altın Kalıbı",
-
-  "_comment": "Araç Sapı Altın Kalıpları",
-
   "item.tconstruct.tool_handle_cast": "Araç Sapı Altın Kalıbı",
   "item.tconstruct.tough_handle_cast": "Sert Sap Altın Kalıbı",
-
-
-  "_comment": "Onarıcının Kum Kalıpları",
-
   "item.tconstruct.blank_sand_cast": "Düz Kum Kalıp",
   "item.tconstruct.ingot_sand_cast": "Külçe Kum Kalıbı",
   "item.tconstruct.nugget_sand_cast": "Parça Kum Kalıbı",
   "item.tconstruct.gem_sand_cast": "Değerli Taş Kum Kalıbı",
   "item.tconstruct.rod_sand_cast": "Çubuk Kum Kalıbı",
-
   "item.tconstruct.gear_sand_cast": "Dişli Kum Kalıbı",
   "item.tconstruct.plate_sand_cast": "Küçük Sac Kum Kalıbı",
   "item.tconstruct.coin_sand_cast": "Akça Kum Kalıbı",
   "item.tconstruct.wire_sand_cast": "Kablo Kum Kalıbı",
-
   "item.tconstruct.repair_kit_sand_cast": "Onarım Takımı Kum Kalıbı",
-
-  "_comment": "Küçük Baş Kum Kalıpları",
-
   "item.tconstruct.pick_head_sand_cast": "Kazma Başı Kum Kalıbı",
   "item.tconstruct.small_axe_head_sand_cast": "Küçük Balta Başı Kum Kalıbı",
   "item.tconstruct.small_blade_sand_cast": "Küçük Bıçak Ağzı Kum Kalıbı",
   "item.tconstruct.bow_limb_sand_cast": "Yay Kanadı Kum Kalıbı",
   "item.tconstruct.bow_grip_sand_cast": "Yay Tutamacı Kum Kalıbı",
-
-  "_comment": "Büyük Baş Kum Kalıpları",
-
   "item.tconstruct.hammer_head_sand_cast": "Çekiç Başı Kum Kalıbı",
   "item.tconstruct.broad_axe_head_sand_cast": "Savaş Baltası Başı Kum Kalıbı",
   "item.tconstruct.broad_blade_sand_cast": "Koca Bıçak Ağzı Kum Kalıbı",
-
-  "_comment": "Bağlayıcı Kum Kalıpları",
-
   "item.tconstruct.tool_binding_sand_cast": "Araç Bağlayıcı Kum Kalıbı",
   "item.tconstruct.large_plate_sand_cast": "Büyük Sac Kum Kalıbı",
-
-  "_comment": "Araç Sapı Kum Kalıpları",
-
   "item.tconstruct.tool_handle_sand_cast": "Araç Sapı Kum Kalıbı",
   "item.tconstruct.tough_handle_sand_cast": "Sert Sap Kum Kalıbı",
-
-
-  "_comment": "Onarıcının Kırmızı Kum Kalıpları",
-
   "item.tconstruct.blank_red_sand_cast": "Düz Kırmızı Kum Kalıp",
   "item.tconstruct.ingot_red_sand_cast": "Külçe Kırmızı Kum Kalıbı",
   "item.tconstruct.nugget_red_sand_cast": "Parça Kırmızı Kum Kalıbı",
   "item.tconstruct.gem_red_sand_cast": "Değerli Taş Kırmızı Kum Kalıbı",
   "item.tconstruct.rod_red_sand_cast": "Çubuk Kırmızı Kum Kalıbı",
-
   "item.tconstruct.gear_red_sand_cast": "Dişli Kırmızı Kum Kalıbı",
   "item.tconstruct.plate_red_sand_cast": "Küçük Sac Kırmızı Kum Kalıbı",
   "item.tconstruct.coin_red_sand_cast": "Akça Kırmızı Kum Kalıbı",
   "item.tconstruct.wire_red_sand_cast": "Kablo Kırmızı Kum Kalıbı",
-
   "item.tconstruct.repair_kit_red_sand_cast": "Onarım Kırmızı Kum Kalıbı",
-
-  "_comment": "Küçük Baş Kırmızı Kum Kalıpları",
-
   "item.tconstruct.pick_head_red_sand_cast": "Kazma Başı Kırmızı Kum Kalıbı",
   "item.tconstruct.small_axe_head_red_sand_cast": "Küçük Balta Başı Kırmızı Kum Kalıbı",
   "item.tconstruct.small_blade_red_sand_cast": "Küçük Bıçak Ağzı Kırmızı Kum Kalıbı",
   "item.tconstruct.bow_limb_red_sand_cast": "Yay Kanadı Kırmızı Kum Kalıbı",
   "item.tconstruct.bow_grip_red_sand_cast": "Yay Tutmacı Kırmızı Kum Kalıbı",
-
-  "_comment": "Büyük Baş Kırmızı Kum Kalıpları",
-
   "item.tconstruct.hammer_head_red_sand_cast": "Çekiç Başı Kırmızı Kum Kalıbı",
   "item.tconstruct.broad_axe_head_red_sand_cast": "Savaş Baltası Başı Kırmızı Kum Kalıbı",
   "item.tconstruct.broad_blade_red_sand_cast": "Koca Bıçak Ağzı Kırmızı Kum Kalıbı",
-
-  "_comment": "Bağlayıcı Kırmızı Kum Kalıpları",
-
   "item.tconstruct.tool_binding_red_sand_cast": "Araç Bağlayıcı Kırmızı Kum Kalıbı",
   "item.tconstruct.large_plate_red_sand_cast": "Büyük Sac Kırmızı Kum Kalıbı",
-
-  "_comment": "Arac Sapı Kırmızı Kum Kalıpları",
-
   "item.tconstruct.tool_handle_red_sand_cast": "Araç Sapı Kırmızı Kum Kalıbı",
   "item.tconstruct.tough_handle_red_sand_cast": "Sert Sap Kırmızı Kum Kalıbı",
-
-
-  "_comment": "Onarıcının Sıvıları",
-
   "block.tconstruct.blazing_blood_fluid": "Alazlı Kan",
   "fluid.tconstruct.blazing_blood": "Alazlı Kan",
   "fluid.tconstruct.flowing_blazing_blood": "Akan Alazlı Kan",
   "item.tconstruct.blazing_blood_bucket": "Alazlı Kan Kovası",
-
   "fluid.tconstruct.powdered_snow": "Tozlaşmış Kar",
-
-  "_comment": "Yemek",
-
   "block.tconstruct.honey_fluid": "Bal",
   "fluid.tconstruct.honey": "Bal",
   "fluid.tconstruct.flowing_honey": "Akan Bal",
   "item.tconstruct.honey_bucket": "Bal Kovası",
-
   "block.tconstruct.beetroot_soup_fluid": "Pancar Çorbası",
   "fluid.tconstruct.beetroot_soup": "Pancar Çorbası",
   "fluid.tconstruct.flowing_beetroot_soup": "Akan Pancar Çorbası",
   "item.tconstruct.beetroot_soup_bucket": "Pancar Çorbası Kovası",
-
   "block.tconstruct.mushroom_stew_fluid": "Mantar Güveç",
   "fluid.tconstruct.mushroom_stew": "Mantar Güveç",
   "fluid.tconstruct.flowing_mushroom_stew": "Akan Mantar Güveç",
   "item.tconstruct.mushroom_stew_bucket": "Mantar Güveç Kovası",
-
   "block.tconstruct.rabbit_stew_fluid": "Tavşan Güveç",
   "fluid.tconstruct.rabbit_stew": "Tavşan Güveç",
   "fluid.tconstruct.flowing_rabbit_stew": "Akan Tavşan Güveç",
   "item.tconstruct.rabbit_stew_bucket": "Tavşan Güveç Kovası",
-
-
-  "_comment": "İksir",
-
   "fluid.tconstruct.potion": "İksir",
-
   "item.tconstruct.potion_bucket": "Üretilemez İksir Kovası",
   "item.tconstruct.potion_bucket.effect.water": "Su Kovası",
   "item.tconstruct.potion_bucket.contents": "%s Kovası",
-
   "item.tconstruct.splash_bottle": "Patlayacı Şişe",
   "item.tconstruct.lingering_bottle": "Kalıcı Şişe",
-
-
-  "_comment": "Balçık",
-
   "block.tconstruct.earth_slime_fluid": "Balçık",
   "fluid.tconstruct.earth_slime": "Balçık",
   "fluid.tconstruct.flowing_earth_slime": "Akan Balçık",
   "item.tconstruct.earth_slime_bucket": "Balçık Kovası",
   "item.tconstruct.earth_slime_bottle": "Balçık Şişesi",
-
   "block.tconstruct.sky_slime_fluid": "Gökbalçığı",
   "fluid.tconstruct.sky_slime": "Gökbalçığı",
   "fluid.tconstruct.flowing_sky_slime": "Akan Gökbalçığı",
   "item.tconstruct.sky_slime_bucket": "Gökbalçığı Kovası",
   "item.tconstruct.sky_slime_bottle": "Gökbalçığı Şişesi",
-
   "block.tconstruct.magma_fluid": "Magma",
   "fluid.tconstruct.magma": "Magma",
   "fluid.tconstruct.flowing_magma": "Akan Magma",
   "item.tconstruct.magma_bucket": "Magma Kovası",
   "item.tconstruct.magma_bottle": "Magma Şişesi",
-
   "block.tconstruct.ender_slime_fluid": "Enderbalçığı",
   "fluid.tconstruct.ender_slime": "Enderbalçığı",
   "fluid.tconstruct.flowing_ender_slime": "Akan Enderbalçığı",
   "item.tconstruct.ender_slime_bucket": "Enderbalçığı Kovası",
   "item.tconstruct.ender_slime_bottle": "Enderbalçığı Şişesi",
-
   "block.tconstruct.venom_fluid": "Ağı",
   "fluid.tconstruct.venom": "Ağı",
   "fluid.tconstruct.flowing_venom": "Akan Ağı",
   "item.tconstruct.venom_bucket": "Ağı Kovası",
   "item.tconstruct.venom_bottle": "Ağı Şişesi",
-
   "item.tconstruct.ichor_slime_bottle": "Od Şişesi",
-
-  "_comment": "Kaya",
-
   "block.tconstruct.seared_stone_fluid": "Kararmış Taş",
   "fluid.tconstruct.seared_stone": "Kararmış Taş",
   "fluid.tconstruct.flowing_seared_stone": "Akan Kararmış Taş",
   "item.tconstruct.seared_stone_bucket": "Kararmış Taş Kovası",
-
   "block.tconstruct.scorched_stone_fluid": "Kavrulmuş Taş",
   "fluid.tconstruct.scorched_stone": "Kavrulmuş Taş",
   "fluid.tconstruct.flowing_scorched_stone": "Akan Kavrulmuş Taş",
   "item.tconstruct.scorched_stone_bucket": "Kavrulmuş Taş Kovası",
-
   "block.tconstruct.molten_clay_fluid": "Ergimiş Kil",
   "fluid.tconstruct.molten_clay": "Ergimiş Kil",
   "fluid.tconstruct.flowing_molten_clay": "Akan Ergimiş Kil",
   "item.tconstruct.molten_clay_bucket": "Ergimiş Kil Kovası",
-
   "block.tconstruct.molten_glass_fluid": "Ergimiş Cam",
   "fluid.tconstruct.molten_glass": "Ergimiş Cam",
   "fluid.tconstruct.flowing_molten_glass": "Akan Ergimiş Cam",
   "item.tconstruct.molten_glass_bucket": "Ergimiş Cam Kovası",
-
   "block.tconstruct.liquid_soul_fluid": "Sıvı Ruh",
   "fluid.tconstruct.liquid_soul": "Sıvı Ruh",
   "fluid.tconstruct.flowing_liquid_soul": "Akan Sıvı Ruh",
   "item.tconstruct.liquid_soul_bucket": "Sıvı Ruh Kovası",
-
   "block.tconstruct.molten_obsidian_fluid": "Ergimiş Obsidyen",
   "fluid.tconstruct.molten_obsidian": "Ergimiş Obsidyen",
   "fluid.tconstruct.flowing_molten_obsidian": "Akan Ergimiş Obsidyen",
   "item.tconstruct.molten_obsidian_bucket": "Ergimiş Obsidyen Kovası",
-
   "block.tconstruct.molten_emerald_fluid": "Ergimiş Zümrüt",
   "fluid.tconstruct.molten_emerald": "Ergimiş Zümrüt",
   "fluid.tconstruct.flowing_molten_emerald": "Akan Ergimiş Zümrüt",
   "item.tconstruct.molten_emerald_bucket": "Ergimiş Zümrüt Kovası",
-
   "block.tconstruct.molten_quartz_fluid": "Ergimiş Kuvars",
   "fluid.tconstruct.molten_quartz": "Ergimiş Kuvars",
   "fluid.tconstruct.flowing_molten_quartz": "Akan Ergimiş Kuvars",
   "item.tconstruct.molten_quartz_bucket": "Ergimiş Kuvars Kovası",
-
   "block.tconstruct.molten_amethyst_fluid": "Ergimiş Ametist",
   "fluid.tconstruct.molten_amethyst": "Ergimiş Ametist",
   "fluid.tconstruct.flowing_molten_amethyst": "Akan Ergimiş Ametist",
   "item.tconstruct.molten_amethyst_bucket": "Ergimiş Ametist Kovası",
-
   "block.tconstruct.molten_diamond_fluid": "Ergimiş Elmas",
   "fluid.tconstruct.molten_diamond": "Ergimiş Elmas",
   "fluid.tconstruct.flowing_molten_diamond": "Akan Ergimiş Elmas",
   "item.tconstruct.molten_diamond_bucket": "Ergimiş Elmas Kovası",
-
   "block.tconstruct.molten_ender_fluid": "Ergimiş Ender",
   "fluid.tconstruct.molten_ender": "Ergimiş Ender",
   "fluid.tconstruct.flowing_molten_ender": "Akan Ergimiş Ender",
   "item.tconstruct.molten_ender_bucket": "Ergimiş Ender Kovası",
-
   "block.tconstruct.molten_porcelain_fluid": "Ergimiş Porselen",
   "fluid.tconstruct.molten_porcelain": "Ergimiş Porselen",
   "fluid.tconstruct.flowing_molten_porcelain": "Akan Ergimiş Porselen",
   "item.tconstruct.molten_porcelain_bucket": "Ergimiş Porselen Kovası",
-
-  "_comment": "Cevherler",
-
   "block.tconstruct.molten_iron_fluid": "Ergimiş Demir",
   "fluid.tconstruct.molten_iron": "Ergimiş Demir",
   "fluid.tconstruct.flowing_molten_iron": "Akan Ergimiş Demir",
   "item.tconstruct.molten_iron_bucket": "Ergimiş Demir Kovası",
-
   "block.tconstruct.molten_gold_fluid": "Ergimiş Altın",
   "fluid.tconstruct.molten_gold": "Ergimiş Altın",
   "fluid.tconstruct.flowing_molten_gold": "Akan Ergimiş Altın",
   "item.tconstruct.molten_gold_bucket": "Ergimiş Altın Kovası",
-
   "block.tconstruct.molten_copper_fluid": "Ergimiş Bakır",
   "fluid.tconstruct.molten_copper": "Ergimiş Bakır",
   "fluid.tconstruct.flowing_molten_copper": "Akan Ergimiş Bakır",
   "item.tconstruct.molten_copper_bucket": "Ergimiş Bakır Kovası",
-
   "block.tconstruct.molten_cobalt_fluid": "Ergimiş Kobalt",
   "fluid.tconstruct.molten_cobalt": "Ergimiş Kobalt",
   "fluid.tconstruct.flowing_molten_cobalt": "Akan Ergimiş Kobalt",
   "item.tconstruct.molten_cobalt_bucket": "Ergimiş Kobalt Kovası",
-
   "block.tconstruct.molten_debris_fluid": "Ergimiş Kalıntı",
   "fluid.tconstruct.molten_debris": "Ergimiş Kalıntı",
   "fluid.tconstruct.flowing_molten_debris": "Akan Ergimiş Kalıntı",
   "item.tconstruct.molten_debris_bucket": "Ergimiş Kalıntı Kovası",
-
-  "_comment": "3. Aşama Alaşımları",
-
   "block.tconstruct.molten_slimesteel_fluid": "Ergimiş Balçıkçeliği",
   "fluid.tconstruct.molten_slimesteel": "Ergimiş Balçıkçeliği",
   "fluid.tconstruct.flowing_molten_slimesteel": "Akan Ergimiş Balçıkçeliği",
   "item.tconstruct.molten_slimesteel_bucket": "Ergimiş Balçıkçeliği Kovası",
-
   "block.tconstruct.molten_amethyst_bronze_fluid": "Ergimiş Ametist Tuncu",
   "fluid.tconstruct.molten_amethyst_bronze": "Ergimiş Ametist Tuncu",
   "fluid.tconstruct.flowing_molten_amethyst_bronze": "Akan Ergimiş Ametist Tuncu",
   "item.tconstruct.molten_amethyst_bronze_bucket": "Ergimiş Ametist Tuncu Kovası",
-
   "block.tconstruct.molten_rose_gold_fluid": "Ergimiş Pembe Altın",
   "fluid.tconstruct.molten_rose_gold": "Ergimiş Pembe Altın",
   "fluid.tconstruct.flowing_molten_rose_gold": "Akan Ergimiş Pembe Altın",
   "item.tconstruct.molten_rose_gold_bucket": "Ergimiş Pembe Altın Kovası",
-
   "block.tconstruct.molten_pig_iron_fluid": "Ergimiş Domuz Demiri",
   "fluid.tconstruct.molten_pig_iron": "Ergimiş Domuz Demiri",
   "fluid.tconstruct.flowing_molten_pig_iron": "Akan Ergimiş Domuz Demiri",
   "item.tconstruct.molten_pig_iron_bucket": "Ergimiş Domuz Demiri Kovası",
-
-  "_comment": "4. Aşama Alaşımları",
-
   "block.tconstruct.molten_manyullyn_fluid": "Ergimiş Menyullen",
   "fluid.tconstruct.molten_manyullyn": "Ergimiş Menyullen",
   "fluid.tconstruct.flowing_molten_manyullyn": "Akan Ergimiş Menyullen",
   "item.tconstruct.molten_manyullyn_bucket": "Ergimiş Menyullen Kovası",
-
   "block.tconstruct.molten_hepatizon_fluid": "Ergimiş Hepatizon",
   "fluid.tconstruct.molten_hepatizon": "Ergimiş Hepatizon",
   "fluid.tconstruct.flowing_molten_hepatizon": "Akan Ergimiş Hepatizon",
   "item.tconstruct.molten_hepatizon_bucket": "Ergimiş Hepatizon Kovası",
-
   "block.tconstruct.molten_queens_slime_fluid": "Ergimiş Ecenin Balçığı",
   "fluid.tconstruct.molten_queens_slime": "Ergimiş Ecenin Balçığı",
   "fluid.tconstruct.flowing_molten_queens_slime": "Akan Ergimiş Ecenin Balçığı",
   "item.tconstruct.molten_queens_slime_bucket": "Ergimiş Ecenin Balçığı Kovası",
-
   "block.tconstruct.molten_soulsteel_fluid": "Ergimiş Ruhçeliği",
   "fluid.tconstruct.molten_soulsteel": "Ergimiş Ruhçeliği",
   "fluid.tconstruct.flowing_molten_soulsteel": "Akan Ergimiş Ruhçeliği",
   "item.tconstruct.molten_soulsteel_bucket": "Ergimiş Ruhçeliği Kovası",
-
   "block.tconstruct.molten_netherite_fluid": "Ergimiş Netherit",
   "fluid.tconstruct.molten_netherite": "Ergimiş Netherit",
   "fluid.tconstruct.flowing_molten_netherite": "Akan Ergimiş Netherit",
   "item.tconstruct.molten_netherite_bucket": "Ergimiş Netherit Kovası",
-
   "block.tconstruct.molten_knightslime_fluid": "Ergimiş Şövalyebalçığı",
   "fluid.tconstruct.molten_knightslime": "Ergimiş Şövalyebalçığı",
   "fluid.tconstruct.flowing_molten_knightslime": "Akan Ergimiş Şövalyebalçığı",
   "item.tconstruct.molten_knightslime_bucket": "Ergimiş Şövalyebalçığı Kovası",
-
-  "_comment": "Savaş Cevherleri",
-
   "block.tconstruct.molten_tin_fluid": "Ergimiş Kalay",
   "fluid.tconstruct.molten_tin": "Ergimiş Kalay",
   "fluid.tconstruct.flowing_molten_tin": "Akan Ergimiş Kalay",
   "item.tconstruct.molten_tin_bucket": "Ergimiş Kalay Kovası",
-
   "block.tconstruct.molten_aluminum_fluid": "Ergimiş Alüminyum",
   "fluid.tconstruct.molten_aluminum": "Ergimiş Alüminyum",
   "fluid.tconstruct.flowing_molten_aluminum": "Akan Ergimiş Alüminyum",
   "item.tconstruct.molten_aluminum_bucket": "Ergimiş Alüminyum Kovası",
-
   "block.tconstruct.molten_lead_fluid": "Ergimiş Kurşun",
   "fluid.tconstruct.molten_lead": "Ergimiş Kurşun",
   "fluid.tconstruct.flowing_molten_lead": "Akan Ergimiş Kurşun",
   "item.tconstruct.molten_lead_bucket": "Ergimiş Kurşun Kovası",
-
   "block.tconstruct.molten_silver_fluid": "Ergimiş Gümüş",
   "fluid.tconstruct.molten_silver": "Ergimiş Gümüş",
   "fluid.tconstruct.flowing_molten_silver": "Akan Ergimiş Gümüş",
   "item.tconstruct.molten_silver_bucket": "Ergimiş Gümüş Kovası",
-
   "block.tconstruct.molten_nickel_fluid": "Ergimiş Nikel",
   "fluid.tconstruct.molten_nickel": "Ergimiş Nikel",
   "fluid.tconstruct.flowing_molten_nickel": "Akan Ergimiş Nikel",
   "item.tconstruct.molten_nickel_bucket": "Ergimiş Nikel Kovası",
-
   "block.tconstruct.molten_zinc_fluid": "Ergimiş Çinko",
   "fluid.tconstruct.molten_zinc": "Ergimiş Çinko",
   "fluid.tconstruct.flowing_molten_zinc": "Akan Ergimiş Çinko",
   "item.tconstruct.molten_zinc_bucket": "Ergimiş Çinko Kovası",
-
   "block.tconstruct.molten_platinum_fluid": "Ergimiş Platin",
   "fluid.tconstruct.molten_platinum": "Ergimiş Platin",
   "fluid.tconstruct.flowing_molten_platinum": "Akan Ergimiş Platin",
   "item.tconstruct.molten_platinum_bucket": "Ergimiş Platin Kovası",
-
   "block.tconstruct.molten_tungsten_fluid": "Ergimiş Volfram",
   "fluid.tconstruct.molten_tungsten": "Ergimiş Volfram",
   "fluid.tconstruct.flowing_molten_tungsten": "Akan Ergimiş Volfram",
   "item.tconstruct.molten_tungsten_bucket": "Ergimiş Volfram Kovası",
-
   "block.tconstruct.molten_osmium_fluid": "Ergimiş Osmiyum",
   "fluid.tconstruct.molten_osmium": "Ergimiş Osmiyum",
   "fluid.tconstruct.flowing_molten_osmium": "Akan Ergimiş Osmiyum",
   "item.tconstruct.molten_osmium_bucket": "Ergimiş Osmiyum Kovası",
-
   "block.tconstruct.molten_uranium_fluid": "Ergimiş Uranyum",
   "fluid.tconstruct.molten_uranium": "Ergimiş Uranyum",
   "fluid.tconstruct.flowing_molten_uranium": "Akan Ergimiş Uranyum",
   "item.tconstruct.molten_uranium_bucket": "Ergimiş Uranyum Kovası",
-
-  "_comment": "Savaş Alaşımları",
-
   "block.tconstruct.molten_bronze_fluid": "Ergimiş Tunç",
   "fluid.tconstruct.molten_bronze": "Ergimiş Tunç",
   "fluid.tconstruct.flowing_molten_bronze": "Akan Ergimiş Tunç",
   "item.tconstruct.molten_bronze_bucket": "Ergimiş Tunç Kovası",
-
   "block.tconstruct.molten_brass_fluid": "Ergimiş Pirinç",
   "fluid.tconstruct.molten_brass": "Ergimiş Pirinç",
   "fluid.tconstruct.flowing_molten_brass": "Akan Ergimiş Pirinç",
   "item.tconstruct.molten_brass_bucket": "Ergimiş Pirinç Kovası",
-
   "block.tconstruct.molten_electrum_fluid": "Ergimiş Elektrum",
   "fluid.tconstruct.molten_electrum": "Ergimiş Elektrum",
   "fluid.tconstruct.flowing_molten_electrum": "Akan Ergimiş Elektrum",
   "item.tconstruct.molten_electrum_bucket": "Ergimiş Elektrum Kovası",
-
   "block.tconstruct.molten_invar_fluid": "Ergimiş İnvar",
   "fluid.tconstruct.molten_invar": "Ergimiş İnvar",
   "fluid.tconstruct.flowing_molten_invar": "Akan Ergimiş İnvar",
   "item.tconstruct.molten_invar_bucket": "Ergimiş İnvar Kovası",
-
   "block.tconstruct.molten_constantan_fluid": "Ergimiş Konstantan",
   "fluid.tconstruct.molten_constantan": "Ergimiş Konstantan",
   "fluid.tconstruct.flowing_molten_constantan": "Akan Ergimiş Konstantan",
   "item.tconstruct.molten_constantan_bucket": "Ergimiş Konstantan Kovası",
-
   "block.tconstruct.molten_pewter_fluid": "Ergimiş Püta",
   "fluid.tconstruct.molten_pewter": "Ergimiş Püta",
   "fluid.tconstruct.flowing_molten_pewter": "Akan Ergimiş Püta",
   "item.tconstruct.molten_pewter_bucket": "Ergimiş Püta Kovası",
-
   "block.tconstruct.molten_steel_fluid": "Ergimiş Çelik",
   "fluid.tconstruct.molten_steel": "Ergimiş Çelik",
   "fluid.tconstruct.flowing_molten_steel": "Akan Ergimiş Çelik",
   "item.tconstruct.molten_steel_bucket": "Ergimiş Çelik Kovası",
-
-  "_comment": "Thermal Alaşımları",
-
   "block.tconstruct.molten_enderium_fluid": "Ergimiş Enderyum",
   "fluid.tconstruct.molten_enderium": "Ergimiş Enderyum",
   "fluid.tconstruct.flowing_molten_enderium": "Akan Ergimiş Enderyum",
   "item.tconstruct.molten_enderium_bucket": "Ergimiş Enderyum Kovası",
-
   "block.tconstruct.molten_lumium_fluid": "Ergimiş Pırılyum",
   "fluid.tconstruct.molten_lumium": "Ergimiş Pırılyum",
   "fluid.tconstruct.flowing_molten_lumium": "Akan Ergimiş Pırılyum",
   "item.tconstruct.molten_lumium_bucket": "Ergimiş Pırılyum Kovası",
-
   "block.tconstruct.molten_signalum_fluid": "Ergimiş Uyaryum",
   "fluid.tconstruct.molten_signalum": "Ergimiş Uyaryum",
   "fluid.tconstruct.flowing_molten_signalum": "Akan Ergimiş Uyaryum",
   "item.tconstruct.molten_signalum_bucket": "Ergimiş Uyaryum Kovası",
-
-  "_comment": "Mekanism Alaşımları",
-
   "block.tconstruct.molten_refined_glowstone_fluid": "Ergimiş İşlenmiş Işık Taşı",
   "fluid.tconstruct.molten_refined_glowstone": "Ergimiş İşlenmiş Işık Taşı",
   "fluid.tconstruct.flowing_molten_refined_glowstone": "Akan Ergimiş İşlenmiş Işık Taşı",
   "item.tconstruct.molten_refined_glowstone_bucket": "Ergimiş İşlenmiş Işık Taşı Kovası",
-
   "block.tconstruct.molten_refined_obsidian_fluid": "Ergimiş İşlenmiş Obsidyen",
   "fluid.tconstruct.molten_refined_obsidian": "Ergimiş İşlenmiş Obsidyen",
   "fluid.tconstruct.flowing_molten_refined_obsidian": "Akan Ergimiş İşlenmiş Obsidyen",
   "item.tconstruct.molten_refined_obsidian_bucket": "Ergimiş İşlenmiş Obsidiyen Kovası",
-
-
-  "_comment": "Onarıcının Ivır Zıvırları",
-
   "block.tconstruct.punji": "Punji Kazığı",
   "block.tconstruct.punji.tooltip": "Sivri! Ayrıca duvarlara da yapışır.",
-
   "item.tconstruct.clear_item_frame": "Saydam Eşya Çerçevesi",
   "item.tconstruct.gold_item_frame": "Altın Eşya Çerçevesi",
   "item.tconstruct.reversed_gold_item_frame": "Ters Yüz Edilmiş Altın Eşya Çerçevesi",
   "item.tconstruct.diamond_item_frame": "Elmas Eşya Çerçevesi",
   "item.tconstruct.manyullyn_item_frame": "Menyullen Eşya Çerçevesi",
   "item.tconstruct.netherite_item_frame": "Netherit Eşya Çerçevesi",
-
   "item.tconstruct.glow_ball": "Işık Topu",
   "item.tconstruct.glow_ball.tooltip": "Tüketime uygun değildir.",
   "item.tconstruct.efln_ball": "EFLN",
   "item.tconstruct.efln_ball.tooltip": "Patlar! Madencilik için güvenli",
-
   "item.tconstruct.quartz_shuriken": "Kuvars Ninja Yıldızı",
   "item.tconstruct.quartz_shuriken.tooltip": "Daha yüksek hasarlı atılabilir silah",
   "item.tconstruct.flint_shuriken": "Çakmak Taşı Ninja Yıldızı",
   "item.tconstruct.flint_shuriken.tooltip": "Yüksek savurmalı atılabilir silah",
-
   "block.tconstruct.earth_cake": "Karabalçığı Keki",
-  "block.tconstruct.sky_cake":   "Gökbalçığı Keki",
+  "block.tconstruct.sky_cake": "Gökbalçığı Keki",
   "block.tconstruct.ichor_cake": "Od Keki",
   "block.tconstruct.ender_cake": "Enderbalçığı Keki",
   "block.tconstruct.blood_cake": "Kan Keki",
   "block.tconstruct.magma_cake": "Magma Keki",
-
   "item.tconstruct.piggy_backpack": "Sırtlama Çantası",
   "item.tconstruct.piggy_backpack.tooltip": "Yaratığı almak için üzerine kullanın",
   "effect.tconstruct.carry": "Taşıyor",
-
-  "block.tconstruct.blaze_head":            "Blaze Kafası",
-  "block.tconstruct.enderman_head":         "Enderman Kafası",
-  "block.tconstruct.stray_head":            "Serseri Kafatası",
-  "block.tconstruct.husk_head":             "Zombi Kurusu Kafası",
-  "block.tconstruct.drowned_head":          "Boğuk Kafası",
-  "block.tconstruct.spider_head":           "Örümcek Kafası",
-  "block.tconstruct.cave_spider_head":      "Mağara Örümceği Kafası",
-  "block.tconstruct.piglin_brute_head":     "Zalim Piglin Kafası",
+  "block.tconstruct.blaze_head": "Blaze Kafası",
+  "block.tconstruct.enderman_head": "Enderman Kafası",
+  "block.tconstruct.stray_head": "Serseri Kafatası",
+  "block.tconstruct.husk_head": "Zombi Kurusu Kafası",
+  "block.tconstruct.drowned_head": "Boğuk Kafası",
+  "block.tconstruct.spider_head": "Örümcek Kafası",
+  "block.tconstruct.cave_spider_head": "Mağara Örümceği Kafası",
+  "block.tconstruct.piglin_brute_head": "Zalim Piglin Kafası",
   "block.tconstruct.zombified_piglin_head": "Zombileşmiş Piglin Kafası",
-
-
-  "_comment": "Onarıcının Masaları",
-
   "block.tconstruct.crafting_station": "Çalışma İstasyonu",
-
   "block.tconstruct.tinker_station": "Onarıcı İstasyonu",
   "block.tconstruct.tinkers_anvil": "Onarıcının Örsü",
   "block.tconstruct.scorched_anvil": "Onarıcının Örsü",
-
   "block.tconstruct.part_builder": "Parça Yapıcı",
   "block.tconstruct.modifier_worktable": "Değiştirici Çalışma Masası",
-
   "block.tconstruct.part_chest": "Parça Sandığı",
   "block.tconstruct.part_chest.tooltip": "256'ya kadar farklı araç parçasını tutabilir",
-
   "block.tconstruct.tinkers_chest": "Onarıcının Sandığı",
   "block.tconstruct.tinkers_chest.tooltip": "16 eşyadan oluşan 64 yığına kadar tutabilir",
-
   "block.tconstruct.cast_chest": "Kalıp Sandığı",
   "block.tconstruct.cast_chest.tooltip": "İlişkili bütün kalıpları tutar",
-
   "item.tconstruct.pattern": "Taslak",
-
-  "_comment": "Onarıcının Araçları",
-
   "_comment_on_format_": "Bu biçimler senin malzeme adlarını ayırmada daha fazla denetim sağlar. Varsayılan olarak boşlukla ayrılıyor. Düzeni değiştirmek istiyorsanız %1$s ve %2$s kullanabilirsiniz.",
   "item.tconstruct.tool.format": "%s %s",
   "item.tconstruct.tool.id_format": "%s (%s)",
   "item.tconstruct.tool.material_separator": "-",
-
   "item.tconstruct.pickaxe": "Kazma",
   "item.tconstruct.sledge_hammer": "Balyoz",
   "item.tconstruct.vein_hammer": "Damar Çekici",
-
   "item.tconstruct.mattock": "Keser Çapası",
   "item.tconstruct.pickadze": "Kazı Küreği",
   "item.tconstruct.excavator": "Kazaratar",
-
   "item.tconstruct.hand_axe": "El Baltası",
   "item.tconstruct.broad_axe": "Savaş Baltası",
-
   "item.tconstruct.kama": "Kama",
   "item.tconstruct.scythe": "Tırpan",
-
   "item.tconstruct.dagger": "Hançer",
   "item.tconstruct.sword": "Kılıç",
   "item.tconstruct.cleaver": "Satır",
-
   "item.tconstruct.crossbow": "Tatar Yayı",
   "item.tconstruct.longbow": "Uzun Yay",
-
   "item.tconstruct.flint_and_brick": "Çakmak Taşı ve Tuğla",
   "item.tconstruct.sky_staff": "Gökbalçığı Asası",
   "item.tconstruct.earth_staff": "Karabalçığı Asası",
   "item.tconstruct.ichor_staff": "Od Asası",
   "item.tconstruct.ender_staff": "Enderbalçığı Asası",
-
   "item.tconstruct.travelers_helmet": "Gezginin Gözlüğü",
   "item.tconstruct.travelers_chestplate": "Gezginin Yeleği",
   "item.tconstruct.travelers_leggings": "Gezginin Pantolonu",
   "item.tconstruct.travelers_boots": "Gezginin Botu",
   "item.tconstruct.travelers_shield": "Gezginin Kalkanı",
-
   "item.tconstruct.plate_helmet": "Sac Kask",
   "item.tconstruct.plate_chestplate": "Sac Göğüslük",
   "item.tconstruct.plate_leggings": "Sac Pantolon",
   "item.tconstruct.plate_boots": "Sac Bot",
   "item.tconstruct.plate_shield": "Sac Kalkan",
-
   "item.tconstruct.slime_helmet": "Balçıklı Kafatası",
   "item.tconstruct.slime_leggings": "Balçıklı Kabuk",
   "item.tconstruct.slime_boots": "Balçıklı Bot",
   "item.tconstruct.slime_wings": "Balçıklı Elitra",
-
   "item.tconstruct.crystalshot": "Kristal Atış",
   "entity.tconstruct.crystalshot": "Kristal Atış",
-
-  "_comment": "Onarıcının Araç Parçaları",
-
   "item.tconstruct.repair_kit": "Onarım Takımı",
-
   "item.tconstruct.pick_head": "Kazma Başı",
   "item.tconstruct.hammer_head": "Çekiç Başı",
-
   "item.tconstruct.small_axe_head": "Küçük Balta Başı",
   "item.tconstruct.broad_axe_head": "Savaş Baltası Başı",
-
   "item.tconstruct.small_blade": "Küçük Bıçak Ağzı",
   "item.tconstruct.broad_blade": "Koca Bıçak Ağzı",
-
   "item.tconstruct.tool_handle": "Araç Sapı",
   "item.tconstruct.tough_handle": "Sert Sap",
   "item.tconstruct.tool_binding": "Araç Bağlayıcı",
   "item.tconstruct.large_plate": "Büyük Sac",
-
   "item.tconstruct.bow_limb": "Yay Kanadı",
   "item.tconstruct.bow_grip": "Yay Tutamacı",
   "item.tconstruct.bowstring": "Yay İpi",
-
-
   "_conment": "Araç Tanımlamaları",
-
   "item.tconstruct.pickaxe.description": "Kazma eksiksiz bir madencilik aracıdır. Taş ve cevherler üzerinde etkilidir.\nBlokları kırar, TAMAM mı?",
   "item.tconstruct.sledge_hammer.description": "Balyoz koca bir madencilik aracıdır. Geniş alanda blokları kazar.\nAyrıca yaşayan ölülere karşı etkilidir.",
   "item.tconstruct.vein_hammer.description": "Damar Çekici koca bir madencilik aracıdır. Aynı türden birbirlerine değen blokları kırar, cevherler için kusursuzdur.",
-
   "item.tconstruct.mattock.description": "Keser Çapası çok amaçlı çiftçilik aracıdır. Toprak, kum, çakıl, kütükler ve bitkiler üzerinde etkilidir.\nYeter ki kendi mezarını kazma!",
   "item.tconstruct.pickadze.description": "Kazı Küreği çok amaçlı madencilik aracıdır. Kaya, toprak, kum ve çakıl üzerinde etkilidir ancak birçok cevher gibi sert blokları kazacak kadar keskin değildir.",
   "item.tconstruct.excavator.description": "Kazaratar koca bir küreme aracıdır. Geniş alanda büyük bölgelerde toprağı ve karı kürer.\nYeryüzünü biçimlendirme!",
-
   "item.tconstruct.hand_axe.description": "El Baltası odunu keser ve yaprakları bir çırpıda bitirtir. Ayrıca etkili bir silahtır.\nKes kes!",
   "item.tconstruct.broad_axe.description": "Savaş Baltası tek savurmada küçük bir ağacı yere serer ve büyük ağaçları çabukca bitirtir. Güçlü bir ağır silahtır.\nKereste!",
-
   "item.tconstruct.kama.description": "Kama eksiksiz bir biçme aracıdır, bitkileri biçer ve hayvanları kırpar.\nSağ Tıklama: Ürünleri biç ve geri dik",
   "item.tconstruct.scythe.description": "Tırpan koca bir biçme aracıdır, geniş alanda bitkileri biçer.\nSağ Tıklama: Ürünleri biç ve geri dik",
-
   "item.tconstruct.dagger.description": "Hançer hafif bir silahtır, iki elden de çabuk vuruşlar yapabilir.",
   "item.tconstruct.sword.description": "Kılıç evrensel bir silahtır. Süpüren saldırılar düşman kalabalığını uzakta tutuyor.\nAyrıca örümcek ağlarına karşı iyi!",
   "item.tconstruct.cleaver.description": "Satır kallama ocağının ustaları için bir silahtır. Yüksek menzilli saldırılar düşmanları boylu boyunca kesip durur.",
-
   "item.tconstruct.crossbow.description": "Tatar yayı hafif bir uzun menzilli silahtır, okları ve havai fişekleri çabukca ateşleyebilir.",
   "item.tconstruct.longbow.description": "Uzun yay koca bir uzun menzilli silahtır, okları uzak menzillere kesinlik ile ateşleyebilir.",
-
-
-  "_comment": "Kallama Ocağı Paylaşılan",
-
   "block.tconstruct.tank.drained": "Çekilmiş %s mk %s",
   "block.tconstruct.tank.filled": "Dolmuş %s mk %s",
-
   "block.tconstruct.channel.side.in": "Yüzden içe doğru akması için ayarlandı",
   "block.tconstruct.channel.side.out": "Yüzden dışa doğru akması için ayarlandı",
   "block.tconstruct.channel.side.none": "Yüzden akmasını engellemek için ayarlandı",
   "block.tconstruct.channel.down.out": "Aşağı doğru akması izin verildi",
   "block.tconstruct.channel.down.none": "Aşağı doğru akması engelledi",
-
   "death.attack.tconstruct.smeltery_heat": "%1$s ergimiş oyuncu yapmayı denedi",
   "death.attack.tconstruct.smeltery_heat.player": "%1$s, %2$s ile savaşırken ergimiş oyuncu yapmaya çalıştı",
   "death.attack.tconstruct.smeltery_magic": "%1$s kallama ocağıyla bir oldu",
   "death.attack.tconstruct.smeltery_magic.player": "%1$s, %2$s ile savaşırken kallama ocağıyla bir oldu",
   "death.attack.tconstruct.self_destruct": "%1$s kendini yok etti",
   "death.attack.tconstruct.self_destruct.player": "%1$s, %2$s ile savaşırken kendini yok etti",
-
   "gui.tconstruct.melting.no_recipe": "Eşya ergitilemez.",
   "gui.tconstruct.melting.no_heat": "Bu eşyayı ergitmek için yeterince ısı yok.",
   "gui.tconstruct.melting.no_space": "Bu sıvı için yeterince yer yok.",
-
   "gui.tconstruct.melting.fuel.no_tank": "Yapıda tank yok",
   "gui.tconstruct.melting.fuel.empty": "Yakıt bulunamadı",
   "gui.tconstruct.melting.fuel.solid": "Katı yakıt",
   "gui.tconstruct.melting.fuel.temperature": "Sıcaklık: %s°C",
   "gui.tconstruct.melting.fuel.invalid": "Geçersiz ergimiş yakıt!",
-
   "gui.tconstruct.duct": "Boşaltaç",
-
   "multiblock.tconstruct.generic.no_attempt": "Yapı algılaması geri dönmedi, bu çoğunlukla moddan kaynaklı bir hata",
   "multiblock.tconstruct.generic.not_loaded": "Yapı yüklenen alanın dışında, bu çoğunlukla moddan kaynaklı bir hata",
   "multiblock.tconstruct.generic.too_high": "Yapı dünyanın üstündeki bloklara gereksinim duyuyor",
   "multiblock.tconstruct.generic.too_large": "Yapının içi çok büyük: şuanda %s×%s, en çok %s×%s, ",
-
   "multiblock.tconstruct.generic.invalid_inner_block": "Yapı içinde geçersiz blok",
   "multiblock.tconstruct.generic.invalid_wall_block": "Yapı duvarında geçersiz blok",
   "multiblock.tconstruct.generic.invalid_floor_block": "Yapı tabanında geçersiz blok",
@@ -958,45 +682,34 @@
   "multiblock.tconstruct.generic.invalid_wall_frame": "Yapı duvarındaki ayrıtlarda geçersiz blok",
   "multiblock.tconstruct.generic.invalid_floor_frame": "Yapı tabanındaki ayrıtlarda geçersiz blok",
   "multiblock.tconstruct.generic.invalid_ceiling_frame": "Yapı tavanındaki ayrıtlarda geçersiz blok",
-
   "multiblock.tconstruct.tiny.no_fuel_tank": "Çalışabilmesi için üstüne yakıt tankı ya da ısıtıcı konulması gerekiyor",
-
-
-  "_comment": "Onarıcının Kallama Ocağı",
-
   "block.tconstruct.grout": "Harç",
   "block.tconstruct.grout.tooltip": "Ben Harcım(Grout)!",
-
   "block.tconstruct.seared_stone": "Kararmış Taş",
   "block.tconstruct.seared_stone.tooltip": "Kallama Ocağı parçası.",
   "block.tconstruct.seared_stone_slab": "Kararmış Taş Basamak",
   "block.tconstruct.seared_stone_stairs": "Kararmış Taş Merdiven",
-
   "block.tconstruct.seared_cobble": "Kararmış Kırık Taş",
   "block.tconstruct.seared_cobble.tooltip": "Kallama Ocağı parçası.",
   "block.tconstruct.seared_cobble_slab": "Kararmış Kırık Taş Basamak",
   "block.tconstruct.seared_cobble_stairs": "Kararmış Kırık Taş Merdiven",
   "block.tconstruct.seared_cobble_wall": "Kararmış Kırık Taş Duvar",
-
   "item.tconstruct.seared_brick": "Kararmış Tuğla",
   "block.tconstruct.seared_bricks": "Kararmış Tuğla",
   "block.tconstruct.seared_bricks.tooltip": "Kallama Ocağı parçası.",
   "block.tconstruct.seared_bricks_slab": "Kararmış Tuğla Basamak",
   "block.tconstruct.seared_bricks_stairs": "Kararmış Tuğla Merdiven",
   "block.tconstruct.seared_bricks_wall": "Kararmış Tuğla Duvar",
-
   "block.tconstruct.seared_paver": "Kararmış Kaldırım Taşı",
   "block.tconstruct.seared_paver.tooltip": "Kallama Ocağı parçası.",
   "block.tconstruct.seared_paver_slab": "Kararmış Kaldırım Taşı Basamak",
   "block.tconstruct.seared_paver_stairs": "Kararmış Kaldırım Taşı Merdiven",
-
   "block.tconstruct.seared_cracked_bricks": "Çatlak Kararmış Tuğla",
   "block.tconstruct.seared_cracked_bricks.tooltip": "Kallama Ocağı parçası.",
   "block.tconstruct.seared_fancy_bricks": "Süslü Kararmış Tuğla",
   "block.tconstruct.seared_fancy_bricks.tooltip": "Kallama Ocağı parçası.",
   "block.tconstruct.seared_triangle_bricks": "Üçgen Kararmış Tuğla",
   "block.tconstruct.seared_triangle_bricks.tooltip": "Kallama Ocağı parçası.",
-
   "block.tconstruct.seared_glass": "Kararmış Cam",
   "block.tconstruct.seared_glass.tooltip": "Kallama Ocağı parçası.\nSıvı tutamaz.",
   "block.tconstruct.seared_soul_glass": "Kararmış Ruh Camı",
@@ -1007,10 +720,8 @@
   "block.tconstruct.seared_glass_pane.tooltip": "Kallama Ocağında kullanılamaz.",
   "block.tconstruct.seared_soul_glass_pane": "Kararmış İnce Ruh Camı",
   "block.tconstruct.seared_soul_glass_pane.tooltip": "Kallama Ocağında kullanılamaz ama içinden geçilebilir.",
-
   "block.tconstruct.seared_ladder": "Kararmış Merdiven",
   "block.tconstruct.seared_ladder.tooltip": "Tırmanılabilir Kallama Ocağı bloğu.",
-
   "block.tconstruct.seared_fuel_tank": "Kararmış Yakıt Tankı",
   "block.tconstruct.seared_fuel_tank.tooltip": "Kallama Ocağınının kalbi.\nSıvıyı kırılınca aklında tutar.",
   "block.tconstruct.seared_fuel_gauge": "Kararmış Göstergeli Yakıt Tankı",
@@ -1021,65 +732,50 @@
   "block.tconstruct.seared_ingot_gauge.tooltip": "Metaller için ülküseldir, 48 külçelik sıvı tutabilir.\nSıvıyı kırılınca aklında tutar.",
   "block.tconstruct.seared_lantern": "Kararmış Fener",
   "block.tconstruct.seared_lantern.tooltip": "Süsleme için ülküseldir, 50 mk sıvı tutabilir.\nSıvıyı kırılınca aklında tutar.",
-
   "block.tconstruct.seared_faucet": "Kararmış Musluk",
   "block.tconstruct.seared_faucet.tooltip": "Kallama Ocağından ve Tanklardan sıvı akıtır",
   "block.tconstruct.seared_channel": "Kararmış Kanal",
   "block.tconstruct.seared_channel.tooltip": "Musluktan aşağı dökülen sıvıyı dağıtır.",
-
   "block.tconstruct.seared_basin": "Kararmış Döküm Çanağı",
   "block.tconstruct.seared_basin.tooltip": "Kallama Ocağındaki ergimiş metalleri kullanarak onların eşyalarını dökümler",
   "block.tconstruct.seared_table": "Kararmış Döküm Masası",
   "block.tconstruct.seared_table.tooltip": "Kallama Ocağındaki ergimiş metalleri kullanarak onların eşyalarını dökümler",
-
   "block.tconstruct.seared_melter": "Kararmış Ergitici",
   "block.tconstruct.seared_melter.tooltip": "İlk Kallama Ocağı.\nYakıt alabilmesi için üstüne yakıt tankı ya da ısıtıcı koy.",
   "gui.tconstruct.melter": "Ergitici",
   "gui.tconstruct.melting.capacity": "Sığa:",
   "gui.tconstruct.melting.available": "Boşta:",
   "gui.tconstruct.melting.used": "Kullanılmış:",
-
   "block.tconstruct.seared_heater": "Kararmış Isıtıcı",
   "block.tconstruct.seared_heater.tooltip": "Ergitici için katı yakıt sağlayıcı.",
   "gui.tconstruct.heater": "Isıtıcı",
-
   "block.tconstruct.smeltery_controller": "Kallama Ocağı Denetimcisi",
   "block.tconstruct.smeltery_controller.tooltip": "Kallama Ocağının beyni.",
   "gui.tconstruct.smeltery": "Kallama Ocağı",
-
   "block.tconstruct.seared_drain": "Kararmış Akıtaç",
   "block.tconstruct.seared_drain.tooltip": "Kallama Ocağı sıvı girişi ve çıkışı",
   "block.tconstruct.seared_duct": "Kararmış Boşaltaç",
   "block.tconstruct.seared_duct.tooltip": "Bakır teneke kutular ya da kovalar aracılığıyla süzülmüş Kallama Ocağı sıvı girişi ve çıkışı",
   "block.tconstruct.seared_chute": "Kararmış Oluk",
   "block.tconstruct.seared_chute.tooltip": "Kallama Ocağı eşya girişi ve çıkışı",
-
-
-  "_comment": "Onarıcının Dökümevi",
-
   "block.tconstruct.nether_grout": "Nether Harcı",
   "block.tconstruct.nether_grout.tooltip": "Biz harcız(Grout)!",
-
   "block.tconstruct.scorched_stone": "Kavrulmuş Taş",
   "block.tconstruct.scorched_stone.tooltip": "Dökümevi parçası.",
   "block.tconstruct.polished_scorched_stone": "Cilalı Kavrulmuş Taş",
   "block.tconstruct.polished_scorched_stone.tooltip": "Dökümevi parçası.",
-
   "item.tconstruct.scorched_brick": "Kavrulmuş Tuğla",
   "block.tconstruct.scorched_bricks": "Kavrulmuş Tuğla",
   "block.tconstruct.scorched_bricks.tooltip": "Dökümevi parçası.",
   "block.tconstruct.scorched_bricks_slab": "Kavrulmuş Tuğla Basamak",
   "block.tconstruct.scorched_bricks_stairs": "Kavrulmuş Tuğla Merdiven",
   "block.tconstruct.scorched_bricks_fence": "Kavrulmuş Tuğla Duvar",
-
   "block.tconstruct.scorched_road": "Kavrulmuş Yol",
   "block.tconstruct.scorched_road.tooltip": "Dökümevi parçası.",
   "block.tconstruct.scorched_road_slab": "Kavrulmuş Yol Basamak",
   "block.tconstruct.scorched_road_stairs": "Kavrulmuş Yol Merdiven",
-
   "block.tconstruct.chiseled_scorched_bricks": "Oyma Kavrulmuş Tuğla",
   "block.tconstruct.chiseled_scorched_bricks.tooltip": "Dökümevi parçası.",
-
   "block.tconstruct.scorched_glass": "Kavrulmuş Cam",
   "block.tconstruct.scorched_glass.tooltip": "Dökümevi parçası.\nSıvı tutamaz.",
   "block.tconstruct.scorched_soul_glass": "Kavrulmuş Ruh Camı",
@@ -1090,10 +786,8 @@
   "block.tconstruct.scorched_glass_pane.tooltip": "Dökümevinde kullanılamaz.",
   "block.tconstruct.scorched_soul_glass_pane": "Kavrulmuş İnce Ruh Camı",
   "block.tconstruct.scorched_soul_glass_pane.tooltip": "Dökümevinde kullanılamaz ama içinden geçilebilir.",
-
   "block.tconstruct.scorched_ladder": "Kavrulmuş Merdiven",
   "block.tconstruct.scorched_ladder.tooltip": "Tırmanılabilir Dökümevi bloğu.",
-
   "block.tconstruct.scorched_fuel_tank": "Kavrulmuş Yakıt Tankı",
   "block.tconstruct.scorched_fuel_tank.tooltip": "Dökümevinin kalbi.\nSıvıyı kırılınca aklında tutar.",
   "block.tconstruct.scorched_fuel_gauge": "Kavrulmuş Göstergeli Yakıt Tankı",
@@ -1104,37 +798,29 @@
   "block.tconstruct.scorched_ingot_gauge.tooltip": "Metaller için ülküseldir, 48 külçelik sıvı tutabilir.\nSıvıyı kırılınca aklında tutar.",
   "block.tconstruct.scorched_lantern": "Kavrulmuş Fener",
   "block.tconstruct.scorched_lantern.tooltip": "Süsleme için ülküseldir, 50mb sıvı tutabilir.\nSıvıyı kırılınca aklında tutar.",
-
   "block.tconstruct.scorched_faucet": "Kavrulmuş Musluk",
   "block.tconstruct.scorched_faucet.tooltip": "Dökümevinden ve Tanklardan sıvı akıtır",
   "block.tconstruct.scorched_basin": "Kavrulmuş Dökümleme Çanağı",
   "block.tconstruct.scorched_basin.tooltip": "Dökümevindeki ergimiş metalleri kullanarak onların eşyalarını dökümler, döküm için kalıp ya da altın iskele gerekir",
   "block.tconstruct.scorched_table": "Kavrulmuş Dökümleme Masası",
   "block.tconstruct.scorched_table.tooltip": "Dökümevindeki ergimiş metalleri kullanarak onların eşyalarını dökümler, döküm için kalıp ya da altın parmaklık gerekir",
-
   "block.tconstruct.scorched_channel": "Kavrulmuş Kanal",
   "block.tconstruct.scorched_channel.tooltip": "Musluktan aşağı dökülen sıvıyı dağıtır.",
-
   "block.tconstruct.scorched_alloyer": "Kavrulmuş Alaşımlayıcı",
   "block.tconstruct.scorched_alloyer.tooltip": "Yalın alaşımlama makinesi.\nYakıt alabilmesi için üstüne yakıt tankı ya da ısıtıcı koy.",
   "gui.tconstruct.alloyer": "Alaşımlayıcı",
-
   "block.tconstruct.foundry_controller": "Dökümevi Denetimcisi",
   "block.tconstruct.foundry_controller.tooltip": "Dökümevinin beyni.",
   "gui.tconstruct.foundry": "Dökümevi",
-
   "block.tconstruct.scorched_drain": "Kavrulmuş Akıtaç",
   "block.tconstruct.scorched_drain.tooltip": "Dökümevi sıvı girişi ve çıkışı",
   "block.tconstruct.scorched_duct": "Kavrulmuş Boşaltaç",
   "block.tconstruct.scorched_duct.tooltip": "Bakır teneke kutular ya da kovalar aracılığıyla süzülmüş Dökümevi sıvı girişi ve çıkışı",
   "block.tconstruct.scorched_chute": "Kavrulmuş Oluk",
   "block.tconstruct.scorched_chute.tooltip": "Dökümevi eşya girişi ve çıkışı",
-
-
   "gui.tconstruct.fluid.kilobucket": "%s kk",
   "gui.tconstruct.fluid.bucket": "%s k",
   "gui.tconstruct.fluid.millibucket": "%s mk",
-
   "gui.tconstruct.fluid.block": "%s Blok",
   "gui.tconstruct.fluid.ingot": "%s Külçe",
   "gui.tconstruct.fluid.nugget": "%s Parça",
@@ -1145,12 +831,7 @@
   "gui.tconstruct.fluid.brick": "%s Tuğla",
   "gui.tconstruct.fluid.bowl": "%s Kase",
   "gui.tconstruct.fluid.bottle": "%s Şişe",
-
   "gui.tconstruct.fluid.hold_shift": "Kova birimi (kk, mk...) için §e§oShift§r§7 basın",
-
-
-  "_comment": "Onarıcının Dünyası",
-
   "entity.tconstruct.earth_slime": "Karabalçığı",
   "item.tconstruct.earth_slime_spawn_egg": "Karabalçığı Çağırma Yumurtası",
   "entity.tconstruct.sky_slime": "Gökbalçığı",
@@ -1159,7 +840,6 @@
   "item.tconstruct.ender_slime_spawn_egg": "Enderbalçığı Çağırma Yumurtası",
   "entity.tconstruct.terracube": "Yerkübü",
   "item.tconstruct.terracube_spawn_egg": "Yerkübü Çağırma Yumurtası",
-
   "block.tconstruct.earth_slime_dirt": "Karabalçığı Toprağı",
   "block.tconstruct.earth_slime_dirt.tooltip": "Balçığımsı ama daha yükseğe zıplamanı sağlar",
   "block.tconstruct.sky_slime_dirt": "Gökbalçığı Toprağı",
@@ -1168,7 +848,6 @@
   "block.tconstruct.ichor_slime_dirt.tooltip": "Balçığımsı ama daha yükseğe zıplamanı sağlar",
   "block.tconstruct.ender_slime_dirt": "Enderbalçığı Toprağı",
   "block.tconstruct.ender_slime_dirt.tooltip": "Balçığımsı ama daha yükseğe zıplamanı sağlar",
-
   "block.tconstruct.earth_vanilla_slime_grass": "Karabalçığı Çimeni",
   "block.tconstruct.earth_vanilla_slime_grass.tooltip": "Daha yükseğe zıplamanı sağlar ve dünya üzerindeyken karabalçığı oluşturur",
   "block.tconstruct.earth_earth_slime_grass": "Karabalçığı Çimeni",
@@ -1179,7 +858,6 @@
   "block.tconstruct.earth_ichor_slime_grass.tooltip": "Daha yükseğe zıplamanı sağlar ve dünya üzerindeyken karabalçığı oluşturur",
   "block.tconstruct.earth_ender_slime_grass": "Karabalçığı Çimeni",
   "block.tconstruct.earth_ender_slime_grass.tooltip": "Daha yükseğe zıplamanı sağlar ve dünya üzerindeyken karabalçığı oluşturur",
-
   "block.tconstruct.sky_vanilla_slime_grass": "Gökbalçığı Çimeni",
   "block.tconstruct.sky_vanilla_slime_grass.tooltip": "Daha yükseğe zıplamanı sağlar ve dünya üzerindeyken gökbalçığı oluşturur",
   "block.tconstruct.sky_earth_slime_grass": "Gökbalçığı Çimeni",
@@ -1190,7 +868,6 @@
   "block.tconstruct.sky_ichor_slime_grass.tooltip": "Daha yükseğe zıplamanı sağlar ve dünya üzerindeyken gökbalçığı oluşturur",
   "block.tconstruct.sky_ender_slime_grass": "Gökbalçığı Çimeni",
   "block.tconstruct.sky_ender_slime_grass.tooltip": "Daha yükseğe zıplamanı sağlar ve dünya üzerindeyken gökbalçığı oluşturur",
-
   "block.tconstruct.blood_vanilla_slime_grass": "Kanlı Nesilyum",
   "block.tconstruct.blood_vanilla_slime_grass.tooltip": "Daha yükseğe zıplamanı sağlar ve üzerinde kemik tozu uygulanırsa kanmantarı üretir",
   "block.tconstruct.blood_earth_slime_grass": "Kanlı Nesilyum",
@@ -1201,7 +878,6 @@
   "block.tconstruct.blood_ichor_slime_grass.tooltip": "Daha yükseğe zıplamanı sağlar ve üzerinde kemik tozu uygulanırsa kanmantarı üretir",
   "block.tconstruct.blood_ender_slime_grass": "Kanlı Nesilyum",
   "block.tconstruct.blood_ender_slime_grass.tooltip": "Daha yükseğe zıplamanı sağlar ve üzerinde kemik tozu uygulanırsa kanmantarı üretir",
-
   "block.tconstruct.ichor_vanilla_slime_grass": "Od Nesilyum",
   "block.tconstruct.ichor_vanilla_slime_grass.tooltip": "Çok yumuşak! Daha yükseğe zıplamanı sağlar",
   "block.tconstruct.ichor_earth_slime_grass": "Od Nesilyum",
@@ -1212,7 +888,6 @@
   "block.tconstruct.ichor_ichor_slime_grass.tooltip": "Çok yumuşak! Daha yükseğe zıplamanı sağlar",
   "block.tconstruct.ichor_ender_slime_grass": "Od Nesilyum",
   "block.tconstruct.ichor_ender_slime_grass.tooltip": "Çok yumuşak! Daha yükseğe zıplamanı sağlar",
-
   "block.tconstruct.ender_vanilla_slime_grass": "Enderbalçığı Çimeni",
   "block.tconstruct.ender_vanilla_slime_grass.tooltip": "Daha yükseğe zıplamanı sağlar ve end üzerindeyken enderbalçığı oluşturur",
   "block.tconstruct.ender_earth_slime_grass": "Enderbalçığı Çimeni",
@@ -1223,7 +898,6 @@
   "block.tconstruct.ender_ichor_slime_grass.tooltip": "Daha yükseğe zıplamanı sağlar ve end üzerindeyken enderbalçığı oluşturur",
   "block.tconstruct.ender_ender_slime_grass": "Enderbalçığı Çimeni",
   "block.tconstruct.ender_ender_slime_grass.tooltip": "Daha yükseğe zıplamanı sağlar ve end üzerindeyken enderbalçığı oluşturur",
-
   "item.tconstruct.earth_slime_grass_seeds": "Karabalçığı Tohumu",
   "item.tconstruct.earth_slime_grass_seeds.tooltip": "Balçığımsı çimen yapabilmek için toprak ya da balçığımsı toprağa dik",
   "item.tconstruct.sky_slime_grass_seeds": "Gökbalçığı Tohum",
@@ -1234,31 +908,26 @@
   "item.tconstruct.ichor_slime_grass_seeds.tooltip": "Balçığımsı nesilyum yapabilmek için toprak ya da balçığımsı toprağa dik",
   "item.tconstruct.ender_slime_grass_seeds": "Enderbalçığı Tohumu",
   "item.tconstruct.ender_slime_grass_seeds.tooltip": "Balçığımsı çimen yapabilmek için toprak ya da balçığımsı toprağa dik veya sarmaşığa dikerek balçığımsı sarmaşık elde et",
-
   "block.tconstruct.earth_slime_leaves": "Balçığımsı Yaprak",
   "block.tconstruct.sky_slime_leaves": "Balçığımsı Yaprak",
   "block.tconstruct.blood_slime_leaves": "Balçığımsı Yumru",
   "block.tconstruct.ichor_slime_leaves": "Balçığımsı Yumru",
   "block.tconstruct.ender_slime_leaves": "Balçığımsı Yaprak",
-
   "block.tconstruct.earth_slime_tall_grass": "Uzun Balçığımsı Çimen",
   "block.tconstruct.sky_slime_tall_grass": "Uzun Balçığımsı Çimen",
   "block.tconstruct.blood_slime_tall_grass": "Uzun Balçığımsı Çimen",
   "block.tconstruct.ichor_slime_tall_grass": "Uzun Balçığımsı Çimen",
   "block.tconstruct.ender_slime_tall_grass": "Uzun Balçığımsı Çimen",
-
   "block.tconstruct.earth_slime_fern": "Balçığımsı Eğrelti",
   "block.tconstruct.sky_slime_fern": "Balçığımsı Eğrelti",
   "block.tconstruct.blood_slime_fern": "Balçığımsı Kökler",
   "block.tconstruct.ichor_slime_fern": "Balçığımsı Kökler",
   "block.tconstruct.ender_slime_fern": "Balçığımsı Eğrelti",
-
   "block.tconstruct.potted_earth_slime_fern": "Saksıda Balçığımsı Eğrelti",
   "block.tconstruct.potted_sky_slime_fern": "Saksıda Balçığımsı Eğrelti",
   "block.tconstruct.potted_blood_slime_fern": "Saksıda Balçığımsı Kökler",
   "block.tconstruct.potted_ichor_slime_fern": "Saksıda Balçığımsı Kökler",
   "block.tconstruct.potted_ender_slime_fern": "Saksıda Balçığımsı Eğrelti",
-
   "block.tconstruct.earth_slime_sapling": "Yeşilkalp Fidanı",
   "block.tconstruct.earth_slime_sapling.tooltip": "Yalnızca balçığımsı toprakta ya da çimende yetişir",
   "block.tconstruct.sky_slime_sapling": "Gökdibi Fidanı",
@@ -1269,152 +938,122 @@
   "block.tconstruct.ichor_slime_sapling.tooltip": "Yalnızca balçığımsı nesilyumda yetişir",
   "block.tconstruct.ender_slime_sapling": "Enderbalçığı Fidanı",
   "block.tconstruct.ender_slime_sapling.tooltip": "Yalnızca balçığımsı toprakta ya da çimende yetişir",
-
   "block.tconstruct.potted_earth_slime_sapling": "Saksıda Yeşilkalp Fidanı",
-  "block.tconstruct.potted_sky_slime_sapling":   "Saksıda Gökdibi Fidanı",
+  "block.tconstruct.potted_sky_slime_sapling": "Saksıda Gökdibi Fidanı",
   "block.tconstruct.potted_blood_slime_sapling": "Saksıda Kanmantarı",
   "block.tconstruct.potted_ichor_slime_sapling": "Saksıda Od Fidanı",
   "block.tconstruct.potted_ender_slime_sapling": "Saksıda Enderbalçığı Fidanı",
-
   "block.tconstruct.ender_slime_vine": "Balçığımsı Sarmaşık",
   "block.tconstruct.sky_slime_vine": "Balçığımsı Sarmaşık",
-
-
-  "_comment": "Odun",
-
-  "block.tconstruct.greenheart_planks":        "Yeşilkalp Tahta",
-  "block.tconstruct.greenheart_planks_slab":   "Yeşilkalp Basamak",
+  "block.tconstruct.greenheart_planks": "Yeşilkalp Tahta",
+  "block.tconstruct.greenheart_planks_slab": "Yeşilkalp Basamak",
   "block.tconstruct.greenheart_planks_stairs": "Yeşilkalp Merdiven",
-  "block.tconstruct.greenheart_log":           "Yeşilkalp Kütüğü",
-  "block.tconstruct.stripped_greenheart_log":  "Soyulmuş Yeşilkalp Kütüğü",
-  "block.tconstruct.greenheart_wood":          "Yeşilkalp Odunu",
+  "block.tconstruct.greenheart_log": "Yeşilkalp Kütüğü",
+  "block.tconstruct.stripped_greenheart_log": "Soyulmuş Yeşilkalp Kütüğü",
+  "block.tconstruct.greenheart_wood": "Yeşilkalp Odunu",
   "block.tconstruct.stripped_greenheart_wood": "Soyulmuş Yeşilkalp Odunu",
-
-  "block.tconstruct.greenheart_fence":          "Yeşilkalp Çit",
-  "block.tconstruct.greenheart_fence_gate":     "Yeşilkalp Çit Kapısı",
-  "block.tconstruct.greenheart_door":           "Yeşilkalp Kapı",
-  "block.tconstruct.greenheart_trapdoor":       "Yeşilkalp Tuzak Kapısı",
+  "block.tconstruct.greenheart_fence": "Yeşilkalp Çit",
+  "block.tconstruct.greenheart_fence_gate": "Yeşilkalp Çit Kapısı",
+  "block.tconstruct.greenheart_door": "Yeşilkalp Kapı",
+  "block.tconstruct.greenheart_trapdoor": "Yeşilkalp Tuzak Kapısı",
   "block.tconstruct.greenheart_pressure_plate": "Yeşilkalp Basınç Plakası",
-  "block.tconstruct.greenheart_button":         "Yeşilkalp Düğme",
-  "block.tconstruct.greenheart_sign":           "Yeşilkalp Tabela",
-  "block.tconstruct.greenheart_wall_sign":      "Yeşilkalp Tabela",
-
-  "block.tconstruct.skyroot_planks":        "Gökdibi Tahta",
-  "block.tconstruct.skyroot_planks_slab":   "Gökdibi Basamak",
+  "block.tconstruct.greenheart_button": "Yeşilkalp Düğme",
+  "block.tconstruct.greenheart_sign": "Yeşilkalp Tabela",
+  "block.tconstruct.greenheart_wall_sign": "Yeşilkalp Tabela",
+  "block.tconstruct.skyroot_planks": "Gökdibi Tahta",
+  "block.tconstruct.skyroot_planks_slab": "Gökdibi Basamak",
   "block.tconstruct.skyroot_planks_stairs": "Gökdibi Merdiven",
-  "block.tconstruct.skyroot_log":           "Gökdibi Kütüğü",
-  "block.tconstruct.stripped_skyroot_log":  "Soyulmuş Gökdibi Kütüğü",
-  "block.tconstruct.skyroot_wood":          "Gökdibi Odunu",
+  "block.tconstruct.skyroot_log": "Gökdibi Kütüğü",
+  "block.tconstruct.stripped_skyroot_log": "Soyulmuş Gökdibi Kütüğü",
+  "block.tconstruct.skyroot_wood": "Gökdibi Odunu",
   "block.tconstruct.stripped_skyroot_wood": "Soyulmuş Gökdibi Odunu",
-
-  "block.tconstruct.skyroot_fence":          "Gökdibi Çit",
-  "block.tconstruct.skyroot_fence_gate":     "Gökdibi Çit Kapısı",
-  "block.tconstruct.skyroot_door":           "Gökdibi Kapı",
-  "block.tconstruct.skyroot_trapdoor":       "Gökdibi Tuzak Kapısı",
+  "block.tconstruct.skyroot_fence": "Gökdibi Çit",
+  "block.tconstruct.skyroot_fence_gate": "Gökdibi Çit Kapısı",
+  "block.tconstruct.skyroot_door": "Gökdibi Kapı",
+  "block.tconstruct.skyroot_trapdoor": "Gökdibi Tuzak Kapısı",
   "block.tconstruct.skyroot_pressure_plate": "Gökdibi Basınç Plakası",
-  "block.tconstruct.skyroot_button":         "Gökdibi Düğme",
-  "block.tconstruct.skyroot_sign":           "Gökdibi Tabela",
-  "block.tconstruct.skyroot_wall_sign":      "Gökdibi Tabela",
-
-  "block.tconstruct.bloodshroom_planks":        "Kanmantarı Tahta",
-  "block.tconstruct.bloodshroom_planks_slab":   "Kanmantarı Basamak",
+  "block.tconstruct.skyroot_button": "Gökdibi Düğme",
+  "block.tconstruct.skyroot_sign": "Gökdibi Tabela",
+  "block.tconstruct.skyroot_wall_sign": "Gökdibi Tabela",
+  "block.tconstruct.bloodshroom_planks": "Kanmantarı Tahta",
+  "block.tconstruct.bloodshroom_planks_slab": "Kanmantarı Basamak",
   "block.tconstruct.bloodshroom_planks_stairs": "Kanmantarı Merdiven",
-  "block.tconstruct.bloodshroom_log":           "Kanmantarı Kök",
-  "block.tconstruct.stripped_bloodshroom_log":  "Soyulmuş Kanmantarı Kök",
-  "block.tconstruct.bloodshroom_wood":          "Kan Mantarı Hif",
+  "block.tconstruct.bloodshroom_log": "Kanmantarı Kök",
+  "block.tconstruct.stripped_bloodshroom_log": "Soyulmuş Kanmantarı Kök",
+  "block.tconstruct.bloodshroom_wood": "Kan Mantarı Hif",
   "block.tconstruct.stripped_bloodshroom_wood": "Soyulmuş Kanmantarı Hif",
-
-  "block.tconstruct.bloodshroom_fence":          "Kanmantarı Çit",
-  "block.tconstruct.bloodshroom_fence_gate":     "Kanmantarı Çit Kapısı",
-  "block.tconstruct.bloodshroom_door":           "Kanmantarı Kapı",
-  "block.tconstruct.bloodshroom_trapdoor":       "Kanmantarı Tuzak Kapısı",
+  "block.tconstruct.bloodshroom_fence": "Kanmantarı Çit",
+  "block.tconstruct.bloodshroom_fence_gate": "Kanmantarı Çit Kapısı",
+  "block.tconstruct.bloodshroom_door": "Kanmantarı Kapı",
+  "block.tconstruct.bloodshroom_trapdoor": "Kanmantarı Tuzak Kapısı",
   "block.tconstruct.bloodshroom_pressure_plate": "Kanmantarı Basınç Plakası",
-  "block.tconstruct.bloodshroom_button":         "Kanmantarı Düğme",
-  "block.tconstruct.bloodshroom_sign":           "Kanmantarı Tabela",
-  "block.tconstruct.bloodshroom_wall_sign":      "Kanmantarı Tabela",
-
-
+  "block.tconstruct.bloodshroom_button": "Kanmantarı Düğme",
+  "block.tconstruct.bloodshroom_sign": "Kanmantarı Tabela",
+  "block.tconstruct.bloodshroom_wall_sign": "Kanmantarı Tabela",
   "material.tconstruct.unknown": "Bilinmeyen",
-
-  "__comment": "1. Aşama Malzemeleri",
   "material.tconstruct.wood": "Odun",
-  "material.tconstruct.wood.crimson":  "Kızıl Hif",
-  "material.tconstruct.wood.warped":   "Çarpık Hif",
+  "material.tconstruct.wood.crimson": "Kızıl Hif",
+  "material.tconstruct.wood.warped": "Çarpık Hif",
   "material.tconstruct.wood.format": "Odundan %s",
   "material.tconstruct.wood.flavor": "Eğer odunkemirgeni odun kemirebiliyorsa odunkemirgeni ne kadar odun kemirebilir?",
   "material.tconstruct.wood.encyclopedia": "Parça başına onarımı %50 daha etkilidir",
-
   "material.tconstruct.bamboo": "Bambu",
   "material.tconstruct.bamboo.flavor": "Bambulanmak!",
   "material.tconstruct.bamboo.encyclopedia.ranged": "Oklar %110 hızlı ancak %90 hasarı var. Etkinlikte daha uzağa giderken aynı hasarı uygular",
-
   "material.tconstruct.rock": "Kaya",
-  "material.tconstruct.rock.stone":      "Taş",
-  "material.tconstruct.rock.andesite":   "Andezit",
-  "material.tconstruct.rock.diorite":    "Diyorit",
-  "material.tconstruct.rock.granite":    "Granit",
+  "material.tconstruct.rock.stone": "Taş",
+  "material.tconstruct.rock.andesite": "Andezit",
+  "material.tconstruct.rock.diorite": "Diyorit",
+  "material.tconstruct.rock.granite": "Granit",
   "material.tconstruct.rock.blackstone": "Kara Taş",
   "material.tconstruct.rock.flavor": "Kaya gibi sağlam",
   "material.tconstruct.rock.encyclopedia.melee_harvest": "Aracın kazma hızını, kaybedilmiş dayanıklılık kez nitelik seviyesinin karekökünün yarısı kadar artırır",
-
   "material.tconstruct.flint": "Çakmak Taşı",
   "material.tconstruct.flint.basalt": "Bazalt",
-  "material.tconstruct.flint.deepslate":  "Derin Kayrak Taşı",
+  "material.tconstruct.flint.deepslate": "Derin Kayrak Taşı",
   "material.tconstruct.flint.flavor": "Onarıcının kalbindeki alevin kıvılcımını yakacak!",
   "material.tconstruct.flint.encyclopedia.melee_harvest": "Hasarı, kaybedilmiş dayanıklılık kez nitelik seviyesinin karekökünün çeyreği kadar artırır",
-
   "material.tconstruct.bone": "Kemik",
   "material.tconstruct.bone.flavor": "Ben kılıcımın kemiğiyim",
   "material.tconstruct.bone.encyclopedia": "Seviye başına yakın menzilli hasarını 0.5 artırır ve zırh delmeye 1 verir",
   "material.tconstruct.bone.encyclopedia.ranged": "Seviye başına yakın menzilli hasarını 0.5 artırır ve zırh delmeye 1 verir",
   "material.tconstruct.bone.flavor.skull": "Sütün var mı?",
   "material.tconstruct.bone.encyclopedia.skull": "Süt içtikten sonra 1 dakikalığına direnç sağlar",
-
   "material.tconstruct.necrotic_bone": "Ölük Kemik",
   "material.tconstruct.necrotic_bone.flavor": "Benimle kemiğimi sızlacatak sıkıntın mı var?",
   "material.tconstruct.necrotic_bone.encyclopedia": "Başarılı krititk vuruşlarında vurulan hasarın belirli bir yüzdesi kadar iyileştirir",
   "material.tconstruct.necrotic_bone.encyclopedia.ranged": "Başarılı ok vuruşlarında vurulan hasarın belirli bir yüzdesi kadar iyileştirir",
   "material.tconstruct.necrotic_bone.flavor.skull": "Ürkütücü Korkunç İskelet!",
   "material.tconstruct.necrotic_bone.encyclopedia.skull": "Yakın menzilli saldırılar wither etkisi bırakır. Süt içtikten sonra etkisi hızlanır",
-
-  "material.tconstruct.chorus":              "Koro",
-  "material.tconstruct.chorus.flavor":       "Yalnızca ender erkekleri değil ayrıca ender kadınları ve ender çocukları",
+  "material.tconstruct.chorus": "Koro",
+  "material.tconstruct.chorus.flavor": "Yalnızca ender erkekleri değil ayrıca ender kadınları ve ender çocukları",
   "material.tconstruct.chorus.encyclopedia": "Hedefin seviye başına 5 saniye boyunca ışınlanmasına engel olur",
   "material.tconstruct.chorus.encyclopedia.ranged": "Hedefin seviye başına 5 saniye boyunca ışınlanmasına engel olur ve endermane okla vurulmasına izin verir",
-
   "material.tconstruct.string": "İp",
   "material.tconstruct.string.flavor": "Kuramsal olarak en iyi malzeme.",
   "material.tconstruct.string.encyclopedia": "Aracın çalışma masası ya da onarmacı istasyonunda ip ile onarılmasına izin verir",
   "material.tconstruct.string.flavor.skull": "Örümcekler iksir ustalarıdır, belki onların sırları bana iksirleri geliştirmemde yardımcı olabilirler...",
   "material.tconstruct.string.encyclopedia.skull": "Olumlu iksirlerin etki süresini %25 artırır",
-
   "material.tconstruct.leather": "Deri",
   "material.tconstruct.leather.flavor": "İnek öldürdüm, derisini sepiledim.",
   "material.tconstruct.leather.encyclopedia": "Aracın eylemlerde 1 hasardan fazla almasını engeller",
   "material.tconstruct.leather.flavor.skull": "Bu iyi",
   "material.tconstruct.leather.encyclopedia.skull": "Yakın menzilli saldırılar hedefleri yanma süresini giyenin yanma süresine bağlı olarak artırır",
-
   "material.tconstruct.vine": "Sarmaşık",
   "material.tconstruct.vine.flavor": "Sürekli yaşıyor, sosyal ağlar gibi değil.",
   "material.tconstruct.vine.encyclopedia": "Aracın gün ışığında hasara %75 direnme şansı vardır",
-
-
-  "__comment": "2. Aşama Malzemeleri",
   "material.tconstruct.iron": "Demir",
   "material.tconstruct.iron.oxidized": "Ham Demir",
   "material.tconstruct.iron.flavor": "Alaycı demir. Başkalarını ölümden kurtabilir ancak kendini değil.",
   "material.tconstruct.iron.encyclopedia": "Blok çıkarmak ve canlıya vurmak yakındaki eşyaları çekmesine neden olur",
   "material.tconstruct.iron.flavor.skull": "Sıkıyalıtımı bozma",
   "material.tconstruct.iron.encyclopedia.skull": "Yakın menzilli saldırılar giyen kişideki bütün olumsuz etkileri hedefe yöneltir",
-
   "material.tconstruct.seared_stone": "Kararmış Taş",
   "material.tconstruct.seared_stone.flavor": "Daha sıcak harç.",
   "material.tconstruct.seared_stone.encyclopedia": "Ergiticide ergitilebilen bloklarda +6 çıkarım hızı sağlar",
-
   "material.tconstruct.scorched_stone": "Kavrulmuş Taş",
   "material.tconstruct.scorched_stone.flavor": "Dökümevi baskısı ikramiyesi.",
   "material.tconstruct.scorched_stone.encyclopedia": "Yanan hedeflere karşı +2 hasar verir",
-
   "material.tconstruct.copper": "Bakır",
   "material.tconstruct.copper.oxidized": "Oksitlenmiş Bakır",
   "material.tconstruct.copper.flavor": "Gününü lekemesine izin verme.",
@@ -1422,141 +1061,105 @@
   "material.tconstruct.copper.encyclopedia.ranged": "Derine indikçe fazladan ok hızı verir, 64'üncü bloktan derinde her 64 blokta bir +0.05 çıkarım hızı sağlar",
   "material.tconstruct.copper.flavor.skull": "Rüzgarı onlardan uzağa vurar",
   "material.tconstruct.copper.encyclopedia.skull": "Yakın menzilli salıdırılar hedeften 3 saniye boyunca havasını çalar",
-
   "material.tconstruct.slimewood": "Balçıkodunu",
-  "material.tconstruct.slimewood.greenheart":  "Yeşilkalp",
-  "material.tconstruct.slimewood.skyroot":     "Gökdibi",
+  "material.tconstruct.slimewood.greenheart": "Yeşilkalp",
+  "material.tconstruct.slimewood.skyroot": "Gökdibi",
   "material.tconstruct.slimewood.bloodshroom": "Kanmantarı",
   "material.tconstruct.slimewood.flavor": "Bu bir balçıktan oluşan bir odun mu yoksa odunun balçığa odun aşılanması mı?",
   "material.tconstruct.slimewood.encyclopedia": "Balçık aşımının her saniye yenilenmesine seviye başına %5 şans verir",
-
   "material.tconstruct.pewter.encyclopedia": "Düşük canda hasarı artırır, 1 kalpte seviye başına +4 hasara kadar verir",
   "material.tconstruct.pewter.encyclopedia.ranged": "Düşük canda çekme hızını artırır, 1 kalpte seviye başına +0.25 çekme hızına kadar verir",
-
   "material.tconstruct.ice.flavor.skull": "Kemiğin dibine kadar ürpertir",
   "material.tconstruct.ice.encyclopedia.skull": "Uzun menzilli saldırılar hedefe yavaşlık verir. Süt içtikten sonra yakın menzilli saldırılar yavaşlık verir ve seviyesi daha güçlüdür.",
-
   "material.tconstruct.rose_gold": "Pembe Altın",
   "material.tconstruct.rose_gold.flavor": "Sorumluluk Reddi: Gerçekte güllerle yapılmamıştır.",
   "material.tconstruct.rose_gold.encyclopedia": "Parça başına ek 1 yükseltme yuvası verir",
   "material.tconstruct.rose_gold.flavor.skull": "Kol kalkanını iyi bir kullanıma koyar",
   "material.tconstruct.rose_gold.encyclopedia.skull": "Canı 1 kalp artırır, her bir giyilen altın zırhına ek olarak 1 kalp verir.",
-
   "material.tconstruct.skyslime_vine": "Balçığımsı Sarmaşık",
   "material.tconstruct.skyslime_vine.flavor": "Kelebek gibi uçar, arı gibi sokar.",
   "material.tconstruct.skyslime_vine.encyclopedia.melee_harvest": "Yerde değilken çıkarım hızının azaltılmasını iptal eder",
   "material.tconstruct.skyslime_vine.encyclopedia.ranged": "Yerde ya da merdivende değilken doğruluğu +0.5 artırır",
-
-
-  "__comment": "3. Aşama Malzemeleri",
   "material.tconstruct.slimesteel": "Balçıkçeliği",
   "material.tconstruct.slimesteel.flavor": "Balçıkçeliği elde etmek için balçığı çalmasın.",
   "material.tconstruct.slimesteel.encyclopedia": "Ek 25 balçık aşımı ve seviye başına balçık aşımının toplamının +%50 fazlasını sağlar",
-
   "material.tconstruct.nahuatl": "Nahuatl",
   "material.tconstruct.nahuatl.flavor": ", Bu bir obsidyen parçası değildir. Öyle olsaydı \"Obsidyen\" derdi.",
   "material.tconstruct.nahuatl.encyclopedia": "Zamanla %50 şansla 5 hasara kadar fazladan hasar vurabilir, yüksek seviyelerde daha fazla hasarı vardır",
-
   "material.tconstruct.amethyst_bronze": "Ametist Tuncu",
   "material.tconstruct.amethyst_bronze.flavor": "Tunç ile karıştırılmamalıdır.",
   "material.tconstruct.amethyst_bronze.encyclopedia.melee_harvest": "Çıkarılması için araç gerektirmeyen bloklara hatta araçların etkili olmayanları bile seviye başına +0.5 çıkarım hızı sağlar",
   "material.tconstruct.amethyst_bronze.encyclopedia.ranged": "Seviye başına +0.1 ok hızı ekler ancak ok açılarını 32, 16, 8 doğrultularına ilk 3 seviyenin sırasıyla sınırlar",
-
   "material.tconstruct.pig_iron": "Domuz Demiri",
   "material.tconstruct.pig_iron.flavor": "Kesinlikle en iyi malzeme, tartışma yok.",
   "material.tconstruct.pig_iron.encyclopedia": "Yenilirse seviye başına 1 açlık ve 0.1 doyum doldurur",
   "material.tconstruct.pig_iron.flavor.skull": "Beni açken sevmeyeceksin!",
   "material.tconstruct.pig_iron.encyclopedia.skull": "Başka bir canlı tarafından hasar alınca 15 saniyeliğine güç verir",
-
   "material.tconstruct.darkthread": "Karaiplik",
   "material.tconstruct.darkthread.flavor": "Karanlık tarafa gel, bizde ekim var",
   "material.tconstruct.darkthread.encyclopedia": "Yaratıklardan eşya düşme şansını artırır, şans ile yığılır",
   "material.tconstruct.darkthread.encyclopedia.ranged": "Ok ile öldürülen yaratıklardan eşya düşme şansını artırır",
   "material.tconstruct.darkthread.flavor.skull": "Kimin doğru söylediğini anlamak için karar vermen ve içmen gerekiyorsa akıl savaşı için kusursuz.",
   "material.tconstruct.darkthread.encyclopedia.skull": "Giyeni zehire bağışıklı kılıyor ancak üstündeki zehirleri kaldırmaz",
-
-
-  "__comment": "Nether Aşaması Malzemeleri",
   "material.tconstruct.cobalt": "Kobalt",
   "material.tconstruct.cobalt.flavor": "Koblat. Kızıl Ordunun malzemesi.",
   "material.tconstruct.cobalt.encyclopedia.melee_harvest": "Seviye başına %7 çıkarım ve saldırı hızı verir",
   "material.tconstruct.cobalt.encyclopedia.ranged": "Seviye başına çekme hızını ve ok hızını %5 artırır",
-
   "material.tconstruct.manyullyn": "Menyullen",
   "material.tconstruct.manyullyn.flavor": "Çoğu Onarıcının doğru söyleyemeyeceği metal. Aynı zamanda yıldız kesen malzeme.",
   "material.tconstruct.manyullyn.encyclopedia": "Ardışık olarak 8 vuruş yapınca seviye başına 2 hasar verir",
   "material.tconstruct.manyullyn.encyclopedia.ranged": "Oklar ardışık olarak 8 ok vuruşu yapınca seviye başına 1 hasar (ok hızı öncesi) verir",
-
   "material.tconstruct.hepatizon": "Hepatizon",
   "material.tconstruct.hepatizon.flavor": "He-pa-ti-zon - kaynat, püre yap, yahni yap.",
   "material.tconstruct.hepatizon.encyclopedia.melee_harvest": "Ardışık olarak 32 bloğu kırınca seviye başına %25 çıkarım hızı sağlar",
   "material.tconstruct.hepatizon.encyclopedia.ranged": "Ardışık olarak 16 ok atınca seviye başına %25 çekme hızı sağlar",
-
   "material.tconstruct.queens_slime": "Ecenin Balçığı",
   "material.tconstruct.queens_slime.flavor": "Biyçeler kötüdür, kendine ece al.",
   "material.tconstruct.queens_slime.encyclopedia": "Seviye başına dayanıklılığı %15 azaltır, azaltılan kısmın %66sı balçık aşımına gider",
-
   "material.tconstruct.blazing_bone": "Alazlı Kemik",
   "material.tconstruct.blazing_bone.flavor": "Nether kalesinin tüm gücünü eline al - kemik ve alaz",
   "material.tconstruct.blazing_bone.encyclopedia": "Ateşteyken saniye başına %1 ek hasar sağlar, lava iken 15 saniyeliğine %15 ek hasar sağlar. Ayrıca ateş direnci, etkileri azaltır.",
   "material.tconstruct.blazing_bone.encyclopedia.ranged": "Ateşteyken saniye başına %1 ek ok hasarı sağlar, lava iken 15 saniyeliğine %15 ek ok hasarı sağlar. Ayrıca ateş direnci, etkileri azaltır.",
-
   "material.tconstruct.blaze.flavor.skull": "Onlara bunun uygulayım olarak ateş soluğu değil ateş tükürüğü olduğunu söyledim ancak görünüşe göre buluşlarımın adlarını belirleyemiyorum",
   "material.tconstruct.blaze.encyclopedia.skull": "Envanterdeki ateş toplarını ateş saldırısı olarak tükürmeni sağlar. 5 saniye bekleme süresi vardır ve su altında çalışmaz",
-
   "material.tconstruct.ancient_hide": "Antik Deri",
   "material.tconstruct.ancient_hide.flavor": "Deri en eski taşla sepilenmiş",
   "material.tconstruct.ancient_hide.encyclopedia.melee_harvest": "Bloklardan eşya düşme şansını artırır, şans ile yığılır",
-
-  "__comment": "End Aşaması Malzemeleri",
   "material.tconstruct.knightslime": "Şövalyebalçığı",
   "material.tconstruct.knightslime.flavor": "Balçığımsı aynı zamanda metalik hem de taş? Büyüleyici!",
-
   "material.tconstruct.enderslime_vine": "Balçığımsı Sarmaşık",
   "material.tconstruct.enderslime_vine.flavor": "Son mu?",
   "material.tconstruct.enderslime_vine.encyclopedia.melee_harvest": "Çıkarılan bloğun konumuna ışınlanırsın ya da saldırılan canavarla yerlerini değiştirirsin",
   "material.tconstruct.enderslime_vine.encyclopedia.ranged": "Düşen okun bulunduğu bloğun konuma ışınlarsın ya da okun değdiği canavarla yerlerini değiştirirsin",
-
-  "__comment": "Balçıklı Takım Malzemeleri",
   "material.tconstruct.glass": "Cam",
-
   "material.tconstruct.gunpowder.flavor.skull": "Şimdi kimin güzel şeyleri yok oluyor, creeper?",
   "material.tconstruct.gunpowder.encyclopedia.skull": "Kaskın etkileşim tuşuna basılması giyeni patlatır",
-
   "material.tconstruct.ender_pearl": "Ender İncisi",
   "material.tconstruct.ender_pearl.flavor.skull": "Endermanler zarardan uzakta kalmayı biliyorlar ve bilim insanlarından. Benim görüşme isteklerimi haftalardır kabul etmiyorlar!",
   "material.tconstruct.ender_pearl.encyclopedia.skull": "Uzun menzilli saldırılardan kendiliğinden ve yakın menzilli saldırılarda rastgele ışınlar. 15 saniye bekleme süresi var",
-
   "material.tconstruct.gold": "Altın",
   "material.tconstruct.gold.flavor.skull": "Çok parlak",
   "material.tconstruct.gold.encyclopedia.skull": "Bazı altın cevherlerinden ek altın parçası düşürür ve altın zırh düşme olasılığını %4 artırır. Parçacık ve zırh düşme olasılığı giyilen her altın zırh için düşme şansı artar.",
-
-  "material.tconstruct.obsidian":   "Obsidyen",
+  "material.tconstruct.obsidian": "Obsidyen",
   "material.tconstruct.earthslime": "Karabalçığı",
-  "material.tconstruct.skyslime":   "Gökbalçığı",
-  "material.tconstruct.blood":      "Kan",
-  "material.tconstruct.ichor":      "Od",
+  "material.tconstruct.skyslime": "Gökbalçığı",
+  "material.tconstruct.blood": "Kan",
+  "material.tconstruct.ichor": "Od",
   "material.tconstruct.enderslime": "Enderbalçığı",
-  "material.tconstruct.clay":       "Kil",
-  "material.tconstruct.honey":      "Bal",
-  "material.tconstruct.phantom":    "Kabus Zarı",
-
-
-  "__comment": "2. Aşama Bütünleşme Malzemeleri",
+  "material.tconstruct.clay": "Kil",
+  "material.tconstruct.honey": "Bal",
+  "material.tconstruct.phantom": "Kabus Zarı",
   "material.tconstruct.osmium": "Osmiyum",
   "material.tconstruct.osmium.flavor": "Çoğu şakayı anlamaya çok sıkı",
   "material.tconstruct.osmium.encyclopedia": "Birinci seviye %25 ek onarım giderine karşılık %33 daha az hasar alır",
-
   "material.tconstruct.lead": "Kurşun",
   "material.tconstruct.lead.flavor": "Bundan sandviç yapmayı deneyebilirim.",
   "material.tconstruct.lead.encyclopedia.melee_harvest": "Seviye başına %10 çıkarım hızını artırır ve %10 yürüme hızını yavaşlatır",
   "material.tconstruct.lead.encyclopedia.ranged": "Seviye başına %10 uzun menizlli gücünü artırır ve %10 yürüme hızını yavaşlatır",
-
   "material.tconstruct.silver": "Gümüş",
   "material.tconstruct.silver.flavor": "Biliyorsun, bu araç birkaç güne çok parlak gözükmeyecek.",
   "material.tconstruct.silver.encyclopedia": "Seviye başına yaşayan ölülülere karşı +2.5 hasar verir",
   "material.tconstruct.silver.encyclopedia.ranged": "Seviye başına yaşayan ölülülere karşı +2.5 uzun menzilli gücünü verir",
-
   "material.tconstruct.whitestone": "End Taşı",
   "material.tconstruct.whitestone.composite": "Aktaş",
   "material.tconstruct.whitestone.aluminum": "Aktaş",
@@ -1564,57 +1167,41 @@
   "material.tconstruct.whitestone.zinc": "Aktaş",
   "material.tconstruct.whitestone.flavor": "İşe yaramaz ak metalleri ya da taşları işe yarar araçlar yap",
   "material.tconstruct.whitestone.encyclopedia.melee_harvest": "Taşları kazmak seviye başına %20 şansla +3 taş kalkanı sağlar",
-
   "material.tconstruct.aluminum": "Alüminyum",
   "material.tconstruct.aluminum.flavor": "En çok kül yığınlarında bulunur.",
   "material.tconstruct.aluminum.encyclopedia.ranged": "Çekme hızı ve doğruluğu %7 artış sağlar",
-
-
-  "__comment": "3. Aşama Bütünleşme Malzemeleri",
   "material.tconstruct.steel": "Çelik",
   "material.tconstruct.steel.flavor": "Aslında malzeme biliminin %90ı",
   "material.tconstruct.steel.encyclopedia": "Seviye başına +%4 dayanıklılık, hasar ve hız sağlar",
   "material.tconstruct.steel.encyclopedia.ranged": "Seviye başına +%4 dayanıklılık, +%3 uzun menizlli gücü ve +%3 ok hızı sağlar",
-
   "material.tconstruct.bronze": "Tunç",
   "material.tconstruct.bronze.flavor": "Ametist Tuncu ile karıştırılmamalıdır.",
   "material.tconstruct.bronze.encyclopedia.melee_harvest": "Tam dayanıklılıkta +6 çıkarım hızı sağlar, %50 dayanıklılık altında hiç sağlamaz",
   "material.tconstruct.bronze.encyclopedia.ranged": "Tam dayanıklılıkta +0.05 çıkarım hızı sağlar, %50 dayanıklılık altında hiç sağlamaz",
-
   "material.tconstruct.constantan": "Konstantan",
   "material.tconstruct.constantan.flavor": "Konstantantantantantantan... Üzgünüm eğlenceliydi \"tanları\".",
   "material.tconstruct.constantan.encyclopedia.melee_harvest": "Aşırı soğuklarda +7.5 çıkarım hızı sağlar ve aşırı sıcaklarda iki kat sağlamlaştırılmış sağlar",
   "material.tconstruct.constantan.encyclopedia.ranged": "Aşırı soğuklarda +0.15 ok hızı sağlar ve aşırı sıcaklarda iki kat sağlamlaştırılmış sağlar",
-
   "material.tconstruct.invar": "İnvar",
   "material.tconstruct.invar.flavor": "Hem sıcaklığa hem de tutuklanmaya direnir.",
   "material.tconstruct.invar.encyclopedia": "Seviye başına %10 hasarı artırır ve %10 yürüme hızını yavaşlatır",
   "material.tconstruct.invar.encyclopedia.ranged": "Ortalama sıcaklığı olan biyomlarada doğruluğu 0.15 artırır",
-
   "material.tconstruct.electrum": "Elektrum",
   "material.tconstruct.electrum.flavor": "Elektronik bileşenler için iyidir.",
   "material.tconstruct.electrum.encyclopedia": "Bloklar ve canavarlardan seviye başına +50% deneyim sağlar",
   "material.tconstruct.electrum.encyclopedia.ranged": "Okla öldürülen canavarlardan seviye başına +50% deneyim sağlar",
-
   "material.tconstruct.necronium": "Ölükyum",
   "material.tconstruct.necronium.flavor": "Bu kadar çürümeden sonra yaşamının çeyreği kalmış olmalı",
   "material.tconstruct.necronium.encyclopedia": "En az 5 saniyeliğine hedefine wither etkisi bırakır ve kendine de %25 şansı vardır",
-
   "material.tconstruct.plated_slimewood": "Kaplanmış Balçıkodunu",
   "material.tconstruct.plated_slimewood.flavor": "Pirincin bütün parlaklığı balçığın ezilmesi ile birlikte",
   "material.tconstruct.plated_slimewood.encyclopedia": "Balçık aşımını yenileme yöntemlerine +100% sağlar",
-
-
-  "_comment": "Değiştirici",
-
   "key.categories.tconstruct": "Onarıcının Yapımı",
   "key.tconstruct.helmet_interact": "Kask Etkileşimi",
   "key.tconstruct.leggings_interact": "Pantolon Etkileşimi",
-
   "modifier.tconstruct.empty": "Geçersiz değiştirici",
   "modifier.tconstruct.empty.flavor": "Eksik!",
   "modifier.tconstruct.empty.description": "Eksik değiştirici varsa geri çekilme",
-
   "modifier.tconstruct.shiny": "Parlak",
   "modifier.tconstruct.shiny.flavor": "Büyülü Enerji Akıyor!",
   "modifier.tconstruct.shiny.description": "Araç büyülü parıltı ile ışıldar",
@@ -1629,9 +1216,6 @@
   "modifier.tconstruct.offhanded.flavor": "Üzerinde çok kafa yorma",
   "modifier.tconstruct.offhanded.description": "Öbür elli dolu iken etkileşim yetenekleri etkisiz kalır",
   "modifier.tconstruct.offhanded.description.2": "Tümüyle etkileşim yeteneklerini etkisiz bırakır",
-
-
-  "_comment": "Dayanaklılık",
   "modifier.tconstruct.reinforced": "Sağlamlaştırılmış",
   "modifier.tconstruct.reinforced.flavor": "Dayanaklı!",
   "modifier.tconstruct.reinforced.description": "Araç hasar almaya daha az olası",
@@ -1653,19 +1237,15 @@
   "modifier.tconstruct.netherite": "Netherit",
   "modifier.tconstruct.netherite.flavor": "Arıtılmış!",
   "modifier.tconstruct.netherite.description": "Antik metalin gücünü eline al, aracı daha güçlü yapar ve ateş gibi dış hasarlara karşı dokunulmazlık sağlar",
-
   "modifier.tconstruct.overslime": "Balçık Aşımı",
   "modifier.tconstruct.overslime.flavor": "Balçığımsı!",
   "modifier.tconstruct.overslime.description": "Bitesiye kadar araç dayanıklılık yerine balçık aşımını tüketir! Balçığı tükenmiş araçlara arkadaş canlısı değil",
-
-  "_comment": "Araç ya da hasat",
   "modifier.tconstruct.experienced": "Deneyimli",
   "modifier.tconstruct.experienced.flavor": "Hızlı öğrenen!",
   "modifier.tconstruct.experienced.description": "Yaratıkları öldürmekten ve blok çıkarmaktan fazladan deneyim kazan",
   "modifier.tconstruct.magnetic": "Mıknatıssal",
   "modifier.tconstruct.magnetic.flavor": "Mıknatıssal Kişilik!",
   "modifier.tconstruct.magnetic.description": "Bir şeylere vurmak yakındaki eşyaları yakına çeker?!",
-
   "modifier.tconstruct.haste": "Acele",
   "modifier.tconstruct.haste.2": "Daha Acele",
   "modifier.tconstruct.haste.3": "En Acele",
@@ -1673,7 +1253,6 @@
   "modifier.tconstruct.haste.5": "En En Acele",
   "modifier.tconstruct.haste.flavor": "Bilim!",
   "modifier.tconstruct.haste.description": "Büyülü kırmızı tozlar araçları daha hızlı çıkarmasını sağlar!",
-
   "modifier.tconstruct.blasting": "Patlama",
   "modifier.tconstruct.blasting.flavor": "Patlayıcı Madencilik!",
   "modifier.tconstruct.blasting.description": "Aracın patlamaya zayıf blokları -cevherler gibi- kırar, daha hızlı!",
@@ -1687,8 +1266,6 @@
   "modifier.tconstruct.lightspeed.description": "Araç yanan blokları daha hızlı çıkarır!",
   "modifier.tconstruct.lightspeed_armor.description": "İyi aydınlatılmış alanlarda daha hızlı hareket et",
   "modifier.tconstruct.lightspeed.mining_speed": "Işıkta Çıkarım",
-
-  "_comment": "Silah",
   "modifier.tconstruct.knockback": "Savurma",
   "modifier.tconstruct.knockback.flavor": "Hop!",
   "modifier.tconstruct.knockback.description": "Yakın menzilli saldırılarda bir şeylere vurmak onları uzaklara uçurur!",
@@ -1705,8 +1282,6 @@
   "modifier.tconstruct.necrotic.flavor": "Vampir gibi!",
   "modifier.tconstruct.necrotic.description": "Düşmanlara yapılan kritik vuruşlar onların canını çalıp seni iyileştirir",
   "modifier.tconstruct.necrotic.lifesteal": "Can Çalma",
-
-  "_comment": "Hasar Artırımı",
   "modifier.tconstruct.piercing": "Delme",
   "modifier.tconstruct.piercing.flavor": "Kaktüs ol!",
   "modifier.tconstruct.piercing.description": "Arac zırhın içinden geçen fazadan hasar vuruyor!",
@@ -1738,7 +1313,6 @@
   "modifier.tconstruct.sweeping_edge.flavor": "Samuray!",
   "modifier.tconstruct.sweeping_edge.description": "Süpürücü saldırının hedefleri aracın hasarından daha büyük oranla hasar alır",
   "modifier.tconstruct.sweeping_edge.attack_damage": "Süpürücü Hasar",
-
   "modifier.tconstruct.sharpness": "Keskinlik",
   "modifier.tconstruct.sharpness.1": "Keskin",
   "modifier.tconstruct.sharpness.2": "Daha Keskin",
@@ -1754,10 +1328,6 @@
   "modifier.tconstruct.swiftstrike.5": "En En Hızlı Vuruş",
   "modifier.tconstruct.swiftstrike.flavor": "Büyü!",
   "modifier.tconstruct.swiftstrike.description": "Büyülü mor değerli taşlar silahı daha yeğni yapar böylece sallaması daha kolaydır!",
-
-
-  "_comment": "Uzun Menzilli",
-
   "modifier.tconstruct.power": "Güç",
   "modifier.tconstruct.power.flavor": "İçindeki güç dışındaki güç oluyor",
   "modifier.tconstruct.power.description": "Okların hasarını artırır",
@@ -1798,8 +1368,6 @@
   "modifier.tconstruct.scope": "Bakaç",
   "modifier.tconstruct.scope.flavor": "Bakaç ile 360 kulağa havalı gelmiyor",
   "modifier.tconstruct.scope.description": "Yayı gererken hedefi büyük gözükmesini sağlar.",
-
-  "_comment": "Zırh",
   "modifier.tconstruct.knockback_resistance": "Savurma Direnci",
   "modifier.tconstruct.knockback_resistance.flavor": "Ağır bir özne",
   "modifier.tconstruct.knockback_resistance.description": "Örsler ağırdır yani senin geriye savrulmanı engelleyecektir, değil mi?",
@@ -1812,7 +1380,6 @@
   "modifier.tconstruct.revitalizing": "Canlandırıcı",
   "modifier.tconstruct.revitalizing.flavor": "Enejinin aktığını hissedebiliyorsun",
   "modifier.tconstruct.revitalizing.description": "Kalbi güçlendirir, daha çok kalp sağlar",
-
   "modifier.tconstruct.embellishment": "Süsleme",
   "modifier.tconstruct.embellishment.formatted": "%s Süslemesi",
   "modifier.tconstruct.embellishment.flavor": "Yeniden süsle!",
@@ -1821,8 +1388,6 @@
   "modifier.tconstruct.dyed.formatted": "Boyalı #%s",
   "modifier.tconstruct.dyed.flavor": "Yeniden süsle!",
   "modifier.tconstruct.dyed.description": "Zırh görünümünü başka bir malzemeye uyacak biçimde değiştir",
-
-  "_comment": "Zırh - Koruma",
   "modifier.tconstruct.protection": "Koruma",
   "modifier.tconstruct.protection.flavor": "Her tarakta bezi var!",
   "modifier.tconstruct.protection.description": "Bütün hasar türlerine karşı korumayı arıtırır",
@@ -1862,8 +1427,6 @@
   "modifier.tconstruct.boundless": "Sınırısız",
   "modifier.tconstruct.boundless.flavor": "Sınırlarını geliştirir",
   "modifier.tconstruct.boundless.description": "Bütün kaynaklardan gelen korumaların en yüksek olabilme oranını artırır",
-
-  "_comment": "Zırh - Karşıt Saldırı",
   "modifier.tconstruct.thorns": "Dikenler",
   "modifier.tconstruct.thorns.flavor": "Oldukça metal",
   "modifier.tconstruct.thorns.description": "Gardiyanın gücünü ellerine al, bazen saldıranların hasar almasını neden olur",
@@ -1874,8 +1437,6 @@
   "modifier.tconstruct.springy": "Yayımsı",
   "modifier.tconstruct.springy.flavor": "Ya-hop!",
   "modifier.tconstruct.springy.description": "Saldıranlar zırhından sekebilirler",
-
-  "_comment": "Zırh - Kask",
   "modifier.tconstruct.respiration": "Solungaç",
   "modifier.tconstruct.respiration.flavor": "Suda da oksijen var",
   "modifier.tconstruct.respiration.description": "Akciğer sığasını artırır",
@@ -1891,8 +1452,6 @@
   "modifier.tconstruct.item_frame": "Eşya Çerçevesi",
   "modifier.tconstruct.item_frame.flavor": "Her şeyi görüyorum",
   "modifier.tconstruct.item_frame.description": "Gözlemlemek için kaska envanter yuvaları ekler. Saat ve pusula için kusursuz",
-
-  "_comment": "Zırh - Göğüslük",
   "modifier.tconstruct.armor_power": "Güç",
   "modifier.tconstruct.armor_power.flavor": "İçinden geçen gücü hissediyor musun?",
   "modifier.tconstruct.armor_power.description": "Silahlarını daha güçlü yapar",
@@ -1905,8 +1464,6 @@
   "modifier.tconstruct.wings": "Kanatlar",
   "modifier.tconstruct.wings.flavor": "Gökyüzü senindir",
   "modifier.tconstruct.wings.description": "Havada zıplarsan havada süzülmene izin verir",
-
-  "_comment": "Zırh - Pantolon",
   "modifier.tconstruct.speedy": "Hızlı",
   "modifier.tconstruct.speedy.flavor": "Devam et ve et ve et...",
   "modifier.tconstruct.speedy.description": "Tavşanın hızına yakın hızlara ulaş",
@@ -1925,10 +1482,7 @@
   "modifier.tconstruct.tool_belt": "Araç Kemeri",
   "modifier.tconstruct.tool_belt.flavor": "Önceden daha çok el istemiş miydin?",
   "modifier.tconstruct.tool_belt.description": "Pantolana kontrol tuşuna basarken etkileşime girersen araç çubuklarının yerinin değiştirirsin",
-
   "modifier.tconstruct.inventory_cannot_remove": "Bu değişimi yapmak araçta depolanan eşyaları siler",
-
-  "_comment": "Zırh - Bot",
   "modifier.tconstruct.feather_falling": "Tüy Düşüşü",
   "modifier.tconstruct.feather_falling.flavor": "Tüyer",
   "modifier.tconstruct.feather_falling.description": "Düşüşü yavaşlatarak azaltılmış hasara neden olur",
@@ -1951,7 +1505,6 @@
   "modifier.tconstruct.bouncy": "Sekme",
   "modifier.tconstruct.bouncy.flavor": "Gökyüzüne sıçra!",
   "modifier.tconstruct.bouncy.description": "Sürekli balçık bloğu üzerindeymişsin gibi yerin seni yansıtmasını sağlar",
-
   "modifier.tconstruct.frost_walker": "Kırağılaştırıcı Yürüyüş",
   "modifier.tconstruct.frost_walker.flavor": "Üstün takımım nerede?",
   "modifier.tconstruct.frost_walker.description": "Su bloklarını geçici olarak dondurur",
@@ -1961,14 +1514,9 @@
   "modifier.tconstruct.flamewake": "Alev Körüklemek",
   "modifier.tconstruct.flamewake.flavor": "Bu iyi!",
   "modifier.tconstruct.flamewake.description": "Arkanızda ateş izi bırakın",
-
-  "_comment": "Zırh - Kalkan",
   "modifier.tconstruct.reflecting": "Yansıtıcı",
   "modifier.tconstruct.reflecting.flavor": "Sektirici Kalkan",
   "modifier.tconstruct.reflecting.description": "Uzun menzilli saldırıları kalkanının konuşlandırılmasından kısa bir süre sonra yansıtmasını sağlar",
-
-
-  "_comment": "Yetenekler",
   "modifier.tconstruct.unbreakable": "Kırılmaz",
   "modifier.tconstruct.unbreakable.flavor": "Donmuş durum!",
   "modifier.tconstruct.unbreakable.description": "Araç artık sıradan kullanım sonrası hasar almaz",
@@ -1976,8 +1524,6 @@
   "modifier.tconstruct.dual_wielding": "Çifte Kullanma",
   "modifier.tconstruct.dual_wielding.flavor": "Çifte Eylem!",
   "modifier.tconstruct.dual_wielding.description": "Öbür elden ana elde çifte kullanma sağlandığında saldırabilir. Çifte Kullanmalı araçların düşürülmüş istatikleri vardır",
-
-  "_comment": "Ganimet",
   "modifier.tconstruct.silky": "İpeksi",
   "modifier.tconstruct.silky.flavor": "İpek kadar düz!",
   "modifier.tconstruct.silky.description": "Çıkarılan bloklardan düşen eşyalar olağan olanların yerine kendileridir",
@@ -1995,16 +1541,12 @@
   "modifier.tconstruct.looting": "Ganimet",
   "modifier.tconstruct.looting.flavor": "Yaratıkların Şansı!",
   "modifier.tconstruct.looting.description": "Yaratıkları öldürürken daha iyi şeyler verir!",
-
-  "_comment": "Genişletici",
   "modifier.tconstruct.expanded": "Genişletilmiş",
   "modifier.tconstruct.expanded.flavor": "Bacak günlerini aksatmadı!",
   "modifier.tconstruct.expanded.description": "Aracın etki alanı öncesine göre daha büyüktür",
   "modifier.tconstruct.reach": "Ulaş",
   "modifier.tconstruct.reach.flavor": "Uza Devim!",
   "modifier.tconstruct.reach.description": "Bu aracı tutarak daha uzaktaki bloklara ve yaratıklara erişebilirsin!",
-
-  "_comment": "Blok Dönüştürme",
   "modifier.tconstruct.pathing": "Yolaklama",
   "modifier.tconstruct.pathing.flavor": "Gideceğimiz yerde yollara gereksinim duyuyoruz!",
   "modifier.tconstruct.pathing.description": "Araç yolak yapabiliyor",
@@ -2056,8 +1598,6 @@
   "modifier.tconstruct.warping": "Sapma",
   "modifier.tconstruct.warping.flavor": "Ender ışınlanıyor",
   "modifier.tconstruct.warping.description": "Yüklen, duvara nişan al ve öbür yüze sapın!",
-
-  "_comment": "Sıvılar",
   "modifier.tconstruct.melting": "Ergitme",
   "modifier.tconstruct.melting.flavor": "Ergiticinin gücü bir çubukta!",
   "modifier.tconstruct.melting.description": "Saldırılmış varlıkları ve düşen eşyaları ergitir!",
@@ -2077,8 +1617,6 @@
   "modifier.tconstruct.spitting": "Tükürme",
   "modifier.tconstruct.spitting.flavor": "Daha iyi lama ol",
   "modifier.tconstruct.spitting.description": "Aracı tanktan uzun menzilli sıvılar fırlatmak için yükleyebilir ve etkileri hedefe uygular. Yay istatistiklerinden etkilenir.",
-
-  "_comment": "Fazladan değiştirici yuvaları",
   "modifier.tconstruct.creative_slot": "Yaratıcı Yuva",
   "modifier.tconstruct.creative_slot.flavor": "Kirli Hileci!",
   "modifier.tconstruct.creative_slot.description": "Ek olarak değiştirici yuvası alarak hile yaptı",
@@ -2087,8 +1625,6 @@
   "modifier.tconstruct.stat_override.description": "Araç istatikleri komutlarla değiştirildi",
   "modifier.tconstruct.stat_override.bonuses": "Fazlalıklar:",
   "modifier.tconstruct.stat_override.multipliers": "Çarpanlar:",
-
-  "__comment": "Ücretsiz Değiştiriciler",
   "modifier.tconstruct.extra_modifier.type_format": "%s (%s)",
   "modifier.tconstruct.writable": "Yazılabilir",
   "modifier.tconstruct.writable.flavor": "Aydın!",
@@ -2111,11 +1647,7 @@
   "modifier.tconstruct.rebalanced": "Dengelenmiş",
   "modifier.tconstruct.rebalanced.flavor": "Aracındaki denge tartısı",
   "modifier.tconstruct.rebalanced.description": "Aracına türünü kendi seçtiğin ek olarak bir yuva sağlar. En güçlü türü cezalandırır.",
-
-
-  "__comment": "1. Düzey Nitelikler",
   "armor_stat.tconstruct.mining_speed": "Çıkarım Hızı",
-
   "modifier.tconstruct.cultivated": "Bayındır",
   "modifier.tconstruct.cultivated.flavor": "Tutumlu!",
   "modifier.tconstruct.cultivated.description": "Araç onarılırken neredeyse daha fazla malzeme yetiştirir",
@@ -2137,8 +1669,6 @@
   "modifier.tconstruct.solar_powered": "Güneş Enerjili",
   "modifier.tconstruct.solar_powered.flavor": "Çevre için iyi",
   "modifier.tconstruct.solar_powered.description": "Araç gün ışığında hasara karşı dirençli",
-
-  "__comment": "2. Düzey Nitelikler",
   "modifier.tconstruct.sturdy": "Sağlam",
   "modifier.tconstruct.sturdy.flavor": "İyi Yapılmış!",
   "modifier.tconstruct.sturdy.description": "En güçlü demirden yapılmış",
@@ -2168,8 +1698,6 @@
   "modifier.tconstruct.airborne": "Havalı",
   "modifier.tconstruct.airborne.flavor": "Göklere çık!",
   "modifier.tconstruct.airborne.description": "Araç artık havada çıkarırken ceza almıyor ayrıca uzun menzilli doğruluğu kazanıyor",
-
-  "__comment": "3. Düzey Nitelikler",
   "modifier.tconstruct.overcast": "Kapalı",
   "modifier.tconstruct.overcast.flavor": "Kalın Kaplama!",
   "modifier.tconstruct.overcast.description": "Balçık aşımı bu araçta daha kalın yapılabilir",
@@ -2189,11 +1717,8 @@
   "modifier.tconstruct.tasty": "Lezzetli",
   "modifier.tconstruct.tasty.flavor": "Şap şup",
   "modifier.tconstruct.tasty.description": "Çok güzel kokuyor, aracından ısırık almaya direnemiyorsun",
-
   "death.attack.tconstruct.bleed": "%1$s kanayarak öldü",
   "death.attack.tconstruct.bleed.item": "%2$s yüzünden kaynaklanan yaralardan %1$s kanayarak öldü",
-
-  "__comment": "4. Düzey Nitelikler",
   "modifier.tconstruct.overlord": "Derebeyi",
   "modifier.tconstruct.overlord.flavor": "Krallık!",
   "modifier.tconstruct.overlord.description": "Araç bazı dayanıklılığını yeni balçık aşımı nesneleri olarak kullanır",
@@ -2209,14 +1734,9 @@
   "modifier.tconstruct.conducting.flavor": "Termodinamik!",
   "modifier.tconstruct.conducting.description": "Araç sen ateşteyken katlanmış hasar verir",
   "modifier.tconstruct.conducting.boost": "Ateşteyken Hasar Dorukta",
-
-  "__comment": "5. Düzey Nitelikler",
   "modifier.tconstruct.enderporting": "Ender Geçişimi",
   "modifier.tconstruct.enderporting.flavor": "Enderbalçığının gücünü ellerine al",
   "modifier.tconstruct.enderporting.description": "Araç tutucusunu çıkarılan bloğun veya öldürülen varlığın yerine ışınlar",
-
-
-  "__comment": "2. Düzey Mod Çatışma Nitelikleri",
   "modifier.tconstruct.dense": "Yoğun",
   "modifier.tconstruct.dense.flavor": "Biçimini zorca kaybeder",
   "modifier.tconstruct.dense.description": "Araç uzun süre dayanır ancak onarması daha zordur",
@@ -2239,8 +1759,6 @@
   "modifier.tconstruct.holy": "Kutsal",
   "modifier.tconstruct.holy.flavor": "Öl, Kümes Hayvanı Yaratığı!",
   "modifier.tconstruct.holy.description": "Oklar yaşayan ölülere karşı fazladan hasar vurur",
-
-
   "__comment": "3. Düzey Mod Çatışma Nitelikleri",
   "modifier.tconstruct.ductile": "Tellenme",
   "modifier.tconstruct.ductile.flavor": "İyi yeniden biçimlendirilebilir!",
@@ -2270,8 +1788,6 @@
   "modifier.tconstruct.overworked": "Aşırı Çalışmış",
   "modifier.tconstruct.overworked.flavor": "Az Maaşlı",
   "modifier.tconstruct.overworked.description": "Bütün kaynaklardan balçık aşımı yenilenme niceliğini artırır",
-
-  "_comment": "Balçıklı Kafatası Nitelikleri",
   "modifier.tconstruct.self_destructive": "Kendini Yok Edici",
   "modifier.tconstruct.self_destructive.flavor": "Fazla sağlıklı değil",
   "modifier.tconstruct.self_destructive.description": "Çömelirken kask ile etkileşime girilirse patlayabilir",
@@ -2311,11 +1827,9 @@
   "modifier.tconstruct.gold_guard": "Altın Koruma",
   "modifier.tconstruct.gold_guard.flavor": "Altınlara aşıksın demektir",
   "modifier.tconstruct.gold_guard.description": "Üzerindeki altın niceliğine bağlı olarak sağlığını artırır",
-  "modifier.tconstruct.gold_guard.health": "Altın Sağlık",
   "modifier.tconstruct.revenge": "Öç",
   "modifier.tconstruct.revenge.flavor": "Karşı saldırıları için kusursuz",
   "modifier.tconstruct.revenge.description": "Sana saldırdıklartan sonra seni güçlü yapar",
-
   "modifier.tconstruct.creeper_disguise": "Creeper Kılığı",
   "modifier.tconstruct.creeper_disguise.flavor": "Oldukça Ürpertici",
   "modifier.tconstruct.creeper_disguise.description": "Seni öbür creeperlara creeper olarak gösterir",
@@ -2358,18 +1872,11 @@
   "modifier.tconstruct.zombified_piglin_disguise": "Zombileşmiş Piglin Kılığı",
   "modifier.tconstruct.zombified_piglin_disguise.flavor": "O bir domuz mu? Bir insan mı? Bir zombi mi?",
   "modifier.tconstruct.zombified_piglin_disguise.description": "Seni öbür zombileşmiş piglinlere zombileşmiş piglin olarak gösterir",
-
-  "_comment": "Çatışma Değiştiricileri",
   "modifier.tconstruct.the_one_probe": "Bir Sorguda",
   "modifier.tconstruct.the_one_probe.flavor": "Bilimsel!",
   "modifier.tconstruct.the_one_probe.description": "Tutulunca veya kaskta iken hedeflenen bloğun bilgilerini gösterir.",
-
-  "_comment": "İç Değiştiriciler",
   "modifier.tconstruct.overslime_friend": "Balçık Aşımı Arkadaşı",
   "modifier.tconstruct.snow_boots": "Kar Botu",
-
-
-  "_comment": "İç Etkiler",
   "effect.tconstruct.bleeding": "Kanama",
   "effect.tconstruct.magnetic": "Manyetik",
   "effect.tconstruct.pierce": "Delinik",
@@ -2383,9 +1890,6 @@
   "effect.tconstruct.calcified": "Kireçlenmiş",
   "effect.tconstruct.self_destructing": "Kendini Yok Edici",
   "effect.tconstruct.enderference": "Ender Tutucu",
-
-
-  "_comment": "Roma Rakamları",
   "roman_numeral.value.1": "I",
   "roman_numeral.value.2": "II",
   "roman_numeral.value.3": "III",
@@ -2406,16 +1910,12 @@
   "roman_numeral.value.18": "XVIII",
   "roman_numeral.value.19": "XIX",
   "roman_numeral.value.20": "XX",
-
-  "_comment": "İstatistik",
-
   "tool_stat.tconstruct.attack_speed": "Yakın Menzilli Hızı: ",
   "tool_stat.tconstruct.attack_speed.description": "Hesaplamalarda ana yakın menzilli saldırı hızı değeridir.\nYaklaşık olarak saniye başı tüm güçle yapılan saldırıların sayısıdır.",
   "tool_stat.tconstruct.durability": "Dayanaklılık: ",
   "tool_stat.tconstruct.durability.description": "Hesaplamalarda ana dayanıklılık değeridir.\nGenelde aracın genel dayanıklılığının ayrılmaz bir parçasıdır.",
   "tool_stat.tconstruct.use_item_speed": "Eşya Kullanma Hızı: ",
   "tool_stat.tconstruct.use_item_speed.description": "Ok veya yay gibi eşya kullanırken hareket hızı katlayıcısıdır.",
-
   "stat.tconstruct.head": "Baş",
   "tool_stat.tconstruct.mining_speed": "Çıkarım Hızı: ",
   "tool_stat.tconstruct.mining_speed.description": "Bu malzemeden yapılan araç başının ne kadar hızlı blok çıkarabileceğidir.\nAracın başka parçaları tarafından etkilenebilir.",
@@ -2423,20 +1923,17 @@
   "tool_stat.tconstruct.harvest_tier.description": "Bu malzemeden yapılan araç başının hangi aralıkta blok çıkarabileceğidir.",
   "tool_stat.tconstruct.attack_damage": "Yakın Menzilli Hasarı: ",
   "tool_stat.tconstruct.attack_damage.description": "Hesaplamalarda ana yakın menzilli saldırı hasarı değeridir.\nSon sonuç araca ve araçta kullanılan öbür bileşenlere bağlıdır.",
-
   "tool_stat.tconstruct.armor": "Zırh: ",
   "tool_stat.tconstruct.armor.description": "Giyilidiğinde ne kadar koruduğudur.",
   "tool_stat.tconstruct.armor_toughness": "Zırh Sertliği: ",
   "tool_stat.tconstruct.armor_toughness.description": "Bu zırhın yüksek saldırılırı saldırılara ne kadar direndiğidir.",
   "tool_stat.tconstruct.knockback_resistance": "Savurma Direnci: ",
   "tool_stat.tconstruct.knockback_resistance.description": "Bu zırhın ne kadar savurmayı engellediğidir.",
-
   "stat.tconstruct.handle": "Sap",
   "tool_stat.tconstruct.handle.durability.description": "Aracın bütün dayanaklılığı bununla katlanacaktır.",
   "tool_stat.tconstruct.handle.attack_damage.description": "Aracın bütün saldırı hasarı bununla katlanacaktır.",
   "tool_stat.tconstruct.handle.attack_speed.description": "Aracın bütün saldırı hızı bununla katlanacaktır.",
   "tool_stat.tconstruct.handle.mining_speed.description": "Aracın bütün çıkarım hızı bununla katlanacaktır.",
-
   "stat.tconstruct.limb": "Kanat",
   "stat.tconstruct.grip": "Tutamaç",
   "tool_stat.tconstruct.draw_speed": "Çekiş Hızı: ",
@@ -2447,41 +1944,30 @@
   "tool_stat.tconstruct.accuracy.description": "Yayın eğimini ne kadar merkeze yakın aldığını belirler.",
   "tool_stat.tconstruct.projectile_damage": "Uzun Menzilli Gücü: ",
   "tool_stat.tconstruct.projectile_damage.description": "Bu silahtan ateşlenen uzun menzillilerin ne kadar hasar vuracağını veya gücünü belirler.",
-
   "stat.tconstruct.bowstring": "Yay İpi",
   "tool_stat.tconstruct.extra.no_stats": "İstatistik Yok",
-
   "tool_stat.tconstruct.block_amount": "Engelleme Niceliği: ",
   "tool_stat.tconstruct.block_amount.description": "Bu kalkanla saldırı başına en fazla ne kadar hasar engelleyebileceğidir.",
   "tool_stat.tconstruct.block_angle": "Engelleme Açısı: ",
   "tool_stat.tconstruct.block_angle.description": "Kalkanla korunurken 360 dereceden kaç derece önünde koruma sağlayacağıdır. Bu açıların dışındaki saldırılar engellenmez.",
-
   "stat.tconstruct.repair_kit": "Onarım Takımı",
   "stat.tconstruct.skull": "Balçıklı Kafatası",
-
   "stat.tconstruct.harvest_tier.minecraft.wood": "Odun",
   "stat.tconstruct.harvest_tier.minecraft.gold": "Altın",
   "stat.tconstruct.harvest_tier.minecraft.stone": "Taş",
   "stat.tconstruct.harvest_tier.minecraft.iron": "Demir",
   "stat.tconstruct.harvest_tier.minecraft.diamond": "Elmas",
   "stat.tconstruct.harvest_tier.minecraft.netherite": "Netherit",
-
   "stat.tconstruct.slot.prefix.upgrades": "Yükseltmeler: ",
   "stat.tconstruct.slot.prefix.abilities": "Yetenekler: ",
   "stat.tconstruct.slot.prefix.souls": "Ruh Yuvaları: ",
   "stat.tconstruct.slot.prefix.defense": "Savunma Yuvaları: ",
-
   "stat.tconstruct.slot.display.upgrades": "yükseltme",
   "stat.tconstruct.slot.display.abilities": "yetenek",
   "stat.tconstruct.slot.display.souls": "ruh",
   "stat.tconstruct.slot.display.defense": "savunma",
-
-
-  "_comment": "Araç İpucuları",
-
   "key.tconstruct.shift": "Shift",
   "key.tconstruct.ctrl": "Ctrl",
-
   "tooltip.tconstruct.tool.broken": "Kırık",
   "tooltip.tconstruct.tool.empty": "Boş",
   "tooltip.tconstruct.hold_shift": "İstatistikler için %s bas",
@@ -2489,24 +1975,18 @@
   "tooltip.tconstruct.missing_data": "Eksik araç verileri",
   "tooltip.tconstruct.uninitialized": "Var etmek için envanterine yerleştir",
   "tooltip.tconstruct.random_materials": "Rastgele malzemeler",
-
   "tooltip.tconstruct.part.added_by": "Malzeme %s tarafından eklendi",
   "tooltip.tconstruct.part.missing_material": "Eksik malzeme: %s",
   "tooltip.tconstruct.part.missing_stats": "Malzeme %s desteklemiyor",
   "tooltip.tconstruct.part.missing_info": "Parçanın verileri yok",
   "tooltip.tconstruct.part.material_id": "Malzeme Kimliği: %s",
-
-  "_comment": "Grafiksel Kullanıcı Arayüzü",
-
   "itemGroup.tconstruct.general": "Tinkers' Construct | Genel Eşyalar",
   "itemGroup.tconstruct.tools": "Tinkers' Construct | Araçlar",
   "itemGroup.tconstruct.tool_parts": "Tinkers' Construct | Araç Parçaları",
   "itemGroup.tconstruct.smeltery": "Tinkers' Construct | Kallama Ocağı",
   "itemGroup.tconstruct.world": "Tinkers' Construct | Dünya",
-
   "gui.tconstruct.crafting_station": "Çalışma İstasyonu",
   "gui.tconstruct.crafting_station.uncraftable": "Bu eşya şu anda oyuncu tarafından üretilebilir değildir",
-
   "gui.tconstruct.part_builder": "Parça Yapıcı",
   "gui.tconstruct.part_builder.info": "Burada kendi onarıcı düşkülerini bitirmek için aracının parçalarını üretebilirsin.\n\nParça üretmek için düz taslağı sol yuvaya koyun ve istediğin parçayı seçin. Geriye kalan yuva parçayı üretmek için kullanılan malzemeyi tutar.",
   "gui.tconstruct.part_builder.material_value": "Malzeme değeri: %s",
@@ -2514,11 +1994,9 @@
   "gui.tconstruct.part_builder.trait": "Nitelik",
   "gui.tconstruct.part_builder.uncraftable": "Biçimlendirilemez",
   "gui.tconstruct.part_builder.uncraftable.tooltip": "Malzeme parça yapıcıda biçimlendirilemez. Dökümleme gibi öbür yöntemler gereklidir.",
-
   "gui.tconstruct.tinkers_chest": "Onarıcının Sandığı",
   "gui.tconstruct.cast_chest": "Kalıp Sandığı",
   "gui.tconstruct.part_chest": "Parça Sandığı",
-
   "gui.tconstruct.tinker_station": "Onarıcının İstasyonu",
   "gui.tconstruct.tinker_station.repair_limited": "Onar ve Değiştir",
   "gui.tconstruct.tinker_station.repair_limited.description": "Bütün sıradan araçların yapılmasına ve çoğu değiştiricinin eklenmesine olanak sağlar. Başlamak için soldaki düğmelerden bir düzen seçin.",
@@ -2530,38 +2008,29 @@
   "gui.tconstruct.tinker_station.components": "Bileşenler",
   "gui.tconstruct.tinker_station.info": "Araçlarını onarmanın veya değiştirmenin ana yoludur. Sola aracı ve malzemeyi koyarak başla.",
   "gui.tconstruct.tinker_station.no_traits": "Yok :[",
-
   "gui.tconstruct.manual.cycle.recipes": "Öbür tarifler arasında geçiş yapın",
-
   "recipe.tconstruct.tool_repair.fully_repaired": "Araç hasar almamış",
   "recipe.tconstruct.damaging.broken": "Araç önceden beri kırık",
   "recipe.tconstruct.overslime.at_capacity": "Araçın balçık aşımı için daha fazla yeri yok",
-
   "recipe.tconstruct.swappable.already_present": "Araç şu anda bu değişke ile %s içeriyor",
-
   "gui.tconstruct.modifier_worktable": "Değiştirici Çalışma Masası",
   "gui.tconstruct.modifier_worktable.title": "Değiştirici Ayarlama",
   "gui.tconstruct.modifier_worktable.info": "Araç ve aracın değiştiricilerini ayarlamak için uygun eşyaları ekleyin",
   "recipe.tconstruct.modifier_set_worktable.empty": "Aracın uygulanabilir değiştiricileri yok",
-
   "recipe.tconstruct.remove_modifier.modifiers": "Değiştiricileri Sökme",
   "recipe.tconstruct.remove_modifier.description": "Değiştiriciyi sökmek için seç, yuva geri verilir ancak herhangi bir eşya gideri kaybedilir. Sıvılar girdiden tüketilir ve tutucu geri verilir.",
   "recipe.tconstruct.remove_modifier.no_modifiers": "Aracın kaldırılabilir değiştiricisi yok",
-
   "recipe.tconstruct.modifier_sorting.title": "Değiştiricileri Sırala",
   "recipe.tconstruct.modifier_sorting.description": "Değiştiriciyi dizelgedeki sonraki değiştirici ile yer değiştirmesi için seçin. Yer değiştirmek için eşya tüketmez.",
   "recipe.tconstruct.modifier_sorting.not_enough_modifiers": "Araç sıralamak için en az iki değiştiriciye gereksinim duyar",
-
   "recipe.tconstruct.invisible_modifiers.adding.title": "Görünmez Mürekkep",
   "recipe.tconstruct.invisible_modifiers.adding.description": "Aracın görünümünden gizlemek için değiştirici seçin",
   "recipe.tconstruct.invisible_modifiers.removing.title": "Görünür Mürekkep",
   "recipe.tconstruct.invisible_modifiers.removing.description": "Yeniden aracın görünümünde gözükmesi için gizlenmiş değiştirici seçin",
-
   "modifier.tconstruct.attack_toggled": "%s (Saldırı)",
   "recipe.tconstruct.toggle_interaction.title": "Etkileşimi Açma",
   "recipe.tconstruct.toggle_interaction.description": "Etkileşim değiştiricisinin etkileşimde etkinleştirilmesinden saldırıya değiştirir",
   "recipe.tconstruct.toggle_interaction.removing.description": "Etkileşim değştiricisinin geri etkileşimde etkinleşitirilmesini değiştirir",
-
   "recipe.tconstruct.extract_modifier.upgrades": "Yükseltmeyi Çıkar",
   "recipe.tconstruct.extract_modifier.slotless": "Yuvasızı Çıkar",
   "recipe.tconstruct.extract_modifier.abilities": "Yeteneği Çıkar",
@@ -2569,27 +2038,19 @@
   "recipe.tconstruct.extract_modifier.modifiers": "Değiştiriciyi Çıkar",
   "recipe.tconstruct.extract_modifier.description": "Değiştirici kristali üzerine çıkarmak için değiştirici seçin, yuva geri döner ancak herhangi bir eşya gideri kaybolur.",
   "recipe.tconstruct.extract_modifier.no_modifiers": "Aracın herhangi bir çıkarılabilir değiştiricisi yok",
-
   "recipe.tconstruct.enchantment_converting.description.lost": "Değiştirici kristali olarak çıkarmak için büyülü kitaptan verilen türden bir değiştirici seçin. Büyülü eşya kaybolur.",
   "recipe.tconstruct.enchantment_converting.description.keep": "Değiştirici kristali olarak çıkarmak için büyülü kitaptan verilen türden bir değiştirici seçin. Eşya büyüsüz olara geri verilir.",
   "recipe.tconstruct.enchantment_converting.no_enchantments": "Eşyada uygulanabilir büyüler yok",
   "recipe.tconstruct.enchantment_converting.too_few": "Daha yüksek düzeyde büyüler için daha çok girdi sağlanması gerekiyor",
-
   "recipe.tconstruct.part_swapping.too_many_parts": "Masa araçtaki parçaları değiştirmek için çok küçük",
-
   "recipe.tconstruct.modifier.not_enough_slot": "Bu değiştiriciyi eklemek için en az 1 %s yuva gerekir",
   "recipe.tconstruct.modifier.not_enough_slots": "Bu değiştiriciyi eklemek için en az %s %s yuva gerekir",
   "recipe.tconstruct.modifier.validate_slots": "Bu değişiklik aracırı çok az %s yuvayla bırakır",
   "recipe.tconstruct.modifier.min_level": "Bu tarifin uygulanması için aracın en az %s düzey %s olması gerekir",
   "recipe.tconstruct.modifier.max_level": "%s düzey %s üstünde olamaz",
-
   "recipe.tconstruct.tool_recycling": "Araç Geri Dönüşümü",
   "recipe.tconstruct.tool_recycling.info": "Aracın hangi parçasının kurtarılacağını seçin. Aracın geriye kalan dayanıklılığndan kalan ikinci parçayı kurtarma şansı var.",
   "recipe.tconstruct.tool_recycling.no_modifiers": "Araçta yükseltmeler veya yetenekler varsa araç geri dönüştürülemez, onların önce sökülmesi gerekiyor.",
-
-
-  "_comment": "Grafiksel Kullanıcı Arayüzü Mesajları",
-
   "gui.tconstruct.caption": "Altyazı",
   "gui.tconstruct.error": "HATA",
   "gui.tconstruct.warning": "UYARI",
@@ -2599,15 +2060,10 @@
   "gui.tconstruct.error.unknown_material": "Bilinmeyen Malzeme",
   "gui.tconstruct.error.useless_tool_part": "Bu parça hiçbir araç üretmek için kullanılamz!\n\nYa %s malzemesinin bilgileri eksik ya da hiçbir araç üretilirken %s kullanılmıyor.",
   "gui.tconstruct.error.not_enough_durability": "Parçaları değiştirmek için yeterli dayanıklılık yok!\nDaha %d dayanıklılık gerekir.",
-
-
-  "_comment": "Sesler için altyazılar",
-
   "subtitles.tconstruct.little_saw": "Testere kullanıldı",
   "subtitles.tconstruct.item_frame_click": "Eşya Çerçevesindeki eşya zamanla çevrildi",
   "subtitles.tconstruct.casting_cools": "Dökümdeki eşya soğudu",
   "subtitles.tconstruct.casting.click": "Dökümleme engelleniyor",
-
   "subtitles.tconstruct.slime_sling": "Balçık Sapanı sekti",
   "subtitles.tconstruct.slime_sling.teleport": "Balçık Sapanı ışınlandı",
   "subtitles.tconstruct.enderporting": "Varlık ender geçimi yaptı",
@@ -2616,35 +2072,23 @@
   "subtitles.tconstruct.longbow.charge": "Uzun yay gerildi",
   "subtitles.tconstruct.crystalshot": "Ok isabet aldı",
   "subtitles.tconstruct.bonk": "Araç boşalıyor",
-
   "subtitles.tconstruct.necrotic_heal": "Yaşamı sömürüldü",
   "subtitles.tconstruct.extra_jump": "Varlık hopladı",
-
   "subtitles.tconstruct.slime_teleport": "Balçık ışınlandı",
   "subtitles.tconstruct.slimy_bounce": "Balçığımsı sekme",
-
   "subtitles.tconstruct.equip.slime": "Balçığımsı zırh çınladı",
   "subtitles.tconstruct.equip.travelers": "Gezginin zırhı hışırdadı",
   "subtitles.tconstruct.equip.plate": "Sac zırhı tınladı",
-
   "subtitles.tconstruct.block.earth_crystal.chime": "Kara Kristali Çınladı",
-  "subtitles.tconstruct.block.sky_crystal.chime":   "Gök Kristali Çınladı",
+  "subtitles.tconstruct.block.sky_crystal.chime": "Gök Kristali Çınladı",
   "subtitles.tconstruct.block.ichor_crystal.chime": "Od Kristali Çınladı",
   "subtitles.tconstruct.block.ender_crystal.chime": "Ender Kristali Çınladı",
-
-
-  "_comment": "Kitap Dizileri",
-
   "book.tconstruct.material.part_builder": "Parça yapıcıda yapılabilir",
   "book.tconstruct.material.cast_from": "Kalıba %s dökümleyerek yapılabilir",
   "book.tconstruct.material.composite_from": "%s ergimişini %s parçasının üzerine dökümleyerek yapılabilir",
   "book.tconstruct.material.skull_from": "Enderbalçığını %s üzerine döküm çanağında dökümleyerek oluşturulabilir",
   "book.tconstruct.modifiers.effect": "Etkileri:",
   "book.tconstruct.tool.properties": "Özellikleri:",
-
-
-  "_comment": "Komutlar",
-
   "command.tconstruct.slot_type.not_found": "Bilinmeyen yuva türü %s",
   "command.tconstruct.fluid.not_found": "Bilinmeyen sıvı %s",
   "command.tconstruct.stat_type.not_found": "Bilinemeyen istatistik türü %s",
@@ -2654,62 +2098,48 @@
   "command.tconstruct.modifier_hook.not_found": "Bilinmeyen değiştirici kancası %s",
   "command.tconstruct.modifier_usage": "Başarıyla değiştirici kullanımını oyun günlüğüne yazıldı",
   "command.tconstruct.modifier_priority": "Başarıyla değiştirici öncelikleri oyun günlüğüne yazıldı",
-
   "command.tconstruct.modifiers.success.add.single": "%s değiştiricisi %s'in eşyasına eklendi",
   "command.tconstruct.modifiers.success.add.multiple": "%s değiştiricisi %s'in varlıklarına eklendi",
   "command.tconstruct.modifiers.success.remove.single": "%s değiştiricisi %s'in eşyasından söküldü",
   "command.tconstruct.modifiers.success.remove.multiple": "%s değiştiricisi %s'in varlıklarından söküldü",
   "command.tconstruct.modifiers.failure.too_few_levels": "%s değiştiricisi %s'in eşyasından sökülemez",
-
   "command.tconstruct.slots.success.add.single": "%s %s yuvası %s'in eşyasına eklendi",
   "command.tconstruct.slots.success.add.multiple": "%s %s yuvası %s'in varlıklarına eklendi",
   "command.tconstruct.slots.success.set.single": "%3$s'in eşyasına %1$s yuvası %2$s olarak ayarlandı",
   "command.tconstruct.slots.success.set.multiple": "%3$s'in varlıklarına %1$s yuvası %2$s olarak ayarlandı",
   "command.tconstruct.slots.failure.invalid_count": "Sıfır yuva eklenemiyor, pozitif veya negatif değer eklenmesi gerekiyor",
-
   "command.tconstruct.stats.success.bonus.modify.single": "%1$s%3$s'in eşyasında %2$s artırıldı",
   "command.tconstruct.stats.success.bonus.modify.multiple": "%1$s%3$s'in varlıklarında %2$s artırıldı",
   "command.tconstruct.stats.success.bonus.set.single": "%1$s%3$s'in eşyasında fazlalığı %2$s artırıldı",
   "command.tconstruct.stats.success.bonus.set.multiple": "%1$s%3$s'in varlıklarında fazlalığı %2$s artırıldı",
   "command.tconstruct.stats.success.bonus.set.parse_fail": "%s%s Ayrıştrılamadı",
-
   "command.tconstruct.stats.success.multiply.modify.single": "%1$s%3$s'in eşyasında %2$s ile çarpıldı",
   "command.tconstruct.stats.success.multiply.modify.multiple": "%1$s%3$s'in eşyasında %2$s ile çarpıldı",
   "command.tconstruct.stats.success.multiply.set.single": "%1$s%3$s'in eşyasında %2$s ile çarpıldı",
   "command.tconstruct.stats.success.multiply.set.multiple": "%1$s%3$s'in eşyasında %2$s ile çarpıldı",
-
   "command.tconstruct.stats.success.reset.all.single": "%s'in eşyasındaki bütün fazlalıklar ve değiştiricileri sıfırlandı",
   "command.tconstruct.stats.success.reset.all.multiple": "%s'in varlıklarındaki bütün fazlalıklar ve değiştiricileri sıfırlandı",
   "command.tconstruct.stats.success.reset.stat.single": "%s%s'in eşyasındaki fazlalıkları ve değiştiricileri sıfırlanır",
   "command.tconstruct.stats.success.reset.stat.multiple": "%s%s'in varlıklarındaki fazlalıkları ve değiştiricileri sıfırlanır",
-
   "command.tconstruct.stats.failure.invalid_add": "İstatistiklere sıfır eklenemiyor, pozitif veya negatif sayı eklenmesi gerekiyor",
   "command.tconstruct.stats.failure.invalid_multiply": "İstatistikleri 1 ile çarpılamıyor, başka bir pozitif sayı ile çarpılması gerekiyor",
-
   "command.tconstruct.held_modifiable.failed": "Hiçbir şey değişmedi. Hedefin elinde değiştirilebilir eşya yok veya hedef bulunamadı",
   "command.tconstruct.held_modifiable.failed.nonliving": "%s, bu komut için geçerli bir varlık değildir",
   "command.tconstruct.held_modifiable.failed.no_item": "%s herhangi bir eşya tutmuyor",
   "command.tconstruct.held_modifiable.failed.invalid_item": "%s değiştirilebilir bir eşya tutmuyor",
-
   "command.tconstruct.generate_part_textures.start": "Parça dokuları üretimi başladı",
   "command.tconstruct.generate_part_textures.finish": "%s parça dokuları %s s sürede %s konumunda başarıyla üretildi",
   "command.tconstruct.generate_part_textures.no_materials": "Hiçbir malzemenin üreteç bilgisi yok, üretilecek bir şey yok",
   "command.tconstruct.generate_part_textures.no_parts": "Kaynak paketinde bağımsız parça görüntüleri yok",
-
-
-  "_comment": "JEI Dizileri",
   "jei.tconstruct.time": "%s s",
   "jei.tconstruct.temperature": "%s°C",
   "jei.tconstruct.modifier_ingredient": "%s Değiştiricisi",
-
   "jei.tconstruct.casting.basin": "Döküm Çanağı",
   "jei.tconstruct.casting.table": "Döküm Masası",
   "jei.tconstruct.casting.cast_kept": "Kalıp sonraki tariflerde de kullanılabilir",
   "jei.tconstruct.casting.cast_consumed": "Kalıp dökümde tüketilir",
-
   "jei.tconstruct.molding.title": "Taslaklama",
   "jei.tconstruct.molding.pattern_consumed": "Taslak üretimde tüketilir",
-
   "jei.tconstruct.melting.title": "Ergitme",
   "jei.tconstruct.melting.multiplier": "Hız Katlayıcısı: x%s",
   "jei.tconstruct.melting.ore": "Denetimcinin türüne göre tarifin çıktısına artış sağlayabilir",
@@ -2717,28 +2147,19 @@
   "jei.tconstruct.melting.smeltery": "Kallama Ocağında:",
   "jei.tconstruct.melting.melter": "Ergiticide:",
   "jei.tconstruct.foundry.title": "Dökümevi",
-
   "jei.tconstruct.entity_melting.title": "Varlık Ergitme",
   "jei.tconstruct.entity_melting.per_hearts": "%s Kalp Hasarı Başına",
   "jei.tconstruct.entity_melting.per_heart": "1.0 Kalp Hasarı Başına",
-
   "jei.tconstruct.alloy.title": "Alaşımlama",
-
   "jei.tconstruct.modifiers.title": "Değiştiriciler",
   "jei.tconstruct.modifiers.slot": "Değiştiricinin uygulanması için 1 %s yuvası gerekir",
   "jei.tconstruct.modifiers.slots": "Değiştiricinin uygulanması için %s %s yuvası gerekiyor",
   "jei.tconstruct.modifiers.free": "Değiştirici yuvasına uygulanması için gerek duymaz",
   "jei.tconstruct.modifiers.incremental": "Tarif artımlı, girdinin bir parçasının tikel bir etki için uygulanabilir",
-
   "jei.tconstruct.severing.title": "Koparma",
-
   "jei.tconstruct.part_builder.title": "Parça Yapıcı",
   "jei.tconstruct.part_builder.cost": "Gider: %s",
-
   "jei.tconstruct.modifier_worktable.title": "Değiştirici Çalışma Masası",
-
-
-  "_comment": "Araç Başarımları",
   "advancements.tconstruct.tools.materials_and_you.title": "Onarıcı Eğitimde",
   "advancements.tconstruct.tools.materials_and_you.description": "Malzemeler ve Sen'i üret, Onarıcının Yapımı'nın tanıtım kitabı",
   "advancements.tconstruct.tools.part_builder.title": "Parça Yapıcı",
@@ -2767,8 +2188,6 @@
   "advancements.tconstruct.tools.one_shot.description": "Bir kritik olmayan vuruşta koşulsuz olarak herhangi bir sıradan yaratığı öldürebilen yakın menzilli silah yap (21 düz hasar veya fazlası)",
   "advancements.tconstruct.tools.material_master.title": "Malzeme Ustası",
   "advancements.tconstruct.tools.material_master.description": "Varsayılan tüm malzemeleri en az bir kez kullan",
-
-  "_comment": "Kallama Ocağı Başarımları",
   "advancements.tconstruct.smeltery.puny_smelting.title": "Kallama Ocağı Toyu",
   "advancements.tconstruct.smeltery.puny_smelting.description": "Cılız Kallama kılavuz kitabını üret",
   "advancements.tconstruct.smeltery.melter.title": "Yalın Ergitici Evi",
@@ -2789,8 +2208,6 @@
   "advancements.tconstruct.smeltery.tool_forge.description": "Örste bütün koca araçları döv",
   "advancements.tconstruct.smeltery.abilities.title": "Yetenek Ustası",
   "advancements.tconstruct.smeltery.abilities.description": "Varsayılan yetenek değiltiricilerinin tümünü araca en az bir kez uygula",
-
-  "_comment": "Dökümevi Başarımları",
   "advancements.tconstruct.foundry.fantastic_foundry.title": "Nether Kallama",
   "advancements.tconstruct.foundry.fantastic_foundry.description": "Düşlemsel dökümevini yap, nether kallama kılavuz kitabı",
   "advancements.tconstruct.foundry.alloyer.title": "Yalın Alaşımlayıcı",
@@ -2805,7 +2222,6 @@
   "advancements.tconstruct.foundry.manyullyn_lanterns.description": "Bütün yığın dolusu içi ergimiş menyullen dolu kararmış veya kavrulmuş fener yap",
   "advancements.tconstruct.foundry.encyclopedia.title": "Bilgilik",
   "advancements.tconstruct.foundry.encyclopedia.description": "Bütün kitaplardan bilginle malzemelerin bilgiliğini üret",
-
   "_comment": "Ivır Zıvır Başarımları",
   "advancements.tconstruct.world.tinkers_gadgetry.title": "Onarıcının Ivır Zıvırlığı",
   "advancements.tconstruct.world.tinkers_gadgetry.description": "Dünyayı keşfetmeye başlamak için Onarıcının Ivır Zıvırlığı'nı üret",

@@ -1,43 +1,35 @@
 {
   "modifiers": {
     "tconstruct:diamond": {
-      "type": "tconstruct:basic",
       "texture": "tconstruct:item/tool/longbow/modifiers/tconstruct_diamond_1",
       "texture_large": "tconstruct:item/tool/longbow/large/modifiers/tconstruct_diamond_1"
     },
     "tconstruct:experienced": {
-      "type": "tconstruct:basic",
       "texture": "tconstruct:item/tool/longbow/modifiers/tconstruct_experienced_1",
       "texture_large": "tconstruct:item/tool/longbow/large/modifiers/tconstruct_experienced_1"
     },
     "tconstruct:fiery": {
-      "type": "tconstruct:basic",
       "luminosity": 10,
       "texture": "tconstruct:item/tool/longbow/modifiers/tconstruct_fiery_1",
       "texture_large": "tconstruct:item/tool/longbow/large/modifiers/tconstruct_fiery_1"
     },
     "tconstruct:freezing": {
-      "type": "tconstruct:basic",
       "texture": "tconstruct:item/tool/longbow/modifiers/tconstruct_freezing_1",
       "texture_large": "tconstruct:item/tool/longbow/large/modifiers/tconstruct_freezing_1"
     },
     "tconstruct:netherite": {
-      "type": "tconstruct:basic",
       "texture": "tconstruct:item/tool/longbow/modifiers/tconstruct_netherite_1",
       "texture_large": "tconstruct:item/tool/longbow/large/modifiers/tconstruct_netherite_1"
     },
     "tconstruct:overforced": {
-      "type": "tconstruct:basic",
       "texture": "tconstruct:item/tool/longbow/modifiers/tconstruct_overforced_1",
       "texture_large": "tconstruct:item/tool/longbow/large/modifiers/tconstruct_overforced_1"
     },
     "tconstruct:reinforced": {
-      "type": "tconstruct:basic",
       "texture": "tconstruct:item/tool/longbow/modifiers/tconstruct_reinforced_1",
       "texture_large": "tconstruct:item/tool/longbow/large/modifiers/tconstruct_reinforced_1"
     },
     "tconstruct:unbreakable": {
-      "type": "tconstruct:basic",
       "luminosity": 2,
       "texture": "tconstruct:item/tool/longbow/modifiers/tconstruct_unbreakable_1",
       "texture_large": "tconstruct:item/tool/longbow/large/modifiers/tconstruct_unbreakable_1"

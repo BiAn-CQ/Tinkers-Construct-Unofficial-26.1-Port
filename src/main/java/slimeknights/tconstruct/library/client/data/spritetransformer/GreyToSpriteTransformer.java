@@ -8,6 +8,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonSerializationContext;
+import com.google.gson.JsonSyntaxException;
 import com.mojang.blaze3d.platform.NativeImage;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -31,9 +32,14 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.function.BiFunction;
 import java.util.function.ToIntFunction;
+
+import static slimeknights.tconstruct.library.client.data.spritetransformer.GreyToColorMapping.GREY_LOADABLE;
+import static slimeknights.tconstruct.library.client.data.spritetransformer.GreyToColorMapping.GREY_STRING_LOADABLE;
+import static slimeknights.tconstruct.library.client.data.spritetransformer.GreyToColorMapping.serializeColor;
 
 /**
  * Supports including sprites as "part of the palette"
@@ -52,7 +58,7 @@ public class GreyToSpriteTransformer implements IRecolorSpriteTransformer {
   private static final List<SpriteMapping> MAPPINGS_TO_CLEAR = new ArrayList<>();
 
   /** List of sprites to try */
-  private final List<SpriteMapping> sprites;
+  final List<SpriteMapping> sprites;
 
   /** Cache of the sprites to use for each color value */
   private final SpriteRange[] foundSpriteCache = new SpriteRange[256];
@@ -90,48 +96,86 @@ public class GreyToSpriteTransformer implements IRecolorSpriteTransformer {
 
   /* Serializing */
 
+  /** Serializes palettes in the compact, key-sorted representation. */
+  protected JsonObject serializePalette() {
+    JsonObject colors = new JsonObject();
+    for (SpriteMapping mapping : sprites) {
+      String grey = String.format("%03d", mapping.grey);
+      if (mapping.path != null) {
+        if (mapping.color == -1) {
+          colors.addProperty(grey, mapping.path.toString());
+        } else {
+          JsonObject pair = new JsonObject();
+          pair.add("color", serializeColor(mapping.color));
+          pair.addProperty("path", mapping.path.toString());
+          colors.add(grey, pair);
+        }
+      } else {
+        colors.add(grey, serializeColor(mapping.color));
+      }
+    }
+    return colors;
+  }
+
   @Override
   public JsonObject serialize(JsonSerializationContext context) {
     JsonObject object = new JsonObject();
     object.addProperty("type", NAME.toString());
-    JsonArray colors = new JsonArray();
-    for (SpriteMapping mapping : sprites) {
-      JsonObject pair = new JsonObject();
-      pair.addProperty("grey", mapping.grey);
-      // color used by both types
-      if (mapping.color != -1 || mapping.path == null) {
-        pair.addProperty("color", String.format("%08X", Util.translateColorBGR(mapping.color)));
-      }
-      // path by one
-      if (mapping.path != null) {
-        pair.addProperty("path", mapping.path.toString());
-      }
-      colors.add(pair);
-    }
-    object.add("palette", colors);
+    object.add("palette", serializePalette());
     return object;
   }
 
   /** Serializer for a recolor sprite transformer */
   protected record Deserializer<T extends GreyToSpriteTransformer>(BiFunction<GreyToSpriteTransformer.Builder, JsonObject, T> constructor) implements JsonDeserializer<T> {
+    private static void parsePaletteEntry(JsonObject entry, int grey, GreyToSpriteTransformer.Builder builder) {
+      int color = ColorLoadable.ALPHA.getOrWhite(entry, "color");
+      if (entry.has("path")) {
+        builder.addTexture(grey, JsonHelper.getIdentifier(entry, "path"), color);
+      } else {
+        builder.addARGB(grey, color);
+      }
+    }
+
     @Override
     public T deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
       JsonObject object = json.getAsJsonObject();
-      JsonArray palette = GsonHelper.getAsJsonArray(object, "palette");
       GreyToSpriteTransformer.Builder paletteBuilder = GreyToSpriteTransformer.builder();
-      for (int i = 0; i < palette.size(); i++) {
-        JsonObject palettePair = GsonHelper.convertToJsonObject(palette.get(i), "palette["+i+']');
-        int grey = GsonHelper.getAsInt(palettePair, "grey");
-        if (i == 0 && grey != 0) {
-          paletteBuilder.addABGR(0, 0xFF000000);
+      JsonElement paletteElement = JsonHelper.getElement(object, "palette");
+      if (paletteElement.isJsonArray()) {
+        JsonArray palette = paletteElement.getAsJsonArray();
+        for (int i = 0; i < palette.size(); i++) {
+          JsonObject pair = GsonHelper.convertToJsonObject(palette.get(i), "palette[" + i + ']');
+          int grey = GREY_LOADABLE.getIfPresent(pair, "grey");
+          if (i == 0 && grey != 0) {
+            paletteBuilder.addABGR(0, 0xFF000000);
+          }
+          parsePaletteEntry(pair, grey, paletteBuilder);
         }
-        // get the proper type
-        int color = ColorLoadable.ALPHA.getOrWhite(palettePair, "color");
-        if (palettePair.has("path")) {
-          paletteBuilder.addTexture(grey, JsonHelper.getIdentifier(palettePair, "path"), color);
-        } else {
-          paletteBuilder.addARGB(grey, color);
+      } else if (paletteElement.isJsonObject()) {
+        boolean first = true;
+        for (Entry<String,JsonElement> entry : paletteElement.getAsJsonObject().entrySet()) {
+          String key = entry.getKey();
+          int grey = GREY_STRING_LOADABLE.parseString(key, "palette");
+          if (first && grey != 0) {
+            paletteBuilder.addABGR(0, 0xFF000000);
+          }
+          first = false;
+          JsonElement value = entry.getValue();
+          if (value.isJsonObject()) {
+            parsePaletteEntry(value.getAsJsonObject(), grey, paletteBuilder);
+          } else if (value.isJsonPrimitive()) {
+            String scalar = value.getAsString();
+            if (scalar.contains(":")) {
+              paletteBuilder.addTexture(grey, JsonHelper.parseIdentifier(scalar, key), -1);
+            } else {
+              paletteBuilder.addARGB(grey, ColorLoadable.ALPHA.parseString(scalar, key));
+            }
+          } else {
+            throw new JsonSyntaxException("Missing " + key + ", expected to find a String or JsonObject");
+          }
         }
+      } else {
+        throw new JsonSyntaxException("Missing palette, expected to find a JsonArray or JsonObject");
       }
       return constructor.apply(paletteBuilder, object);
     }

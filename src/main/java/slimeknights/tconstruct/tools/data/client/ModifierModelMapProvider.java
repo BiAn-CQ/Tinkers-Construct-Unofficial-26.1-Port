@@ -4,7 +4,6 @@ import net.minecraft.data.PackOutput;
 import slimeknights.tconstruct.library.compat.ArmorItem;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.data.AbstractModifierModelMapProvider;
-import slimeknights.tconstruct.library.modifiers.ModifierId;
 import slimeknights.tconstruct.tools.TinkerModifiers;
 import slimeknights.tconstruct.tools.TinkerTools;
 import slimeknights.tconstruct.tools.data.ModifierIds;
@@ -252,7 +251,6 @@ public class ModifierModelMapProvider extends AbstractModifierModelMapProvider {
       .luminosity(2, SMALL, ModifierIds.unbreakable);
 
     // plate armor
-    ModifierId dyed = TinkerModifiers.dyed.getId();
     for (ArmorItem.Type type : slimeknights.tconstruct.library.tools.definition.ModifiableArmorMaterial.ARMOR_TYPES) {
       String root = "armor/plate/" + type.getName() + "/maille";
       String item = "plate/" + type.getName();
@@ -261,8 +259,8 @@ public class ModifierModelMapProvider extends AbstractModifierModelMapProvider {
           ModifierIds.diamond, ModifierIds.emerald, ModifierIds.netherite,
           ModifierIds.ricochet, ModifierIds.springy, ModifierIds.thorns, ModifierIds.freezing)
         .luminosity(10, path, null, ModifierIds.fiery)
-        .materialFallbackDyed(dyed, 1, root + "_metal", root, "metal").trim(type);
-      tool(item + "_broken").materialFallbackDyed(dyed, 1, root + "_broken_metal", root + "_broken", "metal");
+        .materialFallbackDyed(1, root + "_metal", root, "metal").trim(type);
+      tool(item + "_broken").materialFallbackDyed(1, root + "_broken_metal", root + "_broken", "metal");
     }
     tool("plate/helmet").basic("armor/plate/helmet/modifiers", null,
       ModifierIds.aquaAffinity, TinkerModifiers.itemFrame.getId(), ModifierIds.respiration);
@@ -292,11 +290,21 @@ public class ModifierModelMapProvider extends AbstractModifierModelMapProvider {
     for (ArmorItem.Type type : slimeknights.tconstruct.library.tools.definition.ModifiableArmorMaterial.ARMOR_TYPES) {
       tool("slime/" + type.getName()).trim(type);
     }
-    tool("slime/wings").customTrim("armor/slime/wings", null);
+    tool("slime/wings")
+      .customTrim("armor/slime/wings", null)
+      .dyed("armor/slime/wings/slime");
+    tool("slime/wings_broken").dyed("armor/slime/wings/slime_broken");
+    tool("slime/helmet").slimeskull("armor/slime/helmet/skull", 0, 1);
+    tool("slime/leggings").dyed("armor/slime/leggings/shell");
+    tool("slime/leggings_broken").dyed("armor/slime/leggings/shell_broken");
+    tool("slime/boots").dyed("armor/slime/boots/laces");
+    String ribcage = "armor/slime/chestplate/ribcage";
+    tool("slime/chestplate").materialFallbackDyed(0, ribcage + "_bone", ribcage, "bone");
+    tool("slime/chestplate_broken").materialFallbackDyed(0, ribcage + "_broken_bone", ribcage + "_broken", "bone");
 
     // ammo
     tool(TinkerTools.arrow).tipped("ammo/arrow_modifiers/tipped").smashing("ammo/arrow_modifiers/smashing")
-      .dyed(dyed, "ammo/arrow_modifiers/dyed", null);
+      .dyed("ammo/arrow_modifiers/dyed");
     tool(TinkerTools.shuriken).tipped("ammo/shuriken_modifiers/tipped").smashing("ammo/shuriken_modifiers/smashing");
     tool(TinkerTools.throwingAxe).tipped("ammo/axe_modifiers/tipped").smashing("ammo/axe_modifiers/smashing");
     // fishing rods have tipped
@@ -344,13 +352,12 @@ public class ModifierModelMapProvider extends AbstractModifierModelMapProvider {
   /** Adds dyed textures for travelers gear */
   private void travelers(String name, @Nullable ArmorItem.Type type) {
     String root = "armor/travelers/" + name + "/modifiers/";
-    ModifierId dyed = TinkerModifiers.dyed.getId();
     String item = "travelers/" + name;
-    Builder b = tool(item).dyed(dyed, root + "dyed", null);
+    Builder b = tool(item).dyed(root + "dyed");
     if (type != null) {
       b.trim(type);
     }
-    tool(item + "_broken").dyed(dyed, root + "dyed_broken", null);
+    tool(item + "_broken").dyed(root + "dyed_broken");
   }
 
   /** Adds dyed textures to a staff */
@@ -358,12 +365,11 @@ public class ModifierModelMapProvider extends AbstractModifierModelMapProvider {
     String staff = "staff/" + name;
     String small = "staff/modifiers/" + name + "/dyed";
     String large = "staff/large_modifiers/" + name + "/dyed";
-    ModifierId dyed = TinkerModifiers.dyed.getId();
-    tool(staff).dyed(dyed, small, large);
-    tool(staff + "/broken").dyed(dyed, small + "_broken", large + "_broken");
+    tool(staff).dyed(small, large);
+    tool(staff + "/broken").dyed(small + "_broken", large + "_broken");
     for (int i = 1; i <= 5; i++) {
       String variant = Integer.toString(i);
-      tool(staff + '/' + variant).dyed(dyed, small + '_' + variant, large + '_' + variant);
+      tool(staff + '/' + variant).dyed(small + '_' + variant, large + '_' + variant);
     }
   }
 }

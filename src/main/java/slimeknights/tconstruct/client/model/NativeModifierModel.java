@@ -77,6 +77,10 @@ final class NativeModifierModel {
     return switch (type) {
       case "tconstruct:basic" -> texture(raw, path, TextureKind.BASIC);
       case "tconstruct:empty" -> Empty.INSTANCE;
+      case "tconstruct:crafted" -> new Crafted(
+        requiredIdentifier(raw, "modifier", path),
+        parse(required(raw, "model", path), path + ".model")
+      );
       case "tconstruct:trait" -> new Trait(
         requiredIdentifier(raw, "modifier", path),
         parse(required(raw, "model", path), path + ".model")
@@ -101,7 +105,17 @@ final class NativeModifierModel {
       );
       case "tconstruct:dyed" -> texture(raw, path, TextureKind.DYED);
       case "tconstruct:material" -> texture(raw, path, TextureKind.MATERIAL);
+      case "tconstruct:persistent_material" -> new PersistentMaterial(
+        requiredIdentifier(raw, "texture", path),
+        optionalIdentifier(raw, "texture_large", path),
+        optionalIdentifier(raw, "key", path)
+      );
       case "tconstruct:potion" -> texture(raw, path, TextureKind.POTION);
+      case "tconstruct:slimeskull" -> new Slimeskull(
+        requiredIdentifier(raw, "texture", path),
+        nonNegativeInt(raw, "skull_index", path),
+        nonNegativeInt(raw, "slime_index", path)
+      );
       case "tconstruct:fluid" -> fluid(raw, path);
       case "tconstruct:tank" -> tank(raw, path);
       case "tconstruct:banner" -> {
@@ -296,8 +310,8 @@ final class NativeModifierModel {
     return new IllegalArgumentException("Invalid modifier model at " + path + ": " + message);
   }
 
-  sealed interface Definition permits Texture, Empty, Trait, Compound, MaterialFallback, Fluid, Tank, Banner,
-    ArmorTrim, CustomTrim {}
+  sealed interface Definition permits Texture, Empty, Crafted, Trait, Compound, MaterialFallback,
+    PersistentMaterial, Slimeskull, Fluid, Tank, Banner, ArmorTrim, CustomTrim {}
 
   enum TextureKind { BASIC, DYED, MATERIAL, POTION }
 
@@ -306,12 +320,19 @@ final class NativeModifierModel {
 
   enum Empty implements Definition { INSTANCE }
 
+  record Crafted(Identifier modifier, Definition model) implements Definition {}
+
   record Trait(Identifier modifier, Definition model) implements Definition {}
 
   record Compound(List<Definition> models) implements Definition {}
 
   record MaterialFallback(int index, Set<String> fallbacks, Definition ifTrue, Definition ifFalse)
     implements Definition {}
+
+  record PersistentMaterial(Identifier texture, @Nullable Identifier textureLarge, @Nullable Identifier key)
+    implements Definition {}
+
+  record Slimeskull(Identifier texture, int skullIndex, int slimeIndex) implements Definition {}
 
   record Fluid(@Nullable Identifier texture, @Nullable Identifier textureLarge,
                @Nullable Identifier mask, @Nullable Identifier maskLarge,

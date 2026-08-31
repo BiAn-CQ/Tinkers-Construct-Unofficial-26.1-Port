@@ -179,7 +179,7 @@ public class MaterialTagProvider extends AbstractMaterialTagProvider {
       // tier 3
       MaterialIds.nahuatl, MaterialIds.roseGold,
       // tier 4
-      MaterialIds.hepatizon, MaterialIds.queensSlime, MaterialIds.knightmetal
+      MaterialIds.hepatizon, MaterialIds.queensSlime, MaterialIds.knightslime
     ).addOptional(
       // tier 2
       MaterialIds.aluminum,
@@ -196,7 +196,7 @@ public class MaterialTagProvider extends AbstractMaterialTagProvider {
       // tier 3
       MaterialIds.amethystBronze, MaterialIds.steel,
       // tier 4
-      MaterialIds.manyullyn, MaterialIds.cinderslime, MaterialIds.knightslime
+      MaterialIds.manyullyn, MaterialIds.cinderslime, MaterialIds.knightmetal
     ).addOptional(
       // tier 2
       MaterialIds.lead,

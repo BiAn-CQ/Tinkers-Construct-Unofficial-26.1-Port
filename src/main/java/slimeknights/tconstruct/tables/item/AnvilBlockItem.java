@@ -64,7 +64,7 @@ public class AnvilBlockItem extends MaterialBlockItem {
     List<Component> lines = new java.util.ArrayList<>();
     RetexturedHelper.addTooltip(stack, lines, flag);
     MaterialVariantId material = getMaterial(stack);
-    if (!IMaterial.UNKNOWN_ID.equals(material)) {
+    if (!MaterialId.UNKNOWN.equals(material)) {
       // put tool material in tooltip. Its technically below texture but the two should never coexist.
       lines.add(this.matching.get().asItem().getName(stack).copy().withStyle(ChatFormatting.GRAY));
       // add ID if advanced

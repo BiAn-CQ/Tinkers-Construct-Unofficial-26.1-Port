@@ -31,6 +31,8 @@ public class TinkerAttributes {
   public static final DeferredHolder<Attribute, Attribute> PROTECTION_CAP = ATTRIBUTES.register("generic.protection_cap", 0.8, 0, 0.95f, true);
   /** Percentage boost to critical hits for any airborne attacker, used for {@link slimeknights.tconstruct.tools.data.ModifierIds#dragonborn} */
   public static final DeferredHolder<Attribute, Attribute> CRITICAL_DAMAGE = ATTRIBUTES.register("player.critical_damage", 1.5f, 0, 100, false);
+  /** Loot bonus for {@link slimeknights.tconstruct.tools.data.ModifierIds#chrysophilite}. */
+  public static final DeferredHolder<Attribute, Attribute> CHRYSOPHILITE = ATTRIBUTES.register("generic.chrysophilite", 0, 0, 100, false);
 
   // stat bonuses
   /** Bonus jump height in blocks */
@@ -67,6 +69,7 @@ public class TinkerAttributes {
     // general attributes
     addToAll(event, BOUNCY);
     addToAll(event, PROTECTION_CAP);
+    addToAll(event, CHRYSOPHILITE);
     addToAll(event, JUMP_BOOST);
     addToAll(event, SAFE_FALL_DISTANCE);
     addToAll(event, CROUCH_DAMAGE_MULTIPLIER);

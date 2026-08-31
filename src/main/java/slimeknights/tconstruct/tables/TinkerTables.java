@@ -27,7 +27,6 @@ import slimeknights.mantle.util.RetexturedHelper;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.TinkerModule;
 import slimeknights.tconstruct.common.TinkerTags;
-import slimeknights.tconstruct.common.config.Config;
 import slimeknights.tconstruct.library.recipe.material.MaterialRecipe;
 import slimeknights.tconstruct.library.recipe.material.ShapedMaterialRecipe;
 import slimeknights.tconstruct.library.recipe.material.ShapedMaterialsRecipe;
@@ -41,8 +40,8 @@ import slimeknights.tconstruct.library.recipe.tinkerstation.building.ToolBuildin
 import slimeknights.tconstruct.library.recipe.tinkerstation.building.ToolMaterialSwappingRecipe;
 import slimeknights.tconstruct.library.tools.layout.StationSlotLayoutLoader;
 import slimeknights.tconstruct.library.tools.part.IMaterialItem;
-import slimeknights.tconstruct.shared.TinkerCommons;
 import slimeknights.tconstruct.shared.block.TableBlock;
+import slimeknights.tconstruct.smeltery.TinkerSmeltery;
 import slimeknights.tconstruct.tables.block.ChestBlock;
 import slimeknights.tconstruct.tables.block.CraftingStationBlock;
 import slimeknights.tconstruct.tables.block.GenericTableBlock;
@@ -71,6 +70,7 @@ import slimeknights.tconstruct.tables.recipe.TinkerStationDamagingRecipe;
 import slimeknights.tconstruct.tables.recipe.TinkerStationPartSwapping;
 import slimeknights.tconstruct.tables.recipe.TinkerStationRepairRecipe;
 import slimeknights.tconstruct.tools.TinkerToolParts;
+import slimeknights.tconstruct.world.TinkerWorld;
 
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -99,9 +99,10 @@ public final class TinkerTables extends TinkerModule {
   /** Creative tab for general items, or those that lack another tab */
   public static final DeferredHolder<CreativeModeTab, ? extends CreativeModeTab> tabTables = CREATIVE_TABS.register(
     "tables", () -> CreativeModeTab.builder().title(TConstruct.makeTranslation("itemGroup", "tables"))
-                                   .icon(() -> new ItemStack(TinkerTables.craftingStation))
-                                   .displayItems(TinkerTables::addTabItems)
-                                   .withTabsBefore(TinkerCommons.tabGeneral.getId())
+                                   .icon(() -> new ItemStack(TinkerTables.tinkersAnvil))
+                                   .displayItems(TinkerTables::addTableVariants)
+                                   .withTabsBefore(TinkerWorld.tabWorld.getId())
+                                   .withSearchBar()
                                    .build());
   /*
    * Blocks
@@ -191,14 +192,11 @@ public final class TinkerTables extends TinkerModule {
   }
 
   /** Adds all relevant items to the creative tab, called in the general tab */
-  private static void addTabItems(ItemDisplayParameters itemDisplayParameters, CreativeModeTab.Output output) {
-    output.accept(pattern);
-
+  public static void addTabItems(ItemDisplayParameters itemDisplayParameters, CreativeModeTab.Output output) {
     // add one of each standard table
     output.accept(craftingStation);
     output.accept(partBuilder);
     output.accept(tinkerStation);
-    // if showing all anvil variants, skip them in search at this first stage
     output.accept(tinkersAnvil);
     output.accept(scorchedAnvil);
     output.accept(modifierWorktable);
@@ -208,21 +206,25 @@ public final class TinkerTables extends TinkerModule {
     output.accept(partChest);
     output.accept(castChest);
 
-    // table variants at the end as there may be a lot
+    // pattern last, so it sits below the row of nine tables and chests
+    output.accept(pattern);
+  }
+
+  /** Adds all retextured table, anvil, and smeltery variants to the decoration tab. */
+  private static void addTableVariants(ItemDisplayParameters itemDisplayParameters, CreativeModeTab.Output output) {
+    // anvils have the fewest variants, so place them first
+    Consumer<ItemStack> consumer = output::accept;
+    ((IMaterialItem) tinkersAnvil.asItem()).addVariants(consumer, "");
+    ((IMaterialItem) scorchedAnvil.asItem()).addVariants(consumer, "");
+
     Predicate<ItemStack> variants = stack -> {
       output.accept(stack);
       return false;
     };
-    if (Config.COMMON.showAllTableVariants.get()) {
-      RetexturedHelper.addTagVariants(variants, craftingStation, ItemTags.LOGS);
-      RetexturedHelper.addTagVariants(variants, partBuilder, ItemTags.PLANKS);
-      RetexturedHelper.addTagVariants(variants, tinkerStation, ItemTags.PLANKS);
-      RetexturedHelper.addTagVariants(variants, modifierWorktable, TinkerTags.Items.WORKSTATION_ROCK);
-    }
-    if (Config.COMMON.showAllAnvilVariants.get()) {
-      Consumer<ItemStack> consumer = output::accept;
-      ((IMaterialItem) tinkersAnvil.asItem()).addVariants(consumer, "");
-      ((IMaterialItem) scorchedAnvil.asItem()).addVariants(consumer, "");
-    }
+    RetexturedHelper.addTagVariants(variants, craftingStation, ItemTags.LOGS);
+    RetexturedHelper.addTagVariants(variants, partBuilder, ItemTags.PLANKS);
+    RetexturedHelper.addTagVariants(variants, tinkerStation, ItemTags.PLANKS);
+    RetexturedHelper.addTagVariants(variants, modifierWorktable, TinkerTags.Items.WORKSTATION_ROCK);
+    TinkerSmeltery.addTableVariants(itemDisplayParameters, output);
   }
 }

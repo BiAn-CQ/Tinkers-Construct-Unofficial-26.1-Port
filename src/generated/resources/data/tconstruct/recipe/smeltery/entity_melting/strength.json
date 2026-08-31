@@ -3,9 +3,9 @@
   "damage": 4,
   "entity": {
     "types": [
+      "minecraft:ravager",
       "minecraft:panda",
       "minecraft:zoglin",
-      "minecraft:ravager",
       "minecraft:polar_bear"
     ]
   },

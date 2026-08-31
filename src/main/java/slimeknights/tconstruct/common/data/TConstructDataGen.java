@@ -15,6 +15,7 @@ import slimeknights.tconstruct.common.data.render.RenderItemProvider;
 import slimeknights.tconstruct.common.data.tags.BiomeTagProvider;
 import slimeknights.tconstruct.common.data.tags.BlockEntityTypeTagProvider;
 import slimeknights.tconstruct.common.data.tags.BlockTagProvider;
+import slimeknights.tconstruct.common.data.tags.CreativeTabTagProvider;
 import slimeknights.tconstruct.common.data.tags.DamageTypeTagProvider;
 import slimeknights.tconstruct.common.data.tags.EnchantmentTagProvider;
 import slimeknights.tconstruct.common.data.tags.EntityTypeTagProvider;
@@ -30,6 +31,7 @@ import slimeknights.tconstruct.fluids.data.FluidBucketModelProvider;
 import slimeknights.tconstruct.fluids.data.FluidTextureProvider;
 import slimeknights.tconstruct.fluids.data.FluidTooltipProvider;
 import slimeknights.tconstruct.gadgets.data.GadgetRecipeProvider;
+import slimeknights.tconstruct.gadgets.data.GadgetItemModelProvider;
 import slimeknights.tconstruct.shared.data.CommonRecipeProvider;
 import slimeknights.tconstruct.smeltery.data.FluidContainerTransferProvider;
 import slimeknights.tconstruct.smeltery.data.SmelteryRecipeProvider;
@@ -86,6 +88,7 @@ public final class TConstructDataGen {
     event.createProvider(EnchantmentTagProvider::new);
     event.createProvider(MenuTypeTagProvider::new);
     event.createProvider(PotionTagProvider::new);
+    event.createProvider(CreativeTabTagProvider::new);
     event.createProvider(DamageTypeTagProvider::new);
     event.createProvider(InstrumentTagProvider::new);
 
@@ -131,6 +134,7 @@ public final class TConstructDataGen {
     event.createProvider(FluidTextureProvider::new);
     event.createProvider(output -> new FluidBucketModelProvider(output, "tconstruct"));
     event.createProvider(output -> new FluidBlockstateModelProvider(output, "tconstruct"));
+    event.createProvider(GadgetItemModelProvider::new);
 
     ResourceManager resources = event.getResourceManager(PackType.CLIENT_RESOURCES);
     PackOutput output = event.getGenerator().getPackOutput();

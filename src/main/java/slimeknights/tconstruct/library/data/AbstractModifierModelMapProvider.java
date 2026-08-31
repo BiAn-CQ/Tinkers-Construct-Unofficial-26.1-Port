@@ -118,7 +118,13 @@ public abstract class AbstractModifierModelMapProvider extends GenericDataProvid
     if (small != null && large == null && luminosity == 0) {
       return new JsonPrimitive(small.toString());
     }
-    JsonObject json = typed("basic");
+    return basicModelObject(small, large, luminosity);
+  }
+
+  /** Creates the object form of a basic model, used inside compound model arrays. */
+  private static JsonObject basicModelObject(@Nullable Identifier small, @Nullable Identifier large, int luminosity) {
+    // Basic is the default loader, so omit its type to keep generated maps compact like upstream.
+    JsonObject json = new JsonObject();
     addTexture(json, "texture", small);
     addTexture(json, "texture_large", large);
     if (luminosity != 0) {
@@ -247,6 +253,34 @@ public abstract class AbstractModifierModelMapProvider extends GenericDataProvid
       return compact(id.getPath() + "/modifiers", modifierIds);
     }
 
+    /* Common constants */
+
+    /** Adds a nested model that is shown when the given trait modifier is present. */
+    public Builder trait(String key, ModifierId modifier, JsonElement model, JsonElement... additional) {
+      JsonObject nested = typed("trait");
+      nested.addProperty("modifier", modifier.toString());
+      nested.add("model", merge(model, additional));
+      return constant(key, nested);
+    }
+
+    /** Adds a nested model that is shown when the given trait modifier is present. */
+    public Builder trait(ModifierId modifier, JsonElement model, JsonElement... additional) {
+      return trait(modifier.getPath(), modifier, model, additional);
+    }
+
+    /** Adds a nested model that is shown in the crafted modifier layer. */
+    public Builder first(String key, ModifierId modifier, JsonElement model, JsonElement... additional) {
+      JsonObject nested = typed("crafted");
+      nested.addProperty("modifier", modifier.toString());
+      nested.add("model", merge(model, additional));
+      return constant(key, nested);
+    }
+
+    /** Adds a nested model near the material layers using the standard modifier key. */
+    public Builder first(ModifierId modifier, JsonElement model, JsonElement... additional) {
+      return first('_' + modifier.getPath(), modifier, model, additional);
+    }
+
     public Builder fluid(String folder) {
       JsonObject tank = typed("tank");
       addTexture(tank, "partial", toolMaterial(folder + "/fluid_partial"));
@@ -265,7 +299,7 @@ public abstract class AbstractModifierModelMapProvider extends GenericDataProvid
       if (largeFolder != null) {
         addTexture(fluid, "mask_large", toolMaterial(largeFolder + '/' + name + "_full"));
       }
-      JsonElement overlay = basicModel(toolMaterial(folder + '/' + name),
+      JsonElement overlay = basicModelObject(toolMaterial(folder + '/' + name),
         largeFolder == null ? null : toolMaterial(largeFolder + '/' + name), 0);
       return modifier(modifier, fluid, overlay);
     }
@@ -284,7 +318,7 @@ public abstract class AbstractModifierModelMapProvider extends GenericDataProvid
         addTexture(tank, "partial_large", toolMaterial(largeFolder + '/' + name + "_partial"));
         addTexture(tank, "full_large", toolMaterial(largeFolder + '/' + name + "_full"));
       }
-      JsonElement overlay = basicModel(toolMaterial(folder + '/' + name),
+      JsonElement overlay = basicModelObject(toolMaterial(folder + '/' + name),
         largeFolder == null ? null : toolMaterial(largeFolder + '/' + name), 0);
       return modifier(ModifierIds.tank, tank, overlay);
     }
@@ -298,23 +332,33 @@ public abstract class AbstractModifierModelMapProvider extends GenericDataProvid
       JsonObject fluid = typed("fluid");
       addTexture(fluid, "mask", toolMaterial(texture));
       fluid.addProperty("tank_helper", "tconstruct:smashing");
-      JsonObject trait = typed("trait");
-      trait.addProperty("modifier", ModifierIds.smashing.toString());
-      trait.add("model", fluid);
-      return constant("smashing", trait);
+      return trait(ModifierIds.smashing, fluid);
     }
 
     public Builder tipped(String texture) {
-      JsonObject trait = typed("trait");
-      trait.addProperty("modifier", ModifierIds.tipped.toString());
-      trait.add("model", simpleModel("potion", toolMaterial(texture), null));
-      return constant("tipped", trait);
+      return trait("__tipped", ModifierIds.tipped, simpleModel("potion", toolMaterial(texture), null));
+    }
+
+    /** Adds a crafted dyed model before normal modifier textures. */
+    public Builder dyed(JsonElement model, JsonElement... additional) {
+      return first("__dyed", TinkerModifiers.dyed.getId(), model, additional);
+    }
+
+    /** Adds a crafted dyed model before normal modifier textures. */
+    public Builder dyed(String smallTexture, @Nullable String largeTexture) {
+      return dyed(simpleModel("dyed", toolMaterial(smallTexture),
+        largeTexture == null ? null : toolMaterial(largeTexture)));
+    }
+
+    /** Adds a crafted dyed model for a small texture. */
+    public Builder dyed(String smallTexture) {
+      return dyed(smallTexture, null);
     }
 
     public Builder trim(ArmorItem.Type type) {
       JsonObject trim = typed("armor_trim");
       trim.addProperty("slot", type.getName());
-      return modifier(TinkerModifiers.trim.getId(), trim);
+      return first(TinkerModifiers.trim.getId(), trim);
     }
 
     public Builder customTrim(String folder, @Nullable String largeTexture) {
@@ -323,7 +367,7 @@ public abstract class AbstractModifierModelMapProvider extends GenericDataProvid
       if (largeTexture != null) {
         addTexture(trim, "root_large", toolMaterial(folder + '/' + largeTexture));
       }
-      return modifier(TinkerModifiers.trim.getId(), trim);
+      return first(TinkerModifiers.trim.getId(), trim);
     }
 
     public Builder customTrim(@Nullable String largeTexture) {
@@ -333,8 +377,9 @@ public abstract class AbstractModifierModelMapProvider extends GenericDataProvid
     public Builder embellishment(String folder, @Nullable String largeFolder) {
       ModifierId embellishment = TinkerModifiers.embellishment.getId();
       String name = '/' + suffix(embellishment);
-      return modifier(embellishment, simpleModel("material", toolMaterial(folder + name),
-        largeFolder == null ? null : toolMaterial(largeFolder + name)));
+      return first("__embellishment", embellishment, simpleModel("persistent_material", toolMaterial(folder + name),
+        largeFolder == null ? null : toolMaterial(largeFolder + name)))
+        .empty(embellishment);
     }
 
     public Builder embellishment(char largeSeparator) {
@@ -346,16 +391,10 @@ public abstract class AbstractModifierModelMapProvider extends GenericDataProvid
       JsonObject banner = typed("banner");
       addTexture(banner, "prefix", smallPrefix == null ? null : toolMaterial(smallPrefix));
       addTexture(banner, "prefix_large", largePrefix == null ? null : toolMaterial(largePrefix));
-      return modifier(TinkerModifiers.banner.getId(), banner);
+      return first(TinkerModifiers.banner.getId(), banner);
     }
 
-    public Builder dyed(ModifierId modifier, String smallTexture, @Nullable String largeTexture) {
-      return modifier(modifier, simpleModel("dyed", toolMaterial(smallTexture),
-        largeTexture == null ? null : toolMaterial(largeTexture)));
-    }
-
-    public Builder materialFallbackDyed(ModifierId modifier, int index, String ifTrueTexture,
-                                         String ifFalseTexture, String... fallbacks) {
+    public Builder materialFallbackDyed(int index, String ifTrueTexture, String ifFalseTexture, String... fallbacks) {
       JsonObject conditional = typed("material_has_fallback");
       conditional.addProperty("index", index);
       if (fallbacks.length == 1) {
@@ -369,7 +408,15 @@ public abstract class AbstractModifierModelMapProvider extends GenericDataProvid
       }
       conditional.add("if_true", simpleModel("dyed", toolMaterial(ifTrueTexture), null));
       conditional.add("if_false", simpleModel("dyed", toolMaterial(ifFalseTexture), null));
-      return modifier(modifier, conditional);
+      return dyed(conditional);
+    }
+
+    /** Adds the slime helmet skull model, which derives its texture from two material slots. */
+    public Builder slimeskull(String texture, int skullIndex, int slimeIndex) {
+      JsonObject skull = simpleModel("slimeskull", toolMaterial(texture), null);
+      skull.addProperty("skull_index", skullIndex);
+      skull.addProperty("slime_index", slimeIndex);
+      return constant("__skull", skull);
     }
 
     public Builder emptyConstant(String name) {

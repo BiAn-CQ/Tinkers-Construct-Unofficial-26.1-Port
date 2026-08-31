@@ -109,6 +109,7 @@ sourceSets.main {
         'slimeknights/tconstruct/tools/client/RayTracer.java',
         'slimeknights/tconstruct/tools/client/ShieldBannerModifierSpriteSource.java',
         'slimeknights/tconstruct/tools/client/SlimeskullArmorModel.java',
+        'slimeknights/tconstruct/tools/client/SlimeskullModifierModel.java',
         // The combat fishing-hook renderer still depends on the staged armor
         // texture suppliers; the generic projectile renderers are ported
         // below to the 26.1 render-state pipeline.
@@ -176,6 +177,7 @@ def coreTestSources = [
         'slimeknights/tconstruct/library/utils/TinkerCapabilityAdaptersTest.java',
         'slimeknights/tconstruct/library/utils/TinkerRecipeHelperTest.java',
         'slimeknights/tconstruct/client/TConstructItemModelPropertiesTest.java',
+        'slimeknights/tconstruct/client/FancyArmorStandResourcesTest.java',
         'slimeknights/tconstruct/plugin/ftbultimine/FTBUltimineResourcesTest.java',
         'slimeknights/tconstruct/smeltery/block/entity/module/alloying/MultiAlloyingModuleTest.java',
         'slimeknights/tconstruct/smeltery/block/entity/controller/AlloyerBlockEntityTest.java',
@@ -185,6 +187,8 @@ def coreTestSources = [
         'slimeknights/tconstruct/tables/block/entity/chest/AbstractChestBlockEntityTest.java',
         'slimeknights/tconstruct/library/tools/helper/PrimaryBlockBreakHookTest.java',
         'slimeknights/tconstruct/tools/modules/ranged/common/ArrowPierceModuleTest.java',
+        'slimeknights/tconstruct/tools/logic/EffectImmunityTest.java',
+        'slimeknights/tconstruct/tools/logic/InteractionHandlerTest.java',
         'slimeknights/tconstruct/tools/stats/SlimeStatsTest.java',
         'slimeknights/tconstruct/tools/item/ChineseLanguageTest.java',
         'slimeknights/tconstruct/tools/item/CreativeSlotItemTest.java',

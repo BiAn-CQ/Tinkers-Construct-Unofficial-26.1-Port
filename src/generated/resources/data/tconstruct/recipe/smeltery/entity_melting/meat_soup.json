@@ -3,17 +3,17 @@
   "damage": 2,
   "entity": {
     "types": [
-      "minecraft:rabbit",
       "minecraft:hoglin",
-      "minecraft:cow",
-      "minecraft:goat",
       "minecraft:chicken",
-      "minecraft:cod",
-      "minecraft:sheep",
       "minecraft:pig",
-      "minecraft:salmon",
+      "minecraft:rabbit",
+      "minecraft:goat",
+      "minecraft:tropical_fish",
+      "minecraft:sheep",
       "minecraft:mooshroom",
-      "minecraft:tropical_fish"
+      "minecraft:cod",
+      "minecraft:salmon",
+      "minecraft:cow"
     ]
   },
   "result": {

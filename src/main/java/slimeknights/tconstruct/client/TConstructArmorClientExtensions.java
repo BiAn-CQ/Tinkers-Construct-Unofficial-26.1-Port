@@ -223,7 +223,13 @@ public final class TConstructArmorClientExtensions implements TinkerArmorClientE
   @Nullable
   private Identifier slimeTexture(ItemStack stack, String layerPath, boolean leggings) {
     if (layerPath.endsWith("/overlay_armor") || layerPath.endsWith("/overlay_leggings")) {
-      return materialTexture(stack, 0, logical("slime/overlay_" + (leggings ? "leggings" : "armor"))).texture();
+      Identifier prefix = logical("slime/overlay_" + (leggings ? "leggings" : "armor"));
+      if (hasDyed(stack)) {
+        MaterialVariantId material = getMaterial(stack, 0);
+        return hasFallback(material, "bone") && exists(prefix.withSuffix("_bone"))
+               ? prefix.withSuffix("_bone") : prefix;
+      }
+      return materialTexture(stack, 0, prefix).texture();
     }
     if (layerPath.endsWith("/armor") || layerPath.endsWith("/leggings")) {
       return materialTexture(stack, 1, logical("slime/" + (leggings ? "leggings" : "armor"))).texture();
@@ -233,6 +239,9 @@ public final class TConstructArmorClientExtensions implements TinkerArmorClientE
 
   private int slimeColor(ItemStack stack, String layerPath, int layerIdx, int fallbackColor) {
     if (layerPath.endsWith("/overlay_armor") || layerPath.endsWith("/overlay_leggings")) {
+      if (hasDyed(stack)) {
+        return dyeColor(stack);
+      }
       return materialTexture(stack, 0, logical("slime/overlay_" + armorPart(layerPath))).color();
     }
     if (layerPath.endsWith("/armor") || layerPath.endsWith("/leggings")) {
@@ -244,6 +253,9 @@ public final class TConstructArmorClientExtensions implements TinkerArmorClientE
   @Nullable
   private Identifier slimeWingsTexture(ItemStack stack, String layerPath) {
     if (layerPath.endsWith("/wings")) {
+      if (hasDyed(stack)) {
+        return logical("slime/dyed_wings");
+      }
       return materialTexture(stack, SLIME_WINGS_MATERIAL_INDEX, logical("slime/wings")).texture();
     }
     return null;
@@ -251,6 +263,9 @@ public final class TConstructArmorClientExtensions implements TinkerArmorClientE
 
   private int slimeWingsColor(ItemStack stack, String layerPath, int layerIdx, int fallbackColor) {
     if (layerPath.endsWith("/wings")) {
+      if (hasDyed(stack)) {
+        return dyeColor(stack);
+      }
       return materialTexture(stack, SLIME_WINGS_MATERIAL_INDEX, logical("slime/wings")).color();
     }
     return fallbackColor;
@@ -265,11 +280,15 @@ public final class TConstructArmorClientExtensions implements TinkerArmorClientE
   }
 
   private boolean hasMetalFallback(@Nullable MaterialVariantId material) {
+    return hasFallback(material, "metal") || hasFallback(material, "metal_contrast");
+  }
+
+  private boolean hasFallback(@Nullable MaterialVariantId material, String fallback) {
     if (material == null) {
       return false;
     }
     Optional<MaterialRenderInfo> info = MaterialRenderInfoLoader.INSTANCE.getRenderInfo(material);
-    return info.isPresent() && (contains(info.get().fallbacks(), "metal") || contains(info.get().fallbacks(), "metal_contrast"));
+    return info.isPresent() && contains(info.get().fallbacks(), fallback);
   }
 
   private static boolean contains(String[] values, String target) {

@@ -212,6 +212,7 @@ import slimeknights.tconstruct.tools.modules.armor.FireWalkerModule;
 import slimeknights.tconstruct.tools.modules.armor.FlameBarrierModule;
 import slimeknights.tconstruct.tools.modules.armor.FreezingCounterModule;
 import slimeknights.tconstruct.tools.modules.armor.GlowWalkerModule;
+import slimeknights.tconstruct.tools.modules.armor.GoldenAttributeModule;
 import slimeknights.tconstruct.tools.modules.armor.KineticModule;
 import slimeknights.tconstruct.tools.modules.armor.KnockbackCounterModule;
 import slimeknights.tconstruct.tools.modules.armor.LightspeedAttributeModule;
@@ -758,6 +759,11 @@ public class ModifierProvider extends AbstractModifierProvider {
     buildModifier(ModifierIds.turtlesGrace).levelDisplay(ModifierLevelDisplay.SINGLE_LEVEL)
       .addModule(AttributeModule.builder(NeoForgeMod.SWIM_SPEED, Operation.ADD_MULTIPLIED_TOTAL).eachLevel(0.1f))
       .addModule(EnchantmentModule.builder(enchantment(Enchantments.RESPIRATION)).constant());
+    buildModifier(ModifierIds.shellGut).levelDisplay(ModifierLevelDisplay.SINGLE_LEVEL)
+      .addModule(new EffectImmunityModule(MobEffects.POISON, LevelingInt.LEVEL))
+      .addModule(new EffectImmunityModule(MobEffects.HUNGER, new LevelingInt(1, 1)))
+      .addModule(new EffectImmunityModule(MobEffects.NAUSEA, LevelingInt.LEVEL));
+    traitTwoPlusOne(ModifierIds.thornsShell, ModifierIds.thorns);
     buildModifier(ModifierIds.shulking)
       .addModule(MaxArmorAttributeModule.builder(TinkerAttributes.CROUCH_DAMAGE_MULTIPLIER.value(), Operation.ADD_MULTIPLIED_BASE).heldTag(TinkerTags.Items.HELD).eachLevel(-0.1f))
       .addModule(ProtectionModule.builder().entity(LivingEntityPredicate.CROUCHING).eachLevel(2.5f));
@@ -1613,11 +1619,11 @@ public class ModifierProvider extends AbstractModifierProvider {
     // traits - slimeskull
     buildModifier(ModifierIds.mithridatism).addModule(new EffectImmunityModule(MobEffects.POISON)).levelDisplay(ModifierLevelDisplay.NO_LEVELS);
     buildModifier(ModifierIds.boonOfSssss).levelDisplay(ModifierLevelDisplay.SINGLE_LEVEL)
-      .addModule(AttributeModule.builder(TinkerAttributes.GOOD_EFFECT_DURATION.getDelegate(), Operation.ADD_MULTIPLIED_BASE).eachLevel(0.25f))
+      .addModule(AttributeModule.builder(TinkerAttributes.GOOD_EFFECT_DURATION.getDelegate(), Operation.ADD_MULTIPLIED_BASE).amount(0.15f, 0.1f))
       // reduce time of effects on removal. 20% reduction should cancel out the 25% addition
       .addModule(new ReduceEffectOnUnequipModule(MobEffectCategory.BENEFICIAL, LevelingValue.eachLevel(0.2f), ModifierCondition.ANY_TOOL));
     buildModifier(ModifierIds.balmOfSssss).levelDisplay(ModifierLevelDisplay.SINGLE_LEVEL)
-      .addModule(AttributeModule.builder(TinkerAttributes.BAD_EFFECT_DURATION.getDelegate(), Operation.ADD_MULTIPLIED_BASE).tooltipStyle(TooltipStyle.PERCENT).eachLevel(0.2f));
+      .addModule(AttributeModule.builder(TinkerAttributes.BAD_EFFECT_DURATION.getDelegate(), Operation.ADD_MULTIPLIED_BASE).tooltipStyle(TooltipStyle.PERCENT).amount(-0.1f, -0.1f));
     buildModifier(ModifierIds.revenge).levelDisplay(ModifierLevelDisplay.SINGLE_LEVEL)
       .addModule(MobEffectModule.builder(MobEffects.STRENGTH).time(RandomLevelingValue.perLevel(0, 200)).chance(LevelingValue.ONE).counterDurabilityUsage(0).targetSelf(true).directDamage(BooleanPredicate.ALWAYS).damageSource(SourceAttackerPredicate.causing(LivingEntityPredicate.ANY)).buildCounter())
       .addModule(new ClearEffectOnUnequipModule(MobEffects.STRENGTH.value(), ModifierCondition.ANY_TOOL));
@@ -1631,6 +1637,12 @@ public class ModifierProvider extends AbstractModifierProvider {
         .variable(LEVEL).constant(2).multiply().subtract()
         .constant(1).max().min()
         .build(), ModifierHooks.MODIFY_DAMAGE);
+    buildModifier(ModifierIds.chrysophilite).levelDisplay(ModifierLevelDisplay.SINGLE_LEVEL)
+      .addModule(GoldenAttributeModule.builder(TinkerAttributes.CHRYSOPHILITE.value(), Operation.ADD_VALUE).amount(1, 1))
+      .addModule(new VolatileFlagModule(ModifiableArmorItem.PIGLIN_NEUTRAL, ModifierCondition.ANY_CONTEXT.minLevel(2)));
+    buildModifier(ModifierIds.goldGuard).levelDisplay(ModifierLevelDisplay.SINGLE_LEVEL)
+      .addModule(GoldenAttributeModule.builder(Attributes.MAX_HEALTH, Operation.ADD_VALUE).amount(4, 4))
+      .addModule(new VolatileFlagModule(ModifiableArmorItem.PIGLIN_NEUTRAL, ModifierCondition.ANY_CONTEXT.minLevel(2)));
     // bones
     buildModifier(ModifierIds.slowBones).levelDisplay(ModifierLevelDisplay.SINGLE_LEVEL)
       .addModule(new EffectImmunityModule(MobEffects.SLOWNESS, LevelingInt.LEVEL))
@@ -1649,6 +1661,9 @@ public class ModifierProvider extends AbstractModifierProvider {
       .addModule(new BlockDamageSourceModule(new DamageTypePredicate(DamageTypes.ON_FIRE), ModifierCondition.ANY_TOOL))
       // all attacks now cause fire. Bit niche
       .addModule(new FieryArmorAttackModule(LevelingInt.eachLevel(5), DamageSourcePredicate.ANY));
+    traitTwoPlusOne(ModifierIds.consecratedSkull, ModifierIds.consecrated);
+    traitTwoPlusOne(ModifierIds.respirationSkull, ModifierIds.respiration);
+    traitTwoPlusOne(ModifierIds.vitalProtectionSkull, ModifierIds.vitalProtection);
 
     // ribcages
     buildModifier(ModifierIds.floaty).addModule(MobEffectModule.builder(MobEffects.LEVITATION).time(RandomLevelingValue.random(20*2, 20*5)).buildWeapon());
@@ -1704,6 +1719,14 @@ public class ModifierProvider extends AbstractModifierProvider {
     addRedirect(id("plowing"), redirect(ModifierIds.tilling));
     addRedirect(id("lightspeed_armor"), redirect(ModifierIds.lightspeed));
     addRedirect(TinkerModifiers.frosttouch.getId(), redirect(ModifierIds.slowBones));
+  }
+
+  /** Creates a modifier that grants two levels of another modifier, plus a third at level two. */
+  private void traitTwoPlusOne(ModifierId modifier, ModifierId trait) {
+    buildModifier(modifier).tooltipDisplay(TooltipDisplay.NEVER)
+      .levelDisplay(new ModifierLevelDisplay.MapLevel(1, 1)).translationKey(trait)
+      .addModule(new ModifierTraitModule(trait, 1, false))
+      .addModule(new ModifierTraitModule(trait, 1, true));
   }
 
   @Override

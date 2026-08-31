@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "B": "tconstruct:blazewood_slab",
+    "S": {
+      "neoforge:ingredient_type": "mantle:item_tag",
+      "tag": "c:wither_bones"
+    }
+  },
+  "pattern": [
+    "SSS",
+    " S ",
+    "SBS"
+  ],
+  "result": {
+    "id": "tconstruct:necrotic_bone_armor_stand"
+  }
+}

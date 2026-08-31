@@ -8,31 +8,29 @@
         "type": "tconstruct:fluid",
         "mask": "tconstruct:item/tool/battlesign/modifiers/tconstruct_bucketing_full"
       },
-      "tconstruct:item/tool/battlesign/modifiers/tconstruct_bucketing"
+      {
+        "texture": "tconstruct:item/tool/battlesign/modifiers/tconstruct_bucketing"
+      }
     ],
     "tconstruct:cooling": "tconstruct:item/tool/battlesign/modifiers/tconstruct_cooling",
     "tconstruct:diamond": "tconstruct:item/tool/battlesign/modifiers/tconstruct_diamond",
     "tconstruct:emerald": "tconstruct:item/tool/battlesign/modifiers/tconstruct_emerald",
     "tconstruct:experienced": "tconstruct:item/tool/battlesign/modifiers/tconstruct_experienced",
     "tconstruct:fiery": {
-      "type": "tconstruct:basic",
       "luminosity": 10,
       "texture": "tconstruct:item/tool/battlesign/modifiers/tconstruct_fiery"
     },
     "tconstruct:glowing": {
-      "type": "tconstruct:basic",
       "luminosity": 15,
       "texture": "tconstruct:item/tool/battlesign/modifiers/tconstruct_glowing"
     },
     "tconstruct:haste": {
-      "type": "tconstruct:basic",
       "luminosity": 7,
       "texture": "tconstruct:item/tool/battlesign/modifiers/tconstruct_haste"
     },
     "tconstruct:hydraulic": "tconstruct:item/tool/battlesign/modifiers/tconstruct_hydraulic",
     "tconstruct:knockback": "tconstruct:item/tool/battlesign/modifiers/tconstruct_knockback",
     "tconstruct:lightspeed": {
-      "type": "tconstruct:basic",
       "luminosity": 15,
       "texture": "tconstruct:item/tool/battlesign/modifiers/tconstruct_lightspeed"
     },
@@ -53,10 +51,11 @@
         "full": "tconstruct:item/tool/battlesign/modifiers/tconstruct_tank_full",
         "partial": "tconstruct:item/tool/battlesign/modifiers/tconstruct_tank_partial"
       },
-      "tconstruct:item/tool/battlesign/modifiers/tconstruct_tank"
+      {
+        "texture": "tconstruct:item/tool/battlesign/modifiers/tconstruct_tank"
+      }
     ],
     "tconstruct:unbreakable": {
-      "type": "tconstruct:basic",
       "luminosity": 2,
       "texture": "tconstruct:item/tool/battlesign/modifiers/tconstruct_unbreakable"
     }

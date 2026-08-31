@@ -73,7 +73,6 @@ import slimeknights.tconstruct.common.TinkerModule;
 import slimeknights.tconstruct.common.TinkerTags;
 import slimeknights.tconstruct.common.registration.GeodeItemObject;
 import slimeknights.tconstruct.common.registration.GeodeItemObject.BudSize;
-import slimeknights.tconstruct.fluids.TinkerFluids;
 import slimeknights.tconstruct.library.json.loot.equipment.MobEquipmentManager;
 import slimeknights.tconstruct.library.materials.MaterialRegistry;
 import slimeknights.tconstruct.library.materials.definition.IMaterial;
@@ -81,6 +80,7 @@ import slimeknights.tconstruct.library.utils.Util;
 import slimeknights.tconstruct.shared.TinkerCommons;
 import slimeknights.tconstruct.shared.TinkerMaterials;
 import slimeknights.tconstruct.shared.block.SlimeType;
+import slimeknights.tconstruct.smeltery.TinkerSmeltery;
 import slimeknights.tconstruct.tools.TinkerModifiers;
 import slimeknights.tconstruct.tools.data.material.MaterialIds;
 import slimeknights.tconstruct.world.block.CongealedSlimeBlock;
@@ -134,10 +134,10 @@ public final class TinkerWorld extends TinkerModule {
   /** Creative tab for anything that is naturally found in the world */
   public static final DeferredHolder<CreativeModeTab, ? extends CreativeModeTab> tabWorld = CREATIVE_TABS.register(
     "world", () -> CreativeModeTab.builder().title(TConstruct.makeTranslation("itemGroup", "world"))
-                                  .icon(() -> new ItemStack(TinkerWorld.cobaltOre))
-                                  .displayItems(TinkerWorld::addTabItems)
-                                  .withTabsBefore(TinkerFluids.tabFluids.getId())
-                                  .build());
+      .icon(() -> new ItemStack(TinkerWorld.cobaltOre))
+      .displayItems(TinkerWorld::addTabItems)
+      .withTabsBefore(TinkerSmeltery.tabSmeltery.getId())
+      .build());
 
   /*
    * Block base properties
