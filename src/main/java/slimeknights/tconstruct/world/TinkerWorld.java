@@ -5,6 +5,7 @@ import com.mojang.serialization.MapCodec;
 import net.minecraft.core.dispenser.BlockSource;
 import net.minecraft.core.Direction;
 import net.minecraft.core.dispenser.DispenseItemBehavior;
+import net.minecraft.core.dispenser.EquipmentDispenseItemBehavior;
 import net.minecraft.core.dispenser.OptionalDispenseItemBehavior;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.particles.SimpleParticleType;
@@ -408,7 +409,7 @@ public final class TinkerWorld extends TinkerModule {
       DispenseItemBehavior dispenseArmor = new OptionalDispenseItemBehavior() {
         @Override
         protected ItemStack execute(BlockSource source, ItemStack stack) {
-          this.setSuccess(ArmorItem.dispenseArmor(source, stack));
+          this.setSuccess(dispenseHead(source, stack));
           return stack;
         }
       };
@@ -428,6 +429,11 @@ public final class TinkerWorld extends TinkerModule {
       fireBlock.setFlammable(skySlimeVine.get(), 15, 100);
       fireBlock.setFlammable(enderSlimeVine.get(), 15, 100);
     });
+  }
+
+  /** Uses the native 26.1 equipment component and dispenser rules for mob heads. */
+  static boolean dispenseHead(BlockSource source, ItemStack stack) {
+    return EquipmentDispenseItemBehavior.dispenseEquipment(source, stack);
   }
 
   /** Adds all relevant items to the creative tab */

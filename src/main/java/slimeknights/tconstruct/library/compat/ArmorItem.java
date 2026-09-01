@@ -1,10 +1,8 @@
 package slimeknights.tconstruct.library.compat;
 
 import net.minecraft.core.Holder;
-import net.minecraft.core.dispenser.BlockSource;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.equipment.ArmorMaterial;
 import net.minecraft.world.item.equipment.EquipmentAsset;
@@ -59,9 +57,5 @@ public class ArmorItem extends Item {
       case LEGGINGS -> EquipmentSlot.LEGS;
       case BOOTS -> EquipmentSlot.FEET;
     };
-  }
-
-  public static boolean dispenseArmor(BlockSource source, ItemStack stack) {
-    return true;
   }
 }

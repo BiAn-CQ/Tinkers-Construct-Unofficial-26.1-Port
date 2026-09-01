@@ -1,6 +1,5 @@
 package slimeknights.tconstruct.library.json;
 
-import com.google.gson.JsonSyntaxException;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.core.RegistryAccess;
@@ -48,37 +47,7 @@ import java.util.Set;
 @SuppressWarnings("deprecation")
 public class TinkerLoadables {
   /* Enums */
-  /** Attribute operation loadable accepting the 1.20.1 names during migration. */
-  public static final StringLoadable<Operation> OPERATION = new StringLoadable<>() {
-    @Override
-    public Operation parseString(String name, String key, TypedMap context) {
-      return switch (name) {
-        case "add", "addition", "add_value" -> Operation.ADD_VALUE;
-        case "multiply_base", "add_multiplied_base" -> Operation.ADD_MULTIPLIED_BASE;
-        case "multiply_total", "add_multiplied_total" -> Operation.ADD_MULTIPLIED_TOTAL;
-        default -> throw new JsonSyntaxException("Invalid Operation " + name);
-      };
-    }
-
-    @Override
-    public String getString(Operation object) {
-      return switch (object) {
-        case ADD_VALUE -> "add_value";
-        case ADD_MULTIPLIED_BASE -> "add_multiplied_base";
-        case ADD_MULTIPLIED_TOTAL -> "add_multiplied_total";
-      };
-    }
-
-    @Override
-    public Operation decode(FriendlyByteBuf buffer, TypedMap context) {
-      return buffer.readEnum(Operation.class);
-    }
-
-    @Override
-    public void encode(FriendlyByteBuf buffer, Operation object) {
-      buffer.writeEnum(object);
-    }
-  };
+  public static final StringLoadable<Operation> OPERATION = new EnumLoadable<>(Operation.class);
   public static final StringLoadable<EquipmentSlot> EQUIPMENT_SLOT = new EnumLoadable<>(EquipmentSlot.class);
   public static final Loadable<Set<EquipmentSlot>> EQUIPMENT_SLOT_SET = EQUIPMENT_SLOT.set();
   public static final StringLoadable<ArmorItem.Type> ARMOR_SLOT = new EnumLoadable<>(ArmorItem.Type.class);

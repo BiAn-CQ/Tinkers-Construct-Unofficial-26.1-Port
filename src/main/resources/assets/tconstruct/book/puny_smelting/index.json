@@ -86,7 +86,7 @@
       }
     },
     "condition": {
-      "type": "tconstruct:tag_not_empty",
+      "type": "mantle:tag_filled",
       "registry": "minecraft:item",
       "tag": "tconstruct:modifiable/book_armor/puny_smelting"
     },

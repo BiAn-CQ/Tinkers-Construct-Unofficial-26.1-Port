@@ -24,7 +24,6 @@ import net.minecraft.world.level.block.WeatheringCopper.WeatherState;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
-import net.minecraft.world.level.storage.loot.entries.LootPoolEntryContainer;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -37,7 +36,6 @@ import slimeknights.mantle.data.predicate.damage.DamageSourcePredicate;
 import slimeknights.mantle.data.predicate.entity.LivingEntityPredicate;
 import slimeknights.mantle.data.predicate.fluid.FluidPredicate;
 import slimeknights.mantle.data.predicate.item.ItemPredicate;
-import slimeknights.mantle.recipe.condition.TagFilledCondition;
 import slimeknights.mantle.registration.object.EnumObject;
 import slimeknights.mantle.registration.object.ItemObject;
 import slimeknights.tconstruct.TConstruct;
@@ -46,17 +44,10 @@ import slimeknights.tconstruct.common.json.BlockOrEntityCondition;
 import slimeknights.tconstruct.common.json.ConfigEnabledCondition;
 import slimeknights.tconstruct.common.recipe.RecipeCacheInvalidator;
 import slimeknights.tconstruct.gadgets.TinkerGadgets;
-import slimeknights.tconstruct.library.json.condition.TagDifferencePresentCondition;
-import slimeknights.tconstruct.library.json.condition.TagIntersectionPresentCondition;
-import slimeknights.tconstruct.library.json.condition.LegacyItemExistsCondition;
-import slimeknights.tconstruct.library.json.condition.TagNotEmptyCondition;
 import slimeknights.tconstruct.library.json.loot.HasLootContextSetCondition;
-import slimeknights.tconstruct.library.json.loot.TagPreferenceLootEntry;
-import slimeknights.tconstruct.library.json.predicate.BlockAtFeetEntityPredicate;
 import slimeknights.tconstruct.library.json.predicate.BlockVariableRangePredicate;
 import slimeknights.tconstruct.library.json.predicate.EntityVariableRangePredicate;
 import slimeknights.tconstruct.library.json.predicate.HarvestTierPredicate;
-import slimeknights.tconstruct.library.json.predicate.HasMobEffectPredicate;
 import slimeknights.tconstruct.library.json.predicate.TinkerPredicate;
 import slimeknights.tconstruct.library.recipe.ingredient.BlockTagIngredient;
 import slimeknights.tconstruct.library.recipe.ingredient.InstrumentIngredient;
@@ -157,15 +148,6 @@ public final class TinkerCommons extends TinkerModule {
   public static final DeferredHolder<MapCodec<? extends LootItemCondition>, MapCodec<? extends LootItemCondition>> lootConfig = LOOT_CONDITIONS.register(ConfigEnabledCondition.ID.getPath(), () -> ConfigEnabledCondition.CODEC);
   public static final DeferredHolder<MapCodec<? extends LootItemCondition>, MapCodec<? extends LootItemCondition>> lootBlockOrEntity = LOOT_CONDITIONS.register("block_or_entity", () -> BlockOrEntityCondition.CODEC);
   public static final DeferredHolder<MapCodec<? extends LootItemCondition>, MapCodec<? extends LootItemCondition>> hasLootContextSet = LOOT_CONDITIONS.register("has_context_set", () -> HasLootContextSetCondition.CODEC);
-  /** @deprecated use {@link slimeknights.mantle.loot.MantleLoot#TAG_FILLED} */
-  @SuppressWarnings("removal")
-  @Deprecated(forRemoval = true)
-  public static final DeferredHolder<MapCodec<? extends LootItemCondition>, MapCodec<? extends LootItemCondition>> lootTagNotEmptyCondition = LOOT_CONDITIONS.register("tag_not_empty", () -> TagNotEmptyCondition.CODEC);
-  /** @deprecated use {@link slimeknights.mantle.loot.MantleLoot#TAG_PREFERENCE} */
-  @SuppressWarnings("removal")
-  @Deprecated(forRemoval = true)
-  public static final DeferredHolder<MapCodec<? extends LootPoolEntryContainer>, MapCodec<? extends LootPoolEntryContainer>> lootTagPreference = LOOT_ENTRIES.register("tag_preference", () -> TagPreferenceLootEntry.CODEC);
-
   /* Slime Balls are edible, believe it or not */
   public static final EnumObject<SlimeType, Item> slimeball = new EnumObject.Builder<SlimeType, Item>(SlimeType.class)
     .put(SlimeType.EARTH, () -> Items.SLIME_BALL)
@@ -196,8 +178,6 @@ public final class TinkerCommons extends TinkerModule {
       LivingEntityPredicate.LOADER.register(getResource("targeting_block"), TinkerPredicate.TARGETING_BLOCK.getLoader());
       LivingEntityPredicate.LOADER.register(getResource("full_health"), TinkerPredicate.FULL_HEALTH.getLoader());
       LivingEntityPredicate.LOADER.register(getResource("variable_range"), EntityVariableRangePredicate.LOADER);
-      LivingEntityPredicate.LOADER.register(getResource("has_effect"), HasMobEffectPredicate.LOADER);
-      LivingEntityPredicate.LOADER.register(getResource("block_at_feet"), BlockAtFeetEntityPredicate.LOADER);
       // item
       ItemPredicate.LOADER.register(getResource("arrow"), TinkerPredicate.ARROW.getLoader());
       ItemPredicate.LOADER.register(getResource("bucket"), TinkerPredicate.BUCKET.getLoader());
@@ -214,39 +194,8 @@ public final class TinkerCommons extends TinkerModule {
       // fluid
       FluidPredicate.LOADER.register(getResource("fuel"), TinkerPredicate.FUEL.getLoader());
     } else if (event.getRegistryKey() == net.neoforged.neoforge.registries.NeoForgeRegistries.Keys.CONDITION_CODECS) {
-      event.register(net.neoforged.neoforge.registries.NeoForgeRegistries.Keys.CONDITION_CODECS, helper -> {
-        helper.register(TagIntersectionPresentCondition.ID, TagIntersectionPresentCondition.CODEC);
-        helper.register(TagDifferencePresentCondition.ID, TagDifferencePresentCondition.CODEC);
-        // Legacy Tinkers books use the old loot-condition ID. Mantle's
-        // TagFilledCondition has the same tag-non-empty semantics and also
-        // implements NeoForge's ICondition used by book loading.
-        helper.register(getResource("tag_not_empty"), legacyConditionCodec(TagFilledCondition.CODEC));
-        // item_exists has a legacy field layout ("item" rather than the
-        // native registered condition's "value"), so keep one canonical
-        // compatibility codec owned by TConstruct and alias old spellings to it.
-        helper.register(LegacyItemExistsCondition.ID, LegacyItemExistsCondition.CODEC);
-        helper.register(ConfigEnabledCondition.ID, ConfigEnabledCondition.CODEC);
-      });
-      var conditionCodecs = event.getRegistry(net.neoforged.neoforge.registries.NeoForgeRegistries.Keys.CONDITION_CODECS);
-      if (conditionCodecs != null) {
-        Identifier neoAnd = Identifier.fromNamespaceAndPath("neoforge", "and");
-        Identifier neoModLoaded = Identifier.fromNamespaceAndPath("neoforge", "mod_loaded");
-        Identifier neoNever = Identifier.fromNamespaceAndPath("neoforge", "never");
-        Identifier neoNot = Identifier.fromNamespaceAndPath("neoforge", "not");
-        Identifier neoOr = Identifier.fromNamespaceAndPath("neoforge", "or");
-        Identifier neoAlways = Identifier.fromNamespaceAndPath("neoforge", "always");
-        conditionCodecs.addAlias(Identifier.fromNamespaceAndPath("forge", "and"), neoAnd);
-        conditionCodecs.addAlias(Identifier.fromNamespaceAndPath("forge", "mod_loaded"), neoModLoaded);
-        conditionCodecs.addAlias(Identifier.fromNamespaceAndPath("forge", "never"), neoNever);
-        conditionCodecs.addAlias(Identifier.fromNamespaceAndPath("forge", "not"), neoNot);
-        conditionCodecs.addAlias(Identifier.fromNamespaceAndPath("forge", "or"), neoOr);
-        conditionCodecs.addAlias(Identifier.fromNamespaceAndPath("forge", "always"), neoAlways);
-        conditionCodecs.addAlias(Identifier.fromNamespaceAndPath("forge", "true"), neoAlways);
-        conditionCodecs.addAlias(Identifier.fromNamespaceAndPath("forge", "false"), neoNever);
-        conditionCodecs.addAlias(Identifier.fromNamespaceAndPath("forge", "item_exists"), LegacyItemExistsCondition.ID);
-        conditionCodecs.addAlias(Identifier.fromNamespaceAndPath("neoforge", "true"), neoAlways);
-        conditionCodecs.addAlias(Identifier.fromNamespaceAndPath("neoforge", "item_exists"), LegacyItemExistsCondition.ID);
-      }
+      event.register(net.neoforged.neoforge.registries.NeoForgeRegistries.Keys.CONDITION_CODECS, helper ->
+        helper.register(ConfigEnabledCondition.ID, ConfigEnabledCondition.CODEC));
     } else if (event.getRegistryKey() == net.neoforged.neoforge.registries.NeoForgeRegistries.Keys.INGREDIENT_TYPES) {
       event.register(net.neoforged.neoforge.registries.NeoForgeRegistries.Keys.INGREDIENT_TYPES, helper ->
         {
@@ -255,11 +204,6 @@ public final class TinkerCommons extends TinkerModule {
           helper.register(NoContainerIngredient.ID, NoContainerIngredient.TYPE);
         });
     }
-  }
-
-  /** Wraps a built-in codec so the registry can expose a legacy alias without a duplicate value. */
-  private static <T extends net.neoforged.neoforge.common.conditions.ICondition> MapCodec<T> legacyConditionCodec(MapCodec<T> codec) {
-    return codec.xmap(value -> value, value -> value);
   }
 
   /** Adds all relevant items to the creative tab */

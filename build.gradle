@@ -28,28 +28,19 @@ sourceSets.main {
         // outputs as stale, so merge two source roots only at build time.
         srcDir('src/generated/clientResources')
         exclude('.cache')
-        // The 1.20.1 Forge descriptor must not be packaged beside the
-        // generated NeoForge 26.1 descriptor.
-        exclude('META-INF/mods.toml')
         // These datapacks require the staged gameplay registries.  Do not
         // expose them from the bootstrap artifact before those registries are
         // compiled; full migration builds keep the source data available.
     }
-    // Optional integrations that have a compatible 26.1 API remain available
-    // to the main runtime artifact. The legacy Json Things client hook used
-    // removed item-predicate APIs; item rendering is handled by the native
-    // 26.1 item model pipeline instead.
+    // Keep integration sources whose dependencies do not yet publish a usable
+    // 26.1.2 build. Restore them to the artifact when those APIs become available.
     java.exclude(
-        'slimeknights/tconstruct/plugin/jsonthings/PluginClient.java',
         'slimeknights/tconstruct/plugin/DietPlugin.java',
         'slimeknights/tconstruct/plugin/DummmmmmyPlugin.java',
         'slimeknights/tconstruct/plugin/ImmersiveEngineeringPlugin.java',
         // Armor model data still depends on the staged legacy armor renderer;
         // the remaining client data providers use the 26.1 ResourceManager.
         'slimeknights/tconstruct/library/client/data/AbstractArmorModelProvider.java',
-        // NeoForge 26.1 removed the legacy model-generator API; these providers
-        // are restored with the new client definition/model pipeline.
-        'slimeknights/tconstruct/common/data/model/**',
         // These depend on adjacent datagen slices that are migrated below.
         'slimeknights/tconstruct/common/data/FakeRegistryEntry.java',
         'slimeknights/tconstruct/library/client/model/block/FluidTextureModel.java',
@@ -124,10 +115,6 @@ sourceSets.main {
     )
 }
 
-// The bootstrap entry point is only for the early staged artifact.  The
-// complete port has its own @Mod entry point in TConstruct, so make the full
-// migrated source set the default for builds, runClient, and runServer.
-sourceSets.main.java.exclude('slimeknights/tconstruct/TConstruct26Bootstrap.java')
 // Keep a real 26.1 core suite on the standard `test` task. The remaining
 // sources are the retained 1.20.1 suite and can be migrated incrementally;
 // listing the active sources makes skipped coverage explicit and avoids the
@@ -149,6 +136,7 @@ def coreTestSources = [
         'slimeknights/tconstruct/library/materials/stats/UpdateMaterialStatsPacketTest.java',
         'slimeknights/tconstruct/library/materials/traits/MaterialTraitsManagerTest.java',
         'slimeknights/tconstruct/library/materials/traits/UpdateMaterialTraitsPacketTest.java',
+        'slimeknights/tconstruct/library/json/TinkerLoadablesTest.java',
         'slimeknights/tconstruct/common/recipe/RecipeCacheInvalidatorTest.java',
         'slimeknights/tconstruct/fluids/fluids/PotionFluidTypeTest.java',
         'slimeknights/tconstruct/fluids/item/PotionBucketItemTest.java',
@@ -379,13 +367,6 @@ tasks.named('processResources', ProcessResources).configure {
     filesMatching('assets/tconstruct/models/item/*_bucket.json') {
         filter { line -> line.replace('forge:item/bucket_drip', 'neoforge:item/bucket_drip') }
     }
-}
-
-// The 1.20.1 tree keeps a source copy of Credits.txt while datagen also emits
-// one.  They are identical metadata; do not make the source artifact fail on
-// this harmless overlap.
-tasks.named('sourcesJar', Jar).configure {
-    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }
 
 // Casts are ordinary generated item models in 26.1.  Keep a build-time guard
