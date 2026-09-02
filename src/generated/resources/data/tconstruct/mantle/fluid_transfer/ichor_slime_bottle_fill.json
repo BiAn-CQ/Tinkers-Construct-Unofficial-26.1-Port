@@ -5,5 +5,7 @@
     "tag": "tconstruct:ichor"
   },
   "input": "minecraft:glass_bottle",
-  "result": "tconstruct:ichor_slime_bottle"
+  "result": {
+    "id": "tconstruct:ichor_slime_bottle"
+  }
 }

@@ -26,7 +26,7 @@ class AbstractChestBlockEntityTest {
 
     chest.preRemoveSideEffects(POS, chest.getBlockState());
 
-    verify(handler, atLeastOnce()).getSlots();
+    verify(handler, atLeastOnce()).size();
   }
 
   @Test
@@ -37,7 +37,7 @@ class AbstractChestBlockEntityTest {
 
     chest.preRemoveSideEffects(POS, chest.getBlockState());
 
-    verify(handler, atLeastOnce()).getSlots();
+    verify(handler, atLeastOnce()).size();
   }
 
   @Test
@@ -48,7 +48,7 @@ class AbstractChestBlockEntityTest {
 
     chest.preRemoveSideEffects(POS, chest.getBlockState());
 
-    verify(handler, never()).getSlots();
+    verify(handler, never()).size();
   }
 
   private static TestChestBlockEntity createChest(ChestBlock block, BlockEntityType<?> type, IChestItemHandler handler) {

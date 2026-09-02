@@ -14,10 +14,14 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ItemUtils;
 import net.neoforged.neoforge.capabilities.ItemCapability;
 import net.neoforged.neoforge.capabilities.Capabilities;
-import net.neoforged.neoforge.items.IItemHandler;
-import net.neoforged.neoforge.items.IItemHandlerModifiable;
-import net.neoforged.neoforge.items.ItemHandlerHelper;
-import slimeknights.mantle.inventory.EmptyItemHandler;
+import net.neoforged.neoforge.transfer.EmptyResourceHandler;
+import net.neoforged.neoforge.transfer.IndexModifier;
+import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.item.ItemResource;
+import net.neoforged.neoforge.transfer.item.ItemStackResourceHandler;
+import net.neoforged.neoforge.transfer.item.ItemStacksResourceHandler;
+import net.neoforged.neoforge.transfer.item.ItemUtil;
+import net.neoforged.neoforge.transfer.transaction.TransactionContext;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.TinkerTags;
 import slimeknights.tconstruct.common.config.Config;
@@ -33,21 +37,20 @@ import slimeknights.tconstruct.library.tools.helper.ModifierUtil;
 import slimeknights.tconstruct.library.tools.nbt.IToolStackView;
 import slimeknights.tconstruct.library.tools.nbt.ModDataNBT;
 import slimeknights.tconstruct.library.utils.TinkerCapabilities;
-import slimeknights.tconstruct.library.utils.TinkerCapabilityAdapters;
 import slimeknights.tconstruct.tools.menu.ToolContainerMenu;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 import java.util.stream.IntStream;
 
 /** Capability for a tool with an inventory */
 @RequiredArgsConstructor
-public class ToolInventoryCapability extends InventoryModifierHookIterator<ModifierEntry> implements IItemHandlerModifiable {
+public class ToolInventoryCapability extends InventoryModifierHookIterator<ModifierEntry> implements ResourceHandler<ItemResource>, IndexModifier<ItemResource> {
   /** Boolean key to set in volatile mod data for the total slot count across all modifiers */
   public static final Identifier TOTAL_SLOTS = TConstruct.getResource("total_item_slots");
   /** Boolean key to set in volatile mod data to show the offand in the inventory menu */
@@ -97,12 +100,14 @@ public class ToolInventoryCapability extends InventoryModifierHookIterator<Modif
   private final Supplier<? extends IToolStackView> tool;
   /** Cache of all stacks that have been parsed thus far */
   private ItemStack[] cachedStacks;
+  /** Transactional wrappers for each tool inventory slot. */
+  private SlotHandler[] slotHandlers;
 
   /** Cached slot count */
   private int slots = -1;
 
   @Override
-  public int getSlots() {
+  public int size() {
     if (slots == -1) {
       slots = tool.get().getVolatileData().getIntOr(TOTAL_SLOTS, 0);
     }
@@ -129,8 +134,7 @@ public class ToolInventoryCapability extends InventoryModifierHookIterator<Modif
     return !stack.getItem().canFitInsideContainerItems() || stack.is(TinkerTags.Items.TOOL_INVENTORY_BLACKLIST) || TinkerCapabilities.itemHandler(stack) != null;
   }
 
-  @Override
-  public boolean isItemValid(int slot, ItemStack stack) {
+  private boolean isStackValid(int slot, ItemStack stack) {
     // no nesting item handlers
     if (!stack.isEmpty() && isBlacklisted(stack)) {
       return false;
@@ -143,8 +147,7 @@ public class ToolInventoryCapability extends InventoryModifierHookIterator<Modif
     return false;
   }
 
-  @Override
-  public int getSlotLimit(int slot) {
+  private int getStackCapacity(int slot) {
     IToolStackView tool = this.tool.get();
     InventoryModifierHook inventory = findHook(tool, slot);
     if (inventory != null) {
@@ -160,15 +163,16 @@ public class ToolInventoryCapability extends InventoryModifierHookIterator<Modif
   private void clearCache() {
     slots = -1;
     cachedStacks = null;
+    slotHandlers = null;
   }
 
   /** Caches the stack in the given slot */
   private void cacheStack(int slot, ItemStack stack) {
     if (slot >= 0) {
-      int slots = getSlots();
+      int slots = size();
       if (slot < slots) {
         if (cachedStacks == null) {
-          cachedStacks = new ItemStack[getSlots()];
+          cachedStacks = new ItemStack[size()];
         }
         cachedStacks[slot] = stack; // TODO: copy?
       }
@@ -178,7 +182,7 @@ public class ToolInventoryCapability extends InventoryModifierHookIterator<Modif
   /** Gets the stack cached in the given slot */
   @Nullable
   private ItemStack getCachedStack(int slot) {
-    if (cachedStacks != null && slot >= 0 && slot < getSlots()) {
+    if (cachedStacks != null && slot >= 0 && slot < size()) {
       return cachedStacks[slot];
     }
     return null;
@@ -194,8 +198,7 @@ public class ToolInventoryCapability extends InventoryModifierHookIterator<Modif
 
   /* Get and set */
 
-  @Override
-  public void setStackInSlot(int slot, ItemStack stack) {
+  private void setStack(int slot, ItemStack stack) {
     InventoryModifierHook inventory = findHook(tool.get(), slot);
     if (inventory != null) {
       setAndCache(inventory, slot - startIndex, slot, stack);
@@ -218,9 +221,7 @@ public class ToolInventoryCapability extends InventoryModifierHookIterator<Modif
     return stack;
   }
 
-  @Nonnull
-  @Override
-  public ItemStack getStackInSlot(int slot) {
+  public ItemStack getStack(int slot) {
     ItemStack cached = getCachedStack(slot);
     if (cached != null) {
       return cached;
@@ -232,98 +233,84 @@ public class ToolInventoryCapability extends InventoryModifierHookIterator<Modif
     return ItemStack.EMPTY;
   }
 
-  @Nonnull
-  @Override
-  public ItemStack insertItem(int slot, ItemStack stack, boolean simulate) {
-    if (stack.isEmpty()) {
-      return ItemStack.EMPTY;
+  private SlotHandler getSlotHandler(int slot) {
+    Objects.checkIndex(slot, size());
+    if (slotHandlers == null) {
+      slotHandlers = new SlotHandler[size()];
     }
-    // no nesting item handlers
-    if (isBlacklisted(stack)) {
-      return stack;
+    SlotHandler handler = slotHandlers[slot];
+    if (handler == null) {
+      handler = new SlotHandler(slot);
+      slotHandlers[slot] = handler;
     }
-    // first, do we have an inventory?
-    IToolStackView tool = this.tool.get();
-    InventoryModifierHook inventory = findHook(tool, slot);
-    if (inventory == null) {
-      return stack;
-    }
-    // next, is the item valid for the slot?
-    int localSlot = slot - startIndex;
-    if (!inventory.isItemValid(tool, indexEntry, localSlot, stack)) {
-      return stack;
-    }
-
-    // do we have a stack?
-    ItemStack current = getCached(inventory, localSlot, slot);
-
-    // nothing currently? place the item in
-    int leftover;
-    int slotLimit = inventory.getSlotLimit(tool, indexEntry, localSlot);
-    if (current.isEmpty()) {
-      int canInsert = Math.min(stack.getCount(), Math.min(stack.getMaxStackSize(), slotLimit));
-      leftover = stack.getCount() - canInsert;
-      if (!simulate) {
-        setAndCache(inventory, localSlot, slot, slimeknights.tconstruct.library.utils.ItemStackDataUtil.copyStackWithSize(stack, canInsert));
-      }
-    } else {
-      // space leftover? does it match?
-      int limit = Math.min(current.getMaxStackSize(), slotLimit);
-      if (current.getCount() >= limit || !ItemStack.isSameItem(current, stack)) {
-        return stack;
-      }
-      int maxSize = current.getCount() + stack.getCount();
-      int newSize = Math.min(maxSize, limit);
-      leftover = maxSize - newSize;
-      // store new stack
-      if (!simulate) {
-        current.setCount(newSize);
-        inventory.setStack(tool, indexEntry, localSlot, current); // update stack in NBT
-      }
-    }
-
-    // return leftover
-    if (leftover == 0) {
-      return ItemStack.EMPTY;
-    }
-    return slimeknights.tconstruct.library.utils.ItemStackDataUtil.copyStackWithSize(stack, leftover);
+    return handler;
   }
 
-  @Nonnull
   @Override
-  public ItemStack extractItem(int slot, int amount, boolean simulate) {
-    // first, are you wasting our time?
-    if (amount <= 0) {
-      return ItemStack.EMPTY;
+  public void set(int index, ItemResource resource, int amount) {
+    if (amount < 0 || resource.isEmpty() && amount > 0) {
+      throw new IllegalArgumentException("Invalid item resource amount: " + amount);
     }
-    // next, do we have an inventory?
-    IToolStackView tool = this.tool.get();
-    InventoryModifierHook inventory = findHook(tool, slot);
-    if (inventory == null) {
-      return ItemStack.EMPTY;
-    }
-    int localSlot = slot - startIndex;
+    setStack(index, resource.toStack(amount));
+  }
 
-    // do we have anything in the slot?
-    ItemStack current = getCached(inventory, localSlot, slot);
-    if (current.isEmpty()) {
-      return ItemStack.EMPTY;
+  @Override
+  public int insert(int index, ItemResource resource, int amount, TransactionContext transaction) {
+    return getSlotHandler(index).insert(0, resource, amount, transaction);
+  }
+
+  @Override
+  public int extract(int index, ItemResource resource, int amount, TransactionContext transaction) {
+    return getSlotHandler(index).extract(0, resource, amount, transaction);
+  }
+
+  @Override
+  public ItemResource getResource(int index) {
+    return getSlotHandler(index).getResource(0);
+  }
+
+  @Override
+  public long getAmountAsLong(int index) {
+    return getSlotHandler(index).getAmountAsLong(0);
+  }
+
+  @Override
+  public long getCapacityAsLong(int index, ItemResource resource) {
+    return getSlotHandler(index).getCapacityAsLong(0, resource);
+  }
+
+  @Override
+  public boolean isValid(int index, ItemResource resource) {
+    return getSlotHandler(index).isValid(0, resource);
+  }
+
+  private final class SlotHandler extends ItemStackResourceHandler {
+    private final int index;
+
+    private SlotHandler(int index) {
+      this.index = index;
     }
-    // they want more than we can give? just say no
-    if (amount > current.getCount()) {
-      amount = current.getCount();
+
+    @Override
+    protected ItemStack getStack() {
+      return ToolInventoryCapability.this.getStack(index);
     }
-    // get the result before modifying current
-    ItemStack result = slimeknights.tconstruct.library.utils.ItemStackDataUtil.copyStackWithSize(current, amount);
-    if (!simulate) {
-      if (amount == current.getCount()) {
-        setAndCache(inventory, localSlot, slot, ItemStack.EMPTY);
-      } else {
-        current.shrink(amount);
-        inventory.setStack(tool, indexEntry, localSlot, current); // update in NBT
-      }
+
+    @Override
+    protected void setStack(ItemStack stack) {
+      ToolInventoryCapability.this.setStack(index, stack);
     }
-    return result;
+
+    @Override
+    protected boolean isValid(ItemResource resource) {
+      return ToolInventoryCapability.this.isStackValid(index, resource.toStack());
+    }
+
+    @Override
+    protected int getCapacity(ItemResource resource) {
+      int capacity = ToolInventoryCapability.this.getStackCapacity(index);
+      return resource.isEmpty() ? capacity : Math.min(resource.getMaxStackSize(), capacity);
+    }
   }
 
   /** Interface for an inventory modifier to use */
@@ -501,7 +488,7 @@ public class ToolInventoryCapability extends InventoryModifierHookIterator<Modif
     @Override
     public <T,C> T getCapability(IToolStackView tool, ItemCapability<T,C> cap, C context) {
       if (cap == Capabilities.Item.ITEM && tool.getVolatileData().getIntOr(TOTAL_SLOTS, 0) > 0) {
-        return cap.typeClass().cast(TinkerCapabilityAdapters.itemResource(handler));
+        return cap.typeClass().cast(handler);
       }
       return null;
     }
@@ -540,10 +527,10 @@ public class ToolInventoryCapability extends InventoryModifierHookIterator<Modif
 
   /** Opens the tool inventory container if an inventory is present on the given tool */
   public static InteractionResult tryOpenContainer(ItemStack stack, @Nullable IToolStackView tool, ToolDefinition definition, Player player, int slotIndex) {
-    IItemHandler capability = TinkerCapabilities.itemHandler(stack);
-    IItemHandler handler = capability instanceof IItemHandlerModifiable ? capability : EmptyItemHandler.INSTANCE;
+    ResourceHandler<ItemResource> capability = TinkerCapabilities.itemHandler(stack);
+    ResourceHandler<ItemResource> handler = capability == null ? EmptyResourceHandler.instance() : capability;
     // open if we have any slots or we have a crafting table
-    if (handler.getSlots() > 0 || ModifierUtil.checkVolatileFlag(stack, CRAFTING_TABLE) || ModifierUtil.checkVolatileFlag(stack, INVENTORY_CRAFTING)) {
+    if (handler.size() > 0 || ModifierUtil.checkVolatileFlag(stack, CRAFTING_TABLE) || ModifierUtil.checkVolatileFlag(stack, INVENTORY_CRAFTING)) {
       if (player instanceof ServerPlayer serverPlayer) {
         serverPlayer.openMenu(new SimpleMenuProvider(
           (id, inventory, p) -> new ToolContainerMenu(id, inventory, stack, handler, slotIndex),
@@ -569,10 +556,10 @@ public class ToolInventoryCapability extends InventoryModifierHookIterator<Modif
   /** Drops every stored stack when a tool item entity is destroyed. */
   public static void onDestroyed(ItemEntity entity) {
     if (!entity.level().isClientSide()) {
-      IItemHandler handler = TinkerCapabilities.itemHandler(entity.getItem());
-      if (handler != null && handler.getSlots() > 0) {
-        ItemUtils.onContainerDestroyed(entity, IntStream.range(0, handler.getSlots())
-          .mapToObj(handler::getStackInSlot)
+      ResourceHandler<ItemResource> handler = TinkerCapabilities.itemHandler(entity.getItem());
+      if (handler != null && handler.size() > 0) {
+        ItemUtils.onContainerDestroyed(entity, IntStream.range(0, handler.size())
+          .mapToObj(index -> ItemUtil.getStack(handler, index))
           .filter(stack -> !stack.isEmpty()));
       }
     }

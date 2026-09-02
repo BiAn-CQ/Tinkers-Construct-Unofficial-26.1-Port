@@ -13,12 +13,12 @@ import slimeknights.tconstruct.tools.stats.SkullStats;
 import slimeknights.tconstruct.tools.stats.SlimeStats;
 import slimeknights.tconstruct.tools.stats.StatlessMaterialStats;
 
-import static slimeknights.tconstruct.library.compat.Tiers.DIAMOND;
-import static slimeknights.tconstruct.library.compat.Tiers.GOLD;
-import static slimeknights.tconstruct.library.compat.Tiers.IRON;
-import static slimeknights.tconstruct.library.compat.Tiers.NETHERITE;
-import static slimeknights.tconstruct.library.compat.Tiers.STONE;
-import static slimeknights.tconstruct.library.compat.Tiers.WOOD;
+import static net.minecraft.world.item.ToolMaterial.DIAMOND;
+import static net.minecraft.world.item.ToolMaterial.GOLD;
+import static net.minecraft.world.item.ToolMaterial.IRON;
+import static net.minecraft.world.item.ToolMaterial.NETHERITE;
+import static net.minecraft.world.item.ToolMaterial.STONE;
+import static net.minecraft.world.item.ToolMaterial.WOOD;
 
 public class MaterialStatsDataProvider extends AbstractMaterialStatsDataProvider {
   public MaterialStatsDataProvider(PackOutput packOutput, AbstractMaterialDataProvider materials) {

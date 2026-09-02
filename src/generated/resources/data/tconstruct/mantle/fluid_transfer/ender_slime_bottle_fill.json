@@ -5,5 +5,7 @@
     "tag": "tconstruct:ender_slime"
   },
   "input": "minecraft:glass_bottle",
-  "result": "tconstruct:ender_slime_bottle"
+  "result": {
+    "id": "tconstruct:ender_slime_bottle"
+  }
 }

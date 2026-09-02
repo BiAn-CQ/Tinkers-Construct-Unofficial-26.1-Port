@@ -3,7 +3,7 @@
   "ingredient": "minecraft:spider_eye",
   "result": {
     "amount": 250,
-    "fluid": "tconstruct:venom"
+    "id": "tconstruct:venom"
   },
   "temperature": 10,
   "time": 29

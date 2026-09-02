@@ -9,7 +9,7 @@
   "ingredient": "tconstruct:scorched_table",
   "result": {
     "amount": 1750,
-    "fluid": "tconstruct:scorched_stone"
+    "id": "tconstruct:scorched_stone"
   },
   "temperature": 500,
   "time": 125

@@ -6,7 +6,7 @@ import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.inventory.MenuType;
-import slimeknights.tconstruct.library.compat.ArmorItem;
+import slimeknights.tconstruct.library.tools.definition.ArmorSlotType;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.CreativeModeTab.ItemDisplayParameters;
@@ -32,7 +32,8 @@ import net.neoforged.neoforge.capabilities.BlockCapability;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.fluids.FluidType;
-import net.neoforged.neoforge.fluids.capability.IFluidHandler;
+import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.fluid.FluidResource;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.registries.RegisterEvent;
 import net.neoforged.neoforge.registries.DeferredHolder;
@@ -147,38 +148,38 @@ import static slimeknights.mantle.Mantle.commonResource;
 @SuppressWarnings("unused")
 public final class TinkerSmeltery extends TinkerModule {
   /** Internal tank view used only by smeltery I/O blocks; controllers do not expose the standard fluid capability. */
-  public static final BlockCapability<IFluidHandler,net.minecraft.core.Direction> SMELTERY_TANK_CAPABILITY =
-    BlockCapability.createSided(TConstruct.getResource("smeltery_internal_tank"), IFluidHandler.class);
+  public static final BlockCapability<ResourceHandler<FluidResource>,net.minecraft.core.Direction> SMELTERY_TANK_CAPABILITY =
+    BlockCapability.createSided(TConstruct.getResource("smeltery_internal_tank"), ResourceHandler.asClass());
 
   @SubscribeEvent
   void registerCapabilities(RegisterCapabilitiesEvent event) {
-    event.registerBlockEntity(Capabilities.Fluid.BLOCK, tank.get(), (blockEntity, side) -> slimeknights.tconstruct.library.utils.TinkerCapabilityAdapters.fluidResource(blockEntity.getTank()));
-    event.registerBlockEntity(Capabilities.Item.BLOCK, fluidCannon.get(), (blockEntity, side) -> slimeknights.tconstruct.library.utils.TinkerCapabilityAdapters.itemResource(blockEntity.getItemCapability()));
-    event.registerBlockEntity(Capabilities.Fluid.BLOCK, melter.get(), (blockEntity, side) -> slimeknights.tconstruct.library.utils.TinkerCapabilityAdapters.fluidResource(blockEntity.getFluidCapability()));
-    event.registerBlockEntity(Capabilities.Item.BLOCK, melter.get(), (blockEntity, side) -> slimeknights.tconstruct.library.utils.TinkerCapabilityAdapters.itemResource(blockEntity.getItemCapability()));
-    event.registerBlockEntity(Capabilities.Fluid.BLOCK, alloyer.get(), (blockEntity, side) -> slimeknights.tconstruct.library.utils.TinkerCapabilityAdapters.fluidResource(blockEntity.getFluidCapability()));
-    event.registerBlockEntity(Capabilities.Item.BLOCK, heater.get(), (blockEntity, side) -> slimeknights.tconstruct.library.utils.TinkerCapabilityAdapters.itemResource(blockEntity.getItemCapability()));
-    event.registerBlockEntity(Capabilities.Fluid.BLOCK, castingTank.get(), (blockEntity, side) -> slimeknights.tconstruct.library.utils.TinkerCapabilityAdapters.fluidResource(blockEntity.getFluidCapability()));
-    event.registerBlockEntity(Capabilities.Fluid.BLOCK, basin.get(), (blockEntity, side) -> slimeknights.tconstruct.library.utils.TinkerCapabilityAdapters.fluidResource(blockEntity.getTank()));
-    event.registerBlockEntity(Capabilities.Item.BLOCK, basin.get(), (blockEntity, side) -> slimeknights.tconstruct.library.utils.TinkerCapabilityAdapters.itemResource(blockEntity.getItemCapability()));
-    event.registerBlockEntity(Capabilities.Fluid.BLOCK, table.get(), (blockEntity, side) -> slimeknights.tconstruct.library.utils.TinkerCapabilityAdapters.fluidResource(blockEntity.getTank()));
-    event.registerBlockEntity(Capabilities.Item.BLOCK, table.get(), (blockEntity, side) -> slimeknights.tconstruct.library.utils.TinkerCapabilityAdapters.itemResource(blockEntity.getItemCapability()));
-    event.registerBlockEntity(Capabilities.Item.BLOCK, smeltery.get(), (blockEntity, side) -> slimeknights.tconstruct.library.utils.TinkerCapabilityAdapters.itemResource(blockEntity.getItemCapability()));
-    event.registerBlockEntity(Capabilities.Item.BLOCK, foundry.get(), (blockEntity, side) -> slimeknights.tconstruct.library.utils.TinkerCapabilityAdapters.itemResource(blockEntity.getItemCapability()));
+    event.registerBlockEntity(Capabilities.Fluid.BLOCK, tank.get(), (blockEntity, side) -> blockEntity.getTank());
+    event.registerBlockEntity(Capabilities.Item.BLOCK, fluidCannon.get(), (blockEntity, side) -> blockEntity.getItemCapability());
+    event.registerBlockEntity(Capabilities.Fluid.BLOCK, melter.get(), (blockEntity, side) -> blockEntity.getFluidCapability());
+    event.registerBlockEntity(Capabilities.Item.BLOCK, melter.get(), (blockEntity, side) -> blockEntity.getItemCapability());
+    event.registerBlockEntity(Capabilities.Fluid.BLOCK, alloyer.get(), (blockEntity, side) -> blockEntity.getFluidCapability());
+    event.registerBlockEntity(Capabilities.Item.BLOCK, heater.get(), (blockEntity, side) -> blockEntity.getItemCapability());
+    event.registerBlockEntity(Capabilities.Fluid.BLOCK, castingTank.get(), (blockEntity, side) -> blockEntity.getFluidCapability());
+    event.registerBlockEntity(Capabilities.Fluid.BLOCK, basin.get(), (blockEntity, side) -> blockEntity.getTank());
+    event.registerBlockEntity(Capabilities.Item.BLOCK, basin.get(), (blockEntity, side) -> blockEntity.getItemCapability());
+    event.registerBlockEntity(Capabilities.Fluid.BLOCK, table.get(), (blockEntity, side) -> blockEntity.getTank());
+    event.registerBlockEntity(Capabilities.Item.BLOCK, table.get(), (blockEntity, side) -> blockEntity.getItemCapability());
+    event.registerBlockEntity(Capabilities.Item.BLOCK, smeltery.get(), (blockEntity, side) -> blockEntity.getItemCapability());
+    event.registerBlockEntity(Capabilities.Item.BLOCK, foundry.get(), (blockEntity, side) -> blockEntity.getItemCapability());
     event.registerBlockEntity(SMELTERY_TANK_CAPABILITY, smeltery.get(), (blockEntity, side) -> blockEntity.getFluidCapability());
     event.registerBlockEntity(SMELTERY_TANK_CAPABILITY, foundry.get(), (blockEntity, side) -> blockEntity.getFluidCapability());
-    event.registerBlockEntity(Capabilities.Item.BLOCK, proxyTank.get(), (blockEntity, side) -> slimeknights.tconstruct.library.utils.TinkerCapabilityAdapters.itemResource(blockEntity.getItemTank()));
-    event.registerBlockEntity(Capabilities.Fluid.BLOCK, proxyTank.get(), (blockEntity, side) -> slimeknights.tconstruct.library.utils.TinkerCapabilityAdapters.fluidResource(blockEntity.getItemTank()));
-    event.registerBlockEntity(Capabilities.Fluid.BLOCK, channel.get(), (blockEntity, side) -> slimeknights.tconstruct.library.utils.TinkerCapabilityAdapters.fluidResource(blockEntity.getFluidHandler(side)));
-    event.registerBlockEntity(Capabilities.Fluid.BLOCK, drain.get(), (blockEntity, side) -> slimeknights.tconstruct.library.utils.TinkerCapabilityAdapters.fluidResource(blockEntity.getProxiedCapability(side)));
+    event.registerBlockEntity(Capabilities.Item.BLOCK, proxyTank.get(), (blockEntity, side) -> blockEntity.getItemTank());
+    event.registerBlockEntity(Capabilities.Fluid.BLOCK, proxyTank.get(), (blockEntity, side) -> blockEntity.getItemTank().getFluidHandler());
+    event.registerBlockEntity(Capabilities.Fluid.BLOCK, channel.get(), (blockEntity, side) -> blockEntity.getFluidHandler(side));
+    event.registerBlockEntity(Capabilities.Fluid.BLOCK, drain.get(), (blockEntity, side) -> blockEntity.getProxiedCapability(side));
     event.registerBlockEntity(Capabilities.Item.BLOCK, chute.get(), (blockEntity, side) -> blockEntity.getProxiedCapability(side));
-    event.registerBlockEntity(Capabilities.Fluid.BLOCK, duct.get(), (blockEntity, side) -> slimeknights.tconstruct.library.utils.TinkerCapabilityAdapters.fluidResource(blockEntity.getProxiedCapability(side)));
-    event.registerBlockEntity(Capabilities.Item.BLOCK, duct.get(), (blockEntity, side) -> slimeknights.tconstruct.library.utils.TinkerCapabilityAdapters.itemResource(blockEntity.getItemHandler()));
+    event.registerBlockEntity(Capabilities.Fluid.BLOCK, duct.get(), (blockEntity, side) -> blockEntity.getProxiedCapability(side));
+    event.registerBlockEntity(Capabilities.Item.BLOCK, duct.get(), (blockEntity, side) -> blockEntity.getItemHandler());
     for (Item item : BuiltInRegistries.ITEM) {
       if (item instanceof TankItem tankItem) {
-        event.registerItem(Capabilities.Fluid.ITEM, (stack, context) -> slimeknights.tconstruct.library.utils.TinkerCapabilityAdapters.fluidItemResource(context, tankItem::getFluidHandler), item);
+        event.registerItem(Capabilities.Fluid.ITEM, (stack, context) -> tankItem.getFluidHandler(context), item);
       } else if (item instanceof CopperCanItem canItem) {
-        event.registerItem(Capabilities.Fluid.ITEM, (stack, context) -> slimeknights.tconstruct.library.utils.TinkerCapabilityAdapters.fluidItemResource(context, canItem::getFluidHandler), item);
+        event.registerItem(Capabilities.Fluid.ITEM, (stack, context) -> canItem.getFluidHandler(context), item);
       }
     }
   }
@@ -430,13 +431,13 @@ public final class TinkerSmeltery extends TinkerModule {
   public static final CastItemObject bowGripCast = ITEMS.registerCast(TinkerToolParts.bowGrip, itemProperties(ITEM_PROPS));
   public static final ItemObject<Item> arrowCast = ITEMS.register("arrow_cast", TOOLTIP_ITEM);
   // armor
-  public static final CastItemObject helmetPlatingCast = ITEMS.registerCast("helmet_plating", () -> new PartCastItem(itemProperties(ITEM_PROPS), () -> TinkerToolParts.plating.get(ArmorItem.Type.HELMET)));
-  public static final CastItemObject chestplatePlatingCast = ITEMS.registerCast("chestplate_plating", () -> new PartCastItem(itemProperties(ITEM_PROPS), () -> TinkerToolParts.plating.get(ArmorItem.Type.CHESTPLATE)));
-  public static final CastItemObject leggingsPlatingCast = ITEMS.registerCast("leggings_plating", () -> new PartCastItem(itemProperties(ITEM_PROPS), () -> TinkerToolParts.plating.get(ArmorItem.Type.LEGGINGS)));
-  public static final CastItemObject bootsPlatingCast = ITEMS.registerCast("boots_plating", () -> new PartCastItem(itemProperties(ITEM_PROPS), () -> TinkerToolParts.plating.get(ArmorItem.Type.BOOTS)));
+  public static final CastItemObject helmetPlatingCast = ITEMS.registerCast("helmet_plating", () -> new PartCastItem(itemProperties(ITEM_PROPS), () -> TinkerToolParts.plating.get(ArmorSlotType.HELMET)));
+  public static final CastItemObject chestplatePlatingCast = ITEMS.registerCast("chestplate_plating", () -> new PartCastItem(itemProperties(ITEM_PROPS), () -> TinkerToolParts.plating.get(ArmorSlotType.CHESTPLATE)));
+  public static final CastItemObject leggingsPlatingCast = ITEMS.registerCast("leggings_plating", () -> new PartCastItem(itemProperties(ITEM_PROPS), () -> TinkerToolParts.plating.get(ArmorSlotType.LEGGINGS)));
+  public static final CastItemObject bootsPlatingCast = ITEMS.registerCast("boots_plating", () -> new PartCastItem(itemProperties(ITEM_PROPS), () -> TinkerToolParts.plating.get(ArmorSlotType.BOOTS)));
   public static final CastItemObject mailleCast = ITEMS.registerCast(TinkerToolParts.maille, itemProperties(ITEM_PROPS));
   // dummy cast creation items
-  public static final EnumObject<ArmorItem.Type,DummyMaterialItem> dummyPlating = ITEMS.registerEnum(slimeknights.tconstruct.library.tools.definition.ModifiableArmorMaterial.ARMOR_TYPES, "plating_dummy", type -> new DummyMaterialItem(itemProperties(ITEM_PROPS)));
+  public static final EnumObject<ArmorSlotType,DummyMaterialItem> dummyPlating = ITEMS.registerEnum(slimeknights.tconstruct.library.tools.definition.ModifiableArmorMaterial.ARMOR_TYPES, "plating_dummy", type -> new DummyMaterialItem(itemProperties(ITEM_PROPS)));
 
 
   /*

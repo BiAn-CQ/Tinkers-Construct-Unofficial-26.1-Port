@@ -9,9 +9,10 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.DataSlot;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.fluids.capability.IFluidHandler;
+import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.fluid.FluidResource;
+import net.neoforged.neoforge.transfer.fluid.FluidUtil;
 import slimeknights.mantle.fluid.FluidTransferHelper;
 import slimeknights.mantle.fluid.transfer.FluidContainerTransferManager;
 import slimeknights.mantle.fluid.transfer.IFluidContainerTransfer.TransferDirection;
@@ -44,7 +45,7 @@ public class HeatingStructureContainerMenu extends TriggeringMultiModuleContaine
     if (inv != null && structure != null) {
       // slots for emptying/filling buckets - do first but filtered
       if (!inv.player.level().isClientSide()) {
-        IFluidHandler tank = structure.getTank();
+        ResourceHandler<FluidResource> tank = structure.getTank();
         addSlot(new BucketInputSlot(bucketContainer, 125, 46, tank, this, inv.player));
         bucketResultSlot = addSlot(new BucketResultSlot(bucketContainer, 125, 104, tank, this, inv.player));
       } else {
@@ -55,7 +56,7 @@ public class HeatingStructureContainerMenu extends TriggeringMultiModuleContaine
       // can hold 7 in a column, so try to fill the first column first
       // cap to 4 columns
       MeltingModuleInventory inventory = structure.getMeltingInventory();
-      sideInventory = new SideInventoryContainer<>(TinkerSmeltery.smelteryContainer.get(), id, inv, structure, 0, 0, calcColumns(inventory.getSlots()));
+      sideInventory = new SideInventoryContainer<>(TinkerSmeltery.smelteryContainer.get(), id, inv, structure, 0, 0, calcColumns(inventory.size()));
       addSubContainer(sideInventory, true);
 
       Consumer<DataSlot> referenceConsumer = this::addDataSlot;
@@ -133,7 +134,10 @@ public class HeatingStructureContainerMenu extends TriggeringMultiModuleContaine
       // ensure we have a valid index, if not ignore
       int index = id - 4;
       SmelteryTank<?> tank = tile.getTank();
-      FluidStack fluid = tank.getFluidInTank(index);
+      if (index >= tank.size()) {
+        return false;
+      }
+      FluidStack fluid = FluidUtil.getStack(tank, index);
       if (!fluid.isEmpty()) {
         if (!player.level().isClientSide()) {
           ItemStack held = getCarried();
@@ -192,10 +196,10 @@ public class HeatingStructureContainerMenu extends TriggeringMultiModuleContaine
 
   /** Bucket input slot - used serverside only to handle draining the bucket when placed in the slot */
   public static class BucketInputSlot extends BucketSlot {
-    private final IFluidHandler tank;
+    private final ResourceHandler<FluidResource> tank;
     private final TransferDirectionSupplier directionSupplier;
     private final Player player;
-    public BucketInputSlot(Container pContainer, int pX, int pY, IFluidHandler tank, TransferDirectionSupplier directionSupplier, Player player) {
+    public BucketInputSlot(Container pContainer, int pX, int pY, ResourceHandler<FluidResource> tank, TransferDirectionSupplier directionSupplier, Player player) {
       super(pContainer, 0, pX, pY);
       this.tank = tank;
       this.directionSupplier = directionSupplier;
@@ -229,10 +233,10 @@ public class HeatingStructureContainerMenu extends TriggeringMultiModuleContaine
 
   /** Bucket result slot - used serverside to trigger fluid transfer when the slot is emptied */
   public static class BucketResultSlot extends ResultSlot {
-    private final IFluidHandler tank;
+    private final ResourceHandler<FluidResource> tank;
     private final TransferDirectionSupplier directionSupplier;
     private final Player player;
-    public BucketResultSlot(Container pContainer, int pX, int pY, IFluidHandler tank, TransferDirectionSupplier directionSupplier, Player player) {
+    public BucketResultSlot(Container pContainer, int pX, int pY, ResourceHandler<FluidResource> tank, TransferDirectionSupplier directionSupplier, Player player) {
       super(pContainer, 1, pX, pY);
       this.tank = tank;
       this.directionSupplier = directionSupplier;

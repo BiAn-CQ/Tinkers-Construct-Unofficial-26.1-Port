@@ -14,5 +14,7 @@
     "neoforge:ingredient_type": "mantle:item_tag",
     "tag": "c:wires"
   },
-  "result": "tconstruct:wire_sand_cast"
+  "result": {
+    "id": "tconstruct:wire_sand_cast"
+  }
 }

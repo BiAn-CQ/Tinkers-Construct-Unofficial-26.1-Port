@@ -14,5 +14,7 @@
       }
     ]
   },
-  "result": "tconstruct:chestplate_plating_red_sand_cast"
+  "result": {
+    "id": "tconstruct:chestplate_plating_red_sand_cast"
+  }
 }

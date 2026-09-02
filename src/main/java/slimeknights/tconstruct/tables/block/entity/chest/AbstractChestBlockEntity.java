@@ -15,7 +15,9 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.TagValueInput;
 import net.minecraft.world.level.storage.TagValueOutput;
 import net.minecraft.util.ProblemReporter;
-import net.neoforged.neoforge.items.IItemHandler;
+import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.StacksResourceHandler;
+import net.neoforged.neoforge.transfer.item.ItemResource;
 import slimeknights.mantle.block.entity.NameableBlockEntity;
 import slimeknights.tconstruct.tables.block.ChestBlock;
 import slimeknights.tconstruct.tables.block.entity.inventory.IChestItemHandler;
@@ -26,8 +28,6 @@ import javax.annotation.Nullable;
 
 /** Shared base logic for all Tinkers' chest tile entities */
 public abstract class AbstractChestBlockEntity extends NameableBlockEntity {
-  private static final String KEY_ITEMS = "Items";
-
   @Getter
   private final IChestItemHandler itemHandler;
   protected AbstractChestBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state, Component name, IChestItemHandler itemHandler) {
@@ -36,7 +36,7 @@ public abstract class AbstractChestBlockEntity extends NameableBlockEntity {
     this.itemHandler = itemHandler;
   }
 
-  public IItemHandler getItemCapability() {
+  public ResourceHandler<ItemResource> getItemCapability() {
     return itemHandler;
   }
 
@@ -71,20 +71,17 @@ public abstract class AbstractChestBlockEntity extends NameableBlockEntity {
   @Override
   public void saveAdditional(CompoundTag tags) {
     super.saveAdditional(tags);
-    // move the items from the serialized result
-    // we don't care about the size and need it here for compat with old worlds
     ProblemReporter.Collector reporter = new ProblemReporter.Collector();
     TagValueOutput output = TagValueOutput.createWithContext(reporter, registries);
     itemHandler.serialize(output);
     CompoundTag handlerNBT = output.buildResult();
-    tags.put(KEY_ITEMS, handlerNBT.getListOrEmpty(KEY_ITEMS));
+    tags.put(StacksResourceHandler.VALUE_IO_KEY, handlerNBT.getListOrEmpty(StacksResourceHandler.VALUE_IO_KEY));
   }
 
   /** Reads the inventory from NBT */
   public void readInventory(CompoundTag tags, net.minecraft.core.HolderLookup.Provider provider) {
-    // copy in just the items key for deserializing, don't want to change the size
     CompoundTag handlerNBT = new CompoundTag();
-    handlerNBT.put(KEY_ITEMS, tags.getListOrEmpty(KEY_ITEMS));
+    handlerNBT.put(StacksResourceHandler.VALUE_IO_KEY, tags.getListOrEmpty(StacksResourceHandler.VALUE_IO_KEY));
     ProblemReporter.Collector reporter = new ProblemReporter.Collector();
     itemHandler.deserialize(TagValueInput.create(reporter, provider, handlerNBT));
   }

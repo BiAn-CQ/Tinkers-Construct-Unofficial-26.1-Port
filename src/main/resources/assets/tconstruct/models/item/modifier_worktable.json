@@ -1,5 +1,0 @@
-{
-    "loader": "tconstruct:material_block",
-    "model": "tconstruct:block/table/modifier_worktable",
-    "slots": [ "leg", "legBottom" ]
-}

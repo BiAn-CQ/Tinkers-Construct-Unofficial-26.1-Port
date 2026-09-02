@@ -9,23 +9,23 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.item.component.CustomData;
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.fluids.capability.IFluidHandler.FluidAction;
+import slimeknights.tconstruct.library.utils.SimulationMode;
 import slimeknights.mantle.data.loadable.primitive.FloatLoadable;
 import slimeknights.mantle.data.loadable.record.RecordLoadable;
 import slimeknights.tconstruct.library.modifiers.fluid.EffectLevel;
 import slimeknights.tconstruct.library.modifiers.fluid.FluidEffect;
 import slimeknights.tconstruct.library.modifiers.fluid.FluidEffectContext;
-import slimeknights.tconstruct.library.recipe.TagPredicate;
+import slimeknights.tconstruct.library.recipe.CustomDataPredicate;
 import slimeknights.tconstruct.fluids.fluids.PotionFluidType;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /** Spilling effect that pulls the potion from a NBT potion fluid and applies it */
-public record PotionFluidEffect(float scale, TagPredicate predicate) implements FluidEffect<FluidEffectContext.Entity> {
+public record PotionFluidEffect(float scale, CustomDataPredicate predicate) implements FluidEffect<FluidEffectContext.Entity> {
   public static final RecordLoadable<PotionFluidEffect> LOADER = RecordLoadable.create(
     FloatLoadable.FROM_ZERO.requiredField("scale", e -> e.scale),
-    TagPredicate.LOADABLE.defaultField("nbt", TagPredicate.ANY, e -> e.predicate),
+    CustomDataPredicate.LOADABLE.defaultField("custom_data", CustomDataPredicate.ANY, e -> e.predicate),
     PotionFluidEffect::new);
 
   @Override
@@ -34,7 +34,7 @@ public record PotionFluidEffect(float scale, TagPredicate predicate) implements 
   }
 
   @Override
-  public float apply(FluidStack fluid, EffectLevel level, FluidEffectContext.Entity context, FluidAction action) {
+  public float apply(FluidStack fluid, EffectLevel level, FluidEffectContext.Entity context, SimulationMode action) {
     LivingEntity target = context.getLivingTarget();
     // must match the tag predicate
     if (target != null && predicate.test(fluid.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY).copyTag())) {

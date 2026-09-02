@@ -10,5 +10,7 @@
     "amount": 360,
     "tag": "c:molten_copper"
   },
-  "result": "tconstruct:smeltery_controller"
+  "result": {
+    "id": "tconstruct:smeltery_controller"
+  }
 }

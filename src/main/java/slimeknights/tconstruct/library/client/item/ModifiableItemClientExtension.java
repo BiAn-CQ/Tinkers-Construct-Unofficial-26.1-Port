@@ -35,7 +35,7 @@ public class ModifiableItemClientExtension implements IClientItemExtensions {
     if (animation == ItemUseAnimation.BLOCK) {
       // Tinkers' blocking models already contain their shield-specific display transform. Minecraft 26.1
       // adds an additional non-ShieldItem block rotation after the base arm transform, which double-rotates
-      // modifiable shields and battlesigns. Handle BLOCK here to preserve their 1.20.1 rendering contract.
+      // modifiable shields and battlesigns. Handle BLOCK here to avoid that duplicate rotation.
       applyItemArmTransform(poseStack, equipProgress, sideOffset);
       return true;
     }
@@ -46,7 +46,7 @@ public class ModifiableItemClientExtension implements IClientItemExtensions {
     applyItemArmTransform(poseStack, equipProgress, sideOffset);
     poseStack.translate(sideOffset * -0.5f, 0.7f, 0.1f);
     // Tinkers' throwing tools are diagonal item sprites, unlike a vanilla
-    // trident. The extra 35 degrees restores the 1.20.1 throwing pose.
+    // trident. The extra 35 degrees produces the intended throwing pose.
     poseStack.mulPose(Axis.XP.rotationDegrees(-90));
     poseStack.mulPose(Axis.YP.rotationDegrees(sideOffset * 35.3f));
     poseStack.mulPose(Axis.ZP.rotationDegrees(sideOffset * -9.785f));

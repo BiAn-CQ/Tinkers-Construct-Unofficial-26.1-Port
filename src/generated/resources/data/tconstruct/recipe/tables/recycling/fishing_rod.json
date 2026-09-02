@@ -4,11 +4,11 @@
   "results": {
     "tconstruct:bowstring": {
       "count": 2,
-      "item": "minecraft:string"
+      "id": "minecraft:string"
     },
     "tconstruct:rod": {
       "count": 3,
-      "item": "minecraft:stick"
+      "id": "minecraft:stick"
     }
   },
   "tool": "minecraft:fishing_rod"

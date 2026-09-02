@@ -5,5 +5,7 @@
   },
   "looting_bonus": 0.01,
   "per_level_chance": 0.05,
-  "result": "minecraft:tnt"
+  "result": {
+    "id": "minecraft:tnt"
+  }
 }

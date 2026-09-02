@@ -25,7 +25,6 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.ApiStatus.Internal;
-import slimeknights.mantle.data.loadable.LegacyLoadable;
 import slimeknights.mantle.data.loadable.Loadables;
 import slimeknights.mantle.data.loadable.field.RecordField;
 import slimeknights.mantle.data.loadable.primitive.BooleanLoadable;
@@ -34,7 +33,6 @@ import slimeknights.mantle.data.loadable.record.RecordLoadable;
 import slimeknights.mantle.data.predicate.IJsonPredicate;
 import slimeknights.mantle.data.predicate.damage.DamageSourcePredicate;
 import slimeknights.mantle.data.predicate.entity.LivingEntityPredicate;
-import slimeknights.tconstruct.common.TinkerTags;
 import slimeknights.tconstruct.library.json.LevelingValue;
 import slimeknights.tconstruct.library.json.RandomLevelingValue;
 import slimeknights.tconstruct.library.json.predicate.TinkerPredicate;
@@ -83,15 +81,6 @@ public interface MobEffectModule extends ModifierModule, ConditionalModule<ITool
   RecordField<ModifierMobEffect, MobEffectModule> EFFECT_FIELD = ModifierMobEffect.LOADER.directField(MobEffectModule::effect);
   /** Shared chance field */
   RecordField<LevelingValue, MobEffectModule> CHANCE_FIELD = LevelingValue.LOADABLE.defaultField("chance", LevelingValue.ONE, MobEffectModule::chance);
-
-  /** @deprecated use {@link Weapon#LOADER} or {@link ArmorCounter#LOADER}. */
-  @Deprecated
-  RecordLoadable<Legacy> LOADER = LegacyLoadable.message(RecordLoadable.create(
-    EFFECT_FIELD, WeaponCommon.BEFORE_MELEE_FIELD,
-    LevelingValue.LOADABLE.defaultField("chance", LevelingValue.eachLevel(0.25f), MobEffectModule::chance),
-    IntLoadable.FROM_ZERO.defaultField("counter_durability_usage", 1, CounterCommon::durabilityUsage),
-    ModifierCondition.TOOL_FIELD,
-    Legacy::new), "Using deprecated modifier module 'tconstruct:mob_effect'. Use one or both of 'tconstruct:weapon_mob_effect' or 'tconstruct:counter_mob_effect'");
 
   /** Gets the effect for this module */
   ModifierMobEffect effect();
@@ -229,11 +218,6 @@ public interface MobEffectModule extends ModifierModule, ConditionalModule<ITool
       return new Edible(buildEffect(), holder, condition);
     }
 
-    /** Builds the finished modifier */
-    @Deprecated(forRemoval = true)
-    public Legacy build() {
-      return new Legacy(buildEffect(), applyBeforeMelee, requireNonNullElse(chance, LevelingValue.eachLevel(0.25f)), counterDurabilityUsage, condition);
-    }
   }
 
   /** Represents a mob effect applied via a modifier. Meant to be nested inside a modifier module. */
@@ -282,7 +266,7 @@ public interface MobEffectModule extends ModifierModule, ConditionalModule<ITool
     }
   }
 
-  /** Common logic between {@link Weapon} and {@link Legacy}. TODO 1.21: merge into {@link Weapon} */
+  /** Shared weapon mob-effect logic. */
   @Internal
   interface WeaponCommon extends Combat, MeleeHitModifierHook, MonsterMeleeHitModifierHook, ProjectileHitModifierHook {
     RecordField<Boolean,WeaponCommon> BEFORE_MELEE_FIELD = BooleanLoadable.INSTANCE.defaultField("apply_before_melee", false, false, WeaponCommon::applyBeforeMelee);
@@ -346,7 +330,7 @@ public interface MobEffectModule extends ModifierModule, ConditionalModule<ITool
     }
   }
 
-  /** Common logic between {@link ArmorCounter} and {@link Legacy}. TODO 1.21: merge into {@link ArmorCounter}. */
+  /** Shared counter mob-effect logic. */
   @Internal
   interface CounterCommon extends Combat, OnAttackedModifierHook {
     /** Reimplementation of chance field to change the default */
@@ -561,34 +545,6 @@ public interface MobEffectModule extends ModifierModule, ConditionalModule<ITool
     public void onToolEaten(IToolStackView tool, ModifierEntry modifier, Player player, EquipmentSlot eatenSlot, int hunger, float saturation, List<ItemStack> representativeItems) {
       if (condition.matches(tool, modifier) && holder.matches(player)) {
         effect.applyEffect(player, modifier, null);
-      }
-    }
-  }
-
-  /** Legacy implementation that does weapon, armor, and alike. Too many things happening. */
-  @Deprecated
-  record Legacy(ModifierMobEffect effect, boolean applyBeforeMelee, LevelingValue chance, int durabilityUsage, ModifierCondition<IToolStackView> condition) implements WeaponCommon, CounterCommon {
-    private static final List<ModuleHook<?>> DEFAULT_HOOKS = HookProvider.<Legacy>defaultHooks(ModifierHooks.ON_ATTACKED, ModifierHooks.MELEE_HIT, ModifierHooks.MONSTER_MELEE_HIT, ModifierHooks.PROJECTILE_HIT);
-
-    /** @apiNote use {@link Builder#build()} */
-    @Internal
-    public Legacy {}
-
-    @Override
-    public List<ModuleHook<?>> getDefaultHooks() {
-      return DEFAULT_HOOKS;
-    }
-
-    @Override
-    public RecordLoadable<Legacy> getLoader() {
-      return MobEffectModule.LOADER;
-    }
-
-    @Override
-    public void onAttacked(IToolStackView tool, ModifierEntry modifier, EquipmentContext context, EquipmentSlot slotType, DamageSource source, float amount, boolean isDirectDamage) {
-      // legacy implementation conditioned on only being armor. For the new module we let you set the condition for that.
-      if (tool.hasTag(TinkerTags.Items.ARMOR)) {
-        CounterCommon.super.onAttacked(tool, modifier, context, slotType, source, amount, isDirectDamage);
       }
     }
   }

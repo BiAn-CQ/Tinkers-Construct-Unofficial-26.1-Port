@@ -5,5 +5,7 @@
     "amount": 1000,
     "tag": "tconstruct:ichor"
   },
-  "result": "tconstruct:ichor_congealed_slime"
+  "result": {
+    "id": "tconstruct:ichor_congealed_slime"
+  }
 }

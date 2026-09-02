@@ -7,5 +7,7 @@
     "amount": 30,
     "tag": "tconstruct:molten_slimesteel"
   },
-  "result": "tconstruct:slimesteel_reinforcement"
+  "result": {
+    "id": "tconstruct:slimesteel_reinforcement"
+  }
 }

@@ -4,7 +4,9 @@
     "neoforge:ingredient_type": "mantle:item_tag",
     "tag": "minecraft:dark_oak_logs"
   },
-  "leftover": "minecraft:dark_oak_planks",
+  "leftover": {
+    "id": "minecraft:dark_oak_planks"
+  },
   "material": "tconstruct:wood",
   "needed": 1,
   "value": 4

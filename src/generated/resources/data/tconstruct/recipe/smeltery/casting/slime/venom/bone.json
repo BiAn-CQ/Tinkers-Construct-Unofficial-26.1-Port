@@ -10,5 +10,7 @@
     "amount": 250,
     "tag": "tconstruct:venom"
   },
-  "result": "tconstruct:venombone"
+  "result": {
+    "id": "tconstruct:venombone"
+  }
 }

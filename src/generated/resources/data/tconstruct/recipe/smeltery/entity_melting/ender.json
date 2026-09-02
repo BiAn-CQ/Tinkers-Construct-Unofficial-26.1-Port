@@ -3,9 +3,9 @@
   "damage": 2,
   "entity": {
     "types": [
-      "minecraft:enderman",
+      "minecraft:endermite",
       "minecraft:ender_dragon",
-      "minecraft:endermite"
+      "minecraft:enderman"
     ]
   },
   "result": {

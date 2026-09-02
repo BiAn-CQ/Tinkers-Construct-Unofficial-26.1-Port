@@ -3,15 +3,17 @@
   "damage": 2,
   "entity": {
     "types": [
-      "minecraft:ghast",
-      "minecraft:axolotl"
+      "minecraft:axolotl",
+      "minecraft:ghast"
     ]
   },
   "result": {
     "amount": 50,
-    "nbt": {
-      "Potion": "minecraft:regeneration"
+    "components": {
+      "minecraft:potion_contents": {
+        "potion": "minecraft:regeneration"
+      }
     },
-    "tag": "c:potion"
+    "id": "tconstruct:potion"
   }
 }

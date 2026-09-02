@@ -7,5 +7,7 @@
     "amount": 500,
     "tag": "c:magma"
   },
-  "result": "tconstruct:polished_scorched_stone"
+  "result": {
+    "id": "tconstruct:polished_scorched_stone"
+  }
 }

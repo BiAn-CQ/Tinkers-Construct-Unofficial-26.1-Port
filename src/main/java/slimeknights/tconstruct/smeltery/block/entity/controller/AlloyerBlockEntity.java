@@ -13,7 +13,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import net.neoforged.neoforge.model.data.ModelData;
 import slimeknights.mantle.block.entity.NameableBlockEntity;
 import slimeknights.tconstruct.TConstruct;
@@ -80,7 +79,7 @@ public class AlloyerBlockEntity extends NameableBlockEntity implements ITankBloc
    * Capability
    */
 
-  public IFluidHandler getFluidCapability() {
+  public FluidTankAnimated getFluidCapability() {
     return tank;
   }
 

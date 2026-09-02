@@ -16,7 +16,7 @@ public class ModifierId extends ResourceId {
   /** ID of the default modifier. Used in a few contexts to indicate "no modifier" instead of using null. */
   public static final ModifierId EMPTY = new ModifierId(TConstruct.MOD_ID, "empty");
   /**
-   * Context key used in {@link slimeknights.tconstruct.library.client.modifiers.ModifierModelMapManager}.
+   * Context key used by the native modifier model loader.
    * Note when the modifier itself is the JSON file (such as modifier JSON), {@link ContextKey#ID} will be used instead.
    */
   public static final ContextKey<ModifierId> CONTEXT_KEY = new ContextKey<>("modifier");

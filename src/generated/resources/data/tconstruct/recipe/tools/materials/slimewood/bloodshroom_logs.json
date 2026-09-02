@@ -4,7 +4,9 @@
     "neoforge:ingredient_type": "mantle:item_tag",
     "tag": "tconstruct:bloodshroom_logs"
   },
-  "leftover": "tconstruct:bloodshroom_planks",
+  "leftover": {
+    "id": "tconstruct:bloodshroom_planks"
+  },
   "material": "tconstruct:slimewood#bloodshroom",
   "needed": 1,
   "value": 4

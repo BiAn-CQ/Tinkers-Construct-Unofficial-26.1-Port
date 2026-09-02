@@ -3,7 +3,7 @@
   "ingredient": "tconstruct:ender_congealed_slime",
   "result": {
     "amount": 1000,
-    "fluid": "tconstruct:ender_slime"
+    "id": "tconstruct:ender_slime"
   },
   "temperature": 70,
   "time": 64

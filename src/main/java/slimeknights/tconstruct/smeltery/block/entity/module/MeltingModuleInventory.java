@@ -1,28 +1,30 @@
 package slimeknights.tconstruct.smeltery.block.entity.module;
 
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.fluids.capability.IFluidHandler;
-import net.neoforged.neoforge.fluids.capability.IFluidHandler.FluidAction;
-import net.neoforged.neoforge.items.IItemHandlerModifiable;
-import net.neoforged.neoforge.items.ItemHandlerHelper;
+import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.fluid.FluidResource;
+import net.neoforged.neoforge.transfer.transaction.Transaction;
+import net.neoforged.neoforge.transfer.item.ItemResource;
+import net.neoforged.neoforge.transfer.item.ItemStacksResourceHandler;
+import net.neoforged.neoforge.transfer.IndexModifier;
 import slimeknights.mantle.block.entity.MantleBlockEntity;
 import slimeknights.tconstruct.library.recipe.melting.IMeltingContainer.IOreRate;
 import slimeknights.tconstruct.library.recipe.melting.IMeltingRecipe;
 
-import javax.annotation.Nonnull;
 import java.util.Arrays;
 import java.util.function.Consumer;
 
 /**
  * Inventory composite made of a set of melting module inventories
  */
-public class MeltingModuleInventory implements IItemHandlerModifiable {
+public class MeltingModuleInventory extends ItemStacksResourceHandler implements IndexModifier<ItemResource> {
   /**
    * There are {@link Short#MAX_VALUE} data slots in a standard container instance.
    * The smeltery requires 6 slots for fuel syncing. It also requires 3 slots per inventory slot.
@@ -37,7 +39,7 @@ public class MeltingModuleInventory implements IItemHandlerModifiable {
   /** Parent tile entity */
   private final MantleBlockEntity parent;
   /** Fluid handler for outputs */
-  protected final IFluidHandler fluidHandler;
+  protected final ResourceHandler<FluidResource> fluidHandler;
   /** Array of modules containing each slot */
   private MeltingModule[] modules;
   /** If true, module cannot be resized */
@@ -52,7 +54,8 @@ public class MeltingModuleInventory implements IItemHandlerModifiable {
    * @param oreRate        Ore rate
    * @param size           Size
    */
-  public MeltingModuleInventory(MantleBlockEntity parent, IFluidHandler fluidHandler, IOreRate oreRate, int size) {
+  public MeltingModuleInventory(MantleBlockEntity parent, ResourceHandler<FluidResource> fluidHandler, IOreRate oreRate, int size) {
+    super(size);
     this.parent = parent;
     this.fluidHandler = fluidHandler;
     this.modules = new MeltingModule[size];
@@ -66,16 +69,11 @@ public class MeltingModuleInventory implements IItemHandlerModifiable {
    * @param fluidHandler   Tank for output
    * @param oreRate        Ore rate
    */
-  public MeltingModuleInventory(MantleBlockEntity parent, IFluidHandler fluidHandler, IOreRate oreRate) {
+  public MeltingModuleInventory(MantleBlockEntity parent, ResourceHandler<FluidResource> fluidHandler, IOreRate oreRate) {
     this(parent, fluidHandler, oreRate, 0);
   }
 
   /* Properties */
-
-  @Override
-  public int getSlots() {
-    return modules.length;
-  }
 
   /**
    * Checks if the given slot index is valid
@@ -83,17 +81,7 @@ public class MeltingModuleInventory implements IItemHandlerModifiable {
    * @return  True if valid
    */
   public boolean validSlot(int slot) {
-    return slot >= 0 && slot < getSlots();
-  }
-
-  @Override
-  public int getSlotLimit(int slot) {
-    return 1;
-  }
-
-  @Override
-  public boolean isItemValid(int slot, ItemStack stack) {
-    return true;
+    return slot >= 0 && slot < size();
   }
 
   /** Returns true if a slot is defined in the array */
@@ -142,7 +130,11 @@ public class MeltingModuleInventory implements IItemHandlerModifiable {
       throw new IndexOutOfBoundsException();
     }
     if (modules[slot] == null) {
-      modules[slot] = new MeltingModule(parent, recipe -> tryFillTank(slot, recipe), oreRate, slot);
+      modules[slot] = new MeltingModule(parent, recipe -> tryFillTank(slot, recipe), oreRate, slot,
+                                        stack -> set(slot, ItemResource.of(stack), stack.getCount()));
+      if (!stacks.get(slot).isEmpty()) {
+        modules[slot].updateStackFromInventory(stacks.get(slot));
+      }
     }
     return modules[slot];
   }
@@ -173,83 +165,28 @@ public class MeltingModuleInventory implements IItemHandlerModifiable {
       }
     }
 
-    // resize the module array
+    NonNullList<ItemStack> resizedStacks = NonNullList.withSize(newSize, ItemStack.EMPTY);
+    for (int i = 0; i < Math.min(newSize, stacks.size()); i++) {
+      resizedStacks.set(i, stacks.get(i));
+    }
     modules = Arrays.copyOf(modules, newSize);
+    setStacks(resizedStacks);
     parent.setChangedFast();
   }
 
 
-  /* Item handling */
-
-  @Nonnull
   @Override
-  public ItemStack getStackInSlot(int slot) {
-    if (validSlot(slot)) {
-      // don't create the slot, just reading
-      if (modules[slot] != null) {
-        return modules[slot].getStack();
-      }
-    }
-    return ItemStack.EMPTY;
+  protected int getCapacity(int index, ItemResource resource) {
+    return 1;
   }
 
   @Override
-  public void setStackInSlot(int slot, ItemStack stack) {
-    // actually set the stack
-    if (validSlot(slot)) {
-      if (stack.isEmpty()) {
-        if (modules[slot] != null) {
-          modules[slot].setStack(ItemStack.EMPTY);
-        }
-      } else {
-        // validate size
-        if (stack.getCount() > 1) {
-          stack.setCount(1);
-        }
-        getModule(slot).setStack(stack);
-      }
-    }
-  }
-
-  @Nonnull
-  @Override
-  public ItemStack insertItem(int slot, ItemStack stack, boolean simulate) {
-    if (stack.isEmpty()) {
-      return ItemStack.EMPTY;
-    }
-    if (slot < 0 || slot >= getSlots()) {
-      return stack;
-    }
-
-    // if the slot is empty, we can insert. Ignores stack sizes at this time, assuming always 1
-    MeltingModule module = getModule(slot);
-    boolean canInsert = module.getStack().isEmpty();
-    if (!simulate && canInsert) {
-      setStackInSlot(slot, slimeknights.tconstruct.library.utils.ItemStackDataUtil.copyStackWithSize(stack, 1));
-    }
-    return canInsert ? slimeknights.tconstruct.library.utils.ItemStackDataUtil.copyStackWithSize(stack, stack.getCount() - 1) : stack;
-  }
-
-  @Nonnull
-  @Override
-  public ItemStack extractItem(int slot, int amount, boolean simulate) {
-    if (amount == 0) {
-      return ItemStack.EMPTY;
-    }
-    if (!validSlot(slot)) {
-      return ItemStack.EMPTY;
-    }
-
-    ItemStack existing = getStackInSlot(slot);
-    if (existing.isEmpty()) {
-      return ItemStack.EMPTY;
-    }
-
-    if (simulate) {
-      return existing.copy();
+  protected void onContentsChanged(int index, ItemStack previousContents) {
+    ItemStack stack = stacks.get(index);
+    if (modules[index] != null || !stack.isEmpty()) {
+      getModule(index).updateStackFromInventory(stack);
     } else {
-      setStackInSlot(slot, ItemStack.EMPTY);
-      return existing;
+      parent.setChangedFast();
     }
   }
 
@@ -278,9 +215,14 @@ public class MeltingModuleInventory implements IItemHandlerModifiable {
    */
   protected boolean tryFillTank(int index, IMeltingRecipe recipe) {
     FluidStack fluid = recipe.getOutput(getModule(index));
-    if (fluidHandler.fill(fluid.copy(), FluidAction.SIMULATE) == fluid.getAmount()) {
-      fluidHandler.fill(fluid, FluidAction.EXECUTE);
-      return true;
+    if (!fluid.isEmpty()) {
+      try (Transaction transaction = Transaction.openRoot()) {
+        int inserted = fluidHandler.insert(FluidResource.of(fluid), fluid.getAmount(), transaction);
+        if (inserted == fluid.getAmount()) {
+          transaction.commit();
+          return true;
+        }
+      }
     }
     return false;
   }
@@ -342,12 +284,14 @@ public class MeltingModuleInventory implements IItemHandlerModifiable {
       int newSize = nbt.getByteOr(TAG_SIZE, (byte)0) & 255;
       if (newSize != modules.length) {
         modules = Arrays.copyOf(modules, newSize);
+        setStacks(NonNullList.withSize(newSize, ItemStack.EMPTY));
       }
     }
     // remove old data
-    for (MeltingModule module : modules) {
-      if (module != null) {
-        module.setStack(ItemStack.EMPTY);
+    for (int i = 0; i < modules.length; i++) {
+      stacks.set(i, ItemStack.EMPTY);
+      if (modules[i] != null) {
+        modules[i].updateStackFromInventory(ItemStack.EMPTY);
       }
     }
 
@@ -357,7 +301,9 @@ public class MeltingModuleInventory implements IItemHandlerModifiable {
       if (item.contains(TAG_SLOT)) {
         int slot = item.getByteOr(TAG_SLOT, (byte)0) & 255;
         if (validSlot(slot)) {
-          getModule(slot).readFromTag(item, provider);
+          MeltingModule module = getModule(slot);
+          module.readFromTag(item, provider);
+          stacks.set(slot, module.getStack());
         }
       }
     }
@@ -377,7 +323,7 @@ public class MeltingModuleInventory implements IItemHandlerModifiable {
    * @param consumer  IIntArray consumer
    */
   public void trackInts(Consumer<ContainerData> consumer) {
-    for (int i = 0; i < getSlots(); i++) {
+    for (int i = 0; i < size(); i++) {
       consumer.accept(getModule(i));
     }
   }

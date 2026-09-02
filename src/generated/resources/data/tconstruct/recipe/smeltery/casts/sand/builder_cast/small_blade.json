@@ -5,5 +5,7 @@
     "neoforge:ingredient_type": "mantle:item_tag",
     "tag": "tconstruct:casts/sand"
   },
-  "result": "tconstruct:small_blade_sand_cast"
+  "result": {
+    "id": "tconstruct:small_blade_sand_cast"
+  }
 }

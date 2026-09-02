@@ -5,5 +5,7 @@
     "neoforge:ingredient_type": "mantle:item_tag",
     "tag": "tconstruct:casts/sand"
   },
-  "result": "tconstruct:pick_head_sand_cast"
+  "result": {
+    "id": "tconstruct:pick_head_sand_cast"
+  }
 }

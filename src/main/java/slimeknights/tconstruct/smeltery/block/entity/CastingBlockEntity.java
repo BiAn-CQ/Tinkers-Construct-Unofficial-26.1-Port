@@ -27,10 +27,9 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.fluids.capability.IFluidHandler;
-import net.neoforged.neoforge.fluids.capability.IFluidHandler.FluidAction;
-import net.neoforged.neoforge.items.ItemHandlerHelper;
-import net.neoforged.neoforge.items.wrapper.SidedInvWrapper;
+import slimeknights.tconstruct.library.utils.SimulationMode;
+import slimeknights.tconstruct.library.utils.ItemTransferUtil;
+import net.neoforged.neoforge.transfer.item.WorldlyContainerWrapper;
 import slimeknights.mantle.fluid.FluidTransferHelper;
 import slimeknights.mantle.util.BlockEntityHelper;
 import slimeknights.tconstruct.TConstruct;
@@ -114,7 +113,7 @@ public abstract class CastingBlockEntity extends TableBlockEntity implements Wor
     super(beType, pos, state, NAME, 2, 1);
     this.requireCast = state.getBlock() instanceof AbstractCastingBlock casting && casting.isRequireCast();
     this.emptyCastTag = emptyCastTag;
-    this.itemHandler = new SidedInvWrapper(this, Direction.DOWN);
+    this.itemHandler = new WorldlyContainerWrapper(this, Direction.DOWN);
     this.castingType = castingType;
     this.moldingType = moldingType;
     this.castingInventory = new CastingContainerWrapper(this);
@@ -174,7 +173,7 @@ public abstract class CastingBlockEntity extends TableBlockEntity implements Wor
         if (recipeHolder != null) {
           MoldingRecipe recipe = recipeHolder.value();
           setItem(INPUT, ItemStack.EMPTY);
-          ItemHandlerHelper.giveItemToPlayer(player, recipe.assemble(moldingInventory, level.registryAccess()), player.getInventory().getSelectedSlot());
+          ItemTransferUtil.giveToPlayer(player, recipe.assemble(moldingInventory, level.registryAccess()), player.getInventory().getSelectedSlot());
           return;
         }
       }
@@ -199,7 +198,7 @@ public abstract class CastingBlockEntity extends TableBlockEntity implements Wor
       // can have ItemStacks with stacksize > 1 as output
       // we therefore spill the whole contents on extraction.
       ItemStack stack = getItem(slot);
-      ItemHandlerHelper.giveItemToPlayer(player, stack, player.getInventory().getSelectedSlot());
+      ItemTransferUtil.giveToPlayer(player, stack, player.getInventory().getSelectedSlot());
       setItem(slot, ItemStack.EMPTY);
 
       // send a block update for the comparator, needs to be done after the stack is removed
@@ -374,7 +373,7 @@ public abstract class CastingBlockEntity extends TableBlockEntity implements Wor
    * @param action  EXECUTE or SIMULATE
    * @return        Amount of fluid needed for recipe, used to resize the tank.
    */
-  public int initNewCasting(FluidStack fluid, IFluidHandler.FluidAction action) {
+  public int initNewCasting(FluidStack fluid, SimulationMode action) {
     if (this.currentRecipe != null || this.recipeName != null) {
       return 0;
     }
@@ -398,7 +397,7 @@ public abstract class CastingBlockEntity extends TableBlockEntity implements Wor
       RecipeHolder<ICastingRecipe> castingRecipeHolder = findCastingRecipe();
       if (castingRecipeHolder != null) {
         ICastingRecipe castingRecipe = castingRecipeHolder.value();
-        if (action == FluidAction.EXECUTE) {
+        if (action == SimulationMode.EXECUTE) {
           this.currentRecipe = castingRecipeHolder;
           this.recipeName = null;
           this.lastOutput = null;
@@ -411,7 +410,7 @@ public abstract class CastingBlockEntity extends TableBlockEntity implements Wor
       RecipeHolder<ICastingRecipe> castingRecipeHolder = findCastingRecipe();
       if (castingRecipeHolder != null) {
         ICastingRecipe castingRecipe = castingRecipeHolder.value();
-        if (action == FluidAction.EXECUTE) {
+        if (action == SimulationMode.EXECUTE) {
           this.currentRecipe = castingRecipeHolder;
           this.recipeName = null;
           this.lastOutput = null;
@@ -465,7 +464,7 @@ public abstract class CastingBlockEntity extends TableBlockEntity implements Wor
     if (fluid.isEmpty()) {
       reset();
     } else {
-      int capacity = initNewCasting(fluid, FluidAction.EXECUTE);
+      int capacity = initNewCasting(fluid, SimulationMode.EXECUTE);
       if (capacity > 0) {
         tank.setCapacity(capacity);
       }

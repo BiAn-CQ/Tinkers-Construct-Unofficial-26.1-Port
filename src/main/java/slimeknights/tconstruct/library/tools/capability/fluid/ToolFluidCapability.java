@@ -1,14 +1,18 @@
 package slimeknights.tconstruct.library.tools.capability.fluid;
 
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import net.minecraft.resources.Identifier;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.capabilities.ItemCapability;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.fluids.capability.IFluidHandlerItem;
+import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.TransferPreconditions;
 import net.neoforged.neoforge.transfer.access.ItemAccess;
+import net.neoforged.neoforge.transfer.fluid.FluidResource;
+import net.neoforged.neoforge.transfer.item.ItemResource;
+import net.neoforged.neoforge.transfer.transaction.TransactionContext;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.modifiers.ModifierEntry;
 import slimeknights.tconstruct.library.modifiers.ModifierHooks;
@@ -18,19 +22,17 @@ import slimeknights.tconstruct.library.tools.nbt.IModDataView;
 import slimeknights.tconstruct.library.tools.nbt.IToolStackView;
 import slimeknights.tconstruct.library.tools.nbt.ModDataNBT;
 import slimeknights.tconstruct.library.tools.nbt.ToolStack;
-import slimeknights.tconstruct.library.utils.TinkerCapabilityAdapters;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.Objects;
 import java.util.function.Supplier;
 
 /**
  * Logic to make a tool a fluid handler
  */
-@RequiredArgsConstructor
-public class ToolFluidCapability extends FluidModifierHookIterator<ModifierEntry> implements IFluidHandlerItem {
+public class ToolFluidCapability extends FluidModifierHookIterator<ModifierEntry> implements ResourceHandler<FluidResource> {
   /** Boolean key to set in volatile mod data to enable the fluid capability */
   public static final Identifier TOTAL_TANKS = TConstruct.getResource("total_tanks");
 
@@ -47,30 +49,40 @@ public class ToolFluidCapability extends FluidModifierHookIterator<ModifierEntry
     }
 
     @Override
-    public int fill(IToolStackView tool, ModifierEntry modifier, FluidStack resource, FluidAction action) {
+    public int insert(IToolStackView tool, ModifierEntry modifier, int tank, FluidStack resource) {
       return 0;
     }
 
     @Override
-    public FluidStack drain(IToolStackView tool, ModifierEntry modifier, FluidStack resource, FluidAction action) {
+    public FluidStack extract(IToolStackView tool, ModifierEntry modifier, int tank, FluidStack resource) {
       return FluidStack.EMPTY;
     }
 
     @Override
-    public FluidStack drain(IToolStackView tool, ModifierEntry modifier, int maxDrain, FluidAction action) {
+    public FluidStack extract(IToolStackView tool, ModifierEntry modifier, int tank, int maxDrain) {
       return FluidStack.EMPTY;
     }
   });
 
-  @Getter
-  private final ItemStack container;
-  private final Supplier<? extends IToolStackView> tool;
+  private final ItemAccess itemAccess;
+  private final Item validItem;
+
+  public ToolFluidCapability(ItemAccess itemAccess) {
+    this.itemAccess = itemAccess;
+    this.validItem = itemAccess.getResource().getItem();
+  }
 
   /* Basic inventory */
 
   @Override
-  public int getTanks() {
-    return tool.get().getVolatileData().getIntOr(TOTAL_TANKS, 0);
+  public int size() {
+    return itemAccess.getResource().is(validItem)
+      ? getTool().getVolatileData().getIntOr(TOTAL_TANKS, 0)
+      : 0;
+  }
+
+  private IToolStackView getTool() {
+    return ToolStack.from(itemAccess.getResource().toStack());
   }
 
   @Override
@@ -84,71 +96,105 @@ public class ToolFluidCapability extends FluidModifierHookIterator<ModifierEntry
     return entry.getHook(HOOK);
   }
 
-  @Nonnull
   @Override
-  public FluidStack getFluidInTank(int tank) {
-    IToolStackView tool = this.tool.get();
+  public FluidResource getResource(int tank) {
+    Objects.checkIndex(tank, size());
+    IToolStackView tool = getTool();
     FluidModifierHook hook = findHook(tool, tank);
     if (hook != null) {
-      return hook.getFluidInTank(tool, indexEntry, tank - startIndex);
+      return FluidResource.of(hook.getFluidInTank(tool, indexEntry, tank - startIndex));
     }
-    return FluidStack.EMPTY;
+    return FluidResource.EMPTY;
   }
 
   @Override
-  public int getTankCapacity(int tank) {
-    IToolStackView tool = this.tool.get();
+  public long getAmountAsLong(int tank) {
+    Objects.checkIndex(tank, size());
+    IToolStackView tool = getTool();
     FluidModifierHook hook = findHook(tool, tank);
     if (hook != null) {
-      return hook.getTankCapacity(tool, indexEntry, tank - startIndex);
+      return (long) itemAccess.getAmount()
+        * hook.getFluidInTank(tool, indexEntry, tank - startIndex).getAmount();
     }
     return 0;
   }
 
   @Override
-  public boolean isFluidValid(int tank, FluidStack stack) {
-    IToolStackView tool = this.tool.get();
+  public long getCapacityAsLong(int tank, FluidResource resource) {
+    Objects.checkIndex(tank, size());
+    IToolStackView tool = getTool();
     FluidModifierHook hook = findHook(tool, tank);
-    if (hook != null) {
-      return hook.isFluidValid(tool, indexEntry, tank - startIndex, stack);
+    if (hook != null && (resource.isEmpty()
+        || hook.isFluidValid(tool, indexEntry, tank - startIndex, resource.toStack(1)))) {
+      return (long) itemAccess.getAmount()
+        * hook.getTankCapacity(tool, indexEntry, tank - startIndex);
     }
-    return false;
+    return 0;
   }
 
   @Override
-  public int fill(FluidStack resource, FluidAction action) {
-    return fill(tool.get(), resource, action);
+  public boolean isValid(int tank, FluidResource resource) {
+    Objects.checkIndex(tank, size());
+    TransferPreconditions.checkNonEmpty(resource);
+    IToolStackView tool = getTool();
+    FluidModifierHook hook = findHook(tool, tank);
+    return hook != null && hook.isFluidValid(tool, indexEntry, tank - startIndex, resource.toStack(1));
   }
 
-  /** Scales the result for the given stack size */
-  private static FluidStack scaleResult(FluidStack stack, int size) {
-    if (size > 1 && !stack.isEmpty()) {
-      stack.setAmount(stack.getAmount() * size);
-    }
-    return stack;
-  }
-
-  @Nonnull
   @Override
-  public FluidStack drain(FluidStack resource, FluidAction action) {
-    if (resource.isEmpty()) {
-      return FluidStack.EMPTY;
+  public int insert(int tank, FluidResource resource, int amount, TransactionContext transaction) {
+    Objects.checkIndex(tank, size());
+    TransferPreconditions.checkNonEmptyNonNegative(resource, amount);
+    int itemCount = itemAccess.getAmount();
+    if (itemCount == 0) {
+      return 0;
     }
-    int size = container.getCount();
-    if (size > 1) {
-      resource = resource.copyWithAmount(resource.getAmount() / size);
+    int amountPerItem = amount / itemCount;
+    if (amountPerItem <= 0) {
+      return 0;
     }
-    return scaleResult(drain(tool.get(), resource, action), size);
+
+    ItemStack updatedStack = itemAccess.getResource().toStack();
+    IToolStackView updatedTool = ToolStack.from(updatedStack);
+    FluidModifierHook hook = findHook(updatedTool, tank);
+    if (hook == null) {
+      return 0;
+    }
+    int insertedPerItem = hook.insert(updatedTool, indexEntry, tank - startIndex,
+      resource.toStack(amountPerItem));
+    if (insertedPerItem <= 0 || insertedPerItem > amountPerItem) {
+      return 0;
+    }
+    int exchanged = itemAccess.exchange(ItemResource.of(updatedStack), itemCount, transaction);
+    return exchanged == itemCount ? insertedPerItem * itemCount : 0;
   }
 
-  @Nonnull
   @Override
-  public FluidStack drain(int maxDrain, FluidAction action) {
-    if (maxDrain < 0) {
-      return FluidStack.EMPTY;
+  public int extract(int tank, FluidResource resource, int amount, TransactionContext transaction) {
+    Objects.checkIndex(tank, size());
+    TransferPreconditions.checkNonEmptyNonNegative(resource, amount);
+    int itemCount = itemAccess.getAmount();
+    if (itemCount == 0) {
+      return 0;
     }
-    int size = container.getCount();
-    return scaleResult(drain(tool.get(), maxDrain / size, action), size);
+    int amountPerItem = amount / itemCount;
+    if (amountPerItem <= 0) {
+      return 0;
+    }
+
+    ItemStack updatedStack = itemAccess.getResource().toStack();
+    IToolStackView updatedTool = ToolStack.from(updatedStack);
+    FluidModifierHook hook = findHook(updatedTool, tank);
+    if (hook == null) {
+      return 0;
+    }
+    FluidStack extracted = hook.extract(updatedTool, indexEntry, tank - startIndex,
+      resource.toStack(amountPerItem));
+    if (extracted.isEmpty() || extracted.getAmount() > amountPerItem || !resource.matches(extracted)) {
+      return 0;
+    }
+    int exchanged = itemAccess.exchange(ItemResource.of(updatedStack), itemCount, transaction);
+    return exchanged == itemCount ? extracted.getAmount() * itemCount : 0;
   }
 
   /** Adds the tanks from the fluid modifier to the tool */
@@ -158,8 +204,8 @@ public class ToolFluidCapability extends FluidModifierHookIterator<ModifierEntry
 
   /**
    * Interface for modifiers with fluid capabilities to return.
-   * @deprecated We are considering removing this interface in favor of a much simpler tool tank implementation.
-   * For most use-cases {@link ToolTankHelper} is sufficient. If it does not cover your usecase, please leave a comment on <a href="https://github.com/SlimeKnights/TinkersConstruct/issues/5353">GitHub #5353</a>.
+     * @deprecated We are considering removing this interface in favor of a much simpler tool tank implementation.
+     * For most use-cases {@link ToolTankHelper} is sufficient.
    */
   @SuppressWarnings("unused")
   @Deprecated
@@ -209,36 +255,36 @@ public class ToolFluidCapability extends FluidModifierHookIterator<ModifierEntry
     }
 
     /**
-     * Fills fluid into tanks
+     * Inserts fluid into one tank.
      * @param tool      Tool instance
      * @param modifier  Entry instance
-     * @param resource  FluidStack representing the Fluid and maximum amount of fluid to be filled. If you want to store this stack, make a copy
-     * @param action   If SIMULATE, fill will only be simulated.
+     * @param tank      Local tank index for this hook
+     * @param resource  Fluid and maximum amount to insert
      * @return Amount of resource that was (or would have been, if simulated) filled.
      */
-    int fill(IToolStackView tool, ModifierEntry modifier, FluidStack resource, FluidAction action);
+    int insert(IToolStackView tool, ModifierEntry modifier, int tank, FluidStack resource);
 
     /**
-     * Drains fluid out of tanks, distribution is left entirely to the IFluidHandler.
+     * Extracts a matching fluid from one tank.
      * @param tool      Tool instance
      * @param modifier  Entry instance
-     * @param resource  FluidStack representing the Fluid and maximum amount of fluid to be drained.
-     * @param action    If SIMULATE, drain will only be simulated.
+     * @param tank      Local tank index for this hook
+     * @param resource  Fluid and maximum amount to extract
      * @return FluidStack representing the Fluid and amount that was (or would have been, if
      * simulated) drained.
      */
-    FluidStack drain(IToolStackView tool, ModifierEntry modifier, FluidStack resource, FluidAction action);
+    FluidStack extract(IToolStackView tool, ModifierEntry modifier, int tank, FluidStack resource);
 
     /**
-     * Drains fluid out of internal tanks, distribution is left entirely to the IFluidHandler.
+     * Extracts any fluid from one tank.
      * @param tool      Tool instance
      * @param modifier  Entry instance
-     * @param maxDrain  Maximum amount of fluid to drain.
-     * @param action    If SIMULATE, drain will only be simulated.
+     * @param tank      Local tank index for this hook
+     * @param maxDrain  Maximum amount of fluid to extract
      * @return FluidStack representing the Fluid and amount that was (or would have been, if
      * simulated) drained.
      */
-    FluidStack drain(IToolStackView tool, ModifierEntry modifier, int maxDrain, FluidAction action);
+    FluidStack extract(IToolStackView tool, ModifierEntry modifier, int tank, int maxDrain);
   }
 
   /** Logic to merge multiple fluid hooks */
@@ -300,21 +346,21 @@ public class ToolFluidCapability extends FluidModifierHookIterator<ModifierEntry
     }
 
     @Override
-    public int fill(IToolStackView tool, ModifierEntry modifier, FluidStack resource, FluidAction action) {
-      indexEntry = modifier;
-      return fill(tool, resource, action);
+    public int insert(IToolStackView tool, ModifierEntry modifier, int tank, FluidStack resource) {
+      FluidModifierHook hook = findHook(tool, modifier, tank);
+      return hook == null ? 0 : hook.insert(tool, modifier, tank - startIndex, resource);
     }
 
     @Override
-    public FluidStack drain(IToolStackView tool, ModifierEntry modifier, FluidStack resource, FluidAction action) {
-      indexEntry = modifier;
-      return drain(tool, resource, action);
+    public FluidStack extract(IToolStackView tool, ModifierEntry modifier, int tank, FluidStack resource) {
+      FluidModifierHook hook = findHook(tool, modifier, tank);
+      return hook == null ? FluidStack.EMPTY : hook.extract(tool, modifier, tank - startIndex, resource);
     }
 
     @Override
-    public FluidStack drain(IToolStackView tool, ModifierEntry modifier, int maxDrain, FluidAction action) {
-      indexEntry = modifier;
-      return drain(tool, maxDrain, action);
+    public FluidStack extract(IToolStackView tool, ModifierEntry modifier, int tank, int maxDrain) {
+      FluidModifierHook hook = findHook(tool, modifier, tank);
+      return hook == null ? FluidStack.EMPTY : hook.extract(tool, modifier, tank - startIndex, maxDrain);
     }
   }
 
@@ -328,14 +374,9 @@ public class ToolFluidCapability extends FluidModifierHookIterator<ModifierEntry
     public <T,C> T getCapability(IToolStackView tool, ItemCapability<T,C> cap, C context) {
       if (cap == Capabilities.Fluid.ITEM && context instanceof ItemAccess itemAccess
           && tool.getVolatileData().getIntOr(TOTAL_TANKS, 0) > 0) {
-        return cap.typeClass().cast(TinkerCapabilityAdapters.fluidItemResource(itemAccess, Provider::createHandler));
+        return cap.typeClass().cast(new ToolFluidCapability(itemAccess));
       }
       return null;
-    }
-
-    private static IFluidHandlerItem createHandler(ItemStack stack) {
-      ToolStack tool = ToolStack.from(stack);
-      return new ToolFluidCapability(stack, () -> tool);
     }
   }
 }

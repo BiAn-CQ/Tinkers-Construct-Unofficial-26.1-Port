@@ -11,7 +11,7 @@ import net.minecraft.world.item.component.CustomData;
 import javax.annotation.Nullable;
 import java.util.function.Consumer;
 
-/** Helpers for the 1.21 item custom-data component, replacing legacy ItemStack NBT access. */
+/** Helpers for the item custom-data component. */
 public final class ItemStackDataUtil {
   private ItemStackDataUtil() {}
 

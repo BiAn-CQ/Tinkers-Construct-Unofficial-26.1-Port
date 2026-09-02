@@ -2,10 +2,12 @@
   "type": "tconstruct:showcase",
   "title": "スロット不要の改造",
   "item": {
-    "type": "forge:nbt",
-    "item": "tconstruct:creative_slot",
-    "nbt": {
-      "slot": "slotless"
+    "id": "tconstruct:creative_slot",
+    "components": {
+      "minecraft:custom_data": {
+        "slot": "slotless"
+
+      }
     }
   },
   "tooltip": [ "スロット不要アイコン" ],

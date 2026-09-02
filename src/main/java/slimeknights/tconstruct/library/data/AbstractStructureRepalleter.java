@@ -67,11 +67,7 @@ public abstract class AbstractStructureRepalleter extends GenericNBTProvider {
     for (Entry<Identifier,Collection<RepaletteTask>> entry : structures.asMap().entrySet()) {
       Identifier original = entry.getKey();
 
-      // GatherData's resource manager reads the source tree before Gradle's
-      // processResources migration renames legacy `structures/` to the 26.1
-      // runtime directory `structure/`. The generated output remains singular
-      // through GenericNBTProvider; only the input lookup uses the source path.
-      Identifier resource = Identifier.fromNamespaceAndPath(original.getNamespace(), "structures/" + original.getPath() + ".nbt");
+      Identifier resource = Identifier.fromNamespaceAndPath(original.getNamespace(), "structure/" + original.getPath() + ".nbt");
       try (InputStream io = resourceManager.getResourceOrThrow(resource).open()) {
         CompoundTag inputNBT = NbtIo.readCompressed(io, NbtAccounter.unlimitedHeap());
         for (RepaletteTask task : entry.getValue()) {

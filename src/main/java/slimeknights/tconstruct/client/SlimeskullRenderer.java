@@ -18,7 +18,7 @@ import net.minecraft.world.level.block.SkullBlock;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.client.materials.MaterialRenderInfo;
 import slimeknights.tconstruct.library.client.materials.MaterialRenderInfoLoader;
-import slimeknights.tconstruct.library.compat.ArmorItem;
+import slimeknights.tconstruct.library.tools.definition.ArmorSlotType;
 import slimeknights.tconstruct.library.materials.definition.IMaterial;
 import slimeknights.tconstruct.library.materials.definition.MaterialId;
 import slimeknights.tconstruct.library.materials.definition.MaterialVariantId;
@@ -46,7 +46,7 @@ public final class SlimeskullRenderer {
                                 OrderedSubmitNodeCollector collector, int lightCoords, int outlineColor) {
     if (!(armorModel instanceof HumanoidModel<?> humanoidModel)
         || !(state instanceof HumanoidRenderState humanoidState)
-        || !stack.is(TinkerTools.slimesuit.get(ArmorItem.Type.HELMET))) {
+        || !stack.is(TinkerTools.slimesuit.get(ArmorSlotType.HELMET))) {
       return;
     }
 

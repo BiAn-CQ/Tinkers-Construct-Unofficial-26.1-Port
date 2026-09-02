@@ -23,9 +23,8 @@ import net.neoforged.neoforge.model.data.ModelData;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.FluidType;
-import net.neoforged.neoforge.fluids.capability.IFluidHandler;
-import net.neoforged.neoforge.items.ItemHandlerHelper;
-import net.neoforged.neoforge.items.wrapper.SidedInvWrapper;
+import slimeknights.tconstruct.library.utils.ItemTransferUtil;
+import net.neoforged.neoforge.transfer.item.WorldlyContainerWrapper;
 import slimeknights.mantle.fluid.FluidTransferHelper;
 import slimeknights.mantle.fluid.transfer.FluidContainerTransferManager;
 import slimeknights.mantle.fluid.transfer.IFluidContainerTransfer;
@@ -95,7 +94,7 @@ public class CastingTankBlockEntity extends TableBlockEntity implements ITankBlo
   protected CastingTankBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state, ITankBlock block) {
     super(type, pos, state, NAME, 2, 1);
     tank = new FluidTankAnimated(block.getCapacity(), this);
-    itemHandler = new SidedInvWrapper(this, Direction.DOWN);
+    itemHandler = new WorldlyContainerWrapper(this, Direction.DOWN);
   }
 
   /**
@@ -121,11 +120,11 @@ public class CastingTankBlockEntity extends TableBlockEntity implements ITankBlo
       // if there is an item in the output slot, take it
       if (!output.isEmpty()) {
         setItem(OUTPUT, ItemStack.EMPTY);
-        ItemHandlerHelper.giveItemToPlayer(player, output, player.getInventory().getSelectedSlot());
+        ItemTransferUtil.giveToPlayer(player, output, player.getInventory().getSelectedSlot());
         // next try to take the item from the input slot
       } else if (!input.isEmpty()) {
         setItem(INPUT, ItemStack.EMPTY);
-        ItemHandlerHelper.giveItemToPlayer(player, input, player.getInventory().getSelectedSlot());
+        ItemTransferUtil.giveToPlayer(player, input, player.getInventory().getSelectedSlot());
         // if no item in the tank, try to place a held item in the input
       } else if (!held.isEmpty() && canPlaceItem(INPUT, held)) {
         setItem(INPUT, held.split(1));
@@ -229,7 +228,7 @@ public class CastingTankBlockEntity extends TableBlockEntity implements ITankBlo
    * Tank methods
    */
 
-  public IFluidHandler getFluidCapability() {
+  public FluidTankAnimated getFluidCapability() {
     return tank;
   }
 

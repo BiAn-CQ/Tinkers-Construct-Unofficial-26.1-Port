@@ -13,5 +13,7 @@
     "amount": 10,
     "tag": "c:molten_zinc"
   },
-  "result": "create:andesite_alloy"
+  "result": {
+    "id": "create:andesite_alloy"
+  }
 }

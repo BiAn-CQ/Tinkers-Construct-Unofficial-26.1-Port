@@ -4,8 +4,11 @@ import com.google.common.collect.Maps;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TextColor;
-import slimeknights.tconstruct.library.compat.Tier;
-import slimeknights.tconstruct.library.compat.Tiers;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.item.ToolMaterial;
+import net.minecraft.world.level.block.Block;
+import net.neoforged.neoforge.common.Tags;
 import slimeknights.mantle.client.ResourceColorManager;
 import slimeknights.mantle.data.listener.ISafeManagerReloadListener;
 import slimeknights.tconstruct.TConstruct;
@@ -20,12 +23,12 @@ public class HarvestTiers {
   private HarvestTiers() {}
 
   /** Cache of name for each tier */
-  private static final Map<Tier, Component> harvestLevelNames = Maps.newHashMap();
+  private static final Map<ToolMaterial, Component> harvestLevelNames = Maps.newHashMap();
   /** Listener to clear name cache so we get new colors */
   public static final ISafeManagerReloadListener RELOAD_LISTENER = manager -> harvestLevelNames.clear();
 
   /** Makes a translation key for the given name */
-  private static MutableComponent makeLevelKey(Tier tier) {
+  private static MutableComponent makeLevelKey(ToolMaterial tier) {
     String key = Util.makeTranslationKey("harvest_tier", TierRegistry.getName(tier));
     TextColor color = ResourceColorManager.getTextColor(key);
     return TConstruct.makeTranslation("stat", key).withStyle(style -> style.withColor(color));
@@ -33,16 +36,16 @@ public class HarvestTiers {
 
   /**
    * Gets the harvest level name for the given level number
-   * @param tier  Tier
+   * @param tier  ToolMaterial
    * @return  Level name
    */
-  public static Component getName(Tier tier) {
+  public static Component getName(ToolMaterial tier) {
     return harvestLevelNames.computeIfAbsent(tier, n ->  makeLevelKey(tier));
   }
 
   /** Gets the larger of two tiers */
-  public static Tier max(Tier a, Tier b) {
-    List<Tier> sorted = TierRegistry.getSortedTiers();
+  public static ToolMaterial max(ToolMaterial a, ToolMaterial b) {
+    List<ToolMaterial> sorted = TierRegistry.getSortedTiers();
     // note indexOf returns -1 if the tier is missing, so the larger of an unsorted tier and a sorted one is the sorted one
     if (sorted.indexOf(b) > sorted.indexOf(a)) {
       return b;
@@ -51,8 +54,8 @@ public class HarvestTiers {
   }
 
   /** Gets the smaller of two tiers */
-  public static Tier min(Tier a, Tier b) {
-    List<Tier> sorted = TierRegistry.getSortedTiers();
+  public static ToolMaterial min(ToolMaterial a, ToolMaterial b) {
+    List<ToolMaterial> sorted = TierRegistry.getSortedTiers();
     // note indexOf returns -1 if the tier is missing, so the smaller of an unsorted tier and a sorted one is the unsorted one
     if (sorted.indexOf(b) < sorted.indexOf(a)) {
       return b;
@@ -61,12 +64,35 @@ public class HarvestTiers {
   }
 
   /** Gets the smallest tier in the sorting registry */
-  public static Tier minTier() {
-    List<Tier> sortedTiers = TierRegistry.getSortedTiers();
+  public static ToolMaterial minTier() {
+    List<ToolMaterial> sortedTiers = TierRegistry.getSortedTiers();
     if (sortedTiers.isEmpty()) {
       TConstruct.LOG.error("No sorted tiers exist, this should not happen");
-      return Tiers.WOOD;
+      return ToolMaterial.WOOD;
     }
     return sortedTiers.get(0);
+  }
+
+  /** Gets the block tag populated for the given vanilla tool material. */
+  public static TagKey<Block> getRequiredTag(ToolMaterial material) {
+    if (material.equals(ToolMaterial.WOOD)) {
+      return Tags.Blocks.NEEDS_WOOD_TOOL;
+    }
+    if (material.equals(ToolMaterial.GOLD)) {
+      return Tags.Blocks.NEEDS_GOLD_TOOL;
+    }
+    if (material.equals(ToolMaterial.STONE)) {
+      return BlockTags.NEEDS_STONE_TOOL;
+    }
+    if (material.equals(ToolMaterial.IRON)) {
+      return BlockTags.NEEDS_IRON_TOOL;
+    }
+    if (material.equals(ToolMaterial.DIAMOND)) {
+      return BlockTags.NEEDS_DIAMOND_TOOL;
+    }
+    if (material.equals(ToolMaterial.NETHERITE)) {
+      return Tags.Blocks.NEEDS_NETHERITE_TOOL;
+    }
+    throw new IllegalArgumentException("Unknown tool material");
   }
 }

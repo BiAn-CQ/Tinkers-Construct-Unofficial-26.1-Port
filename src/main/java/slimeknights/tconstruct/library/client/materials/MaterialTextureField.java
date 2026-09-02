@@ -4,11 +4,9 @@ import com.google.gson.JsonNull;
 import com.google.gson.JsonObject;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.Identifier;
-import net.minecraft.util.GsonHelper;
 import slimeknights.mantle.data.loadable.field.RecordField;
 import slimeknights.mantle.util.JsonHelper;
 import slimeknights.mantle.util.typed.TypedMap;
-import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.materials.definition.MaterialVariantId;
 
 import javax.annotation.Nullable;
@@ -25,13 +23,8 @@ enum MaterialTextureField implements RecordField<Identifier, MaterialRenderInfo>
     if (json.has("texture")) {
       return JsonHelper.getIdentifier(json, "texture", null);
     }
-    MaterialVariantId material = Objects.requireNonNull(context.get(MaterialVariantId.CONTEXT_KEY), "Unable to fetch material variant from context, this usually implements a broken JSON deserializer");
-    // legacy support for old skip unique texture boolean, remove at some point in the future
-    if (GsonHelper.getAsBoolean(json, "skipUniqueTexture", false)) {
-      TConstruct.LOG.warn("Using deprecated boolean skipUniqueTexture on material " + material + ", just set 'texture' to 'null'");
-      return null;
-    }
-    return material.getLocation('_');
+    return Objects.requireNonNull(context.get(MaterialVariantId.CONTEXT_KEY),
+      "Unable to fetch material variant from context, this usually implements a broken JSON deserializer").getLocation('_');
   }
 
   @Override

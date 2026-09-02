@@ -13,7 +13,7 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.decoration.ArmorStand;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
-import slimeknights.tconstruct.library.compat.ArmorItem;
+import slimeknights.tconstruct.library.tools.item.armor.ModifiableArmorItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag.Default;
@@ -147,7 +147,7 @@ public abstract class ToolTableScreen<T extends BlockEntity, C extends TabbedCon
       if (!stack.isEmpty()) {
         ItemStack copy = stack.copy();
         Item item = stack.getItem();
-        if (item instanceof ArmorItem armor) {
+        if (item instanceof ModifiableArmorItem armor) {
           this.armorStandPreview.setItemSlot(armor.getEquipmentSlot(), copy);
         } else {
           this.armorStandPreview.setItemSlot(EquipmentSlot.OFFHAND, copy);

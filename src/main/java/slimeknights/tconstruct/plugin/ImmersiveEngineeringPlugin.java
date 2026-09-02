@@ -20,7 +20,7 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.HitResult.Type;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.fluids.capability.IFluidHandler.FluidAction;
+import slimeknights.tconstruct.library.utils.SimulationMode;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import slimeknights.tconstruct.common.TinkerTags.Fluids;
 import slimeknights.tconstruct.common.config.Config;
@@ -98,7 +98,7 @@ public class ImmersiveEngineeringPlugin {
         // run the effect and consume projectiles
         float consumed = recipe.applyToEntity(new FluidStack(fluid, amount), 1,
           FluidEffectContext.builder(target.level()).user(shooter).stack(thrower).target(target),
-          FluidAction.EXECUTE);
+          SimulationMode.EXECUTE);
         consumeProjectiles(projectiles, consumed, projectileValue);
       }
     }
@@ -138,7 +138,7 @@ public class ImmersiveEngineeringPlugin {
         // run the effect and consume projectiles
         float consumed = recipe.applyToBlock(new FluidStack(fluid, amount), 1,
           FluidEffectContext.builder(world).user(shooter).stack(thrower).block(hitResult),
-          FluidAction.EXECUTE);
+          SimulationMode.EXECUTE);
         consumeProjectiles(projectiles, consumed, projectileValue);
       }
     }

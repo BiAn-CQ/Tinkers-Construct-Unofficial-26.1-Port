@@ -10,14 +10,13 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.event.EventHooks;
-import net.neoforged.neoforge.items.ItemHandlerHelper;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.modifiers.ModifierEntry;
 import slimeknights.tconstruct.library.recipe.RecipeResult;
 import slimeknights.tconstruct.library.recipe.TinkerRecipeTypes;
 import slimeknights.tconstruct.library.recipe.worktable.IModifierWorktableRecipe;
 import slimeknights.tconstruct.library.tools.nbt.LazyToolStack;
-import slimeknights.tconstruct.shared.inventory.ConfigurableInvWrapperCapability;
+import slimeknights.tconstruct.shared.inventory.ConfigurableContainerResourceHandler;
 import slimeknights.tconstruct.tables.TinkerTables;
 import slimeknights.tconstruct.tables.block.entity.inventory.LazyResultContainer;
 import slimeknights.tconstruct.tables.block.entity.inventory.LazyResultContainer.ILazyCrafter;
@@ -67,7 +66,7 @@ public class ModifierWorktableBlockEntity extends RetexturedTableBlockEntity imp
   public LazyToolStack getResult() { return result; }
   public ModifierWorktableBlockEntity(BlockPos pos, BlockState state) {
     super(TinkerTables.modifierWorktableTile.get(), pos, state, NAME, 3);
-    this.itemHandler = new ConfigurableInvWrapperCapability(this, false, false);
+    this.itemHandler = new ConfigurableContainerResourceHandler(this, false, false);
     this.inventoryWrapper = new ModifierWorktableContainerWrapper(this);
     this.craftingResult = new LazyResultContainer(this);
   }

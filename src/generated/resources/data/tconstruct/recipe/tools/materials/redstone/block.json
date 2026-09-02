@@ -6,7 +6,7 @@
   },
   "leftover": {
     "count": 4,
-    "item": "minecraft:redstone"
+    "id": "minecraft:redstone"
   },
   "material": "tconstruct:redstone",
   "needed": 4,

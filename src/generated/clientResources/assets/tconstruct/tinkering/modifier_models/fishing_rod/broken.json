@@ -5,9 +5,21 @@
     }
   },
   "modifiers": {
-    "tconstruct:emerald": "tconstruct:item/tool/fishing_rod/modifiers/tconstruct_emerald_broken",
-    "tconstruct:netherite": "tconstruct:item/tool/fishing_rod/modifiers/tconstruct_netherite_broken",
-    "tconstruct:overforced": "tconstruct:item/tool/fishing_rod/modifiers/tconstruct_overforced_broken",
-    "tconstruct:reinforced": "tconstruct:item/tool/fishing_rod/modifiers/tconstruct_reinforced_broken"
+    "tconstruct:emerald": {
+      "type": "tconstruct:basic",
+      "texture": "tconstruct:item/tool/fishing_rod/modifiers/tconstruct_emerald_broken"
+    },
+    "tconstruct:netherite": {
+      "type": "tconstruct:basic",
+      "texture": "tconstruct:item/tool/fishing_rod/modifiers/tconstruct_netherite_broken"
+    },
+    "tconstruct:overforced": {
+      "type": "tconstruct:basic",
+      "texture": "tconstruct:item/tool/fishing_rod/modifiers/tconstruct_overforced_broken"
+    },
+    "tconstruct:reinforced": {
+      "type": "tconstruct:basic",
+      "texture": "tconstruct:item/tool/fishing_rod/modifiers/tconstruct_reinforced_broken"
+    }
   }
 }

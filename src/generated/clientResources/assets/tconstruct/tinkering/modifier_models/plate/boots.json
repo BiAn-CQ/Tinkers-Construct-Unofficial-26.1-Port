@@ -27,25 +27,63 @@
     }
   },
   "modifiers": {
-    "tconstruct:depth_strider": "tconstruct:item/tool/armor/plate/boots/modifiers/tconstruct_depth_strider",
-    "tconstruct:diamond": "tconstruct:item/tool/armor/plate/boots/modifiers/tconstruct_diamond",
-    "tconstruct:double_jump": "tconstruct:item/tool/armor/plate/boots/modifiers/tconstruct_double_jump",
-    "tconstruct:emerald": "tconstruct:item/tool/armor/plate/boots/modifiers/tconstruct_emerald",
-    "tconstruct:feather_falling": "tconstruct:item/tool/armor/plate/boots/modifiers/tconstruct_feather_falling",
+    "tconstruct:depth_strider": {
+      "type": "tconstruct:basic",
+      "texture": "tconstruct:item/tool/armor/plate/boots/modifiers/tconstruct_depth_strider"
+    },
+    "tconstruct:diamond": {
+      "type": "tconstruct:basic",
+      "texture": "tconstruct:item/tool/armor/plate/boots/modifiers/tconstruct_diamond"
+    },
+    "tconstruct:double_jump": {
+      "type": "tconstruct:basic",
+      "texture": "tconstruct:item/tool/armor/plate/boots/modifiers/tconstruct_double_jump"
+    },
+    "tconstruct:emerald": {
+      "type": "tconstruct:basic",
+      "texture": "tconstruct:item/tool/armor/plate/boots/modifiers/tconstruct_emerald"
+    },
+    "tconstruct:feather_falling": {
+      "type": "tconstruct:basic",
+      "texture": "tconstruct:item/tool/armor/plate/boots/modifiers/tconstruct_feather_falling"
+    },
     "tconstruct:fiery": {
+      "type": "tconstruct:basic",
       "luminosity": 10,
       "texture": "tconstruct:item/tool/armor/plate/boots/modifiers/tconstruct_fiery"
     },
-    "tconstruct:freezing": "tconstruct:item/tool/armor/plate/boots/modifiers/tconstruct_freezing",
+    "tconstruct:freezing": {
+      "type": "tconstruct:basic",
+      "texture": "tconstruct:item/tool/armor/plate/boots/modifiers/tconstruct_freezing"
+    },
     "tconstruct:lightspeed": {
+      "type": "tconstruct:basic",
       "luminosity": 15,
       "texture": "tconstruct:item/tool/armor/plate/boots/modifiers/tconstruct_lightspeed"
     },
-    "tconstruct:long_fall": "tconstruct:item/tool/armor/plate/boots/modifiers/tconstruct_long_fall",
-    "tconstruct:netherite": "tconstruct:item/tool/armor/plate/boots/modifiers/tconstruct_netherite",
-    "tconstruct:ricochet": "tconstruct:item/tool/armor/plate/boots/modifiers/tconstruct_ricochet",
-    "tconstruct:soulspeed": "tconstruct:item/tool/armor/plate/boots/modifiers/tconstruct_soulspeed",
-    "tconstruct:springy": "tconstruct:item/tool/armor/plate/boots/modifiers/tconstruct_springy",
-    "tconstruct:thorns": "tconstruct:item/tool/armor/plate/boots/modifiers/tconstruct_thorns"
+    "tconstruct:long_fall": {
+      "type": "tconstruct:basic",
+      "texture": "tconstruct:item/tool/armor/plate/boots/modifiers/tconstruct_long_fall"
+    },
+    "tconstruct:netherite": {
+      "type": "tconstruct:basic",
+      "texture": "tconstruct:item/tool/armor/plate/boots/modifiers/tconstruct_netherite"
+    },
+    "tconstruct:ricochet": {
+      "type": "tconstruct:basic",
+      "texture": "tconstruct:item/tool/armor/plate/boots/modifiers/tconstruct_ricochet"
+    },
+    "tconstruct:soulspeed": {
+      "type": "tconstruct:basic",
+      "texture": "tconstruct:item/tool/armor/plate/boots/modifiers/tconstruct_soulspeed"
+    },
+    "tconstruct:springy": {
+      "type": "tconstruct:basic",
+      "texture": "tconstruct:item/tool/armor/plate/boots/modifiers/tconstruct_springy"
+    },
+    "tconstruct:thorns": {
+      "type": "tconstruct:basic",
+      "texture": "tconstruct:item/tool/armor/plate/boots/modifiers/tconstruct_thorns"
+    }
   }
 }

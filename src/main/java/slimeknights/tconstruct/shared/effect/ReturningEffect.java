@@ -2,7 +2,6 @@ package slimeknights.tconstruct.shared.effect;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.Tag;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.entity.LivingEntity;
@@ -15,10 +14,10 @@ import slimeknights.tconstruct.library.events.teleport.ReturningTeleportEvent;
 import slimeknights.tconstruct.library.tools.capability.PersistentDataCapability;
 import slimeknights.tconstruct.library.tools.nbt.ModDataNBT;
 import slimeknights.tconstruct.library.utils.TeleportHelper;
-import slimeknights.tconstruct.library.utils.TagUtil;
 
 public class ReturningEffect extends TinkerEffect {
   private static final Identifier KEY = TConstruct.getResource("returning");
+  private static final String POSITION = "position";
   public ReturningEffect() {
     super(MobEffectCategory.NEUTRAL, 0xa92dff, true);
     NeoForge.EVENT_BUS.<MobEffectEvent.Added>addListener(this::onEffectAdded);
@@ -30,9 +29,10 @@ public class ReturningEffect extends TinkerEffect {
     LivingEntity entity = event.getEntity();
     if (!entity.level().isClientSide() && event.getOldEffectInstance() == null && event.getEffectInstance().getEffect() == this) {
       ModDataNBT data = PersistentDataCapability.getOrWarn(entity);
-      CompoundTag pos = TagUtil.writeBlockPos(entity.blockPosition());
-      pos.putString("dimension", entity.level().dimension().identifier().toString());
-      data.put(KEY, pos);
+      CompoundTag tag = new CompoundTag();
+      tag.store(POSITION, BlockPos.CODEC, entity.blockPosition());
+      tag.putString("dimension", entity.level().dimension().identifier().toString());
+      data.put(KEY, tag);
     }
   }
 
@@ -50,8 +50,8 @@ public class ReturningEffect extends TinkerEffect {
       // no teleporting if you switched dimensions
       // TODO: look into cross dimensional teleport, its doable with entity#teleportTo
       if (dimension != null && dimension.equals(living.level().dimension().identifier())) {
-        BlockPos pos = TagUtil.readBlockPos(tag);
-        TeleportHelper.tryTeleport(new ReturningTeleportEvent(living, pos.getX(), pos.getY(), pos.getZ()));
+        tag.read(POSITION, BlockPos.CODEC).ifPresent(pos ->
+          TeleportHelper.tryTeleport(new ReturningTeleportEvent(living, pos.getX(), pos.getY(), pos.getZ())));
       }
     }
     return true;

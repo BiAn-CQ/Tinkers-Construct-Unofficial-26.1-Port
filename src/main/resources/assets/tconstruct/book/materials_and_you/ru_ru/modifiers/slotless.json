@@ -2,10 +2,12 @@
   "type": "tconstruct:showcase",
   "title": "Модификаторы без слотов",
   "item": {
-    "type": "forge:nbt",
-    "item": "tconstruct:creative_slot",
-    "nbt": {
-      "slot": "slotless"
+    "id": "tconstruct:creative_slot",
+    "components": {
+      "minecraft:custom_data": {
+        "slot": "slotless"
+
+      }
     }
   },
   "tooltip": [ "Иконка слота модификатора без слота" ],

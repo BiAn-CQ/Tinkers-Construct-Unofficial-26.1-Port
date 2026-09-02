@@ -16,5 +16,7 @@
     "amount": 250,
     "tag": "tconstruct:molten_porcelain"
   },
-  "result": "ceramics:porcelain_brick"
+  "result": {
+    "id": "ceramics:porcelain_brick"
+  }
 }

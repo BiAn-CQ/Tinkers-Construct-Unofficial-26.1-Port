@@ -13,5 +13,7 @@
     "amount": 500,
     "tag": "c:magma"
   },
-  "result": "tconstruct:scorched_stone"
+  "result": {
+    "id": "tconstruct:scorched_stone"
+  }
 }

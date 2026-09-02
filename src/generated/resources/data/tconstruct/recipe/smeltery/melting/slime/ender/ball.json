@@ -6,7 +6,7 @@
   },
   "result": {
     "amount": 250,
-    "fluid": "tconstruct:ender_slime"
+    "id": "tconstruct:ender_slime"
   },
   "temperature": 70,
   "time": 32

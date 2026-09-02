@@ -10,5 +10,7 @@
     "amount": 200,
     "tag": "tconstruct:blazing_blood"
   },
-  "result": "minecraft:magma_block"
+  "result": {
+    "id": "minecraft:magma_block"
+  }
 }

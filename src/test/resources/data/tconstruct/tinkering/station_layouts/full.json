@@ -1,8 +1,12 @@
 {
   "translation_key": "translation_key",
   "icon": {
-    "item": "minecraft:iron_ingot",
-    "nbt": "{test:1}"
+    "id": "minecraft:iron_ingot",
+    "components": {
+      "minecraft:custom_data": {
+        "test": 1
+      }
+    }
   },
   "sortIndex": 55,
   "tool_slot": {
@@ -10,9 +14,7 @@
     "translation_key": "name_1",
     "x": 1,
     "y": 2,
-    "filter": {
-      "item": "minecraft:iron_nugget"
-    }
+    "filter": "minecraft:iron_nugget"
   },
   "input_slots": [
     {
@@ -20,27 +22,21 @@
       "translation_key": "name_2",
       "x": 3,
       "y": 4,
-      "filter": {
-        "item": "minecraft:diamond"
-      }
+      "filter": "minecraft:diamond"
     },
     {
       "icon": "test:pattern_3",
       "translation_key": "name_3",
       "x": 5,
       "y": 6,
-      "filter": {
-        "item": "minecraft:emerald"
-      }
+      "filter": "minecraft:emerald"
     },
     {
       "icon": "test:pattern_4",
       "translation_key": "name_4",
       "x": 7,
       "y": 8,
-      "filter": {
-        "item": "minecraft:stone"
-      }
+      "filter": "minecraft:stone"
     }
   ]
 }

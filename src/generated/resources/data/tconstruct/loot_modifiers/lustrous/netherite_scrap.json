@@ -39,7 +39,10 @@
       "type": "mantle:inverted",
       "condition": {
         "type": "mantle:contains_item",
-        "ingredient": "#c:ores/netherite_scrap"
+        "ingredient": {
+          "neoforge:ingredient_type": "mantle:item_tag",
+          "tag": "c:ores/netherite_scrap"
+        }
       }
     }
   ]

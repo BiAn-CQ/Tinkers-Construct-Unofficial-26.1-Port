@@ -13,7 +13,7 @@ import net.minecraft.world.item.ItemUseAnimation;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.fluids.capability.IFluidHandler.FluidAction;
+import slimeknights.tconstruct.library.utils.SimulationMode;
 import slimeknights.mantle.client.TooltipKey;
 import slimeknights.mantle.data.loadable.record.RecordLoadable;
 import slimeknights.tconstruct.common.TinkerTags;
@@ -68,7 +68,7 @@ public record SlurpingModule(LevelingValue strength, LevelingInt duration) imple
   /* Helpers */
 
   /** Checks if we can slurp the given fluid */
-  private int slurp(FluidStack fluid, ModifierEntry entry, LivingEntity entity, @Nullable Player player, FluidAction action) {
+  private int slurp(FluidStack fluid, ModifierEntry entry, LivingEntity entity, @Nullable Player player, SimulationMode action) {
     if (!fluid.isEmpty()) {
       FluidEffects recipe = FluidEffectManager.INSTANCE.find(fluid.getFluid());
       return recipe.hasEntityEffects() ? recipe.applyToEntity(fluid, strength.compute(entry), FluidEffectContext.builder(entity.level()).user(entity, player).target(entity), action) : 0;
@@ -88,7 +88,7 @@ public record SlurpingModule(LevelingValue strength, LevelingInt duration) imple
       // apply effect
       if (!entity.level().isClientSide()) {
         Player player = asPlayer(entity);
-        int consumed = slurp(fluid, modifier, entity, player, FluidAction.EXECUTE);
+        int consumed = slurp(fluid, modifier, entity, player, SimulationMode.EXECUTE);
         if (consumed > 0 && consumesResources(player)) {
           fluid.shrink(consumed);
           TANK_HELPER.setFluid(tool, fluid);
@@ -124,7 +124,7 @@ public record SlurpingModule(LevelingValue strength, LevelingInt duration) imple
   @Override
   public InteractionResult onToolUse(IToolStackView tool, ModifierEntry modifier, Player player, InteractionHand hand, InteractionSource source) {
     if (source == InteractionSource.RIGHT_CLICK) {
-      if (slurp(TANK_HELPER.getFluid(tool), modifier, player, player, FluidAction.SIMULATE) > 0) {
+      if (slurp(TANK_HELPER.getFluid(tool), modifier, player, player, SimulationMode.SIMULATE) > 0) {
         GeneralInteractionModifierHook.startUsing(tool, modifier.getId(), player, hand);
         return InteractionResult.CONSUME;
       }
@@ -149,7 +149,7 @@ public record SlurpingModule(LevelingValue strength, LevelingInt duration) imple
     boolean notActive = modifier != activeModifier;
     if (notActive && useTime == 0) {
       FluidStack fluid = TANK_HELPER.getFluid(tool);
-      if (!fluid.isEmpty() && slurp(fluid, modifier, entity, asPlayer(entity), FluidAction.SIMULATE) > 0) {
+      if (!fluid.isEmpty() && slurp(fluid, modifier, entity, asPlayer(entity), SimulationMode.SIMULATE) > 0) {
         tool.getPersistentData().putBoolean(modifier.getId(), true);
       }
     }
@@ -187,7 +187,7 @@ public record SlurpingModule(LevelingValue strength, LevelingInt duration) imple
   @Override
   public boolean startInteract(IToolStackView tool, ModifierEntry modifier, Player player, EquipmentSlot slot, TooltipKey keyModifier) {
     if (keyModifier == TooltipKey.NORMAL) {
-      if (slurp(TANK_HELPER.getFluid(tool), modifier, player, player, FluidAction.SIMULATE) > 0) {
+      if (slurp(TANK_HELPER.getFluid(tool), modifier, player, player, SimulationMode.SIMULATE) > 0) {
         tool.getPersistentData().putInt(modifier.getId(), player.tickCount + duration.compute(modifier.getEffectiveLevel()));
         return true;
       }

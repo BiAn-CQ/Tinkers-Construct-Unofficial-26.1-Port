@@ -40,7 +40,7 @@ public class GuiMeltingModule {
   public void drawHeatBars(GuiGraphicsExtractor graphics) {
     int temperature = this.temperature.getAsInt();
     AbstractContainerMenu menu = screen.getMenu();
-    for (int i = 0; i < inventory.getSlots(); i++) {
+    for (int i = 0; i < inventory.size(); i++) {
       Slot slot = menu.slots.get(i + indexOffset);
       if (slot.hasItem() && slotPredicate.test(slot)) {
         // determine the bar to draw and the progress
@@ -83,7 +83,7 @@ public class GuiMeltingModule {
     int checkY = mouseY - GuiUtil.getGuiTop(screen);
     int temperature = this.temperature.getAsInt();
     AbstractContainerMenu menu = screen.getMenu();
-    for (int i = 0; i < inventory.getSlots(); i++) {
+    for (int i = 0; i < inventory.size(); i++) {
       Slot slot = menu.slots.get(i + indexOffset);
       // must have a stack
       if (slot.hasItem() && slotPredicate.test(slot)) {

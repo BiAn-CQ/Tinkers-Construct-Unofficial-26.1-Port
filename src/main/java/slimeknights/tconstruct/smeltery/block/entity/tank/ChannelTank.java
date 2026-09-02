@@ -1,87 +1,78 @@
 package slimeknights.tconstruct.smeltery.block.entity.tank;
 
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.ProblemReporter;
 import net.minecraft.world.level.storage.TagValueInput;
 import net.minecraft.world.level.storage.TagValueOutput;
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
+import net.neoforged.neoforge.transfer.fluid.FluidResource;
+import net.neoforged.neoforge.transfer.transaction.SnapshotJournal;
+import net.neoforged.neoforge.transfer.transaction.TransactionContext;
+import slimeknights.tconstruct.library.fluid.FluidTankBase;
 import slimeknights.tconstruct.smeltery.block.entity.ChannelBlockEntity;
 
-import javax.annotation.Nonnull;
+/** Transactional tank for channel contents. */
+public class ChannelTank extends FluidTankBase<ChannelBlockEntity> {
+  private static final String TAG_LOCKED = "locked";
+  private int locked;
+  private final SnapshotJournal<Integer> lockedJournal = new SnapshotJournal<>() {
+    @Override
+    protected Integer createSnapshot() {
+      return locked;
+    }
 
-/** Tank for channel contents */
-public class ChannelTank extends FluidTank {
-	private static final String TAG_LOCKED = "locked";
+    @Override
+    protected void revertToSnapshot(Integer snapshot) {
+      locked = snapshot;
+    }
+  };
 
-	/**
-	 * Amount of fluid that may not be extracted this tick
-	 * Essentially, since we cannot guarantee tick order, this prevents us from having a net 0 fluid for the renderer
-	 * if draining and filling at the same time
-	 */
-	private int locked;
+  public ChannelTank(int capacity, ChannelBlockEntity parent) {
+    super(capacity, parent);
+  }
 
-	/** Tank owner */
-	private final ChannelBlockEntity parent;
+  /** Clears the per-tick extraction lock. */
+  public void freeFluid() {
+    locked = 0;
+  }
 
-	public ChannelTank(int capacity, ChannelBlockEntity parent) {
-		super(capacity);
-		this.parent = parent;
-	}
+  /** Returns the amount that was not inserted during the current tick. */
+  public int getMaxUsable() {
+    return Math.max(getFluidAmount() - locked, 0);
+  }
 
-	/**
-	 * Called on channel update to clear the lock, allowing this fluid to be drained
-	 */
-	public void freeFluid() {
-		this.locked = 0;
-	}
+  @Override
+  public int insert(int index, FluidResource resource, int amount, TransactionContext transaction) {
+    int inserted = super.insert(index, resource, amount, transaction);
+    if (inserted > 0) {
+      lockedJournal.updateSnapshots(transaction);
+      locked += inserted;
+    }
+    return inserted;
+  }
 
-	/**
-	 * Returns the maximum fluid that can be extracted from this tank
-	 * @return  Max fluid that can be pulled
-	 */
-	public int getMaxUsable() {
-		return Math.max(fluid.getAmount() - locked, 0);
-	}
+  @Override
+  protected void onContentsChanged(int index, FluidStack previousContents) {
+    parent.setChanged();
+    if (previousContents.isEmpty() != getFluid().isEmpty()) {
+      parent.sendFluidUpdate();
+    }
+  }
 
-	@Override
-	public int fill(FluidStack resource, FluidAction action) {
-		boolean wasEmpty = isEmpty();
-		int amount = super.fill(resource, action);
-		if(action.execute()) {
-			locked += amount;
-			// if we added something, sync to client
-			if (wasEmpty && !isEmpty()) {
-				parent.sendFluidUpdate();
-			}
-		}
-		return amount;
-	}
+  @Override
+  public ChannelTank readFromNBT(HolderLookup.Provider provider, CompoundTag nbt) {
+    locked = nbt.getIntOr(TAG_LOCKED, 0);
+    deserialize(TagValueInput.create(ProblemReporter.DISCARDING, provider, nbt));
+    return this;
+  }
 
-	@Nonnull
-	@Override
-	public FluidStack drain(int maxDrain, FluidAction action) {
-		boolean wasEmpty = isEmpty();
-		FluidStack stack = super.drain(maxDrain, action);
-		// if we removed something, sync to client
-		if (action.execute() && !wasEmpty && isEmpty()) {
-			parent.sendFluidUpdate();
-		}
-		return stack;
-	}
-
-	public FluidTank readFromNBT(HolderLookup.Provider provider, CompoundTag nbt) {
-		this.locked = nbt.getIntOr(TAG_LOCKED, 0);
-		deserialize(TagValueInput.create(ProblemReporter.DISCARDING, provider, nbt));
-		return this;
-	}
-
-	public CompoundTag writeToNBT(HolderLookup.Provider provider, CompoundTag nbt) {
-		TagValueOutput output = TagValueOutput.createWithContext(ProblemReporter.DISCARDING, provider);
-		serialize(output);
-		nbt.merge(output.buildResult());
-		nbt.putInt(TAG_LOCKED, locked);
-		return nbt;
-	}
+  @Override
+  public CompoundTag writeToNBT(HolderLookup.Provider provider, CompoundTag nbt) {
+    TagValueOutput output = TagValueOutput.createWithContext(ProblemReporter.DISCARDING, provider);
+    serialize(output);
+    nbt.merge(output.buildResult());
+    nbt.putInt(TAG_LOCKED, locked);
+    return nbt;
+  }
 }

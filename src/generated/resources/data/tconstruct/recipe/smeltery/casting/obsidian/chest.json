@@ -7,5 +7,7 @@
     "amount": 8000,
     "tag": "tconstruct:molten_obsidian"
   },
-  "result": "minecraft:ender_chest"
+  "result": {
+    "id": "minecraft:ender_chest"
+  }
 }

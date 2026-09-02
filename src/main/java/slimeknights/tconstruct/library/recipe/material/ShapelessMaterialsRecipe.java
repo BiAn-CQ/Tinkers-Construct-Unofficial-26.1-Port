@@ -1,7 +1,6 @@
 package slimeknights.tconstruct.library.recipe.material;
 
 import com.google.gson.JsonObject;
-import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonSyntaxException;
 import com.mojang.serialization.DynamicOps;
@@ -21,7 +20,6 @@ import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.ShapelessRecipe;
 import slimeknights.mantle.data.loadable.Loadable;
-import slimeknights.mantle.data.loadable.common.IngredientLoadable;
 import slimeknights.mantle.data.loadable.field.LoadableField;
 import slimeknights.tconstruct.library.materials.definition.MaterialVariantId;
 import slimeknights.tconstruct.tables.TinkerTables;
@@ -108,29 +106,13 @@ public class ShapelessMaterialsRecipe extends ShapelessRecipe implements Materia
     static final LoadableField<List<MaterialVariantId>,ShapelessMaterialsRecipe> MATERIAL_FIELD = EXTRA_MATERIALS.defaultField("extra_materials", List.of(), r -> r.extraMaterials);
 
     private static ShapelessMaterialsRecipe fromJson(JsonObject json, com.mojang.serialization.DynamicOps<?> ops) {
-      JsonObject normalized = json.deepCopy();
-      JsonElement ingredientsElement = normalized.get("ingredients");
-      if (ingredientsElement != null && ingredientsElement.isJsonArray()) {
-        JsonArray ingredients = new JsonArray();
-        for (JsonElement ingredient : ingredientsElement.getAsJsonArray()) {
-          ingredients.add(IngredientLoadable.normalizeLegacyIngredient(ingredient));
-        }
-        normalized.add("ingredients", ingredients);
-      }
-      JsonElement resultElement = normalized.get("result");
-      if (resultElement != null && resultElement.isJsonObject()) {
-        JsonObject result = resultElement.getAsJsonObject();
-        if (!result.has("id") && result.has("item")) {
-          result.add("id", result.remove("item"));
-        }
-      }
       com.mojang.serialization.DynamicOps<JsonElement> decodeOps = TinkerCraftingRecipeSerializer.registryJsonOps(ops);
-      ShapelessRecipe vanilla = ShapelessRecipe.MAP_CODEC.codec().parse(decodeOps, normalized).getOrThrow();
+      ShapelessRecipe vanilla = ShapelessRecipe.MAP_CODEC.codec().parse(decodeOps, json).getOrThrow();
       int parts = GsonHelper.getAsInt(json, "parts");
       if (parts < 1 || parts > vanilla.placementInfo().ingredients().size()) {
         throw new JsonSyntaxException("Parts must be between 1 and the number of ingredients " + vanilla.placementInfo().ingredients().size());
       }
-      return new ShapelessMaterialsRecipe(vanilla, parts, MATERIAL_FIELD.get(normalized));
+      return new ShapelessMaterialsRecipe(vanilla, parts, MATERIAL_FIELD.get(json));
     }
 
     private static JsonObject toJson(ShapelessMaterialsRecipe recipe, DynamicOps<?> ops) {

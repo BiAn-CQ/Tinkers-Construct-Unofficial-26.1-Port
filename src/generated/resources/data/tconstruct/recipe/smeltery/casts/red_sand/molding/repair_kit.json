@@ -8,5 +8,7 @@
     "neoforge:ingredient_type": "tconstruct:material",
     "match": "tconstruct:repair_kit"
   },
-  "result": "tconstruct:repair_kit_red_sand_cast"
+  "result": {
+    "id": "tconstruct:repair_kit_red_sand_cast"
+  }
 }

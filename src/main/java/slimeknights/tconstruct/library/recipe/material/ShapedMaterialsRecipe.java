@@ -5,8 +5,6 @@ import slimeknights.tconstruct.library.recipe.TinkerIngredients;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonPrimitive;
 import com.mojang.serialization.DynamicOps;
 import com.mojang.serialization.JsonOps;
 import lombok.Getter;
@@ -25,7 +23,6 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.ShapedRecipe;
 import net.minecraft.world.item.crafting.ShapedRecipePattern;
 import net.minecraft.world.level.Level;
-import slimeknights.mantle.data.loadable.common.IngredientLoadable;
 import slimeknights.mantle.data.loadable.Loadable;
 import slimeknights.mantle.data.loadable.field.LoadableField;
 import slimeknights.mantle.util.LogicHelper;
@@ -39,7 +36,6 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.IdentityHashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -246,35 +242,21 @@ public class ShapedMaterialsRecipe extends ShapedRecipe implements MaterialsCraf
     static final LoadableField<List<MaterialVariantId>, ShapedMaterialsRecipe> MATERIAL_FIELD = EXTRA_MATERIALS.defaultField("extra_materials", List.of(), r -> r.extraMaterials);
 
     private static ShapedMaterialsRecipe fromJson(JsonObject json, DynamicOps<?> ops) {
-      JsonObject normalizedJson = json.deepCopy();
       DynamicOps<JsonElement> decodeOps = TinkerCraftingRecipeSerializer.registryJsonOps(ops);
 
-      // Decode every legacy key value through Mantle, then encode the resulting
-      // ingredient in the native 26.1 form expected by ShapedRecipePattern.
-      // Merely normalizing the JSON shape is insufficient: compact tags such as
-      // "#c:leathers" are not accepted by the native holder-list alternative.
-      JsonObject key = GsonHelper.getAsJsonObject(normalizedJson, "key");
-      try (IngredientLoadable.Scope ignored = IngredientLoadable.pushOps(decodeOps)) {
-        for (var entry : List.copyOf(key.entrySet())) {
-          Ingredient ingredient = IngredientLoadable.DISALLOW_EMPTY.convert(
-            entry.getValue(), "key." + entry.getKey());
-          key.add(entry.getKey(), Ingredient.CODEC.encodeStart(decodeOps, ingredient).getOrThrow());
-        }
-      }
-
       // Decode the native pattern data directly so "parts" can retain references to the same ingredient instances as the key.
-      String group = GsonHelper.getAsString(normalizedJson, "group", "");
-      CraftingBookCategory category = normalizedJson.has("category")
-        ? CraftingBookCategory.CODEC.parse(decodeOps, normalizedJson.get("category")).getOrThrow()
+      String group = GsonHelper.getAsString(json, "group", "");
+      CraftingBookCategory category = json.has("category")
+        ? CraftingBookCategory.CODEC.parse(decodeOps, json.get("category")).getOrThrow()
         : CraftingBookCategory.MISC;
-      ShapedRecipePattern.Data data = ShapedRecipePattern.Data.MAP_CODEC.codec().parse(decodeOps, normalizedJson).getOrThrow();
+      ShapedRecipePattern.Data data = ShapedRecipePattern.Data.MAP_CODEC.codec().parse(decodeOps, json).getOrThrow();
       ShapedRecipePattern pattern = ShapedRecipePattern.of(data.key(), data.pattern());
-      ItemStackTemplate result = ItemStackTemplate.CODEC.parse(decodeOps, normalizeResult(GsonHelper.getAsJsonObject(normalizedJson, "result"))).getOrThrow();
-      boolean showNotification = GsonHelper.getAsBoolean(normalizedJson, "show_notification", true);
+      ItemStackTemplate result = ItemStackTemplate.CODEC.parse(decodeOps, GsonHelper.getAsJsonObject(json, "result")).getOrThrow();
+      boolean showNotification = GsonHelper.getAsBoolean(json, "show_notification", true);
 
       // specific to shaped part recipe, map from a pattern string to the ingredients for each character
       // saves memory by not having separate copies of each, plus simplifies the JSON
-      String partPattern = GsonHelper.getAsString(normalizedJson, "parts");
+      String partPattern = GsonHelper.getAsString(json, "parts");
       List<Ingredient> parts = new ArrayList<>();
       for (int i = 0; i < partPattern.length(); i++) {
         String sym = partPattern.substring(i, i + 1);
@@ -284,18 +266,7 @@ public class ShapedMaterialsRecipe extends ShapedRecipe implements MaterialsCraf
         }
         parts.add(ingredient);
       }
-      return new ShapedMaterialsRecipe(null, group, category, pattern, result, showNotification, List.copyOf(parts), MATERIAL_FIELD.get(normalizedJson));
-    }
-
-    /** Converts the legacy recipe result field to the 26.1 ItemStack shape. */
-    private static JsonObject normalizeResult(JsonObject result) {
-      if (!result.has("item") || result.has("id")) {
-        return result;
-      }
-      JsonObject normalized = result.deepCopy();
-      normalized.add("id", normalized.get("item"));
-      normalized.remove("item");
-      return normalized;
+      return new ShapedMaterialsRecipe(null, group, category, pattern, result, showNotification, List.copyOf(parts), MATERIAL_FIELD.get(json));
     }
 
     private static void writeParts(RegistryFriendlyByteBuf buffer, ShapedMaterialsRecipe recipe) {
@@ -311,7 +282,7 @@ public class ShapedMaterialsRecipe extends ShapedRecipe implements MaterialsCraf
 
     private static final String SYMBOLS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
-    /** Serializes the vanilla shaped fields while retaining the legacy key/pattern JSON layout. */
+    /** Serializes the vanilla shaped fields using the native key/pattern JSON layout. */
     static JsonObject serializeShapedBase(ShapedRecipe recipe, DynamicOps<?> ops) {
       JsonObject json = new JsonObject();
       DynamicOps<JsonElement> jsonOps = TinkerCraftingRecipeSerializer.registryJsonOps(ops);

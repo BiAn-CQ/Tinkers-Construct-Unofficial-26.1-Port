@@ -6,7 +6,6 @@
   },
   "result": {
     "amount": 100,
-    "fluid": "minecraft:water",
-    "nbt": {}
+    "id": "minecraft:water"
   }
 }

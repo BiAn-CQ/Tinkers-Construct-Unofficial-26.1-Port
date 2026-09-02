@@ -7,5 +7,7 @@
     "amount": 1000,
     "tag": "c:slime"
   },
-  "result": "tconstruct:earth_enderbark_roots"
+  "result": {
+    "id": "tconstruct:earth_enderbark_roots"
+  }
 }

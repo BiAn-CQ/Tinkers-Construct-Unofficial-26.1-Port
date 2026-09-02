@@ -9,7 +9,7 @@
   "byproducts": [
     {
       "amount": 1100,
-      "fluid": "tconstruct:molten_diamond",
+      "id": "tconstruct:molten_diamond",
       "unit_size": 25
     }
   ],

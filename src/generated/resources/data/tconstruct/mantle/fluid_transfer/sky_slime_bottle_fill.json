@@ -5,5 +5,7 @@
     "tag": "tconstruct:sky_slime"
   },
   "input": "minecraft:glass_bottle",
-  "result": "tconstruct:sky_slime_bottle"
+  "result": {
+    "id": "tconstruct:sky_slime_bottle"
+  }
 }

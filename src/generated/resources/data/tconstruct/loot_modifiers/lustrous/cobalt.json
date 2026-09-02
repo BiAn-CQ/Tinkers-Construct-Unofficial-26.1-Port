@@ -39,7 +39,10 @@
       "type": "mantle:inverted",
       "condition": {
         "type": "mantle:contains_item",
-        "ingredient": "#c:ores/cobalt"
+        "ingredient": {
+          "neoforge:ingredient_type": "mantle:item_tag",
+          "tag": "c:ores/cobalt"
+        }
       }
     }
   ]

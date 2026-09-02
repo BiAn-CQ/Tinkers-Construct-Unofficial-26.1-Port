@@ -5,5 +5,7 @@
     "amount": 1000,
     "tag": "tconstruct:sky_slime"
   },
-  "result": "tconstruct:sky_congealed_slime"
+  "result": {
+    "id": "tconstruct:sky_congealed_slime"
+  }
 }

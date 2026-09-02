@@ -8,7 +8,6 @@ import net.minecraft.resources.Identifier;
 import slimeknights.mantle.data.gson.ResourceLocationSerializer;
 import slimeknights.mantle.data.gson.IdentifierSerializer;
 import slimeknights.mantle.data.loadable.common.GsonLoadable;
-import slimeknights.mantle.data.loadable.field.LegacyField;
 import slimeknights.mantle.data.loadable.primitive.BooleanLoadable;
 import slimeknights.mantle.data.loadable.record.RecordLoadable;
 import slimeknights.tconstruct.TConstruct;
@@ -32,8 +31,8 @@ public class MaterialGeneratorInfo {
     .create();
   public static final RecordLoadable<MaterialGeneratorInfo> LOADABLE = RecordLoadable.create(
     new GsonLoadable<>(GSON, ISpriteTransformer.class).requiredField("transformer", g -> g.transformer),
-    new LegacyField<>(MaterialStatsId.PARSER.set(0).requiredField("supported_stats", g -> g.supportedStats), "supportedStats"),
-    new LegacyField<>(BooleanLoadable.INSTANCE.defaultField("ignore_material_stats", false, false, g -> g.ignoreMaterialStats), "ignoreMaterialStats"),
+    MaterialStatsId.PARSER.set(0).requiredField("supported_stats", g -> g.supportedStats),
+    BooleanLoadable.INSTANCE.defaultField("ignore_material_stats", false, false, g -> g.ignoreMaterialStats),
     BooleanLoadable.INSTANCE.defaultField("variant", false, false, g -> g.variant),
     MaterialGeneratorInfo::new);
 

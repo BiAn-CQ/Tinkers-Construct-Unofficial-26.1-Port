@@ -3,7 +3,7 @@
   "input": "tconstruct:ice",
   "result": {
     "amount": 9000,
-    "fluid": "minecraft:water"
+    "id": "minecraft:water"
   },
   "temperature": 10
 }

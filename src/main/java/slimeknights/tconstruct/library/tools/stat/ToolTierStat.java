@@ -13,7 +13,7 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
-import slimeknights.tconstruct.library.compat.Tier;
+import net.minecraft.world.item.ToolMaterial;
 import slimeknights.tconstruct.library.utils.TierRegistry;
 import slimeknights.mantle.util.JsonHelper;
 import slimeknights.mantle.util.RegistryHelper;
@@ -27,7 +27,7 @@ import java.util.Objects;
 /** Tool stat for comparing tool tiers */
 @SuppressWarnings("ClassCanBeRecord")
 @Getter @RequiredArgsConstructor
-public class ToolTierStat implements IToolStat<Tier> {
+public class ToolTierStat implements IToolStat<ToolMaterial> {
   /** Name of this tool stat */
   private final ToolStatId name;
 
@@ -37,7 +37,7 @@ public class ToolTierStat implements IToolStat<Tier> {
   }
 
   @Override
-  public Tier getDefaultValue() {
+  public ToolMaterial getDefaultValue() {
     return HarvestTiers.minTier();
   }
 
@@ -47,7 +47,7 @@ public class ToolTierStat implements IToolStat<Tier> {
   }
 
   @Override
-  public Tier build(ModifierStatsBuilder parent, Object builder) {
+  public ToolMaterial build(ModifierStatsBuilder parent, Object builder) {
     return ((TierBuilder) builder).value;
   }
 
@@ -57,13 +57,13 @@ public class ToolTierStat implements IToolStat<Tier> {
    * @param value    Amount to add
    */
   @Override
-  public void update(ModifierStatsBuilder builder, Tier value) {
+  public void update(ModifierStatsBuilder builder, ToolMaterial value) {
     builder.<TierBuilder>updateStat(this, b -> b.value = HarvestTiers.max(b.value, value));
   }
 
   @Nullable
   @Override
-  public Tier read(Tag tag) {
+  public ToolMaterial read(Tag tag) {
     if (tag.getId() == Tag.TAG_STRING) {
       Identifier tierId = Identifier.tryParse(tag instanceof net.minecraft.nbt.StringTag stringTag ? stringTag.value() : tag.toString());
       if (tierId != null) {
@@ -74,7 +74,7 @@ public class ToolTierStat implements IToolStat<Tier> {
   }
 
   @Override
-  public Tag write(Tier value) {
+  public Tag write(ToolMaterial value) {
     Identifier id = TierRegistry.getName(value);
     if (id != null) {
       return StringTag.valueOf(id.toString());
@@ -83,9 +83,9 @@ public class ToolTierStat implements IToolStat<Tier> {
   }
 
   @Override
-  public Tier deserialize(JsonElement json) {
+  public ToolMaterial deserialize(JsonElement json) {
     Identifier id = JsonHelper.convertToIdentifier(json, getName().toString());
-    Tier tier = TierRegistry.byName(id);
+    ToolMaterial tier = TierRegistry.byName(id);
     if (tier != null) {
       return tier;
     }
@@ -93,14 +93,14 @@ public class ToolTierStat implements IToolStat<Tier> {
   }
 
   @Override
-  public JsonElement serialize(Tier value) {
+  public JsonElement serialize(ToolMaterial value) {
     return new JsonPrimitive(Objects.requireNonNull(TierRegistry.getName(value)).toString());
   }
 
   @Override
-  public Tier fromNetwork(FriendlyByteBuf buffer) {
+  public ToolMaterial fromNetwork(FriendlyByteBuf buffer) {
     Identifier id = buffer.readIdentifier();
-    Tier tier = TierRegistry.byName(id);
+    ToolMaterial tier = TierRegistry.byName(id);
     if (tier != null) {
       return tier;
     }
@@ -108,12 +108,12 @@ public class ToolTierStat implements IToolStat<Tier> {
   }
 
   @Override
-  public void toNetwork(FriendlyByteBuf buffer, Tier value) {
+  public void toNetwork(FriendlyByteBuf buffer, ToolMaterial value) {
     buffer.writeIdentifier(Objects.requireNonNull(TierRegistry.getName(value)));
   }
 
   @Override
-  public Component formatValue(Tier value) {
+  public Component formatValue(ToolMaterial value) {
     return Component.translatable(Util.makeTranslationKey("tool_stat", getName())).append(HarvestTiers.getName(value));
   }
 
@@ -125,6 +125,6 @@ public class ToolTierStat implements IToolStat<Tier> {
   /** Builder for a tier object */
   @AllArgsConstructor
   private static class TierBuilder {
-    private Tier value;
+    private ToolMaterial value;
   }
 }

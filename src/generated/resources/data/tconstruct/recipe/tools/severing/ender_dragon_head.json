@@ -5,5 +5,7 @@
   },
   "looting_bonus": 0.02,
   "per_level_chance": 0.1,
-  "result": "minecraft:dragon_head"
+  "result": {
+    "id": "minecraft:dragon_head"
+  }
 }

@@ -1,5 +1,5 @@
 {
-  "parent": "forge:item/default",
+  "parent": "minecraft:item/generated",
   "gui_light": "front",
   "textures": {
     "particle": "tconstruct:item/tool/crossbow/limb"

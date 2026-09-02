@@ -7,5 +7,7 @@
     "amount": 250,
     "tag": "tconstruct:ender_slime"
   },
-  "result": "tconstruct:ender_slime_bottle"
+  "result": {
+    "id": "tconstruct:ender_slime_bottle"
+  }
 }

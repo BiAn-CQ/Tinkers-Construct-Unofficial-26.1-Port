@@ -7,5 +7,7 @@
     "amount": 250,
     "fluid": "minecraft:water"
   },
-  "result": "minecraft:wet_sponge"
+  "result": {
+    "id": "minecraft:wet_sponge"
+  }
 }

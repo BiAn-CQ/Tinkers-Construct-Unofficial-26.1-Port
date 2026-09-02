@@ -7,5 +7,7 @@
     "amount": 90,
     "tag": "c:molten_gold"
   },
-  "result": "tconstruct:gold_reinforcement"
+  "result": {
+    "id": "tconstruct:gold_reinforcement"
+  }
 }

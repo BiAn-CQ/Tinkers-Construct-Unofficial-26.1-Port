@@ -8,5 +8,7 @@
     "neoforge:ingredient_type": "tconstruct:material",
     "match": "tconstruct:small_blade"
   },
-  "result": "tconstruct:small_blade_red_sand_cast"
+  "result": {
+    "id": "tconstruct:small_blade_red_sand_cast"
+  }
 }

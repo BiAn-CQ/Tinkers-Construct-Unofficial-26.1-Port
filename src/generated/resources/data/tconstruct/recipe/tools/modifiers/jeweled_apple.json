@@ -7,5 +7,7 @@
     "amount": 200,
     "tag": "tconstruct:molten_diamond"
   },
-  "result": "tconstruct:jeweled_apple"
+  "result": {
+    "id": "tconstruct:jeweled_apple"
+  }
 }

@@ -9,7 +9,9 @@
     },
     {
       "type": "tconstruct:edible_representative_item",
-      "representative_item": "tconstruct:cheese_ingot"
+      "representative_item": {
+        "id": "tconstruct:cheese_ingot"
+      }
     },
     {
       "type": "tconstruct:edible_consume_durability",

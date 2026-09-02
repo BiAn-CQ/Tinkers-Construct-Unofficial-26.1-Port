@@ -1,8 +1,6 @@
 {
   "title": "Tanques Chamuscados",
-  "item": {
-    "tag": "tconstruct:scorched_tanks"
-  },
+  "item": "#tconstruct:scorched_tanks",
   "text": [
      {
       "text": "Os tanques servem para armazenar fluidos derretidos ou combustíveis. Se você quiser derreter metais na sua fundição, precisará de um! Os tanques também podem ser despejados da fundição se quiser armazenar materiais para mais tarde.",

@@ -4,7 +4,9 @@
     "neoforge:ingredient_type": "mantle:item_tag",
     "tag": "minecraft:warped_stems"
   },
-  "leftover": "minecraft:warped_planks",
+  "leftover": {
+    "id": "minecraft:warped_planks"
+  },
   "material": "tconstruct:wood#warped",
   "needed": 1,
   "value": 4

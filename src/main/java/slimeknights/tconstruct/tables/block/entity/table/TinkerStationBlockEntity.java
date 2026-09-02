@@ -17,7 +17,6 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.model.data.ModelData;
 import net.neoforged.neoforge.event.EventHooks;
-import net.neoforged.neoforge.items.ItemHandlerHelper;
 import org.apache.commons.lang3.StringUtils;
 import slimeknights.mantle.util.RetexturedHelper;
 import slimeknights.tconstruct.TConstruct;
@@ -32,7 +31,7 @@ import slimeknights.tconstruct.library.recipe.TinkerRecipeTypes;
 import slimeknights.tconstruct.library.recipe.tinkerstation.ITinkerStationRecipe;
 import slimeknights.tconstruct.library.tools.helper.TooltipUtil;
 import slimeknights.tconstruct.library.tools.nbt.LazyToolStack;
-import slimeknights.tconstruct.shared.inventory.ConfigurableInvWrapperCapability;
+import slimeknights.tconstruct.shared.inventory.ConfigurableContainerResourceHandler;
 import slimeknights.tconstruct.tables.TinkerTables;
 import slimeknights.tconstruct.tables.block.TinkerStationBlock;
 import slimeknights.tconstruct.tables.block.entity.inventory.LazyResultContainer;
@@ -85,7 +84,7 @@ public class TinkerStationBlockEntity extends RetexturedTableBlockEntity impleme
 
   public TinkerStationBlockEntity(BlockPos pos, BlockState state, int slots) {
     super(TinkerTables.tinkerStationTile.get(), pos, state, NAME, slots);
-    this.itemHandler = new ConfigurableInvWrapperCapability(this, false, false);
+    this.itemHandler = new ConfigurableContainerResourceHandler(this, false, false);
     this.inventoryWrapper = new TinkerStationContainerWrapper(this);
     this.craftingResult = new LazyResultContainer(this);
   }

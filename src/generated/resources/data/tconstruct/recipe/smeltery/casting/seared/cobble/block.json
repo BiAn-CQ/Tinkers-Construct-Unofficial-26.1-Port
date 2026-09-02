@@ -16,5 +16,7 @@
     "amount": 500,
     "tag": "tconstruct:molten_clay"
   },
-  "result": "tconstruct:seared_cobble"
+  "result": {
+    "id": "tconstruct:seared_cobble"
+  }
 }

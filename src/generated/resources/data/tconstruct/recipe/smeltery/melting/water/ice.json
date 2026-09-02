@@ -3,8 +3,7 @@
   "ingredient": "minecraft:ice",
   "result": {
     "amount": 1000,
-    "fluid": "minecraft:water",
-    "nbt": {}
+    "id": "minecraft:water"
   },
   "temperature": 0,
   "time": 28

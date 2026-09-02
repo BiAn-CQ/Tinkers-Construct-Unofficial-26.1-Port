@@ -16,6 +16,8 @@
     "amount": 90,
     "tag": "c:molten_gold"
   },
-  "result": "tconstruct:wire_cast",
+  "result": {
+    "id": "tconstruct:wire_cast"
+  },
   "switch_slots": true
 }

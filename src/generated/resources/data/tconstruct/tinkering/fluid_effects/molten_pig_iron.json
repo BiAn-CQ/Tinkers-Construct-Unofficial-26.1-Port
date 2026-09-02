@@ -19,7 +19,9 @@
       "type": "tconstruct:restore_hunger",
       "can_always_eat": false,
       "hunger": 2,
-      "representative_item": "tconstruct:bacon",
+      "representative_item": {
+        "id": "tconstruct:bacon"
+      },
       "saturation": 0.7
     }
   ],

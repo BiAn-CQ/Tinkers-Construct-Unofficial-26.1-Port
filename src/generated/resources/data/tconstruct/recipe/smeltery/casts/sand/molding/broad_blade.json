@@ -8,5 +8,7 @@
     "neoforge:ingredient_type": "tconstruct:material",
     "match": "tconstruct:broad_blade"
   },
-  "result": "tconstruct:broad_blade_sand_cast"
+  "result": {
+    "id": "tconstruct:broad_blade_sand_cast"
+  }
 }

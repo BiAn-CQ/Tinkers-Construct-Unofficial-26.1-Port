@@ -88,13 +88,13 @@ public final class TinkerTables extends TinkerModule {
 
   @SubscribeEvent
   void registerCapabilities(RegisterCapabilitiesEvent event) {
-    event.registerBlockEntity(Capabilities.Item.BLOCK, tinkersChestTile.get(), (blockEntity, side) -> slimeknights.tconstruct.library.utils.TinkerCapabilityAdapters.itemResource(blockEntity.getItemCapability()));
-    event.registerBlockEntity(Capabilities.Item.BLOCK, partChestTile.get(), (blockEntity, side) -> slimeknights.tconstruct.library.utils.TinkerCapabilityAdapters.itemResource(blockEntity.getItemCapability()));
-    event.registerBlockEntity(Capabilities.Item.BLOCK, castChestTile.get(), (blockEntity, side) -> slimeknights.tconstruct.library.utils.TinkerCapabilityAdapters.itemResource(blockEntity.getItemCapability()));
-    event.registerBlockEntity(Capabilities.Item.BLOCK, craftingStationTile.get(), (blockEntity, side) -> slimeknights.tconstruct.library.utils.TinkerCapabilityAdapters.itemResource(blockEntity.getItemCapability()));
-    event.registerBlockEntity(Capabilities.Item.BLOCK, tinkerStationTile.get(), (blockEntity, side) -> slimeknights.tconstruct.library.utils.TinkerCapabilityAdapters.itemResource(blockEntity.getItemCapability()));
-    event.registerBlockEntity(Capabilities.Item.BLOCK, partBuilderTile.get(), (blockEntity, side) -> slimeknights.tconstruct.library.utils.TinkerCapabilityAdapters.itemResource(blockEntity.getItemCapability()));
-    event.registerBlockEntity(Capabilities.Item.BLOCK, modifierWorktableTile.get(), (blockEntity, side) -> slimeknights.tconstruct.library.utils.TinkerCapabilityAdapters.itemResource(blockEntity.getItemCapability()));
+    event.registerBlockEntity(Capabilities.Item.BLOCK, tinkersChestTile.get(), (blockEntity, side) -> blockEntity.getItemCapability());
+    event.registerBlockEntity(Capabilities.Item.BLOCK, partChestTile.get(), (blockEntity, side) -> blockEntity.getItemCapability());
+    event.registerBlockEntity(Capabilities.Item.BLOCK, castChestTile.get(), (blockEntity, side) -> blockEntity.getItemCapability());
+    event.registerBlockEntity(Capabilities.Item.BLOCK, craftingStationTile.get(), (blockEntity, side) -> blockEntity.getItemCapability());
+    event.registerBlockEntity(Capabilities.Item.BLOCK, tinkerStationTile.get(), (blockEntity, side) -> blockEntity.getItemCapability());
+    event.registerBlockEntity(Capabilities.Item.BLOCK, partBuilderTile.get(), (blockEntity, side) -> blockEntity.getItemCapability());
+    event.registerBlockEntity(Capabilities.Item.BLOCK, modifierWorktableTile.get(), (blockEntity, side) -> blockEntity.getItemCapability());
   }
   /** Creative tab for general items, or those that lack another tab */
   public static final DeferredHolder<CreativeModeTab, ? extends CreativeModeTab> tabTables = CREATIVE_TABS.register(

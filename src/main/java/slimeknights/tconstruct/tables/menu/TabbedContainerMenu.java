@@ -19,10 +19,9 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.fml.loading.FMLEnvironment;
-import net.neoforged.neoforge.items.IItemHandler;
-import net.neoforged.neoforge.items.IItemHandlerModifiable;
+import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.item.ItemResource;
 import org.apache.commons.lang3.tuple.Pair;
-import slimeknights.mantle.inventory.EmptyItemHandler;
 import slimeknights.mantle.util.RegistryHelper;
 import slimeknights.tconstruct.common.TinkerTags;
 import slimeknights.tconstruct.common.config.Config;
@@ -147,8 +146,8 @@ public class TabbedContainerMenu<TILE extends BlockEntity> extends TriggeringMul
 
       // if we found something, add the side inventory
       if (inventoryTE != null) {
-        IItemHandler capability = slimeknights.tconstruct.library.utils.TinkerCapabilityAdapters.itemHandler(inventoryTE.getLevel().getCapability(Capabilities.Item.BLOCK, inventoryTE.getBlockPos(), accessDir));
-        int invSlots = (capability == null ? EmptyItemHandler.INSTANCE : capability).getSlots();
+        ResourceHandler<ItemResource> capability = inventoryTE.getLevel().getCapability(Capabilities.Item.BLOCK, inventoryTE.getBlockPos(), accessDir);
+        int invSlots = capability == null ? 0 : capability.size();
         int columns = Mth.clamp((invSlots - 1) / 9 + 1, 3, 6);
         this.addSubContainer(new SideInventoryContainer<>(TinkerTables.craftingStationContainer.get(), containerId, inv, inventoryTE, accessDir, -6 - 18 * 6, 8, columns), false);
       }
@@ -169,13 +168,13 @@ public class TabbedContainerMenu<TILE extends BlockEntity> extends TriggeringMul
 
   /**
    * Checks to see if the given Tile Entity has an item handler that's compatible with the side inventory
-   * The Tile Entity's item handler must be an instance of IItemHandlerModifiable
+   * The block entity must expose a native item resource handler.
    * @param tileEntity Tile to check
    * @param direction the given direction
    * @return True if compatible.
    */
   private static boolean hasItemHandler(BlockEntity tileEntity, @Nullable Direction direction) {
-    return slimeknights.tconstruct.library.utils.TinkerCapabilityAdapters.itemHandler(tileEntity.getLevel().getCapability(Capabilities.Item.BLOCK, tileEntity.getBlockPos(), direction)) != null;
+    return tileEntity.getLevel().getCapability(Capabilities.Item.BLOCK, tileEntity.getBlockPos(), direction) != null;
   }
 
 

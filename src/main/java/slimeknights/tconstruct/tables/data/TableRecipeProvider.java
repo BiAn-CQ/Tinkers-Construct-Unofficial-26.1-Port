@@ -1,20 +1,20 @@
 package slimeknights.tconstruct.tables.data;
 
-import com.mojang.serialization.JsonOps;
 import slimeknights.tconstruct.library.recipe.TinkerIngredients;
 import slimeknights.tconstruct.library.recipe.MaterialTinkerIngredients;
 
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.RecipeCategory;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.ComponentSerialization;
 import net.minecraft.resources.Identifier;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.neoforged.neoforge.common.Tags;
@@ -29,7 +29,6 @@ import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.TinkerTags;
 import slimeknights.tconstruct.common.data.BaseRecipeProvider;
 import slimeknights.tconstruct.fluids.TinkerFluids;
-import slimeknights.tconstruct.library.data.recipe.CraftingNBTWrapper;
 import slimeknights.tconstruct.library.json.predicate.material.MaterialPredicate;
 import slimeknights.tconstruct.library.recipe.ingredient.MaterialIngredient;
 import slimeknights.tconstruct.library.recipe.material.MaterialsConsumerBuilder;
@@ -205,17 +204,11 @@ public class TableRecipeProvider extends BaseRecipeProvider {
       .build(consumer, recipeKey(prefix(TinkerTables.scorchedAnvil, folder)));
 
     // tool forge - just a humor recipe
-    RecipeOutput toolForge;
-    {
-      CompoundTag nbt = new CompoundTag();
-      CompoundTag display = new CompoundTag();
-      display.putString("Name", ComponentSerialization.CODEC.encodeStart(
-        JsonOps.INSTANCE, Component.translatable("block.tconstruct.tool_forge")).getOrThrow().toString());
-      nbt.put("display", display);
-      toolForge = CraftingNBTWrapper.wrap(consumer, nbt, registries());
-    }
+    Component toolForgeName = Component.translatable("block.tconstruct.tool_forge");
+    ItemStack tinkersForgeStack = new ItemStack(TinkerTables.tinkersAnvil);
+    tinkersForgeStack.set(DataComponents.CUSTOM_NAME, toolForgeName);
     ShapedRetexturedRecipeBuilder.fromShaped(
-      shaped(RecipeCategory.DECORATIONS, TinkerTables.tinkersAnvil)
+      shaped(RecipeCategory.DECORATIONS, ItemStackTemplate.fromNonEmptyStack(tinkersForgeStack))
         .define('m', ingredient(TinkerTags.Items.ANVIL_METAL))
         .define('s', ingredient(TinkerTags.Items.SEARED_BLOCKS))
         .define('t', TinkerTables.tinkerStation)
@@ -225,9 +218,11 @@ public class TableRecipeProvider extends BaseRecipeProvider {
         .unlockedBy("has_item", has(TinkerTags.Items.ANVIL_METAL)))
       .setSource(TinkerIngredients.of(TinkerTags.Items.ANVIL_METAL))
       .setMatchAll()
-      .build(toolForge, recipeKey(location(folder + "tinkers_forge")));
+      .build(consumer, recipeKey(location(folder + "tinkers_forge")));
+    ItemStack scorchedForgeStack = new ItemStack(TinkerTables.scorchedAnvil);
+    scorchedForgeStack.set(DataComponents.CUSTOM_NAME, toolForgeName);
     ShapedRetexturedRecipeBuilder.fromShaped(
-      shaped(RecipeCategory.DECORATIONS, TinkerTables.scorchedAnvil)
+      shaped(RecipeCategory.DECORATIONS, ItemStackTemplate.fromNonEmptyStack(scorchedForgeStack))
         .define('m', ingredient(TinkerTags.Items.ANVIL_METAL))
         .define('s', ingredient(TinkerTags.Items.SCORCHED_BLOCKS))
         .define('t', TinkerTables.tinkerStation)
@@ -237,7 +232,7 @@ public class TableRecipeProvider extends BaseRecipeProvider {
         .unlockedBy("has_item", has(TinkerTags.Items.ANVIL_METAL)))
       .setSource(TinkerIngredients.of(TinkerTags.Items.ANVIL_METAL))
       .setMatchAll()
-      .build(toolForge, recipeKey(location(folder + "scorched_forge")));
+      .build(consumer, recipeKey(location(folder + "scorched_forge")));
 
     // material recipes - for the material fallbacks
     RecipeOutput materialConsumer = MaterialsConsumerBuilder.shaped("m").build(consumer);
@@ -258,8 +253,8 @@ public class TableRecipeProvider extends BaseRecipeProvider {
       .pattern("sss")
       .unlockedBy("has_item", has(TinkerToolParts.fakeStorageBlock))
       .save(materialConsumer, recipeKey(wrap(TinkerTables.scorchedAnvil, folder, "_material")));
-    materialConsumer = MaterialsConsumerBuilder.shaped("m").build(toolForge);
-    shaped(RecipeCategory.DECORATIONS, TinkerTables.tinkersAnvil)
+    materialConsumer = MaterialsConsumerBuilder.shaped("m").build(consumer);
+    shaped(RecipeCategory.DECORATIONS, ItemStackTemplate.fromNonEmptyStack(tinkersForgeStack))
       .define('m', fakeStorageBlock)
       .define('s', ingredient(TinkerTags.Items.SEARED_BLOCKS))
       .define('t', TinkerTables.tinkerStation)
@@ -268,7 +263,7 @@ public class TableRecipeProvider extends BaseRecipeProvider {
       .pattern("m m")
       .unlockedBy("has_item", has(TinkerToolParts.fakeStorageBlock))
       .save(materialConsumer, recipeKey(location(folder + "seared_forge_material")));
-    shaped(RecipeCategory.DECORATIONS, TinkerTables.scorchedAnvil)
+    shaped(RecipeCategory.DECORATIONS, ItemStackTemplate.fromNonEmptyStack(scorchedForgeStack))
       .define('m', fakeStorageBlock)
       .define('s', ingredient(TinkerTags.Items.SCORCHED_BLOCKS))
       .define('t', TinkerTables.tinkerStation)

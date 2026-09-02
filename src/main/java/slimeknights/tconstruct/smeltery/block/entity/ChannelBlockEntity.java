@@ -1,6 +1,5 @@
 package slimeknights.tconstruct.smeltery.block.entity;
 
-import net.minecraft.util.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Direction.Plane;
@@ -15,14 +14,13 @@ import net.minecraft.world.phys.AABB;
 import net.neoforged.neoforge.capabilities.BlockCapabilityCache;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.fluids.capability.IFluidHandler;
-import net.neoforged.neoforge.fluids.capability.IFluidHandler.FluidAction;
-import net.neoforged.neoforge.fluids.capability.templates.EmptyFluidHandler;
+import net.neoforged.neoforge.transfer.EmptyResourceHandler;
 import slimeknights.mantle.block.entity.MantleBlockEntity;
 import slimeknights.tconstruct.common.network.TinkerNetwork;
 import slimeknights.tconstruct.library.fluid.FillOnlyFluidHandler;
 import net.neoforged.neoforge.transfer.ResourceHandler;
 import net.neoforged.neoforge.transfer.fluid.FluidResource;
+import net.neoforged.neoforge.transfer.transaction.Transaction;
 import slimeknights.tconstruct.smeltery.TinkerSmeltery;
 import slimeknights.tconstruct.smeltery.block.ChannelBlock;
 import slimeknights.tconstruct.smeltery.block.ChannelBlock.ChannelConnection;
@@ -43,13 +41,9 @@ public class ChannelBlockEntity extends MantleBlockEntity implements IFluidPacke
 	/** Channel internal tank */
 	private final ChannelTank tank = new ChannelTank(FaucetBlockEntity.MB_PER_TICK * 4, this);
 	/** Handler to return from channel top */
-	private final IFluidHandler topHandler = new FillOnlyFluidHandler(tank);
+	private final ResourceHandler<FluidResource> topHandler = new FillOnlyFluidHandler(tank);
 	/** Tanks for inserting on each side */
-	private final Map<Direction,IFluidHandler> sideTanks = Util.make(new EnumMap<>(Direction.class), map -> {
-		for (Direction direction : Plane.HORIZONTAL) {
-			map.put(direction, new ChannelSideTank(this, tank, direction));
-		}
-	});
+	private final Map<Direction,ResourceHandler<FluidResource>> sideTanks = createSideTanks();
 	/** Cache of tanks on all neighboring sides */
 	private final Map<Direction,NeighborCache> neighborTanks = new EnumMap<>(Direction.class);
 
@@ -83,7 +77,7 @@ public class ChannelBlockEntity extends MantleBlockEntity implements IFluidPacke
 
 	/** Returns the handler exposed on the queried side. */
 	@Nullable
-	public IFluidHandler getFluidHandler(@Nullable Direction side) {
+	public ResourceHandler<FluidResource> getFluidHandler(@Nullable Direction side) {
 		// top side gets the insert direct
     if (side == null || side == Direction.UP) {
       return topHandler;
@@ -96,10 +90,18 @@ public class ChannelBlockEntity extends MantleBlockEntity implements IFluidPacke
       }
       // OUT deliberately advertises fluid support while rejecting all interaction.
       if (connection == ChannelConnection.OUT) {
-        return EmptyFluidHandler.INSTANCE;
+        return EmptyResourceHandler.instance();
       }
     }
 		return null;
+	}
+
+	private Map<Direction,ResourceHandler<FluidResource>> createSideTanks() {
+		Map<Direction,ResourceHandler<FluidResource>> handlers = new EnumMap<>(Direction.class);
+		for (Direction direction : Plane.HORIZONTAL) {
+			handlers.put(direction, new ChannelSideTank(this, tank, direction));
+		}
+		return handlers;
 	}
 
 	/** Native neighbor cache. Its validity follows this block entity and the exact cache entry. */
@@ -113,8 +115,8 @@ public class ChannelBlockEntity extends MantleBlockEntity implements IFluidPacke
 		}
 
 		@Nullable
-		private IFluidHandler get() {
-			return slimeknights.tconstruct.library.utils.TinkerCapabilityAdapters.fluidHandler(cache.getCapability());
+		private ResourceHandler<FluidResource> get() {
+			return cache.getCapability();
 		}
 	}
 
@@ -124,12 +126,12 @@ public class ChannelBlockEntity extends MantleBlockEntity implements IFluidPacke
 	 * @return  Fluid handler, or empty
 	 */
 	@Nullable
-	protected IFluidHandler getNeighborHandler(Direction side) {
+	protected ResourceHandler<FluidResource> getNeighborHandler(Direction side) {
 		assert level != null;
 		if (level instanceof ServerLevel serverLevel) {
 			return neighborTanks.computeIfAbsent(side, key -> new NeighborCache(serverLevel, key)).get();
 		}
-		return slimeknights.tconstruct.library.utils.TinkerCapabilityAdapters.fluidHandler(level.getCapability(Capabilities.Fluid.BLOCK, worldPosition.relative(side), side.getOpposite()));
+		return level.getCapability(Capabilities.Fluid.BLOCK, worldPosition.relative(side), side.getOpposite());
 	}
 
 	/**
@@ -313,7 +315,7 @@ public class ChannelBlockEntity extends MantleBlockEntity implements IFluidPacke
 
 		// get the handler on the side, try filling
     // TODO: handle the case of no fluid handler on the side that may later become a handler
-		IFluidHandler handler = getNeighborHandler(side);
+		ResourceHandler<FluidResource> handler = getNeighborHandler(side);
 		return handler != null && fill(side, handler, flowRate);
 	}
 
@@ -324,17 +326,20 @@ public class ChannelBlockEntity extends MantleBlockEntity implements IFluidPacke
 	 * @param amount   Amount to fill
 	 * @return  True if the side successfully filled something
 	 */
-	protected boolean fill(Direction side, IFluidHandler handler, int amount) {
+	protected boolean fill(Direction side, ResourceHandler<FluidResource> handler, int amount) {
 		// make sure we do not allow more than the fluid allows, should not happen but just in case
 		int usable = Math.min(tank.getMaxUsable(), amount);
 		if (usable > 0) {
-			// see how much works
-			FluidStack fluid = tank.drain(usable, FluidAction.SIMULATE);
-			int filled = handler.fill(fluid, FluidAction.SIMULATE);
+			FluidResource fluid = tank.getResource(0);
+			int filled = 0;
+			try (Transaction transaction = Transaction.open(null)) {
+				int accepted = handler.insert(fluid, usable, transaction);
+				if (accepted > 0 && tank.extract(0, fluid, accepted, transaction) == accepted) {
+					filled = accepted;
+					transaction.commit();
+				}
+			}
 			if (filled > 0) {
-				// drain the amount that worked
-				fluid = tank.drain(filled, FluidAction.EXECUTE);
-				handler.fill(fluid, FluidAction.EXECUTE);
 
 				// mark that the side is flowing
 				setFlow(side, true);

@@ -1,5 +1,5 @@
 {
-  "parent": "neoforge:item/default-tool",
+  "parent": "neominecraft:item/handheld",
   "gui_light": "front",
   "display": {
     "tconstruct:thrown": {

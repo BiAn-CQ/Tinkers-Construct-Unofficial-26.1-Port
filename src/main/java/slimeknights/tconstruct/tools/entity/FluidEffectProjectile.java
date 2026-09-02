@@ -18,6 +18,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.LlamaSpit;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.entity.projectile.ProjectileUtil;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
@@ -29,10 +30,11 @@ import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.event.EventHooks;
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.fluids.capability.IFluidHandler.FluidAction;
-import net.neoforged.neoforge.items.IItemHandler;
-import net.neoforged.neoforge.items.IItemHandlerModifiable;
-import slimeknights.mantle.inventory.EmptyItemHandler;
+import slimeknights.tconstruct.library.utils.SimulationMode;
+import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.item.ItemResource;
+import net.neoforged.neoforge.transfer.item.ItemUtil;
+import net.neoforged.neoforge.transfer.transaction.Transaction;
 import slimeknights.tconstruct.fluids.TinkerFluids;
 import slimeknights.tconstruct.library.modifiers.entity.ProjectileWithKnockback;
 import slimeknights.tconstruct.library.modifiers.entity.ProjectileWithPower;
@@ -40,7 +42,6 @@ import slimeknights.tconstruct.library.modifiers.fluid.FluidEffectContext;
 import slimeknights.tconstruct.library.modifiers.fluid.FluidEffectManager;
 import slimeknights.tconstruct.library.modifiers.fluid.FluidEffects;
 import slimeknights.tconstruct.library.utils.Util;
-import slimeknights.tconstruct.library.utils.TagUtil;
 import slimeknights.tconstruct.library.utils.FluidStackDataUtil;
 import slimeknights.tconstruct.library.utils.TinkerValueCodecs;
 import slimeknights.tconstruct.tools.TinkerModifiers;
@@ -142,13 +143,10 @@ public class FluidEffectProjectile extends Projectile implements ProjectileWithK
 
   /** Gets the cannon tank */
   @Nullable
-  private IItemHandlerModifiable getCannonInventory() {
+  private ResourceHandler<ItemResource> getCannonInventory() {
     Level level = level();
     if (this.cannon != null && level.isLoaded(this.cannon)) {
-      var handler = slimeknights.tconstruct.library.utils.TinkerCapabilityAdapters.itemHandler(level.getCapability(Capabilities.Item.BLOCK, this.cannon, null));
-      if (handler instanceof IItemHandlerModifiable modifiable) {
-        return modifiable;
-      }
+      return level.getCapability(Capabilities.Item.BLOCK, this.cannon, null);
     }
     return null;
   }
@@ -162,9 +160,9 @@ public class FluidEffectProjectile extends Projectile implements ProjectileWithK
       builder.user(owner);
     }
     if (this.cannon != null) {
-      IItemHandler handler = getCannonInventory();
+      ResourceHandler<ItemResource> handler = getCannonInventory();
       if (handler != null) {
-        builder.stack(handler.getStackInSlot(0).copy());
+        builder.stack(ItemUtil.getStack(handler, 0));
       }
     }
     return builder;
@@ -173,9 +171,20 @@ public class FluidEffectProjectile extends Projectile implements ProjectileWithK
   /** Updates the stack for the fluid cannon */
   private void updateCannonStack(FluidEffectContext context) {
     if (cannon != null) {
-      IItemHandlerModifiable handler = getCannonInventory();
+      ResourceHandler<ItemResource> handler = getCannonInventory();
       if (handler != null) {
-        handler.setStackInSlot(0, context.getStack());
+        ItemResource current = handler.getResource(0);
+        int currentAmount = handler.getAmountAsInt(0);
+        ItemStack updated = context.getStack();
+        try (Transaction transaction = Transaction.openRoot()) {
+          if (currentAmount > 0 && handler.extract(0, current, currentAmount, transaction) != currentAmount) {
+            return;
+          }
+          if (!updated.isEmpty() && handler.insert(0, ItemResource.of(updated), updated.getCount(), transaction) != updated.getCount()) {
+            return;
+          }
+          transaction.commit();
+        }
       }
     }
   }
@@ -237,7 +246,7 @@ public class FluidEffectProjectile extends Projectile implements ProjectileWithK
       FluidEffects recipe = FluidEffectManager.INSTANCE.find(fluid.getFluid());
       if (recipe.hasEntityEffects()) {
         FluidEffectContext.Entity context = buildContext().location(result.getLocation()).target(target);
-        int consumed = recipe.applyToEntity(fluid, power, context, FluidAction.EXECUTE);
+        int consumed = recipe.applyToEntity(fluid, power, context, SimulationMode.EXECUTE);
         // update the stack
         if (consumed > 0) {
           updateCannonStack(context);
@@ -281,7 +290,7 @@ public class FluidEffectProjectile extends Projectile implements ProjectileWithK
         FluidEffects recipe = FluidEffectManager.INSTANCE.find(fluid.getFluid());
         if (recipe.hasBlockEffects()) {
           FluidEffectContext.Block context = buildContext().block(hitResult);
-          int consumed = recipe.applyToBlock(fluid, power, context, FluidAction.EXECUTE);
+          int consumed = recipe.applyToBlock(fluid, power, context, SimulationMode.EXECUTE);
           boolean changed = consumed > 0;
           fluid.shrink(consumed);
           // we can continue to live if we have fluid left and we broke our block
@@ -295,7 +304,7 @@ public class FluidEffectProjectile extends Projectile implements ProjectileWithK
             // if not air, this projectile will be removed, apply effect to neighbors before discarding
             Iterator<Direction> iterator = orderByNearest(getDeltaMovement()).iterator();
             while (iterator.hasNext() && !fluid.isEmpty()) {
-              consumed = recipe.applyToBlock(fluid, power, context.withHitResult(Util.offset(hitResult, hit.relative(iterator.next().getOpposite()))), FluidAction.EXECUTE);
+              consumed = recipe.applyToBlock(fluid, power, context.withHitResult(Util.offset(hitResult, hit.relative(iterator.next().getOpposite()))), SimulationMode.EXECUTE);
               fluid.shrink(consumed);
               changed |= consumed > 0;
             }
@@ -345,7 +354,7 @@ public class FluidEffectProjectile extends Projectile implements ProjectileWithK
     output.putFloat(KEY_KNOCKBACK, knockback);
     output.putFloat(KEY_WATER_INERTIA, this.entityData.get(WATER_INERTIA));
     if (cannon != null) {
-      output.store(KEY_CANNON, TinkerValueCodecs.COMPOUND, TagUtil.writeBlockPos(cannon));
+      output.store(KEY_CANNON, TinkerValueCodecs.BLOCK_POS, cannon);
     }
     FluidStack fluid = getFluid();
     if (!fluid.isEmpty()) {
@@ -359,7 +368,7 @@ public class FluidEffectProjectile extends Projectile implements ProjectileWithK
     this.power = input.getFloatOr(KEY_POWER, 1.0f);
     this.knockback = input.getFloatOr(KEY_KNOCKBACK, 1.0f);
     this.entityData.set(WATER_INERTIA, input.getFloatOr(KEY_WATER_INERTIA, 0.6f));
-    this.cannon = input.read(KEY_CANNON, TinkerValueCodecs.COMPOUND).flatMap(compound -> java.util.Optional.ofNullable(TagUtil.readBlockPos(compound))).orElse(null);
+    this.cannon = input.read(KEY_CANNON, TinkerValueCodecs.BLOCK_POS).orElse(null);
     input.read(KEY_FLUID, TinkerValueCodecs.COMPOUND).ifPresent(compound -> setFluid(FluidStackDataUtil.parse(input.lookup(), compound)));
   }
 }

@@ -9,7 +9,7 @@ import net.minecraft.world.item.Items;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.entity.living.LivingEntityUseItemEvent;
 import net.neoforged.bus.api.EventPriority;
-import net.neoforged.neoforge.fluids.capability.IFluidHandler.FluidAction;
+import slimeknights.tconstruct.library.utils.SimulationMode;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.TinkerTags;
 import slimeknights.tconstruct.library.modifiers.fluid.FluidEffect;
@@ -41,7 +41,7 @@ public class StrongBonesModifier extends SingleLevelModifier {
     hookBuilder.addModule(CureOnRemovalModule.HELMET);
   }
 
-  private static boolean drinkMilk(LivingEntity living, int flat, int eachLevel, FluidAction action) {
+  private static boolean drinkMilk(LivingEntity living, int flat, int eachLevel, SimulationMode action) {
     // strong bones has to be the helmet as we use it for curing
     // TODO 1.20: can use the new cure effects to make this work in any slot
     ItemStack helmet = living.getItemBySlot(EquipmentSlot.HEAD);
@@ -69,7 +69,7 @@ public class StrongBonesModifier extends SingleLevelModifier {
   private static void onItemFinishUse(LivingEntityUseItemEvent.Finish event) {
     LivingEntity living = event.getEntity();
     if (event.getItem().getItem() == Items.MILK_BUCKET) {
-      drinkMilk(living, 600, 600, FluidAction.EXECUTE);
+      drinkMilk(living, 600, 600, SimulationMode.EXECUTE);
     }
   }
 

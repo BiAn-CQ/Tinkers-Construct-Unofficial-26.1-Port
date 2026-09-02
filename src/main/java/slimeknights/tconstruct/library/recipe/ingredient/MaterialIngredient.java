@@ -1,10 +1,7 @@
 package slimeknights.tconstruct.library.recipe.ingredient;
 
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParseException;
 import net.minecraft.core.Holder;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
@@ -18,9 +15,7 @@ import slimeknights.mantle.data.predicate.IJsonPredicate;
 import slimeknights.mantle.data.loadable.common.IngredientLoadable;
 import slimeknights.mantle.recipe.helper.LoadableIngredientSerializer;
 import slimeknights.mantle.util.JsonHelper;
-import slimeknights.mantle.util.typed.TypedMap;
 import slimeknights.tconstruct.TConstruct;
-import slimeknights.tconstruct.library.json.TinkerLoadables;
 import slimeknights.tconstruct.library.json.predicate.material.MaterialPredicate;
 import slimeknights.tconstruct.library.json.predicate.material.MaterialPredicateField;
 import slimeknights.tconstruct.library.materials.MaterialRegistry;
@@ -54,33 +49,8 @@ public final class MaterialIngredient implements ICustomIngredient {
   }
 
   private static MaterialIngredient parse(JsonObject json) {
-    /*
-     * 1.20.1 serialized this ingredient using an `item` member, while the
-     * native 26.1 custom ingredient shape uses `match`.  Keep accepting the
-     * old form, but route it through Mantle's registry-aware ingredient
-     * loader so compact 26.1 holder-set syntax and tags are handled too.
-     */
-    JsonElement match = json.get("match");
-    Ingredient nested;
-    if (match == null && json.has("item")) {
-      Identifier itemId = Identifier.tryParse(json.get("item").getAsString());
-      Item item = itemId == null ? null : BuiltInRegistries.ITEM.getOptional(itemId).orElse(null);
-      if (item == null) {
-        throw new JsonParseException("Unknown item in material ingredient: " + json.get("item"));
-      }
-      nested = Ingredient.of(item);
-    } else if (match != null) {
-      nested = IngredientLoadable.DISALLOW_EMPTY.convert(match, "match", TypedMap.empty());
-    } else {
-      throw new JsonParseException("Missing match or item in material ingredient");
-    }
-    IJsonPredicate<MaterialVariantId> material = MATERIAL_FIELD.get(json);
-    if (json.has("tag")) {
-      TConstruct.LOG.warn("Using deprecated tag field on material ingredient");
-      IJsonPredicate<MaterialVariantId> tagPredicate = MaterialPredicate.tag(TinkerLoadables.MATERIAL_TAGS.getIfPresent(json, "tag"));
-      material = material == MaterialPredicate.ANY ? tagPredicate : MaterialPredicate.and(material, tagPredicate);
-    }
-    return new MaterialIngredient(nested, material);
+    Ingredient nested = IngredientLoadable.DISALLOW_EMPTY.getIfPresent(json, "match");
+    return new MaterialIngredient(nested, MATERIAL_FIELD.get(json));
   }
 
   private static JsonObject serialize(MaterialIngredient ingredient) {

@@ -5,5 +5,7 @@
     "amount": 250,
     "tag": "tconstruct:ichor"
   },
-  "result": "tconstruct:ichor_slime_ball"
+  "result": {
+    "id": "tconstruct:ichor_slime_ball"
+  }
 }

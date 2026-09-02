@@ -13,7 +13,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.neoforge.fluids.capability.IFluidHandler.FluidAction;
+import slimeknights.tconstruct.library.utils.SimulationMode;
 import slimeknights.mantle.data.loadable.Loadables;
 import slimeknights.mantle.data.loadable.primitive.IntLoadable;
 import slimeknights.mantle.data.loadable.record.RecordLoadable;
@@ -128,12 +128,12 @@ public final class FluidMobEffect {
   }
 
   /** Applies the effect to the target entity */
-  public float apply(LivingEntity target, EffectLevel scale, TimeAction timeAction, FluidAction action) {
+  public float apply(LivingEntity target, EffectLevel scale, TimeAction timeAction, SimulationMode action) {
     return apply(target, scale, timeAction, action, null);
   }
 
   /** Applies the effect to the target entity */
-  public float apply(LivingEntity target, EffectLevel scale, TimeAction timeAction, FluidAction action, @Nullable Entity source) {
+  public float apply(LivingEntity target, EffectLevel scale, TimeAction timeAction, SimulationMode action, @Nullable Entity source) {
     // infinite requires a full level
     if (isInfinite() && !scale.isFull()) {
       return 0;

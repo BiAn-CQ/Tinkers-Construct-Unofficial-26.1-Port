@@ -3,21 +3,23 @@
   "damage": 2,
   "entity": {
     "types": [
+      "minecraft:dolphin",
       "minecraft:trader_llama",
       "minecraft:llama",
       "minecraft:horse",
-      "minecraft:mule",
-      "minecraft:dolphin",
       "minecraft:fox",
       "minecraft:ocelot",
+      "minecraft:mule",
       "minecraft:donkey"
     ]
   },
   "result": {
     "amount": 50,
-    "nbt": {
-      "Potion": "minecraft:swiftness"
+    "components": {
+      "minecraft:potion_contents": {
+        "potion": "minecraft:swiftness"
+      }
     },
-    "tag": "c:potion"
+    "id": "tconstruct:potion"
   }
 }

@@ -9,7 +9,9 @@
     },
     {
       "type": "tconstruct:edible_representative_item",
-      "representative_item": "minecraft:honey_bottle"
+      "representative_item": {
+        "id": "minecraft:honey_bottle"
+      }
     },
     {
       "type": "tconstruct:edible_consume_durability",

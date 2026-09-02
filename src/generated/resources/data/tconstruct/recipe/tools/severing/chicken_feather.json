@@ -2,7 +2,7 @@
   "type": "tconstruct:ageable_severing",
   "adult_result": {
     "count": 2,
-    "item": "minecraft:feather"
+    "id": "minecraft:feather"
   },
   "entity": {
     "type": "minecraft:chicken"

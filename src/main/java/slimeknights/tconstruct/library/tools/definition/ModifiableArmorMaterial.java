@@ -3,7 +3,7 @@ package slimeknights.tconstruct.library.tools.definition;
 import net.minecraft.resources.Identifier;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.EquipmentSlot;
-import slimeknights.tconstruct.library.compat.ArmorItem;
+import slimeknights.tconstruct.library.tools.definition.ArmorSlotType;
 import slimeknights.tconstruct.library.tools.item.armor.DummyArmorMaterial;
 
 import javax.annotation.Nullable;
@@ -12,7 +12,7 @@ import javax.annotation.Nullable;
 public class ModifiableArmorMaterial extends DummyArmorMaterial {
   /** Array of all four armor slot types */
   public static final EquipmentSlot[] ARMOR_SLOTS = {EquipmentSlot.FEET, EquipmentSlot.LEGS, EquipmentSlot.CHEST, EquipmentSlot.HEAD};
-  public static final ArmorItem.Type[] ARMOR_TYPES = {ArmorItem.Type.BOOTS, ArmorItem.Type.LEGGINGS, ArmorItem.Type.CHESTPLATE, ArmorItem.Type.HELMET};
+  public static final ArmorSlotType[] ARMOR_TYPES = {ArmorSlotType.BOOTS, ArmorSlotType.LEGGINGS, ArmorSlotType.CHESTPLATE, ArmorSlotType.HELMET};
 
   /** Array of slot index to tool definition for the slot */
   private final ToolDefinition[] armorDefinitions;
@@ -26,9 +26,9 @@ public class ModifiableArmorMaterial extends DummyArmorMaterial {
   }
 
   /** Creates a modifiable armor material, creates tool definition for the selected slots */
-  public static ModifiableArmorMaterial create(Identifier id, SoundEvent equipSound, ArmorItem.Type... slots) {
+  public static ModifiableArmorMaterial create(Identifier id, SoundEvent equipSound, ArmorSlotType... slots) {
     ToolDefinition[] definitions = new ToolDefinition[4];
-    for (ArmorItem.Type slot : slots) {
+    for (ArmorSlotType slot : slots) {
       definitions[slot.ordinal()] = ToolDefinition.create(id.withSuffix("_" + slot.getName()));
     }
     return new ModifiableArmorMaterial(id, equipSound, definitions);
@@ -45,7 +45,7 @@ public class ModifiableArmorMaterial extends DummyArmorMaterial {
    * @return  Armor definition
    */
   @Nullable
-  public ToolDefinition getArmorDefinition(ArmorItem.Type slotType) {
+  public ToolDefinition getArmorDefinition(ArmorSlotType slotType) {
     int index = slotType.ordinal();
     return index < armorDefinitions.length ? armorDefinitions[index] : null;
   }

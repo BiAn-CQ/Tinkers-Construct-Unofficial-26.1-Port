@@ -15,7 +15,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.fluids.capability.IFluidHandler.FluidAction;
+import slimeknights.tconstruct.library.utils.SimulationMode;
 import slimeknights.mantle.data.loadable.record.RecordLoadable;
 import slimeknights.tconstruct.library.json.LevelingValue;
 import slimeknights.tconstruct.library.modifiers.ModifierEntry;
@@ -89,7 +89,7 @@ public record SplashingModule(LevelingValue strength) implements ModifierModule,
             // for the main target, consume fluids
             float level = this.strength.compute(modifier);
             int numTargets = 0;
-            int consumed = recipe.applyToEntity(fluid, level, FluidEffectContext.builder(world).user(player).target(target), FluidAction.EXECUTE);
+            int consumed = recipe.applyToEntity(fluid, level, FluidEffectContext.builder(world).user(player).target(target), SimulationMode.EXECUTE);
             if (consumed > 0) {
               numTargets++;
               UseFluidOnHitModifier.spawnParticles(target, fluid);
@@ -102,7 +102,7 @@ public record SplashingModule(LevelingValue strength) implements ModifierModule,
               float rangeSq = range * range;
               for (Entity aoeTarget : world.getEntitiesOfClass(Entity.class, target.getBoundingBox().inflate(range, 0.25, range))) {
                 if (aoeTarget != player && aoeTarget != target && !(aoeTarget instanceof ArmorStand stand && stand.isMarker()) && target.distanceToSqr(aoeTarget) < rangeSq) {
-                  consumed = recipe.applyToEntity(fluid, level, FluidEffectContext.builder(world).user(player).target(aoeTarget), FluidAction.EXECUTE);
+                  consumed = recipe.applyToEntity(fluid, level, FluidEffectContext.builder(world).user(player).target(aoeTarget), SimulationMode.EXECUTE);
                   if (consumed > 0) {
                     numTargets++;
                     UseFluidOnHitModifier.spawnParticles(aoeTarget, fluid);
@@ -163,7 +163,7 @@ public record SplashingModule(LevelingValue strength) implements ModifierModule,
             int numTargets = 0;
             BlockHitResult hit = Util.getHitResult(context);
             BlockState state = world.getBlockState(hit.getBlockPos());
-            int consumed = recipe.applyToBlock(fluid, level, FluidEffectContext.builder(world).user(player).block(hit), FluidAction.EXECUTE);
+            int consumed = recipe.applyToBlock(fluid, level, FluidEffectContext.builder(world).user(player).block(hit), SimulationMode.EXECUTE);
             if (consumed > 0) {
               numTargets++;
               spawnParticles(world, hit, fluid);
@@ -174,7 +174,7 @@ public record SplashingModule(LevelingValue strength) implements ModifierModule,
             if (!fluid.isEmpty()) {
               for (BlockPos offset : tool.getHook(ToolHooks.AOE_ITERATOR).getBlocks(tool, context, state, AOEMatchType.TRANSFORM)) {
                 BlockHitResult offsetHit = Util.offset(hit, offset);
-                consumed = recipe.applyToBlock(fluid, level, FluidEffectContext.builder(world).user(player).block(offsetHit), FluidAction.EXECUTE);
+                consumed = recipe.applyToBlock(fluid, level, FluidEffectContext.builder(world).user(player).block(offsetHit), SimulationMode.EXECUTE);
                 if (consumed > 0) {
                   numTargets++;
                   spawnParticles(world, offsetHit, fluid);

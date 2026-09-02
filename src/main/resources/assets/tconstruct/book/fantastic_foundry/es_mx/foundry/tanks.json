@@ -1,8 +1,6 @@
 {
   "title": "Tanques chamuscados",
-  "item": {
-    "tag": "tconstruct:scorched_tanks"
-  },
+  "item": "#tconstruct:scorched_tanks",
   "text": [
      {
       "text": "Los tanques son ideales para almacenar combustibles o fluidos fundidos. ¡Si quieres fundir metales en tu fundición, necesitarás uno! Ten en cuenta que los tanques no pueden usarse para el suelo de la fundición.",

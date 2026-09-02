@@ -3,7 +3,7 @@
   "input": "tconstruct:seared_stone",
   "result": {
     "amount": 250,
-    "fluid": "tconstruct:seared_stone"
+    "id": "tconstruct:seared_stone"
   },
   "temperature": 600
 }

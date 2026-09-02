@@ -1,5 +1,5 @@
 {
-    "parent": "forge:item/default",
+    "parent": "minecraft:item/generated",
     "textures": {
         "layer0": "tconstruct:item/tool/armor/travelers/vest/cuirass"
     }

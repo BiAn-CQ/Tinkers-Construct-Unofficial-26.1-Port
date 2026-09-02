@@ -1,8 +1,6 @@
 {
   "title": "Kavrulmuş Bloklar",
-  "item": {
-    "tag": "tconstruct:scorched_blocks"
-  },
+  "item": "#tconstruct:scorched_blocks",
   "text": [
     {
       "text": "Bu bloklar dökümevinin tabanını veya duvarları gibi herhangi bir parçasında kullanılabilir. Üstünü süslemek için de kullanışlıdır",

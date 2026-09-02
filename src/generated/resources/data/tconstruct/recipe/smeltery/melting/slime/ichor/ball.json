@@ -3,7 +3,7 @@
   "byproducts": [
     {
       "amount": 200,
-      "fluid": "tconstruct:ichor"
+      "id": "tconstruct:ichor"
     }
   ],
   "ingredient": {
@@ -12,7 +12,7 @@
   },
   "result": {
     "amount": 10,
-    "fluid": "tconstruct:blazing_blood"
+    "id": "tconstruct:blazing_blood"
   },
   "temperature": 1500,
   "time": 80

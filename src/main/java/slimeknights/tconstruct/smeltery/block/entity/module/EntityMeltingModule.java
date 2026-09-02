@@ -13,8 +13,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.phys.AABB;
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.fluids.capability.IFluidHandler;
-import net.neoforged.neoforge.fluids.capability.IFluidHandler.FluidAction;
+import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.fluid.FluidResource;
 import slimeknights.mantle.block.entity.MantleBlockEntity;
 import slimeknights.tconstruct.common.TinkerDamageTypes;
 import slimeknights.tconstruct.common.TinkerTags.EntityTypes;
@@ -22,6 +22,7 @@ import slimeknights.tconstruct.fluids.TinkerFluids;
 import slimeknights.tconstruct.library.recipe.FluidValues;
 import slimeknights.tconstruct.library.recipe.entitymelting.EntityMeltingRecipe;
 import slimeknights.tconstruct.library.recipe.entitymelting.EntityMeltingRecipeCache;
+import slimeknights.tconstruct.library.recipe.melting.IMeltingRecipe;
 
 import javax.annotation.Nullable;
 import java.util.Objects;
@@ -36,7 +37,7 @@ import java.util.function.Supplier;
 public class EntityMeltingModule {
   // TODO: migrate to whatever mojang is doing
   private final MantleBlockEntity parent;
-  private final IFluidHandler tank;
+  private final ResourceHandler<FluidResource> tank;
   /** Supplier that returns true if the tank has space */
   private final BooleanSupplier canMeltEntities;
   /** Function that tries to insert an item into the inventory */
@@ -173,7 +174,7 @@ public class EntityMeltingModule {
           // if the entity is successfully damaged, fill the tank with fluid
           if (entity.hurtOrSimulate(entity.fireImmune() ? smelteryMagic() : smelteryHeat(), damage)) {
             // its fine if we don't fill it all, leftover fluid is just lost
-            tank.fill(fluid, FluidAction.EXECUTE);
+            IMeltingRecipe.insert(tank, fluid);
             melted = true;
           }
         }

@@ -14,7 +14,7 @@ import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.item.Items;
-import slimeknights.tconstruct.library.compat.Tiers;
+import net.minecraft.world.item.ToolMaterial;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -73,7 +73,7 @@ import slimeknights.tconstruct.library.modifiers.fluid.general.ScalingFluidEffec
 import slimeknights.tconstruct.library.modifiers.fluid.general.SequenceFluidEffect;
 import slimeknights.tconstruct.library.modifiers.fluid.general.SetBlockFluidEffect;
 import slimeknights.tconstruct.library.recipe.FluidValues;
-import slimeknights.tconstruct.library.recipe.TagPredicate;
+import slimeknights.tconstruct.library.recipe.CustomDataPredicate;
 import slimeknights.tconstruct.shared.TinkerCommons;
 import slimeknights.tconstruct.shared.TinkerEffects;
 import slimeknights.tconstruct.smeltery.TinkerSmeltery;
@@ -201,11 +201,11 @@ public class FluidEffectProvider extends AbstractFluidEffectProvider {
                                         .build());
 
     // gems - direct damage and mining //
-    addGem(TinkerFluids.moltenAmethyst).addBlockEffect(new HarvestTierPredicate(Tiers.STONE),     new BreakBlockFluidEffect(3));
-    addGem(TinkerFluids.moltenQuartz  ).addBlockEffect(new HarvestTierPredicate(Tiers.IRON),      new BreakBlockFluidEffect(5));
-    addGem(TinkerFluids.moltenEmerald ).addBlockEffect(new HarvestTierPredicate(Tiers.IRON),      new BreakBlockFluidEffect(10, enchantment(Enchantments.SILK_TOUCH), 1));
-    addGem(TinkerFluids.moltenDiamond ).addBlockEffect(new HarvestTierPredicate(Tiers.DIAMOND),   new BreakBlockFluidEffect(10, enchantment(Enchantments.FORTUNE), 3));
-    addMetal(TinkerFluids.moltenDebris).addBlockEffect(new HarvestTierPredicate(Tiers.NETHERITE), new BreakBlockFluidEffect(50));
+    addGem(TinkerFluids.moltenAmethyst).addBlockEffect(new HarvestTierPredicate(ToolMaterial.STONE),     new BreakBlockFluidEffect(3));
+    addGem(TinkerFluids.moltenQuartz  ).addBlockEffect(new HarvestTierPredicate(ToolMaterial.IRON),      new BreakBlockFluidEffect(5));
+    addGem(TinkerFluids.moltenEmerald ).addBlockEffect(new HarvestTierPredicate(ToolMaterial.IRON),      new BreakBlockFluidEffect(10, enchantment(Enchantments.SILK_TOUCH), 1));
+    addGem(TinkerFluids.moltenDiamond ).addBlockEffect(new HarvestTierPredicate(ToolMaterial.DIAMOND),   new BreakBlockFluidEffect(10, enchantment(Enchantments.FORTUNE), 3));
+    addMetal(TinkerFluids.moltenDebris).addBlockEffect(new HarvestTierPredicate(ToolMaterial.NETHERITE), new BreakBlockFluidEffect(50));
 
     // foods - setup to give equivalent saturation on a full bowl/bottle to their food counterparts, though hunger may be slightly different
     addFluid(TinkerFluids.honey.getTag(), FluidValues.SIP)
@@ -329,14 +329,14 @@ public class FluidEffectProvider extends AbstractFluidEffectProvider {
     // potion fluid compat
     // standard potion is 250 mb, but we want a smaller number. divide into 5 pieces at 25% a piece (so healing is 1 health), means you gain 25% per potion
     addFluid(TinkerFluids.potion, FluidValues.SIP)
-      .addEntityEffect(new PotionFluidEffect(0.25f, TagPredicate.ANY))
-      .addBlockEffect(new PotionCloudFluidEffect(0.25f, TagPredicate.ANY));
+      .addEntityEffect(new PotionFluidEffect(0.25f, CustomDataPredicate.ANY))
+      .addBlockEffect(new PotionCloudFluidEffect(0.25f, CustomDataPredicate.ANY));
 
     // create has three types of bottles stored on their fluid, react to it to boost
-    Function<String,TagPredicate> createBottle = value -> {
+    Function<String,CustomDataPredicate> createBottle = value -> {
       CompoundTag compound = new CompoundTag();
       compound.putString("Bottle", value);
-      return new TagPredicate(compound);
+      return new CustomDataPredicate(compound);
     };
     String create = "create";
     addFluid("potion_create", FluidNameIngredient.of(Identifier.fromNamespaceAndPath(create, "potion"), FluidValues.SIP))

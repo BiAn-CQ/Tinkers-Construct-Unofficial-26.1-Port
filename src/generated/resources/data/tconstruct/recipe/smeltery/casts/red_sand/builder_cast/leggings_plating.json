@@ -5,5 +5,7 @@
     "neoforge:ingredient_type": "mantle:item_tag",
     "tag": "tconstruct:casts/red_sand"
   },
-  "result": "tconstruct:leggings_plating_red_sand_cast"
+  "result": {
+    "id": "tconstruct:leggings_plating_red_sand_cast"
+  }
 }

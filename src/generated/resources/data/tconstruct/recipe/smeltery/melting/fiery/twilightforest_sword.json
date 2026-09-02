@@ -21,7 +21,7 @@
   },
   "result": {
     "amount": 500,
-    "fluid": "tconstruct:fiery_liquid",
+    "id": "tconstruct:fiery_liquid",
     "unit_size": 50
   },
   "temperature": 1500,

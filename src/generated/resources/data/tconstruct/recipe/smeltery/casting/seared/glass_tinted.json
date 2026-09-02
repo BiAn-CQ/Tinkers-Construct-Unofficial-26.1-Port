@@ -10,5 +10,7 @@
     "amount": 1000,
     "tag": "tconstruct:seared_stone"
   },
-  "result": "tconstruct:seared_tinted_glass"
+  "result": {
+    "id": "tconstruct:seared_tinted_glass"
+  }
 }

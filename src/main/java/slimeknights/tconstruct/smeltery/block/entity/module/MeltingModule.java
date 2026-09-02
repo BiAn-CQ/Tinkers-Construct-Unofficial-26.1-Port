@@ -8,7 +8,6 @@ import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.Level;
-import net.neoforged.neoforge.items.ItemHandlerHelper;
 import slimeknights.mantle.block.entity.MantleBlockEntity;
 import slimeknights.tconstruct.common.network.InventorySlotSyncPacket;
 import slimeknights.tconstruct.common.network.TinkerNetwork;
@@ -19,6 +18,7 @@ import slimeknights.tconstruct.library.utils.ItemStackDataUtil;
 
 import javax.annotation.Nullable;
 import java.util.Optional;
+import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 /**
@@ -43,6 +43,8 @@ public class MeltingModule implements IMeltingContainer, ContainerData {
   private final IOreRate oreRate;
   /** Slot index for updates */
   private final int slotIndex;
+  /** Updates the transaction-aware inventory that owns this module. */
+  private final Consumer<ItemStack> stackUpdater;
 
   /** Current time of the item in the slot */
   @Getter
@@ -80,6 +82,11 @@ public class MeltingModule implements IMeltingContainer, ContainerData {
    * @param newStack  New stack
    */
   public void setStack(ItemStack newStack) {
+    stackUpdater.accept(newStack);
+  }
+
+  /** Applies a stack already committed by the owning resource handler. */
+  void updateStackFromInventory(ItemStack newStack) {
     // send a slot update to the client when items change, so we can update the TESR
     Level world = parent.getLevel();
     if (slotIndex != -1 && world != null && !world.isClientSide() && !ItemStack.matches(stack, newStack)) {

@@ -306,8 +306,7 @@ public class ModifierManager extends TinkerJsonResourceReloadListener {
   @Nullable
   private Modifier loadModifier(Identifier key, JsonElement element, Map<ModifierId, ModifierId> redirects) {
     try {
-      JsonObject json = GsonHelper.convertToJsonObject(element, "modifier").deepCopy();
-      normalizeLegacyModifierJson(json);
+      JsonObject json = GsonHelper.convertToJsonObject(element, "modifier");
 
       // processed first so a modifier can both conditionally redirect and fallback to a conditional modifier
       if (json.has("redirects")) {
@@ -335,35 +334,6 @@ public class ModifierManager extends TinkerJsonResourceReloadListener {
       log.error("Failed to load modifier {}", key, e);
       return null;
     }
-  }
-
-  /** Converts attribute IDs emitted by the 1.20.1 data tree to their 26.1 registry IDs. */
-  private static void normalizeLegacyModifierJson(JsonElement element) {
-    if (element.isJsonObject()) {
-      for (Entry<String,JsonElement> entry : List.copyOf(element.getAsJsonObject().entrySet())) {
-        if ("attribute".equals(entry.getKey()) && entry.getValue().isJsonPrimitive()
-            && entry.getValue().getAsJsonPrimitive().isString()) {
-          element.getAsJsonObject().addProperty(entry.getKey(), normalizeLegacyAttributeId(entry.getValue().getAsString()));
-        } else {
-          normalizeLegacyModifierJson(entry.getValue());
-        }
-      }
-    } else if (element.isJsonArray()) {
-      for (JsonElement child : element.getAsJsonArray()) {
-        normalizeLegacyModifierJson(child);
-      }
-    }
-  }
-
-  private static String normalizeLegacyAttributeId(String id) {
-    return switch (id) {
-      case "forge:block_reach" -> "minecraft:block_interaction_range";
-      case "forge:entity_reach" -> "minecraft:entity_interaction_range";
-      case "forge:entity_gravity" -> "minecraft:gravity";
-      case "forge:step_height_addition" -> "minecraft:step_height";
-      case "forge:swim_speed" -> "neoforge:swim_speed";
-      default -> id.startsWith("minecraft:generic.") ? "minecraft:" + id.substring("minecraft:generic.".length()) : id;
-    };
   }
 
   /** Updates the modifiers from the server */

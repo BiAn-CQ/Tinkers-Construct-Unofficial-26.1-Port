@@ -7,5 +7,7 @@
     "amount": 1000,
     "tag": "tconstruct:sky_slime"
   },
-  "result": "tconstruct:sky_enderbark_roots"
+  "result": {
+    "id": "tconstruct:sky_enderbark_roots"
+  }
 }

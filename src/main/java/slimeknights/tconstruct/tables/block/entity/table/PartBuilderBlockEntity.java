@@ -11,7 +11,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.event.EventHooks;
-import net.neoforged.neoforge.items.ItemHandlerHelper;
+import slimeknights.tconstruct.library.utils.ItemTransferUtil;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.TinkerTags;
 import slimeknights.tconstruct.common.network.TinkerNetwork;
@@ -19,7 +19,7 @@ import slimeknights.tconstruct.library.recipe.TinkerRecipeTypes;
 import slimeknights.tconstruct.library.recipe.material.IMaterialValue;
 import slimeknights.tconstruct.library.recipe.partbuilder.IPartBuilderRecipe;
 import slimeknights.tconstruct.library.recipe.partbuilder.Pattern;
-import slimeknights.tconstruct.shared.inventory.ConfigurableInvWrapperCapability;
+import slimeknights.tconstruct.shared.inventory.ConfigurableContainerResourceHandler;
 import slimeknights.tconstruct.tables.TinkerTables;
 import slimeknights.tconstruct.tables.block.entity.inventory.LazyResultContainer;
 import slimeknights.tconstruct.tables.block.entity.inventory.LazyResultContainer.ILazyCrafter;
@@ -64,7 +64,7 @@ public class PartBuilderBlockEntity extends RetexturedTableBlockEntity implement
 
   public PartBuilderBlockEntity(BlockPos pos, BlockState state) {
     super(TinkerTables.partBuilderTile.get(), pos, state, NAME, 2);
-    this.itemHandler = new ConfigurableInvWrapperCapability(this, false, false);
+    this.itemHandler = new ConfigurableContainerResourceHandler(this, false, false);
     this.inventoryWrapper = new PartBuilderContainerWrapper(this);
     this.craftingResult = new LazyResultContainer(this);
   }
@@ -333,7 +333,7 @@ public class PartBuilderBlockEntity extends RetexturedTableBlockEntity implement
         setItem(slot, container);
       } else {
         stack.shrink(amount);
-        ItemHandlerHelper.giveItemToPlayer(player, container);
+        ItemTransferUtil.giveToPlayer(player, container);
       }
     }
   }
@@ -358,7 +358,7 @@ public class PartBuilderBlockEntity extends RetexturedTableBlockEntity implement
     if (level != null && !level.isClientSide()) {
       ItemStack leftover = recipe.getLeftover(inventoryWrapper, selectedPattern);
       if (!leftover.isEmpty()) {
-        ItemHandlerHelper.giveItemToPlayer(player, leftover);
+        ItemTransferUtil.giveToPlayer(player, leftover);
       }
     }
 

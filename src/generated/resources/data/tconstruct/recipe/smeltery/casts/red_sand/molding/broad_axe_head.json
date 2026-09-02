@@ -8,5 +8,7 @@
     "neoforge:ingredient_type": "tconstruct:material",
     "match": "tconstruct:broad_axe_head"
   },
-  "result": "tconstruct:broad_axe_head_red_sand_cast"
+  "result": {
+    "id": "tconstruct:broad_axe_head_red_sand_cast"
+  }
 }

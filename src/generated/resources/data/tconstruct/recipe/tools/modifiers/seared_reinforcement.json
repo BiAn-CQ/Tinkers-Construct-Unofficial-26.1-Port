@@ -13,5 +13,7 @@
       "tag": "tconstruct:scorched_stone"
     }
   ],
-  "result": "tconstruct:seared_reinforcement"
+  "result": {
+    "id": "tconstruct:seared_reinforcement"
+  }
 }

@@ -30,25 +30,15 @@ public final class TagUtil {
     return null;
   }
 
-  /** Reads both the legacy Tinkers compound format and the native 1.21 codec format. */
+  /** Reads a block position using the native codec format. */
   @Nullable
   public static BlockPos readBlockPos(@Nullable Tag tag) {
-    if (tag instanceof CompoundTag compound
-        && compound.contains("X")
-        && compound.contains("Y")
-        && compound.contains("Z")) {
-      return new BlockPos(compound.getIntOr("X", 0), compound.getIntOr("Y", 0), compound.getIntOr("Z", 0));
-    }
     return tag == null ? null : BlockPos.CODEC.parse(NbtOps.INSTANCE, tag).result().orElse(null);
   }
 
-  /** Writes the established Tinkers compound format to preserve existing save data. */
-  public static CompoundTag writeBlockPos(BlockPos pos) {
-    CompoundTag tag = new CompoundTag();
-    tag.putInt("X", pos.getX());
-    tag.putInt("Y", pos.getY());
-    tag.putInt("Z", pos.getZ());
-    return tag;
+  /** Writes a block position using the native codec format. */
+  public static Tag writeBlockPos(BlockPos pos) {
+    return BlockPos.CODEC.encodeStart(NbtOps.INSTANCE, pos).getOrThrow();
   }
 
   /**

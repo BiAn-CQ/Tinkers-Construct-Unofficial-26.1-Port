@@ -7,5 +7,7 @@
     "amount": 50,
     "tag": "tconstruct:molten_quartz"
   },
-  "result": "minecraft:diorite"
+  "result": {
+    "id": "minecraft:diorite"
+  }
 }

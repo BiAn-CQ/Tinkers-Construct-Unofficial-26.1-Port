@@ -3,7 +3,7 @@
   "input": "tconstruct:skyslime",
   "result": {
     "amount": 250,
-    "fluid": "tconstruct:sky_slime"
+    "id": "tconstruct:sky_slime"
   },
   "temperature": 10
 }

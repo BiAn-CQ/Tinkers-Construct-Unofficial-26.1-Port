@@ -1,6 +1,6 @@
 package slimeknights.tconstruct.library.tools.definition.module.build;
 
-import slimeknights.tconstruct.library.compat.ArmorItem;
+import slimeknights.tconstruct.library.tools.definition.ArmorSlotType;
 import slimeknights.mantle.data.loadable.record.RecordLoadable;
 import slimeknights.tconstruct.library.module.ModuleHook;
 import slimeknights.tconstruct.library.module.HookProvider;
@@ -41,23 +41,23 @@ public record MultiplyStatsModule(MultiplierNBT multipliers) implements ToolStat
 
 
   /** Creates a builder instance */
-  public static ArmorBuilder armor(List<ArmorItem.Type> slots) {
+  public static ArmorBuilder armor(List<ArmorSlotType> slots) {
     return new ArmorBuilder(slots);
   }
 
   public static class ArmorBuilder implements ArmorModuleBuilder<MultiplyStatsModule> {
-    private final List<ArmorItem.Type> slotTypes;
+    private final List<ArmorSlotType> slotTypes;
     private final MultiplierNBT.Builder[] builders = new MultiplierNBT.Builder[4];
 
-    private ArmorBuilder(List<ArmorItem.Type> slotTypes) {
+    private ArmorBuilder(List<ArmorSlotType> slotTypes) {
       this.slotTypes = slotTypes;
-      for (ArmorItem.Type slotType : slotTypes) {
+      for (ArmorSlotType slotType : slotTypes) {
         builders[slotType.ordinal()] = MultiplierNBT.builder();
       }
     }
 
     /** Gets the builder for the given slot */
-    protected MultiplierNBT.Builder getBuilder(ArmorItem.Type slotType) {
+    protected MultiplierNBT.Builder getBuilder(ArmorSlotType slotType) {
       MultiplierNBT.Builder builder = builders[slotType.ordinal()];
       if (builder == null) {
         throw new IllegalArgumentException("Unsupported slot type " + slotType);
@@ -66,14 +66,14 @@ public record MultiplyStatsModule(MultiplierNBT multipliers) implements ToolStat
     }
 
     /** Adds a bonus to the builder */
-    public ArmorBuilder set(ArmorItem.Type slotType, INumericToolStat<?> stat, float value) {
+    public ArmorBuilder set(ArmorSlotType slotType, INumericToolStat<?> stat, float value) {
       getBuilder(slotType).set(stat, value);
       return this;
     }
 
     /** Sets the same bonus on all pieces */
     public ArmorBuilder setAll(INumericToolStat<?> stat, float value) {
-      for (ArmorItem.Type slotType : slotTypes) {
+      for (ArmorSlotType slotType : slotTypes) {
         set(slotType, stat, value);
       }
       return this;
@@ -95,7 +95,7 @@ public record MultiplyStatsModule(MultiplierNBT multipliers) implements ToolStat
 
     /** Builds the final module */
     @Override
-    public MultiplyStatsModule build(ArmorItem.Type slot) {
+    public MultiplyStatsModule build(ArmorSlotType slot) {
       return new MultiplyStatsModule(getBuilder(slot).build());
     }
   }

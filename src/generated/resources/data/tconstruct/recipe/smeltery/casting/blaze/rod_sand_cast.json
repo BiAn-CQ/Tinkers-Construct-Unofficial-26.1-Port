@@ -10,5 +10,7 @@
     "amount": 100,
     "tag": "tconstruct:blazing_blood"
   },
-  "result": "minecraft:blaze_rod"
+  "result": {
+    "id": "minecraft:blaze_rod"
+  }
 }

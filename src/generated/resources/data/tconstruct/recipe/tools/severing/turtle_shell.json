@@ -1,7 +1,11 @@
 {
   "type": "tconstruct:ageable_severing",
-  "adult_result": "minecraft:turtle_helmet",
-  "child_result": "minecraft:turtle_scute",
+  "adult_result": {
+    "id": "minecraft:turtle_helmet"
+  },
+  "child_result": {
+    "id": "minecraft:turtle_scute"
+  },
   "entity": {
     "type": "minecraft:turtle"
   },

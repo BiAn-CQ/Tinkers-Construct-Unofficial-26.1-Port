@@ -3,7 +3,7 @@
   "input": "tconstruct:ichor",
   "result": {
     "amount": 250,
-    "fluid": "tconstruct:ichor"
+    "id": "tconstruct:ichor"
   },
   "temperature": 700
 }

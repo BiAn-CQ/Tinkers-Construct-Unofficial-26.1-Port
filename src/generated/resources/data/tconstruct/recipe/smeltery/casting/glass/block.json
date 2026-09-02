@@ -5,5 +5,7 @@
     "amount": 1000,
     "tag": "tconstruct:molten_glass"
   },
-  "result": "tconstruct:clear_glass"
+  "result": {
+    "id": "tconstruct:clear_glass"
+  }
 }

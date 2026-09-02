@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.chat.Component;
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.fluids.capability.IFluidHandler.FluidAction;
+import slimeknights.tconstruct.library.utils.SimulationMode;
 import org.jetbrains.annotations.ApiStatus.Internal;
 import slimeknights.mantle.data.loadable.primitive.FloatLoadable;
 import slimeknights.mantle.data.loadable.record.RecordLoadable;
@@ -38,7 +38,7 @@ public record ScalingFluidEffect<C extends FluidEffectContext>(List<EffectForLev
   }
 
   @Override
-  public float apply(FluidStack fluid, EffectLevel level, C context, FluidAction action) {
+  public float apply(FluidStack fluid, EffectLevel level, C context, SimulationMode action) {
     float scale = level.value();
     for (int i = effects.size() - 1; i >= 0; i--) {
       EffectForLevel<C> effect = effects.get(i);

@@ -3,7 +3,9 @@
   "allow_crystal": false,
   "amount_per_item": 4,
   "input": "tconstruct:sky_slime_crystal_block",
-  "leftover": "tconstruct:sky_slime_crystal",
+  "leftover": {
+    "id": "tconstruct:sky_slime_crystal"
+  },
   "levels": [
     {
       "level": 1,

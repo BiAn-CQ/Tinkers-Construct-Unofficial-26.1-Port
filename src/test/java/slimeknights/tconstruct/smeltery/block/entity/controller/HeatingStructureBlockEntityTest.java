@@ -5,21 +5,21 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.neoforged.neoforge.transfer.item.ItemResource;
+import net.neoforged.neoforge.transfer.item.ItemUtil;
 import org.junit.jupiter.api.Test;
 import slimeknights.tconstruct.library.recipe.melting.IMeltingContainer.IOreRate;
 import slimeknights.tconstruct.smeltery.block.entity.module.MeltingModuleInventory;
 import slimeknights.tconstruct.smeltery.block.entity.multiblock.HeatingStructureMultiblock;
 import slimeknights.tconstruct.smeltery.block.entity.multiblock.HeatingStructureMultiblock.StructureData;
 
-import java.util.concurrent.atomic.AtomicBoolean;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -39,21 +39,14 @@ class HeatingStructureBlockEntityTest {
     StructureData structure = mock(StructureData.class);
     controller.setStructureForTest(structure);
     controller.getMeltingInventory().resize(1, stack -> {});
-    ItemStack stored = mock(ItemStack.class);
-    AtomicBoolean empty = new AtomicBoolean(false);
-    when(stored.isEmpty()).thenAnswer(invocation -> empty.get());
-    when(stored.getCount()).thenReturn(1);
-    when(stored.split(anyInt())).thenAnswer(invocation -> {
-      empty.set(true);
-      return mock(ItemStack.class);
-    });
-    controller.getMeltingInventory().setStackInSlot(0, stored);
+    ItemStack stored = new ItemStack(Items.COBBLESTONE);
+    controller.getMeltingInventory().set(0, ItemResource.of(stored), stored.getCount());
 
     controller.preRemoveSideEffects(BlockPos.ZERO, state);
 
     verify(structure).clearMaster(controller);
     assertThat(controller.getStructure()).isNull();
-    assertThat(controller.getMeltingInventory().getStackInSlot(0).isEmpty()).isTrue();
+    assertThat(ItemUtil.getStack(controller.getMeltingInventory(), 0).isEmpty()).isTrue();
     verify(level).addFreshEntity(any(Entity.class));
   }
 

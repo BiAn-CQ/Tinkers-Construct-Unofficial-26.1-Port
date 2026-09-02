@@ -3,13 +3,13 @@
   "byproducts": [
     {
       "amount": 1800,
-      "fluid": "tconstruct:ichor"
+      "id": "tconstruct:ichor"
     }
   ],
   "ingredient": "tconstruct:ichor_slime",
   "result": {
     "amount": 90,
-    "fluid": "tconstruct:blazing_blood"
+    "id": "tconstruct:blazing_blood"
   },
   "temperature": 1500,
   "time": 241

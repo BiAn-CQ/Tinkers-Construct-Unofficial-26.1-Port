@@ -4,7 +4,6 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.neoforge.client.event.AddClientReloadListenersEvent;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.event.ModelEvent;
-import net.neoforged.neoforge.client.event.ModelEvent.RegisterLoaders;
 import net.neoforged.neoforge.client.event.RegisterItemModelsEvent;
 import net.neoforged.neoforge.client.event.RegisterBlockStateModels;
 import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
@@ -28,7 +27,6 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.server.packs.PackType;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
-import slimeknights.mantle.client.model.LegacyModelLoader;
 import slimeknights.mantle.client.render.ChannelFluids;
 import slimeknights.mantle.client.render.FaucetFluid;
 import slimeknights.mantle.client.render.InventoryBlockEntityRenderer;
@@ -154,7 +152,7 @@ public final class TConstructClientCompat {
       }
       if (item instanceof MultilayerArmorItem armor && !specializedArmor.contains(item)) {
         Identifier modelName = armor.getModelName();
-        event.registerItem(new LegacyMultilayerArmorClientExtension(modelName), item);
+        event.registerItem(new AddonMultilayerArmorClientExtension(modelName), item);
       }
     });
     if (!tools.isEmpty()) {
@@ -183,7 +181,7 @@ public final class TConstructClientCompat {
     event.addListener(TConstruct.getResource("combat_fishing_hook_cache"),
       (ISafeManagerReloadListener) manager -> CombatFishingHookRendererCompat.clearCache());
     event.addListener(TConstruct.getResource("addon_armor_model_cache"),
-      (ISafeManagerReloadListener) manager -> LegacyMultilayerArmorClientExtension.invalidateAll());
+      (ISafeManagerReloadListener) manager -> AddonMultilayerArmorClientExtension.invalidateAll());
     // Jade 26.1 registers a listener for later changes to its translated-name
     // option, but does not apply the already-loaded value when registering it.
     // Synchronize that value after reload so creative-tab deduplication,
@@ -198,7 +196,7 @@ public final class TConstructClientCompat {
     event.register(TConstruct.getResource("material"), NativeTinkerItemModel.MaterialUnbaked.MAP_CODEC);
     event.register(TConstruct.getResource("material_block"), NativeTinkerItemModel.MaterialBlockUnbaked.MAP_CODEC);
     event.register(TConstruct.getResource("tank"), NativeTinkerItemModel.TankUnbaked.MAP_CODEC);
-    event.register(TConstruct.getResource("overrides"), NativeTinkerItemModel.LegacyOverridesUnbaked.MAP_CODEC);
+    event.register(TConstruct.getResource("overrides"), NativeTinkerItemModel.PropertyOverridesUnbaked.MAP_CODEC);
     event.register(TConstruct.getResource("fluid_container"), NativeFluidContainerItemModel.Unbaked.MAP_CODEC);
   }
 
@@ -210,21 +208,7 @@ public final class TConstructClientCompat {
   }
 
   @SubscribeEvent
-  static void registerModelLoaders(RegisterLoaders event) {
-    LegacyModelLoader loader = LegacyModelLoader.INSTANCE;
-    event.register(TConstruct.getResource("tool"), loader);
-    event.register(TConstruct.getResource("material"), loader);
-    event.register(TConstruct.getResource("material_block"), loader);
-    event.register(TConstruct.getResource("fluid_container"), loader);
-    event.register(TConstruct.getResource("fluid_texture"), loader);
-    event.register(TConstruct.getResource("gui"), loader);
-    event.register(TConstruct.getResource("tank"), loader);
-  }
-
-  @SubscribeEvent
   static void registerParticleFactories(RegisterParticleProvidersEvent event) {
-    // CommonsClientEvents is still held out by the old GUI geometry loader;
-    // keep the fluid particle registration active in the native 26.1 bridge.
     event.registerSpecial(TinkerCommons.fluidParticle.get(), new FluidParticle.Factory());
     event.registerSpriteSet(TinkerTools.hammerAttackParticle.get(), AttackParticle.Factory::new);
     event.registerSpriteSet(TinkerTools.axeAttackParticle.get(), AttackParticle.Factory::new);

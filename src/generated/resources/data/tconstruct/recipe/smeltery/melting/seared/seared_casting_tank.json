@@ -3,11 +3,11 @@
   "byproducts": [
     {
       "amount": 1000,
-      "fluid": "tconstruct:seared_stone"
+      "id": "tconstruct:seared_stone"
     },
     {
       "amount": 3000,
-      "fluid": "tconstruct:molten_glass"
+      "id": "tconstruct:molten_glass"
     }
   ],
   "ingredient": {

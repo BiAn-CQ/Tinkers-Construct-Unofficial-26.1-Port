@@ -10,5 +10,7 @@
     "amount": 1000,
     "tag": "tconstruct:molten_obsidian"
   },
-  "result": "tconstruct:foundry_controller"
+  "result": {
+    "id": "tconstruct:foundry_controller"
+  }
 }

@@ -7,5 +7,7 @@
     "amount": 250,
     "tag": "tconstruct:sky_slime"
   },
-  "result": "tconstruct:sky_slime_bottle"
+  "result": {
+    "id": "tconstruct:sky_slime_bottle"
+  }
 }

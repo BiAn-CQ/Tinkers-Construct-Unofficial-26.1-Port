@@ -8,5 +8,7 @@
     "neoforge:ingredient_type": "mantle:item_tag",
     "tag": "c:nuggets"
   },
-  "result": "tconstruct:nugget_red_sand_cast"
+  "result": {
+    "id": "tconstruct:nugget_red_sand_cast"
+  }
 }

@@ -12,7 +12,7 @@
   },
   "result": {
     "amount": 810,
-    "fluid": "tconstruct:molten_steeleaf"
+    "id": "tconstruct:molten_steeleaf"
   },
   "temperature": 934,
   "time": 193

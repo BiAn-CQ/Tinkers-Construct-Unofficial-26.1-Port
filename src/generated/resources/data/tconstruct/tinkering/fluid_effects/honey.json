@@ -4,7 +4,9 @@
       "type": "tconstruct:restore_hunger",
       "can_always_eat": false,
       "hunger": 1,
-      "representative_item": "minecraft:honey_bottle",
+      "representative_item": {
+        "id": "minecraft:honey_bottle"
+      },
       "saturation": 0.12
     },
     {

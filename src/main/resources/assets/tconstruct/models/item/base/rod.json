@@ -1,5 +1,5 @@
 {
-  "parent": "forge:item/default-tool",
+  "parent": "minecraft:item/handheld",
   "gui_light": "front",
   "display": {
     "thirdperson_righthand": {

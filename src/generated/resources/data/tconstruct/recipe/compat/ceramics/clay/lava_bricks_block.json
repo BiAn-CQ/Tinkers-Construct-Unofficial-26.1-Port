@@ -9,8 +9,7 @@
   "byproducts": [
     {
       "amount": 100,
-      "fluid": "minecraft:lava",
-      "nbt": {}
+      "id": "minecraft:lava"
     }
   ],
   "ingredient": {
@@ -23,7 +22,7 @@
   },
   "result": {
     "amount": 1000,
-    "fluid": "tconstruct:molten_clay"
+    "id": "tconstruct:molten_clay"
   },
   "temperature": 450,
   "time": 96

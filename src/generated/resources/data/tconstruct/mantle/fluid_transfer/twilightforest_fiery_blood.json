@@ -8,7 +8,7 @@
   ],
   "fluid": {
     "amount": 250,
-    "fluid": "tconstruct:fiery_liquid"
+    "id": "tconstruct:fiery_liquid"
   },
   "input": {
     "neoforge:ingredient_type": "mantle:item_name",

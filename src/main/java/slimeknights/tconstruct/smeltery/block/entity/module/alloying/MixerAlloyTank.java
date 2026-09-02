@@ -10,11 +10,11 @@ import net.minecraft.server.level.ServerLevel;
 import net.neoforged.neoforge.capabilities.BlockCapabilityCache;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.fluids.capability.IFluidHandler;
-import net.neoforged.neoforge.fluids.capability.IFluidHandler.FluidAction;
-import net.neoforged.neoforge.fluids.capability.templates.EmptyFluidHandler;
+import net.neoforged.neoforge.transfer.EmptyResourceHandler;
 import net.neoforged.neoforge.transfer.ResourceHandler;
 import net.neoforged.neoforge.transfer.fluid.FluidResource;
+import net.neoforged.neoforge.transfer.fluid.FluidUtil;
+import net.neoforged.neoforge.transfer.transaction.Transaction;
 import slimeknights.mantle.block.entity.MantleBlockEntity;
 import slimeknights.tconstruct.common.TinkerTags;
 import slimeknights.tconstruct.library.recipe.alloying.IMutableAlloyTank;
@@ -32,7 +32,7 @@ public class MixerAlloyTank implements IMutableAlloyTank {
   /** Handler parent */
   private final MantleBlockEntity parent;
   /** Tank for outputs */
-  private final IFluidHandler outputTank;
+  private final ResourceHandler<FluidResource> outputTank;
 
   /** Current temperature. Provided as a getter and setter as there are a few contexts with different source for temperature */
   @Getter
@@ -44,7 +44,7 @@ public class MixerAlloyTank implements IMutableAlloyTank {
   private final Map<Direction,InputCache> inputs = new EnumMap<>(Direction.class);
   /** Map of tank index to tank on the side */
   @Nullable
-  private IFluidHandler[] indexedList = null;
+  private ResourceHandler<FluidResource>[] indexedList = null;
 
   // state
   /** If true, tanks are marked for refresh later */
@@ -69,11 +69,11 @@ public class MixerAlloyTank implements IMutableAlloyTank {
     }
 
     @Nullable
-    private IFluidHandler get() {
+    private ResourceHandler<FluidResource> get() {
       Level level = parent.getLevel();
-      IFluidHandler handler = level == null ? null : cache == null
-        ? slimeknights.tconstruct.library.utils.TinkerCapabilityAdapters.fluidHandler(level.getCapability(Capabilities.Fluid.BLOCK, target, direction.getOpposite()))
-        : slimeknights.tconstruct.library.utils.TinkerCapabilityAdapters.fluidHandler(cache.getCapability());
+      ResourceHandler<FluidResource> handler = level == null ? null : cache == null
+        ? level.getCapability(Capabilities.Fluid.BLOCK, target, direction.getOpposite())
+        : cache.getCapability();
       present = handler != null;
       return handler;
     }
@@ -86,16 +86,17 @@ public class MixerAlloyTank implements IMutableAlloyTank {
   }
 
   /** Gets the map of index to direction */
-  private IFluidHandler[] indexTanks() {
+  @SuppressWarnings("unchecked")
+  private ResourceHandler<FluidResource>[] indexTanks() {
     // convert map into indexed list of fluid handlers, will be cleared next time a side updates
     if (indexedList == null) {
-      indexedList = new IFluidHandler[currentTanks];
+      indexedList = (ResourceHandler<FluidResource>[])new ResourceHandler<?>[currentTanks];
       if (currentTanks > 0) {
         int nextTank = 0;
         for (Direction direction : Direction.values()) {
           if (direction != Direction.DOWN) {
             InputCache cache = inputs.get(direction);
-            IFluidHandler handler = cache == null ? null : cache.get();
+            ResourceHandler<FluidResource> handler = cache == null ? null : cache.get();
             if (handler != null) {
               indexedList[nextTank] = handler;
               nextTank++;
@@ -108,11 +109,11 @@ public class MixerAlloyTank implements IMutableAlloyTank {
   }
 
   /** Gets the fluid handler for the given tank index */
-  public IFluidHandler getFluidHandler(int tank) {
+  public ResourceHandler<FluidResource> getFluidHandler(int tank) {
     checkTanks();
     // invalid index, nothing
     if (tank >= currentTanks || tank < 0) {
-      return EmptyFluidHandler.INSTANCE;
+      return EmptyResourceHandler.instance();
     }
     return indexTanks()[tank];
   }
@@ -125,7 +126,8 @@ public class MixerAlloyTank implements IMutableAlloyTank {
       return FluidStack.EMPTY;
     }
     // get the first fluid from the proper tank, we do not support multiple fluids on a side
-    return indexTanks()[tank].getFluidInTank(0);
+    ResourceHandler<FluidResource> handler = indexTanks()[tank];
+    return handler.size() == 0 ? FluidStack.EMPTY : FluidUtil.getStack(handler, 0);
   }
 
   @Override
@@ -135,18 +137,40 @@ public class MixerAlloyTank implements IMutableAlloyTank {
     if (tank >= currentTanks || tank < 0) {
       return FluidStack.EMPTY;
     }
-    return indexTanks()[tank].drain(fluidStack, FluidAction.EXECUTE);
+    if (fluidStack.isEmpty()) {
+      return FluidStack.EMPTY;
+    }
+    FluidResource resource = FluidResource.of(fluidStack);
+    try (Transaction transaction = Transaction.openRoot()) {
+      int extracted = indexTanks()[tank].extract(resource, fluidStack.getAmount(), transaction);
+      transaction.commit();
+      return resource.toStack(extracted);
+    }
   }
 
   @Override
   public boolean canFit(FluidStack fluid, int removed) {
     checkTanks();
-    return outputTank.fill(fluid, FluidAction.SIMULATE) == fluid.getAmount();
+    if (fluid.isEmpty()) {
+      return true;
+    }
+    try (Transaction transaction = Transaction.openRoot()) {
+      return outputTank.insert(FluidResource.of(fluid), fluid.getAmount(), transaction) == fluid.getAmount();
+    }
   }
 
   @Override
   public int fill(FluidStack fluidStack) {
-    return outputTank.fill(fluidStack, FluidAction.EXECUTE);
+    if (fluidStack.isEmpty()) {
+      return 0;
+    }
+    try (Transaction transaction = Transaction.openRoot()) {
+      int inserted = outputTank.insert(FluidResource.of(fluidStack), fluidStack.getAmount(), transaction);
+      if (inserted > 0) {
+        transaction.commit();
+      }
+      return inserted;
+    }
   }
 
   /**

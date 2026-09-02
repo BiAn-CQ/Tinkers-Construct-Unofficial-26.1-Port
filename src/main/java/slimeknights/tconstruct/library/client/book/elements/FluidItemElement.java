@@ -43,7 +43,7 @@ public class FluidItemElement extends ItemElement {
       if (bucket != Items.AIR) {
         return bucket.getDefaultInstance();
       }
-      return CopperCanItem.setFluid(new ItemStack(TinkerSmeltery.copperCan), fluidStack.getFluid(), null);
+      return CopperCanItem.setFluid(new ItemStack(TinkerSmeltery.copperCan), fluidStack);
     }).toList();
   }
 }

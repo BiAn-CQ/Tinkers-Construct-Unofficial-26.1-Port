@@ -33,9 +33,11 @@
     "extraData": { "tconstruct:material_tier": { "type": "tconstruct:melee_harvest", "tag": "tconstruct:book/blazing_blood" } },
     "icon": {
       "item": {
-        "type": "forge:nbt",
-        "item": "tconstruct:large_plate",
-        "nbt": { "Material": "tconstruct:manyullyn" }
+        "id": "tconstruct:large_plate",
+        "components": {
+          "minecraft:custom_data": { "Material": "tconstruct:manyullyn"
+          }
+        }
       }
     }
   },
@@ -45,9 +47,11 @@
     "extraData": { "tconstruct:material_tier": { "type": "tconstruct:ranged", "tag": "tconstruct:book/blazing_blood" } },
     "icon": {
       "item": {
-        "type": "forge:nbt",
-        "item": "tconstruct:bow_grip",
-        "nbt": { "Material": "tconstruct:hepatizon" }
+        "id": "tconstruct:bow_grip",
+        "components": {
+          "minecraft:custom_data": { "Material": "tconstruct:hepatizon"
+          }
+        }
       }
     }
   },
@@ -57,9 +61,11 @@
     "extraData": { "tconstruct:material_tier": { "type": "tconstruct:armor", "tag": "tconstruct:book/blazing_blood" } },
     "icon": {
       "item": {
-        "type": "forge:nbt",
-        "item": "tconstruct:shield_core",
-        "nbt": { "Material": "tconstruct:blazewood" }
+        "id": "tconstruct:shield_core",
+        "components": {
+          "minecraft:custom_data": { "Material": "tconstruct:blazewood"
+          }
+        }
       }
     }
   },
@@ -67,16 +73,18 @@
     "name": "armor",
     "icon": {
       "item": {
-        "type": "forge:nbt",
-        "item": "tconstruct:plate_chestplate",
-        "nbt": {
-          "tic_broken": false,
-          "tic_display": true,
-          "Damage": 0,
-          "tic_materials": [
-            "tconstruct:ui_render#extra",
-            "tconstruct:ui_render#head"
-          ]
+        "id": "tconstruct:plate_chestplate",
+        "components": {
+          "minecraft:custom_data": {
+            "tic_broken": false,
+            "tic_display": true,
+            "Damage": 0,
+            "tic_materials": [
+              "tconstruct:ui_render#extra",
+              "tconstruct:ui_render#head"
+            ]
+
+          }
         }
       }
     },

@@ -9,5 +9,7 @@
     "amount": 90,
     "tag": "tconstruct:molten_debris"
   },
-  "result": "minecraft:netherite_scrap"
+  "result": {
+    "id": "minecraft:netherite_scrap"
+  }
 }

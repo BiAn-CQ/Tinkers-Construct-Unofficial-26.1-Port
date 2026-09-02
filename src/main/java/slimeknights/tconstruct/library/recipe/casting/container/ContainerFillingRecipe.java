@@ -14,12 +14,10 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.Fluid;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.fluids.capability.IFluidHandler.FluidAction;
-import net.neoforged.neoforge.fluids.capability.FluidResourceHandlerItemAdapter;
-import net.neoforged.neoforge.fluids.capability.IFluidHandlerItem;
 import net.neoforged.neoforge.transfer.ResourceHandler;
 import net.neoforged.neoforge.transfer.access.ItemAccess;
 import net.neoforged.neoforge.transfer.fluid.FluidResource;
+import net.neoforged.neoforge.transfer.transaction.Transaction;
 import net.minecraft.core.registries.BuiltInRegistries;
 import slimeknights.mantle.data.loadable.Loadables;
 import slimeknights.mantle.data.loadable.field.ContextKey;
@@ -69,20 +67,33 @@ public class ContainerFillingRecipe implements ICastingRecipe, IMultiRecipe<Disp
     return serializer.getType();
   }
 
-  private static IFluidHandlerItem getFluidHandler(ItemStack stack) {
+  private static ResourceHandler<FluidResource> getFluidHandler(ItemStack stack) {
     if (stack.isEmpty()) {
       return null;
     }
     ItemAccess access = ItemAccess.forStack(stack).oneByOne();
-    ResourceHandler<FluidResource> handler = access.getCapability(Capabilities.Fluid.ITEM);
-    return handler == null ? null : new FluidResourceHandlerItemAdapter(handler, access);
+    return access.getCapability(Capabilities.Fluid.ITEM);
+  }
+
+  /** Inserts fluid transactionally, committing only for the assembly path. */
+  private static int insertFluid(ResourceHandler<FluidResource> handler, FluidStack fluid, boolean execute) {
+    if (fluid.isEmpty()) {
+      return 0;
+    }
+    try (Transaction transaction = Transaction.open(null)) {
+      int inserted = handler.insert(FluidResource.of(fluid), fluid.getAmount(), transaction);
+      if (execute && inserted > 0) {
+        transaction.commit();
+      }
+      return inserted;
+    }
   }
 
   @Override
   public int getFluidAmount(ICastingContainer inv) {
     Fluid fluid = inv.getFluid();
-    IFluidHandlerItem handler = getFluidHandler(inv.getStack());
-    return handler == null ? 0 : handler.fill(new FluidStack(fluid, this.fluidAmount), FluidAction.SIMULATE);
+    ResourceHandler<FluidResource> handler = getFluidHandler(inv.getStack());
+    return handler == null ? 0 : insertFluid(handler, new FluidStack(fluid, this.fluidAmount), false);
   }
 
   @Override
@@ -104,9 +115,9 @@ public class ContainerFillingRecipe implements ICastingRecipe, IMultiRecipe<Disp
   public boolean matches(ICastingContainer inv, Level worldIn) {
     ItemStack stack = inv.getStack();
     Fluid fluid = inv.getFluid();
-    IFluidHandlerItem handler = getFluidHandler(stack);
+    ResourceHandler<FluidResource> handler = getFluidHandler(stack);
     return stack.getItem() == this.container.asItem() && handler != null
-           && handler.fill(new FluidStack(fluid, this.fluidAmount), FluidAction.SIMULATE) > 0;
+           && insertFluid(handler, new FluidStack(fluid, this.fluidAmount), false) > 0;
   }
 
   /** @deprecated use {@link ICastingRecipe#assemble(Container, HolderLookup.Provider)} */
@@ -119,12 +130,12 @@ public class ContainerFillingRecipe implements ICastingRecipe, IMultiRecipe<Disp
   @Override
   public ItemStack assemble(ICastingContainer inv, HolderLookup.Provider access) {
     ItemStack stack = inv.getStack().copy();
-    IFluidHandlerItem handler = getFluidHandler(stack);
+    ResourceHandler<FluidResource> handler = getFluidHandler(stack);
     if (handler == null) {
       return stack;
     }
-    handler.fill(slimeknights.tconstruct.library.utils.FluidStackDataUtil.create(inv.getFluid(), this.fluidAmount, inv.getFluidTag()), FluidAction.EXECUTE);
-    return handler.getContainer();
+    insertFluid(handler, inv.getFluidStack().copyWithAmount(this.fluidAmount), true);
+    return stack;
   }
 
   /* Display */
@@ -140,10 +151,9 @@ public class ContainerFillingRecipe implements ICastingRecipe, IMultiRecipe<Disp
                                                .map(fluid -> {
                                                  FluidStack fluidStack = new FluidStack(fluid, fluidAmount);
                                                  ItemStack stack = new ItemStack(container);
-                                               IFluidHandlerItem handler = getFluidHandler(stack);
+                                               ResourceHandler<FluidResource> handler = getFluidHandler(stack);
                                                if (handler != null) {
-                                                 handler.fill(fluidStack, FluidAction.EXECUTE);
-                                                 stack = handler.getContainer();
+                                                 insertFluid(handler, fluidStack, true);
                                                }
                                                return new DisplayCastingRecipe(getId(), getType(), casts, Collections.singletonList(fluidStack), stack, 5, true);
                                              })

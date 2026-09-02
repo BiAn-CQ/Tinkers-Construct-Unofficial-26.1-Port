@@ -7,5 +7,7 @@
     "amount": 1000,
     "tag": "tconstruct:seared_stone"
   },
-  "result": "tconstruct:seared_lamp"
+  "result": {
+    "id": "tconstruct:seared_lamp"
+  }
 }

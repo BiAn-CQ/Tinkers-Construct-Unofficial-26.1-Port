@@ -24,7 +24,7 @@ import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.LootParams.Builder;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.fluids.capability.IFluidHandler.FluidAction;
+import slimeknights.tconstruct.library.utils.SimulationMode;
 import slimeknights.mantle.data.loadable.Loadables;
 import slimeknights.mantle.data.loadable.primitive.FloatLoadable;
 import slimeknights.mantle.data.loadable.primitive.IntLoadable;
@@ -57,7 +57,7 @@ public record BreakBlockFluidEffect(float hardness, Map<Holder<Enchantment>,Inte
   }
 
   @Override
-  public float apply(FluidStack fluid, EffectLevel level, FluidEffectContext.Block context, FluidAction action) {
+  public float apply(FluidStack fluid, EffectLevel level, FluidEffectContext.Block context, SimulationMode action) {
     // compare our hardness to the block's hardness
     BlockState state = context.getBlockState();
     if (state.isAir()) {

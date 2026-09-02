@@ -7,5 +7,7 @@
     "amount": 1000,
     "tag": "tconstruct:sky_slime"
   },
-  "result": "tconstruct:piggy_backpack"
+  "result": {
+    "id": "tconstruct:piggy_backpack"
+  }
 }

@@ -5,5 +5,7 @@
     "tag": "c:magma"
   },
   "input": "minecraft:glass_bottle",
-  "result": "tconstruct:magma_bottle"
+  "result": {
+    "id": "tconstruct:magma_bottle"
+  }
 }

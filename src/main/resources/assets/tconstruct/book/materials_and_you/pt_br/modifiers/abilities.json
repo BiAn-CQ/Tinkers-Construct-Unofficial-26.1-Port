@@ -2,10 +2,12 @@
   "type": "tconstruct:showcase",
   "title": "Habilidades",
   "item": {
-    "type": "forge:nbt",
-    "item": "tconstruct:creative_slot",
-    "nbt": {
-      "slot": "abilities"
+    "id": "tconstruct:creative_slot",
+    "components": {
+      "minecraft:custom_data": {
+        "slot": "abilities"
+
+      }
     }
   },
   "tooltip": [ "Ícone do Slot de Habilidade" ],

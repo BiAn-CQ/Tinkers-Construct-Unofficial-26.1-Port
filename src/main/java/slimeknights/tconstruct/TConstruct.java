@@ -1,21 +1,13 @@
 package slimeknights.tconstruct;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParseException;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.Identifier;
-import net.minecraft.resources.RegistryOps;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.neoforge.common.NeoForge;
-import net.neoforged.neoforge.common.conditions.ConditionalOps;
-import net.neoforged.neoforge.common.conditions.ICondition;
-import net.neoforged.neoforge.event.ModifyRecipeJsonsEvent;
 import net.neoforged.neoforge.event.OnDatapackSyncEvent;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModList;
@@ -28,7 +20,6 @@ import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import slimeknights.mantle.registration.RegistrationHelper;
-import slimeknights.mantle.data.loadable.common.IngredientLoadable;
 import slimeknights.tconstruct.common.TinkerModule;
 import slimeknights.tconstruct.common.TinkerTags;
 import slimeknights.tconstruct.common.data.TConstructDataGen;
@@ -60,8 +51,6 @@ import slimeknights.tconstruct.world.TinkerStructures;
 import slimeknights.tconstruct.world.TinkerWorld;
 
 import java.util.Locale;
-import java.util.List;
-import java.util.Map;
 import java.util.Random;
 import java.util.function.Supplier;
 
@@ -114,7 +103,6 @@ public class TConstruct {
     TinkerNetwork.setup();
     TinkerTags.init();
     TConstructDataGen.init(bus);
-    NeoForge.EVENT_BUS.addListener(TConstruct::normalizeLegacyRecipeJsons);
     NeoForge.EVENT_BUS.addListener(TConstruct::syncRecipeContent);
     // init client logic
 
@@ -143,219 +131,6 @@ public class TConstruct {
    */
   private static void syncRecipeContent(OnDatapackSyncEvent event) {
     event.sendRecipes(TinkerRecipeTypes.getAllTypes());
-  }
-
-  /**
-   * Converts the legacy 1.20.1 recipe condition formats before NeoForge's
-   * conditional recipe codec starts deserializing recipe bodies.
-   */
-  private static void normalizeLegacyRecipeJsons(ModifyRecipeJsonsEvent event) {
-    ICondition.IContext context;
-    try {
-      context = ConditionalOps.retrieveContext().codec().parse(event.getOps(), event.getOps().emptyMap())
-        .getOrThrow(JsonParseException::new);
-    } catch (RuntimeException exception) {
-      LOG.warn("Unable to obtain the NeoForge condition context while migrating legacy recipes", exception);
-      context = ICondition.IContext.EMPTY;
-    }
-
-    for (Map.Entry<Identifier, JsonElement> entry : List.copyOf(event.getRecipeJsons().entrySet())) {
-      if (!MOD_ID.equals(entry.getKey().getNamespace()) || !entry.getValue().isJsonObject()) {
-        continue;
-      }
-      JsonObject recipe = entry.getValue().getAsJsonObject();
-      JsonElement typeElement = recipe.get("type");
-      if (typeElement != null && typeElement.isJsonPrimitive() && typeElement.getAsJsonPrimitive().isString()
-          && "forge:conditional".equals(typeElement.getAsString())) {
-        JsonElement rootConditions = recipe.get("conditions");
-        if (rootConditions != null && !matchesLegacyConditions(rootConditions, event.getOps(), context)) {
-          event.getRecipeJsons().remove(entry.getKey());
-          continue;
-        }
-        JsonArray branches = recipe.getAsJsonArray("recipes");
-        JsonObject selected = null;
-        if (branches != null) {
-          for (JsonElement branchElement : branches) {
-            if (!branchElement.isJsonObject()) {
-              continue;
-            }
-            JsonObject branch = branchElement.getAsJsonObject();
-            JsonElement conditions = branch.get("conditions");
-            if (conditions == null || matchesLegacyConditions(conditions, event.getOps(), context)) {
-              JsonElement nested = branch.get("recipe");
-              if (nested != null && nested.isJsonObject()) {
-                selected = nested.getAsJsonObject().deepCopy();
-                break;
-              }
-            }
-          }
-        }
-        if (selected == null) {
-          event.getRecipeJsons().remove(entry.getKey());
-        } else {
-          moveLegacyConditions(selected);
-          normalizeLegacyNativeCraftingRecipe(selected);
-          normalizeLegacyRecipePayload(selected);
-          event.getRecipeJsons().put(entry.getKey(), selected);
-        }
-      } else {
-        moveLegacyConditions(recipe);
-        normalizeLegacyNativeCraftingRecipe(recipe);
-      }
-      normalizeLegacyRecipePayload(recipe);
-    }
-  }
-
-  private static void moveLegacyConditions(JsonObject recipe) {
-    if (!recipe.has("neoforge:conditions") && recipe.has("conditions") && recipe.get("conditions").isJsonArray()) {
-      recipe.add("neoforge:conditions", recipe.remove("conditions"));
-    }
-  }
-
-  /** Converts the small set of legacy shapes still consumed by vanilla recipes. */
-  private static void normalizeLegacyNativeCraftingRecipe(JsonObject recipe) {
-    JsonElement type = recipe.get("type");
-    if (type == null || !type.isJsonPrimitive() || !type.getAsJsonPrimitive().isString()) {
-      return;
-    }
-    String typeName = type.getAsString();
-    boolean nativeRecipe = isNativeRecipeType(typeName);
-    boolean mantleCraftingRecipe = typeName.startsWith("mantle:crafting_");
-    if (!nativeRecipe && !mantleCraftingRecipe) {
-      return;
-    }
-    if ("minecraft:crafting_shaped".equals(typeName) || typeName.startsWith("mantle:crafting_shaped")) {
-      JsonElement keyElement = recipe.get("key");
-      if (keyElement != null && keyElement.isJsonObject()) {
-        for (Map.Entry<String, JsonElement> entry : List.copyOf(keyElement.getAsJsonObject().entrySet())) {
-          keyElement.getAsJsonObject().add(entry.getKey(), IngredientLoadable.normalizeLegacyIngredientForRecipe(entry.getValue()));
-        }
-      }
-      // Shaped retextured recipes use the same Ingredient codec for their
-      // texture source as for the pattern key. Normalize legacy tag syntax
-      // here as well, otherwise only these recipes fail during reload.
-      normalizeIngredientField(recipe, "texture");
-    } else if ("minecraft:crafting_shapeless".equals(typeName) || typeName.startsWith("mantle:crafting_shapeless")) {
-      JsonElement ingredients = recipe.get("ingredients");
-      if (ingredients != null && ingredients.isJsonArray()) {
-        JsonArray normalized = new JsonArray();
-        for (JsonElement ingredient : ingredients.getAsJsonArray()) {
-          normalized.add(IngredientLoadable.normalizeLegacyIngredient(ingredient));
-        }
-        recipe.add("ingredients", normalized);
-      }
-    } else {
-      normalizeIngredientField(recipe, "ingredient");
-      normalizeIngredientField(recipe, "template");
-      normalizeIngredientField(recipe, "base");
-      normalizeIngredientField(recipe, "addition");
-      normalizeIngredientField(recipe, "tool");
-      normalizeIngredientField(recipe, "pattern");
-      normalizeIngredientField(recipe, "material");
-      normalizeIngredientField(recipe, "texture");
-    }
-
-    normalizeLegacyOutputField(recipe, "result", nativeRecipe);
-  }
-
-  /** Applies ID-only compatibility to custom Mantle/Tinkers recipes. */
-  private static void normalizeLegacyRecipePayload(JsonObject recipe) {
-    normalizeLegacyItemIds(recipe);
-  }
-
-  /** Converts legacy ItemStack result objects without touching ingredient objects. */
-  private static void normalizeLegacyOutputField(JsonObject recipe, String field, boolean nativeOutput) {
-    if (!nativeOutput) {
-      return;
-    }
-    JsonElement output = recipe.get(field);
-    if (output == null) {
-      return;
-    }
-    if (output.isJsonObject()) {
-      normalizeLegacyOutputObject(output.getAsJsonObject(), nativeOutput);
-    } else if (output.isJsonArray()) {
-      for (JsonElement value : output.getAsJsonArray()) {
-        if (value.isJsonObject()) {
-          normalizeLegacyOutputObject(value.getAsJsonObject(), nativeOutput);
-        }
-      }
-    }
-  }
-
-  private static void normalizeLegacyOutputObject(JsonObject output, boolean nativeOutput) {
-    if (nativeOutput && !output.has("id") && output.has("item") && output.get("item").isJsonPrimitive()) {
-      output.add("id", output.remove("item"));
-    }
-    for (JsonElement child : output.asMap().values()) {
-      if (child.isJsonObject()) {
-        normalizeLegacyOutputObject(child.getAsJsonObject(), nativeOutput);
-      } else if (child.isJsonArray()) {
-        for (JsonElement value : child.getAsJsonArray()) {
-          if (value.isJsonObject()) {
-            normalizeLegacyOutputObject(value.getAsJsonObject(), nativeOutput);
-          }
-        }
-      }
-    }
-  }
-
-  /** Renames removed vanilla item IDs anywhere in a recipe payload. */
-  private static void normalizeLegacyItemIds(JsonElement element) {
-    if (element.isJsonObject()) {
-      for (Map.Entry<String, JsonElement> entry : List.copyOf(element.getAsJsonObject().entrySet())) {
-        JsonElement value = entry.getValue();
-        if (value.isJsonPrimitive() && value.getAsJsonPrimitive().isString()) {
-          String id = value.getAsString();
-          if ("minecraft:scute".equals(id)) {
-            element.getAsJsonObject().addProperty(entry.getKey(), "minecraft:turtle_scute");
-          } else if ("minecraft:chain".equals(id)) {
-            element.getAsJsonObject().addProperty(entry.getKey(), "minecraft:iron_chain");
-          }
-        } else {
-          normalizeLegacyItemIds(value);
-        }
-      }
-    } else if (element.isJsonArray()) {
-      for (int i = 0; i < element.getAsJsonArray().size(); i++) {
-        JsonElement value = element.getAsJsonArray().get(i);
-        if (value.isJsonPrimitive() && value.getAsJsonPrimitive().isString()) {
-          String id = value.getAsString();
-          if ("minecraft:scute".equals(id)) {
-            element.getAsJsonArray().set(i, new com.google.gson.JsonPrimitive("minecraft:turtle_scute"));
-          } else if ("minecraft:chain".equals(id)) {
-            element.getAsJsonArray().set(i, new com.google.gson.JsonPrimitive("minecraft:iron_chain"));
-          }
-        } else {
-          normalizeLegacyItemIds(value);
-        }
-      }
-    }
-  }
-
-  private static boolean isNativeRecipeType(String typeName) {
-    return switch (typeName) {
-      case "minecraft:crafting_shaped", "minecraft:crafting_shapeless",
-        "minecraft:smelting", "minecraft:blasting", "minecraft:smoking",
-        "minecraft:campfire_cooking", "minecraft:stonecutting",
-        "minecraft:smithing_transform", "minecraft:smithing_trim" -> true;
-      default -> false;
-    };
-  }
-
-  private static void normalizeIngredientField(JsonObject recipe, String field) {
-    JsonElement ingredient = recipe.get(field);
-    if (ingredient != null && (ingredient.isJsonObject() || ingredient.isJsonArray())) {
-      recipe.add(field, IngredientLoadable.normalizeLegacyIngredientForRecipe(ingredient));
-    }
-  }
-
-  private static boolean matchesLegacyConditions(JsonElement element, RegistryOps<JsonElement> ops, ICondition.IContext context) {
-    if (!element.isJsonArray()) {
-      throw new JsonParseException("Legacy recipe conditions must be an array");
-    }
-    List<ICondition> conditions = ICondition.LIST_CODEC.parse(ops, element).getOrThrow(JsonParseException::new);
-    return conditions.stream().allMatch(condition -> condition.test(context));
   }
 
   /* Utils */

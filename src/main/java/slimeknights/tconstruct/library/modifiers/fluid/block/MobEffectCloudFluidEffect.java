@@ -5,7 +5,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.AreaEffectCloud;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.fluids.capability.IFluidHandler.FluidAction;
+import slimeknights.tconstruct.library.utils.SimulationMode;
 import slimeknights.mantle.data.loadable.record.RecordLoadable;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.modifiers.fluid.EffectLevel;
@@ -48,7 +48,7 @@ public record MobEffectCloudFluidEffect(List<FluidMobEffect> effects) implements
   }
 
   @Override
-  public float apply(FluidStack fluid, EffectLevel level, FluidEffectContext.Block context, FluidAction action) {
+  public float apply(FluidStack fluid, EffectLevel level, FluidEffectContext.Block context, SimulationMode action) {
     if (context.isOffsetReplaceable()) {
       float scale = level.value();
       if (action.execute()) {

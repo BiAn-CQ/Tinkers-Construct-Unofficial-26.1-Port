@@ -21,10 +21,12 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
 import net.neoforged.neoforge.capabilities.Capabilities;
-import net.neoforged.neoforge.fluids.capability.IFluidHandlerItem;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.SimpleFluidContent;
-import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
+import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.access.ItemAccess;
+import net.neoforged.neoforge.transfer.fluid.FluidResource;
+import net.neoforged.neoforge.transfer.fluid.FluidUtil;
 import slimeknights.mantle.data.loadable.Loadables;
 import slimeknights.mantle.fluid.FluidTransferHelper;
 import slimeknights.mantle.fluid.tooltip.FluidTooltipHandler;
@@ -83,7 +85,7 @@ public class TankItem extends BlockTooltipItem {
   public void appendHoverText(ItemStack stack, Item.TooltipContext context, TooltipDisplay display, Consumer<Component> tooltip, TooltipFlag flag) {
     List<Component> lines = new java.util.ArrayList<>();
     if (isFilled(stack)) {
-      FluidTank tank = getTank(stack, 1);
+      ScaledFluidTank tank = getTank(stack, 1);
       if (tank.getFluidAmount() > 0) {
         FluidStack fluid = tank.getFluid();
         lines.add(fluid.getHoverName().plainCopy().withStyle(ChatFormatting.GRAY));
@@ -99,8 +101,13 @@ public class TankItem extends BlockTooltipItem {
     lines.forEach(tooltip);
   }
 
-  public IFluidHandlerItem getFluidHandler(ItemStack stack) {
-    return new TankItemFluidHandler(this, stack);
+  public ResourceHandler<FluidResource> getFluidHandler(ItemAccess itemAccess) {
+    return new TankItemFluidHandler(this, itemAccess);
+  }
+
+  /** Whether a stack of this tank may be filled without exceeding its filled stack limit. */
+  boolean canFill(int count) {
+    return !limitStackSize || count <= 16;
   }
 
   /** Checks if the given stack has fluid transfer */
@@ -118,7 +125,7 @@ public class TankItem extends BlockTooltipItem {
         // target must be stack size 1, if not then it's not safe to modify it
         if (slotStack.getCount() == 1) {
           // transfer fluid - but we work with just 1 tank at a time instead of trying to transfer the whole stack
-          FluidTank tank = getTank(held, 1);
+          ScaledFluidTank tank = getTank(held, 1);
           TransferResult result = FluidTransferHelper.interactWithStack(tank, slotStack, TransferDirection.REVERSE);
           // update held tank and slot item if something changed
           if (result != null) {
@@ -183,7 +190,7 @@ public class TankItem extends BlockTooltipItem {
       // though our fluid transfer logic does not handle well transferring between two tanks with no 1mb increments
       if (stack.getCount() == 1 || held.getItem() instanceof TankItem) {
         // transfer the fluid
-        FluidTank tank = getTank(stack);
+        ScaledFluidTank tank = getTank(stack);
         // if both tanks are empty, just do standard stack operations; makes it nice and easy to move just 1 item at a time
         if (tank.isEmpty() && ItemStack.isSameItemSameComponents(stack, held)) {
           return false;
@@ -216,11 +223,12 @@ public class TankItem extends BlockTooltipItem {
    * @param tank   Tank instance
    * @return  Stack with tank
    */
-  public static ItemStack setTank(ItemStack stack, FluidTank tank) {
-    if (tank.isEmpty()) {
+  public static ItemStack setTank(ItemStack stack, ResourceHandler<FluidResource> tank) {
+    FluidStack stored = tank.size() == 0 ? FluidStack.EMPTY : FluidUtil.getStack(tank, 0);
+    if (stored.isEmpty()) {
       removeTank(stack);
     } else {
-      FluidStack fluid = tank.getFluid().copyWithAmount(tank.getFluidAmount() / stack.getCount());
+      FluidStack fluid = stored.copyWithAmount(stored.getAmount() / stack.getCount());
       stack.set(TinkerModule.FLUID_STACK_COMPONENT.get(), SimpleFluidContent.copyOf(fluid));
     }
     return stack;
@@ -256,9 +264,9 @@ public class TankItem extends BlockTooltipItem {
    * @param stack  Tank stack
    * @return  Tank stored in the stack
    */
-  public FluidTank getTank(ItemStack stack) {
+  public ScaledFluidTank getTank(ItemStack stack) {
     int count = stack.getCount();
-    FluidTank tank = getTank(stack, count);
+    ScaledFluidTank tank = getTank(stack, count);
     // disallow filling if the current size is larger than 16
     if (limitStackSize && count > 16) {
       tank.setValidator(NO_FILL);
@@ -272,8 +280,8 @@ public class TankItem extends BlockTooltipItem {
    * @param scale  Number of tanks in a stack, being filled or drained together.
    * @return  Tank stored in the stack
    */
-  public static FluidTank getTank(ItemStack stack, int scale) {
-    FluidTank tank = ScaledFluidTank.create(TankBlockEntity.getCapacity(stack.getItem()), scale);
+  public static ScaledFluidTank getTank(ItemStack stack, int scale) {
+    ScaledFluidTank tank = ScaledFluidTank.create(TankBlockEntity.getCapacity(stack.getItem()), scale);
     SimpleFluidContent stored = stack.get(TinkerModule.FLUID_STACK_COMPONENT.get());
     if (stored != null && !stored.isEmpty()) {
       FluidStack fluid = stored.copy();

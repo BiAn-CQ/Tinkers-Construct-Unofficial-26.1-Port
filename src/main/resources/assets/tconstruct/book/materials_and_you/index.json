@@ -12,9 +12,11 @@
     "extraData": { "tconstruct:material_tier": { "type": "tconstruct:melee_harvest", "tier": { "min": 0, "max": 1 }, "predicate": { "type": "mantle:inverted", "inverted_type": "mantle:tag", "tag": "tconstruct:book/distant" }}},
     "icon": {
       "item": {
-        "type": "forge:nbt",
-        "item": "tconstruct:tool_binding",
-        "nbt": { "Material": "tconstruct:rock#stone" }
+        "id": "tconstruct:tool_binding",
+        "components": {
+          "minecraft:custom_data": { "Material": "tconstruct:rock#stone"
+          }
+        }
       }
     }
   },
@@ -24,9 +26,11 @@
     "extraData": { "tconstruct:material_tier": { "type": "tconstruct:ranged", "tier": { "min": 0, "max": 1 }, "predicate": { "type": "mantle:inverted", "inverted_type": "mantle:tag", "tag": "tconstruct:book/distant" }}},
     "icon": {
       "item": {
-        "type": "forge:nbt",
-        "item": "tconstruct:bowstring",
-        "nbt": { "Material": "tconstruct:string" }
+        "id": "tconstruct:bowstring",
+        "components": {
+          "minecraft:custom_data": { "Material": "tconstruct:string"
+          }
+        }
       }
     }
   },
@@ -36,9 +40,11 @@
     "extraData": { "tconstruct:material_tier": { "type": "tconstruct:ammo", "tag": "tconstruct:book/basic_ammo" }},
     "icon": {
       "item": {
-        "type": "forge:nbt",
-        "item": "tconstruct:arrow_shaft",
-        "nbt": { "Material": "tconstruct:bamboo" }
+        "id": "tconstruct:arrow_shaft",
+        "components": {
+          "minecraft:custom_data": { "Material": "tconstruct:bamboo"
+          }
+        }
       }
     }
   },
@@ -47,17 +53,19 @@
     "data": "sections/tools.json",
     "icon": {
       "item": {
-        "type": "forge:nbt",
-        "item": "tconstruct:pickaxe",
-        "nbt": {
-          "tic_broken": false,
-          "tic_display": true,
-          "Damage": 0,
-          "tic_materials": [
-            "tconstruct:ui_render#head",
-            "tconstruct:ui_render#handle",
-            "tconstruct:ui_render#extra"
-          ]
+        "id": "tconstruct:pickaxe",
+        "components": {
+          "minecraft:custom_data": {
+            "tic_broken": false,
+            "tic_display": true,
+            "Damage": 0,
+            "tic_materials": [
+              "tconstruct:ui_render#head",
+              "tconstruct:ui_render#handle",
+              "tconstruct:ui_render#extra"
+            ]
+
+          }
         }
       }
     }

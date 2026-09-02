@@ -2,10 +2,12 @@
   "type": "tconstruct:showcase",
   "title": "Modificadores de Defesa",
   "item": {
-    "type": "forge:nbt",
-    "item": "tconstruct:creative_slot",
-    "nbt": {
-      "slot": "defense"
+    "id": "tconstruct:creative_slot",
+    "components": {
+      "minecraft:custom_data": {
+        "slot": "defense"
+
+      }
     }
   },
   "tooltip": [ "Ícone de Slot de Defesa" ],

@@ -5,5 +5,7 @@
     "amount": 1000,
     "tag": "c:slime"
   },
-  "result": "tconstruct:earth_congealed_slime"
+  "result": {
+    "id": "tconstruct:earth_congealed_slime"
+  }
 }

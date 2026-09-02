@@ -13,5 +13,7 @@
       "tconstruct:helmet_plating_cast"
     ]
   },
-  "result": "tconstruct:helmet_plating_dummy"
+  "result": {
+    "id": "tconstruct:helmet_plating_dummy"
+  }
 }

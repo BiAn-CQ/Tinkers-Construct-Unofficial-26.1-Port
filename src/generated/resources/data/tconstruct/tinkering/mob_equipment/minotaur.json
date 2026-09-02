@@ -21,6 +21,8 @@
     ],
     "priority": 100,
     "slot": "mainhand",
-    "tool": "tconstruct:minotaur_axe"
+    "tool": {
+      "id": "tconstruct:minotaur_axe"
+    }
   }
 }

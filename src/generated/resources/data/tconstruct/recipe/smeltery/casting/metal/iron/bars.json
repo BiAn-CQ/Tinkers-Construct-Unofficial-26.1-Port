@@ -5,5 +5,7 @@
     "amount": 30,
     "tag": "c:molten_iron"
   },
-  "result": "minecraft:iron_bars"
+  "result": {
+    "id": "minecraft:iron_bars"
+  }
 }

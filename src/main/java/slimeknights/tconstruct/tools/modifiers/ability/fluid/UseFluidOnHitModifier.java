@@ -8,7 +8,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.FluidType;
-import net.neoforged.neoforge.fluids.capability.IFluidHandler.FluidAction;
+import slimeknights.tconstruct.library.utils.SimulationMode;
 import slimeknights.tconstruct.library.modifiers.Modifier;
 import slimeknights.tconstruct.library.modifiers.ModifierEntry;
 import slimeknights.tconstruct.library.modifiers.fluid.FluidEffectContext;
@@ -60,7 +60,7 @@ public abstract class UseFluidOnHitModifier extends Modifier {
         if (recipe.hasEffects()) {
           FluidEffectContext.Entity fluidContext = createContext(self, player, source.getEntity());
           // always applies at level 1, for consistency with other counterattack modules. It's the chance that changes
-          int consumed = recipe.applyToEntity(fluid, 1, fluidContext, FluidAction.EXECUTE);
+          int consumed = recipe.applyToEntity(fluid, 1, fluidContext, SimulationMode.EXECUTE);
           if (consumed > 0) {
             spawnParticles(fluidContext.getTarget(), fluid);
             if (ModifierUtil.consumesResources(player)) {

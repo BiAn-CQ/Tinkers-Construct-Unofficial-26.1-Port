@@ -3,15 +3,17 @@
   "damage": 2,
   "entity": {
     "types": [
-      "minecraft:pufferfish",
-      "minecraft:squid"
+      "minecraft:squid",
+      "minecraft:pufferfish"
     ]
   },
   "result": {
     "amount": 50,
-    "nbt": {
-      "Potion": "minecraft:water_breathing"
+    "components": {
+      "minecraft:potion_contents": {
+        "potion": "minecraft:water_breathing"
+      }
     },
-    "tag": "c:potion"
+    "id": "tconstruct:potion"
   }
 }

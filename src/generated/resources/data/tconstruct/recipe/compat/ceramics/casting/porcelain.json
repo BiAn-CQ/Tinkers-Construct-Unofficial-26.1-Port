@@ -11,5 +11,7 @@
     "amount": 1000,
     "tag": "tconstruct:molten_porcelain"
   },
-  "result": "ceramics:white_porcelain"
+  "result": {
+    "id": "ceramics:white_porcelain"
+  }
 }

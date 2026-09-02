@@ -8,7 +8,8 @@ import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.items.IItemHandler;
+import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.item.ItemResource;
 import slimeknights.tconstruct.common.config.Config;
 import slimeknights.tconstruct.library.client.SafeClient;
 import slimeknights.tconstruct.library.fluid.FluidTankAnimated;
@@ -87,9 +88,8 @@ public interface ITankBlockEntity extends IFluidTankUpdater, FluidUpdatePacket.I
     int newAmount = fluid.getAmount();
     tank.setFluid(fluid);
 
-    // The native 26.1 block-state model reads the fluid from ModelData.  The
-    // legacy FluidTank callback normally requests a model refresh, but a
-    // packet update can arrive while the client-side tank is being rebuilt.
+    // The native block-state model reads the fluid from ModelData. A packet
+    // update can arrive while the client-side tank is being rebuilt.
     // Refresh explicitly so the model cannot remain on the empty shell while
     // the light property has already changed.
     refreshFluidModelData();
@@ -158,6 +158,6 @@ public interface ITankBlockEntity extends IFluidTankUpdater, FluidUpdatePacket.I
   /** Represents a  tank block entity with an inventory */
   interface ITankInventoryBlockEntity extends ITankBlockEntity {
     /** Gets the associated item handler for this tank with an inventory */
-    IItemHandler getItemHandler();
+    ResourceHandler<ItemResource> getItemHandler();
   }
 }

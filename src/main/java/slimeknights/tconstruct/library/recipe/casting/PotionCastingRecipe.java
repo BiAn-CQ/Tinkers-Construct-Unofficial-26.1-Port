@@ -122,9 +122,6 @@ public class PotionCastingRecipe implements ICastingRecipe, IMultiRecipe<Display
     if (customData != null) {
       result.set(DataComponents.CUSTOM_DATA, customData);
     }
-    if (!potion.equals(PotionContents.EMPTY)) {
-      PotionFluidType.removeLegacyPotionData(result);
-    }
     return result;
   }
 

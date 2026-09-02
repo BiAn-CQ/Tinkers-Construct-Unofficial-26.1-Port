@@ -7,13 +7,13 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.AreaEffectCloud;
 import net.minecraft.world.item.alchemy.PotionContents;
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.fluids.capability.IFluidHandler.FluidAction;
+import slimeknights.tconstruct.library.utils.SimulationMode;
 import slimeknights.mantle.data.loadable.primitive.FloatLoadable;
 import slimeknights.mantle.data.loadable.record.RecordLoadable;
 import slimeknights.tconstruct.library.modifiers.fluid.EffectLevel;
 import slimeknights.tconstruct.library.modifiers.fluid.FluidEffect;
 import slimeknights.tconstruct.library.modifiers.fluid.FluidEffectContext;
-import slimeknights.tconstruct.library.recipe.TagPredicate;
+import slimeknights.tconstruct.library.recipe.CustomDataPredicate;
 import slimeknights.tconstruct.fluids.fluids.PotionFluidType;
 
 import java.util.ArrayList;
@@ -21,10 +21,10 @@ import java.util.List;
 import java.util.Optional;
 
 /** Effect to create a lingering cloud at the hit block */
-public record PotionCloudFluidEffect(float scale, TagPredicate predicate) implements FluidEffect<FluidEffectContext.Block> {
+public record PotionCloudFluidEffect(float scale, CustomDataPredicate predicate) implements FluidEffect<FluidEffectContext.Block> {
   public static final RecordLoadable<PotionCloudFluidEffect> LOADER = RecordLoadable.create(
     FloatLoadable.FROM_ZERO.requiredField("scale", e -> e.scale),
-    TagPredicate.LOADABLE.defaultField("nbt", TagPredicate.ANY, e -> e.predicate),
+    CustomDataPredicate.LOADABLE.defaultField("custom_data", CustomDataPredicate.ANY, e -> e.predicate),
     PotionCloudFluidEffect::new);
 
   @Override
@@ -33,7 +33,7 @@ public record PotionCloudFluidEffect(float scale, TagPredicate predicate) implem
   }
 
   @Override
-  public float apply(FluidStack fluid, EffectLevel level, FluidEffectContext.Block context, FluidAction action) {
+  public float apply(FluidStack fluid, EffectLevel level, FluidEffectContext.Block context, SimulationMode action) {
     CompoundTag tag = fluid.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY).copyTag();
     if (predicate.test(tag) && context.isOffsetReplaceable()) {
       PotionContents contents = PotionFluidType.getPotionContents(fluid);

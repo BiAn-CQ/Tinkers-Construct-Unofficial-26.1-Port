@@ -17,7 +17,7 @@ public class SingleItemContainerMenu extends TriggeringBaseContainerMenu<BlockEn
   public SingleItemContainerMenu(int id, @Nullable Inventory inv, @Nullable BlockEntity te) {
     super(TinkerSmeltery.singleItemContainer.get(), id, inv, te);
     if (te != null) {
-      var handler = slimeknights.tconstruct.library.utils.TinkerCapabilityAdapters.itemHandler(te.getLevel().getCapability(Capabilities.Item.BLOCK, te.getBlockPos(), null));
+      var handler = te.getLevel().getCapability(Capabilities.Item.BLOCK, te.getBlockPos(), null);
       if (handler != null) {
         this.addSlot(new SmartItemHandlerSlot(handler, 0, 80, 20));
       }

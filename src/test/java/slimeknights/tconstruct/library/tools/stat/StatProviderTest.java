@@ -1,6 +1,6 @@
 package slimeknights.tconstruct.library.tools.stat;
 
-import net.minecraft.world.item.Tiers;
+import net.minecraft.world.item.ToolMaterial;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -19,7 +19,6 @@ class StatProviderTest extends BaseMcTest {
   @BeforeAll
   static void beforeAll() {
     MaterialItemFixture.init();
-    setupTierSorting();
   }
 
   /** Builds the given stats */
@@ -34,7 +33,7 @@ class StatProviderTest extends BaseMcTest {
   void calculateValues_noStats() {
     StatsNBT stats = addStats(ModifierStatsBuilder.builder()).build();
     assertThat(stats.getInt(ToolStats.DURABILITY)).isEqualTo(1);
-    assertThat(stats.get(ToolStats.HARVEST_TIER)).isEqualTo(Tiers.WOOD);
+    assertThat(stats.get(ToolStats.HARVEST_TIER)).isEqualTo(ToolMaterial.WOOD);
     assertThat(stats.get(ToolStats.MINING_SPEED)).isGreaterThan(0).isLessThanOrEqualTo(1);
     assertThat(stats.get(ToolStats.ATTACK_DAMAGE)).isEqualTo(0);
     assertThat(stats.get(ToolStats.ATTACK_SPEED)).isEqualTo(1);
@@ -42,8 +41,8 @@ class StatProviderTest extends BaseMcTest {
 
   @Test
   void buildDurability_multiple_head() {
-    HeadMaterialStats stats1 = new HeadMaterialStats(100, 0, Tiers.WOOD, 0);
-    HeadMaterialStats stats2 = new HeadMaterialStats(50, 0, Tiers.WOOD, 0);
+    HeadMaterialStats stats1 = new HeadMaterialStats(100, 0, ToolMaterial.WOOD, 0);
+    HeadMaterialStats stats2 = new HeadMaterialStats(50, 0, ToolMaterial.WOOD, 0);
 
     ModifierStatsBuilder builder = ModifierStatsBuilder.builder();
     ToolStats.DURABILITY.update(builder, 100f);
@@ -54,7 +53,7 @@ class StatProviderTest extends BaseMcTest {
 
   @Test
   void buildDurability_testHandleDurability() {
-    HeadMaterialStats statsHead = new HeadMaterialStats(200, 0, Tiers.WOOD, 0);
+    HeadMaterialStats statsHead = new HeadMaterialStats(200, 0, ToolMaterial.WOOD, 0);
     HandleMaterialStats statsHandle = new HandleMaterialStats(-0.5f, 0, 0, 0);
 
     ModifierStatsBuilder builder = ModifierStatsBuilder.builder();
@@ -65,7 +64,7 @@ class StatProviderTest extends BaseMcTest {
 
   @Test
   void buildMiningSpeed_testHandleMiningSpeed() {
-    HeadMaterialStats statsHead = new HeadMaterialStats(0, 2.0f, Tiers.WOOD, 0);
+    HeadMaterialStats statsHead = new HeadMaterialStats(0, 2.0f, ToolMaterial.WOOD, 0);
     HandleMaterialStats statsHandle = new HandleMaterialStats(0, 4f, 0, 0);
 
     ModifierStatsBuilder builder = ModifierStatsBuilder.builder();
@@ -76,7 +75,7 @@ class StatProviderTest extends BaseMcTest {
 
   @Test
   void buildDurability_testHandleDurability_multiple() {
-    HeadMaterialStats statsHead = new HeadMaterialStats(200, 0, Tiers.WOOD, 0);
+    HeadMaterialStats statsHead = new HeadMaterialStats(200, 0, ToolMaterial.WOOD, 0);
     HandleMaterialStats statsHandle1 = new HandleMaterialStats(0.5f, 0, 0, 0);
     HandleMaterialStats statsHandle2 = new HandleMaterialStats(-0.2f, 0, 0, 0);
 
@@ -88,7 +87,7 @@ class StatProviderTest extends BaseMcTest {
 
   @Test
   void buildMiningSpeed_testHandleMiningSpeed_multiple() {
-    HeadMaterialStats statsHead = new HeadMaterialStats(0, 5.0f, Tiers.WOOD, 0);
+    HeadMaterialStats statsHead = new HeadMaterialStats(0, 5.0f, ToolMaterial.WOOD, 0);
     HandleMaterialStats statsHandle1 = new HandleMaterialStats(0, 0.25f, 0, 0);
     HandleMaterialStats statsHandle2 = new HandleMaterialStats(0, 0.75f, 0, 0);
 
@@ -100,8 +99,8 @@ class StatProviderTest extends BaseMcTest {
 
   @Test
   void buildMiningSpeed_multiple() {
-    HeadMaterialStats stats1 = new HeadMaterialStats(1, 10, Tiers.WOOD, 0);
-    HeadMaterialStats stats2 = new HeadMaterialStats(1, 5, Tiers.WOOD, 0);
+    HeadMaterialStats stats1 = new HeadMaterialStats(1, 10, ToolMaterial.WOOD, 0);
+    HeadMaterialStats stats2 = new HeadMaterialStats(1, 5, ToolMaterial.WOOD, 0);
 
     ModifierStatsBuilder builder = ModifierStatsBuilder.builder();
     ToolStats.MINING_SPEED.update(builder, 10f);
@@ -112,8 +111,8 @@ class StatProviderTest extends BaseMcTest {
 
   @Test
   void buildAttack_multiple() {
-    HeadMaterialStats stats1 = new HeadMaterialStats(1, 0, Tiers.WOOD, 5);
-    HeadMaterialStats stats2 = new HeadMaterialStats(1, 0, Tiers.WOOD, 10);
+    HeadMaterialStats stats1 = new HeadMaterialStats(1, 0, ToolMaterial.WOOD, 5);
+    HeadMaterialStats stats2 = new HeadMaterialStats(1, 0, ToolMaterial.WOOD, 10);
 
     ModifierStatsBuilder builder = ModifierStatsBuilder.builder();
     ToolStats.ATTACK_DAMAGE.update(builder, 10f);
@@ -124,15 +123,15 @@ class StatProviderTest extends BaseMcTest {
 
   @Test
   void buildHarvestLevel_ensureMax() {
-    HeadMaterialStats stats1 = new HeadMaterialStats(1, 1, Tiers.IRON, 0);
-    HeadMaterialStats stats2 = new HeadMaterialStats(1, 1, Tiers.STONE, 0);
-    HeadMaterialStats stats3 = new HeadMaterialStats(1, 1, Tiers.DIAMOND, 0);
-    HeadMaterialStats stats4 = new HeadMaterialStats(1, 1, Tiers.WOOD, 0);
+    HeadMaterialStats stats1 = new HeadMaterialStats(1, 1, ToolMaterial.IRON, 0);
+    HeadMaterialStats stats2 = new HeadMaterialStats(1, 1, ToolMaterial.STONE, 0);
+    HeadMaterialStats stats3 = new HeadMaterialStats(1, 1, ToolMaterial.DIAMOND, 0);
+    HeadMaterialStats stats4 = new HeadMaterialStats(1, 1, ToolMaterial.WOOD, 0);
 
     ModifierStatsBuilder builder = ModifierStatsBuilder.builder();
     addStats(builder, stats1, stats2, stats3, stats4);
 
-    assertThat(builder.build().get(ToolStats.HARVEST_TIER)).isEqualTo(Tiers.DIAMOND);
+    assertThat(builder.build().get(ToolStats.HARVEST_TIER)).isEqualTo(ToolMaterial.DIAMOND);
   }
 
   @Test
@@ -145,7 +144,7 @@ class StatProviderTest extends BaseMcTest {
 
   @Test
   void buildAttackSpeed_testHandleAttackDamage() {
-    HeadMaterialStats head = new HeadMaterialStats(0, 0, Tiers.WOOD, 2);
+    HeadMaterialStats head = new HeadMaterialStats(0, 0, ToolMaterial.WOOD, 2);
     HandleMaterialStats handle = new HandleMaterialStats(0, 0, 0, -0.5f);
 
     ModifierStatsBuilder builder = ModifierStatsBuilder.builder();
@@ -156,7 +155,7 @@ class StatProviderTest extends BaseMcTest {
 
   @Test
   void buildAttackSpeed_testHandleAttackDamage_multiple() {
-    HeadMaterialStats head = new HeadMaterialStats(0, 0, Tiers.WOOD, 4);
+    HeadMaterialStats head = new HeadMaterialStats(0, 0, ToolMaterial.WOOD, 4);
     HandleMaterialStats handle1 = new HandleMaterialStats(0, 0, 0, 0.25f);
     HandleMaterialStats handle2 = new HandleMaterialStats(0, 0, 0, 0.75f);
 
@@ -191,11 +190,11 @@ class StatProviderTest extends BaseMcTest {
   @Test
   void calculateValues_headScales() {
     ModifierStatsBuilder builder = ModifierStatsBuilder.builder();
-    new HeadMaterialStats(100, 5, Tiers.DIAMOND, 8).apply(builder, 2f);
+    new HeadMaterialStats(100, 5, ToolMaterial.DIAMOND, 8).apply(builder, 2f);
     StatsNBT stats = builder.build();
 
     assertThat(stats.getInt(ToolStats.DURABILITY)).isEqualTo(200);
-    assertThat(stats.get(ToolStats.HARVEST_TIER)).isEqualTo(Tiers.DIAMOND);
+    assertThat(stats.get(ToolStats.HARVEST_TIER)).isEqualTo(ToolMaterial.DIAMOND);
     assertThat(stats.get(ToolStats.MINING_SPEED)).isEqualTo(10);
     assertThat(stats.get(ToolStats.ATTACK_DAMAGE)).isEqualTo(16);
   }

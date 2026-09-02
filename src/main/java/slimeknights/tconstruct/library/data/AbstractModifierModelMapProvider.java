@@ -3,7 +3,6 @@ package slimeknights.tconstruct.library.data;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonPrimitive;
 import net.minecraft.data.CachedOutput;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.PackOutput.Target;
@@ -12,7 +11,7 @@ import net.minecraft.world.item.Item;
 import slimeknights.mantle.data.GenericDataProvider;
 import slimeknights.mantle.data.loadable.Loadables;
 import slimeknights.mantle.registration.object.IdAwareObject;
-import slimeknights.tconstruct.library.compat.ArmorItem;
+import slimeknights.tconstruct.library.tools.definition.ArmorSlotType;
 import slimeknights.tconstruct.library.modifiers.ModifierId;
 import slimeknights.tconstruct.tools.TinkerModifiers;
 import slimeknights.tconstruct.tools.data.ModifierIds;
@@ -27,10 +26,8 @@ import java.util.concurrent.CompletableFuture;
 /**
  * Data provider for modifier model maps.
  *
- * <p>Minecraft 26.1 no longer has the legacy baked modifier-model API. The
- * native item-model bridge consumes the same compact JSON shapes directly, so
- * this provider deliberately builds JSON values without loading any of the old
- * renderer classes.</p>
+ * <p>The generated resources use explicit typed objects so the native item
+ * model codec has a single unambiguous input shape.</p>
  */
 public abstract class AbstractModifierModelMapProvider extends GenericDataProvider {
   /** Argument for {@code largeSeparator} to disable large textures entirely. */
@@ -115,16 +112,12 @@ public abstract class AbstractModifierModelMapProvider extends GenericDataProvid
   }
 
   private static JsonElement basicModel(@Nullable Identifier small, @Nullable Identifier large, int luminosity) {
-    if (small != null && large == null && luminosity == 0) {
-      return new JsonPrimitive(small.toString());
-    }
     return basicModelObject(small, large, luminosity);
   }
 
   /** Creates the object form of a basic model, used inside compound model arrays. */
   private static JsonObject basicModelObject(@Nullable Identifier small, @Nullable Identifier large, int luminosity) {
-    // Basic is the default loader, so omit its type to keep generated maps compact like upstream.
-    JsonObject json = new JsonObject();
+    JsonObject json = typed("basic");
     addTexture(json, "texture", small);
     addTexture(json, "texture_large", large);
     if (luminosity != 0) {
@@ -159,7 +152,9 @@ public abstract class AbstractModifierModelMapProvider extends GenericDataProvid
       for (JsonElement child : additional) {
         array.add(child);
       }
-      return array;
+      JsonObject compound = typed("compound");
+      compound.add("models", array);
+      return compound;
     }
 
     public Builder constant(String name, JsonElement model, JsonElement... additional) {
@@ -355,7 +350,7 @@ public abstract class AbstractModifierModelMapProvider extends GenericDataProvid
       return dyed(smallTexture, null);
     }
 
-    public Builder trim(ArmorItem.Type type) {
+    public Builder trim(ArmorSlotType type) {
       JsonObject trim = typed("armor_trim");
       trim.addProperty("slot", type.getName());
       return first(TinkerModifiers.trim.getId(), trim);

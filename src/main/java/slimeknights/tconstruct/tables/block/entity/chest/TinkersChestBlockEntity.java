@@ -10,7 +10,8 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.neoforge.items.ItemStackHandler;
+import net.neoforged.neoforge.transfer.item.ItemResource;
+import net.neoforged.neoforge.transfer.item.ItemStacksResourceHandler;
 import slimeknights.mantle.block.entity.MantleBlockEntity;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.tables.TinkerTables;
@@ -67,7 +68,7 @@ public class TinkersChestBlockEntity extends AbstractChestBlockEntity {
   }
 
   /** Item handler for tinkers chests */
-  public static class TinkersChestItemHandler extends ItemStackHandler implements IChestItemHandler {
+  public static class TinkersChestItemHandler extends ItemStacksResourceHandler implements IChestItemHandler {
     @Setter @Nullable
     private MantleBlockEntity parent;
     public TinkersChestItemHandler() {
@@ -75,17 +76,17 @@ public class TinkersChestBlockEntity extends AbstractChestBlockEntity {
     }
 
     @Override
-    public int getSlotLimit(int slot) {
+    protected int getCapacity(int slot, ItemResource resource) {
       return 16;
     }
 
     @Override
     public int getVisualSize() {
-      return getSlots();
+      return size();
     }
 
     @Override
-    protected void onContentsChanged(int slot) {
+    protected void onContentsChanged(int slot, ItemStack previousContents) {
       if (parent != null) {
         parent.setChangedFast();
       }

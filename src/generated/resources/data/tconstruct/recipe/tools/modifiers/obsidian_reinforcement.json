@@ -7,5 +7,7 @@
     "amount": 1000,
     "tag": "tconstruct:molten_obsidian"
   },
-  "result": "tconstruct:obsidian_reinforcement"
+  "result": {
+    "id": "tconstruct:obsidian_reinforcement"
+  }
 }

@@ -13,5 +13,7 @@
     "amount": 100,
     "fluid": "minecraft:lava"
   },
-  "result": "ceramics:lava_bricks_stairs"
+  "result": {
+    "id": "ceramics:lava_bricks_stairs"
+  }
 }

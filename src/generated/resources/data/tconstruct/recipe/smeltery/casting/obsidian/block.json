@@ -5,5 +5,7 @@
     "amount": 1000,
     "tag": "tconstruct:molten_obsidian"
   },
-  "result": "minecraft:obsidian"
+  "result": {
+    "id": "minecraft:obsidian"
+  }
 }

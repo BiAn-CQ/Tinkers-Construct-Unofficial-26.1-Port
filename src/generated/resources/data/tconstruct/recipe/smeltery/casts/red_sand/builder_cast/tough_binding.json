@@ -5,5 +5,7 @@
     "neoforge:ingredient_type": "mantle:item_tag",
     "tag": "tconstruct:casts/red_sand"
   },
-  "result": "tconstruct:tough_binding_red_sand_cast"
+  "result": {
+    "id": "tconstruct:tough_binding_red_sand_cast"
+  }
 }

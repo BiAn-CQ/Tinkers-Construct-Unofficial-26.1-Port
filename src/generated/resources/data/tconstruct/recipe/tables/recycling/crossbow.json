@@ -4,7 +4,7 @@
   "results": {
     "tconstruct:bowstring": {
       "count": 2,
-      "item": "minecraft:string"
+      "id": "minecraft:string"
     },
     "tconstruct:ingot": {
       "count": 1,
@@ -12,7 +12,7 @@
     },
     "tconstruct:rod": {
       "count": 3,
-      "item": "minecraft:stick"
+      "id": "minecraft:stick"
     }
   },
   "tool": "minecraft:crossbow"

@@ -50,7 +50,7 @@ import java.util.List;
 public record EdibleModule(ItemStackTemplate representativeItem, LevelingInt duration, LevelingInt durabilityUsage, LevelingValue chance, ModifierCondition<IToolStackView> condition) implements ModifierModule, GeneralInteractionModifierHook, UsingToolModifierHook, OnAttackedModifierHook, ConditionalModule<IToolStackView> {
   private static final List<ModuleHook<?>> DEFAULT_HOOKS = HookProvider.<EdibleModule>defaultHooks(ModifierHooks.GENERAL_INTERACT, ModifierHooks.TOOL_USING, ModifierHooks.ON_ATTACKED);
   public static final RecordLoadable<EdibleModule> LOADER = RecordLoadable.create(
-    ItemStackTemplateLoadable.ITEM_NBT.nullableField("representative_item", EdibleModule::representativeItem),
+    ItemStackTemplateLoadable.STACK.nullableField("representative_item", EdibleModule::representativeItem),
     LevelingInt.LOADABLE.requiredField("duration", EdibleModule::duration),
     LevelingInt.LOADABLE.requiredField("durability_usage", EdibleModule::durabilityUsage),
     LevelingValue.LOADABLE.requiredField("counter_chance", EdibleModule::chance),

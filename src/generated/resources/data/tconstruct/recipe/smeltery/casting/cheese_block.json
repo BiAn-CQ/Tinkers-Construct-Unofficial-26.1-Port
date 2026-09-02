@@ -5,5 +5,7 @@
     "amount": 1000,
     "tag": "c:milk"
   },
-  "result": "tconstruct:cheese_block"
+  "result": {
+    "id": "tconstruct:cheese_block"
+  }
 }

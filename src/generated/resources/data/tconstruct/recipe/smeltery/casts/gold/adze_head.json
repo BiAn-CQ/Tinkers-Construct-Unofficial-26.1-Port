@@ -10,6 +10,8 @@
     "amount": 90,
     "tag": "c:molten_gold"
   },
-  "result": "tconstruct:adze_head_cast",
+  "result": {
+    "id": "tconstruct:adze_head_cast"
+  },
   "switch_slots": true
 }

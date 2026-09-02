@@ -1,5 +1,0 @@
-{
-    "loader": "tconstruct:material_block",
-    "model": "tconstruct:block/table/scorched_anvil",
-    "slots": [ "particle", "top" ]
-}

@@ -16,7 +16,7 @@
   ],
   "result": {
     "amount": 180,
-    "fluid": "tconstruct:molten_cinderslime"
+    "id": "tconstruct:molten_cinderslime"
   },
   "temperature": 1050
 }

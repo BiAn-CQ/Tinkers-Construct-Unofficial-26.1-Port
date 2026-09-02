@@ -10,7 +10,7 @@ import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.fluids.capability.IFluidHandler.FluidAction;
+import slimeknights.tconstruct.library.utils.SimulationMode;
 import slimeknights.mantle.data.loadable.Loadables;
 import slimeknights.mantle.data.loadable.primitive.FloatLoadable;
 import slimeknights.mantle.data.loadable.record.RecordLoadable;
@@ -42,7 +42,7 @@ public record DamageFluidEffect(float damage, @Nullable DamageTypePair damageTyp
   }
 
   @Override
-  public float apply(FluidStack fluid, EffectLevel level, Entity context, FluidAction action) {
+  public float apply(FluidStack fluid, EffectLevel level, Entity context, SimulationMode action) {
     float value = level.value();
     if (action.simulate()) {
       return value;

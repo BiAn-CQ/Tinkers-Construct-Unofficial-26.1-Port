@@ -5,7 +5,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.fluids.capability.IFluidHandler.FluidAction;
+import slimeknights.tconstruct.library.utils.SimulationMode;
 import slimeknights.mantle.data.loadable.primitive.IntLoadable;
 import slimeknights.mantle.data.loadable.record.RecordLoadable;
 import slimeknights.mantle.util.TranslationHelper;
@@ -29,7 +29,7 @@ public record AddBreathFluidEffect(int amount) implements FluidEffect<FluidEffec
   }
 
   @Override
-  public float apply(FluidStack fluid, EffectLevel level, Entity context, FluidAction action) {
+  public float apply(FluidStack fluid, EffectLevel level, Entity context, SimulationMode action) {
     LivingEntity target = context.getLivingTarget();
     if (target != null) {
       int max = target.getMaxAirSupply();

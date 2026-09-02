@@ -3,7 +3,9 @@
   "allow_crystal": false,
   "amount_per_item": 4,
   "input": "minecraft:glowstone",
-  "leftover": "minecraft:glowstone_dust",
+  "leftover": {
+    "id": "minecraft:glowstone_dust"
+  },
   "level": {
     "max": 5
   },

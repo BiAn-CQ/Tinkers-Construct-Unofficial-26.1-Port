@@ -2,10 +2,12 @@
   "type": "tconstruct:showcase",
   "title": "無槽位強化",
   "item": {
-    "type": "forge:nbt",
-    "item": "tconstruct:creative_slot",
-    "nbt": {
-      "slot": "slotless"
+    "id": "tconstruct:creative_slot",
+    "components": {
+      "minecraft:custom_data": {
+        "slot": "slotless"
+
+      }
     }
   },
   "tooltip": [ "無槽位強化圖示" ],

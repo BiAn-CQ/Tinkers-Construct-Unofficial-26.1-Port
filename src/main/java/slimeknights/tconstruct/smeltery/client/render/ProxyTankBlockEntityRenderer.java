@@ -13,6 +13,10 @@ import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.fluid.FluidResource;
+import net.neoforged.neoforge.transfer.fluid.FluidUtil;
+import net.neoforged.neoforge.transfer.item.ItemUtil;
 import org.jspecify.annotations.Nullable;
 import slimeknights.mantle.client.render.FluidCuboid;
 import slimeknights.mantle.client.render.RenderItem;
@@ -47,8 +51,9 @@ public class ProxyTankBlockEntityRenderer implements BlockEntityRenderer<ProxyTa
     ProxyItemTank<?> itemTank = proxyTank.getItemTank();
     if (!NativeTinkerBlockStateModel.isNativeTankModel(blockState)) {
       renderState.cuboids = List.copyOf(FluidCuboid.REGISTRY.get(blockState, List.of()));
-      renderState.fluid = itemTank.getFluidInTank(0).copy();
-      renderState.capacity = itemTank.getTankCapacity(0);
+      ResourceHandler<FluidResource> handler = itemTank.getFluidHandler();
+      renderState.fluid = handler.size() == 0 ? FluidStack.EMPTY : FluidUtil.getStack(handler, 0).copy();
+      renderState.capacity = handler.size() == 0 ? 0 : handler.getCapacityAsInt(0, handler.getResource(0));
     }
 
     List<RenderItem> placements = RenderItem.STATE_REGISTRY.get(blockState, List.of());
@@ -57,8 +62,8 @@ public class ProxyTankBlockEntityRenderer implements BlockEntityRenderer<ProxyTa
     for (int slot = 0; slot < placements.size(); slot++) {
       ItemStackRenderState itemState = new ItemStackRenderState();
       RenderItem placement = placements.get(slot);
-      if (!placement.isHidden() && slot < itemTank.getSlots()) {
-        itemModelResolver.updateForTopItem(itemState, itemTank.getStackInSlot(slot), placement.getTransform(),
+      if (!placement.isHidden() && slot < itemTank.size()) {
+        itemModelResolver.updateForTopItem(itemState, ItemUtil.getStack(itemTank, slot), placement.getTransform(),
                                            proxyTank.getLevel(), null, seed + slot);
       }
       items.add(itemState);

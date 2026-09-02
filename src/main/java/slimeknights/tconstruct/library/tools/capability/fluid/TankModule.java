@@ -8,8 +8,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.fluids.capability.IFluidHandler.FluidAction;
-import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
 import slimeknights.mantle.fluid.FluidTransferHelper;
 import slimeknights.mantle.fluid.transfer.IFluidContainerTransfer.TransferDirection;
 import slimeknights.mantle.fluid.transfer.IFluidContainerTransfer.TransferResult;
@@ -28,6 +26,7 @@ import slimeknights.tconstruct.library.tools.nbt.IToolContext;
 import slimeknights.tconstruct.library.tools.nbt.IToolStackView;
 import slimeknights.tconstruct.library.tools.nbt.ToolDataNBT;
 import slimeknights.tconstruct.smeltery.item.TankItem;
+import slimeknights.tconstruct.smeltery.item.ScaledFluidTank;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -110,22 +109,20 @@ public class TankModule implements HookProvider, FluidModifierHook, VolatileData
   /* Filling and draining */
 
   @Override
-  public int fill(IToolStackView tool, ModifierEntry modifier, FluidStack resource, FluidAction action) {
+  public int insert(IToolStackView tool, ModifierEntry modifier, int tank, FluidStack resource) {
     // make sure this modifier is in charge of the tank, that is first come first serve
     if (!resource.isEmpty()) {
       // if empty, just directly fill, setFluid will check capacity
       FluidStack current = helper.getFluid(tool);
       int capacity = helper.getCapacity(tool);
       if (current.isEmpty()) {
-        if (action.execute()) {
-          helper.setFluid(tool, resource);
-        }
+        helper.setFluid(tool, resource);
         return Math.min(resource.getAmount(), capacity);
       }
       // if the fluid matches and we have space, update
       if (current.getAmount() < capacity && FluidStack.isSameFluidSameComponents(current, resource)) {
         int filled = Math.min(resource.getAmount(), capacity - current.getAmount());
-        if (filled > 0 && action.execute()) {
+        if (filled > 0) {
           current.grow(filled);
           helper.setFluid(tool, current);
         }
@@ -136,7 +133,7 @@ public class TankModule implements HookProvider, FluidModifierHook, VolatileData
   }
 
   @Override
-  public FluidStack drain(IToolStackView tool, ModifierEntry modifier, FluidStack resource, FluidAction action) {
+  public FluidStack extract(IToolStackView tool, ModifierEntry modifier, int tank, FluidStack resource) {
     modifier.getId();
     if (!resource.isEmpty()) {
       // ensure we have something and it matches the request
@@ -144,14 +141,11 @@ public class TankModule implements HookProvider, FluidModifierHook, VolatileData
       if (!current.isEmpty() && FluidStack.isSameFluidSameComponents(current, resource)) {
         // create the drained stack
         FluidStack drained = current.copyWithAmount(Math.min(current.getAmount(), resource.getAmount()));
-        // if executing, removing it
-        if (action.execute()) {
-          if (drained.getAmount() == current.getAmount()) {
-            helper.setFluid(tool, FluidStack.EMPTY);
-          } else {
-            current.shrink(drained.getAmount());
-            helper.setFluid(tool, current);
-          }
+        if (drained.getAmount() == current.getAmount()) {
+          helper.setFluid(tool, FluidStack.EMPTY);
+        } else {
+          current.shrink(drained.getAmount());
+          helper.setFluid(tool, current);
         }
         return drained;
       }
@@ -160,7 +154,7 @@ public class TankModule implements HookProvider, FluidModifierHook, VolatileData
   }
 
   @Override
-  public FluidStack drain(IToolStackView tool, ModifierEntry modifier, int maxDrain, FluidAction action) {
+  public FluidStack extract(IToolStackView tool, ModifierEntry modifier, int tank, int maxDrain) {
     modifier.getId();
     if (maxDrain > 0) {
       // ensure we have something and it matches the request
@@ -168,14 +162,11 @@ public class TankModule implements HookProvider, FluidModifierHook, VolatileData
       if (!current.isEmpty()) {
         // create the drained stack
         FluidStack drained = current.copyWithAmount(Math.min(current.getAmount(), maxDrain));
-        // if executing, removing it
-        if (action.execute()) {
-          if (drained.getAmount() == current.getAmount()) {
-            helper.setFluid(tool, FluidStack.EMPTY);
-          } else {
-            current.shrink(drained.getAmount());
-            helper.setFluid(tool, current);
-          }
+        if (drained.getAmount() == current.getAmount()) {
+          helper.setFluid(tool, FluidStack.EMPTY);
+        } else {
+          current.shrink(drained.getAmount());
+          helper.setFluid(tool, current);
         }
         return drained;
       }
@@ -187,8 +178,8 @@ public class TankModule implements HookProvider, FluidModifierHook, VolatileData
   /* Inventory slot stacking */
 
   /** Gets a tank instance for the given tool */
-  private FluidTank getTank(IToolStackView tool) {
-    FluidTank tank = new FluidTank(helper.getCapacity(tool));
+  private ScaledFluidTank getTank(IToolStackView tool) {
+    ScaledFluidTank tank = ScaledFluidTank.create(helper.getCapacity(tool), 1);
     tank.setFluid(helper.getFluid(tool));
     return tank;
   }
@@ -200,7 +191,7 @@ public class TankModule implements HookProvider, FluidModifierHook, VolatileData
     if (!slotStack.isEmpty() && TankItem.mayHaveFluid(slotStack)) {
       // target must be stack size 1, if not then its not safe to modify it
       if (slotStack.getCount() == 1) {
-        FluidTank tank = getTank(heldTool);
+        ScaledFluidTank tank = getTank(heldTool);
         TransferResult result = FluidTransferHelper.interactWithStack(tank, slotStack, TransferDirection.REVERSE);
         // update held tank and slot item if something changed (either we have a result or the stack in the slot was shrunk)
         if (result != null) {
@@ -220,7 +211,7 @@ public class TankModule implements HookProvider, FluidModifierHook, VolatileData
   public boolean overrideOtherStackedOnMe(IToolStackView slotTool, ModifierEntry modifier, ItemStack held, Slot slot, Player player, SlotAccess access) {
     // must have something with possible fluid held
     if (!held.isEmpty() && TankItem.mayHaveFluid(held)) {
-      FluidTank tank = getTank(slotTool);
+      ScaledFluidTank tank = getTank(slotTool);
       TransferResult result = FluidTransferHelper.interactWithStack(tank, held, TransferDirection.AUTO);
       // update tank if something happened
       if (result != null) {

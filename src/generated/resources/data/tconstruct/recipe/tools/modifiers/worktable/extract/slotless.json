@@ -9,7 +9,9 @@
     }
   ],
   "leftovers": [
-    "minecraft:sponge"
+    {
+      "id": "minecraft:sponge"
+    }
   ],
   "modifier_predicate": {
     "type": "mantle:and",

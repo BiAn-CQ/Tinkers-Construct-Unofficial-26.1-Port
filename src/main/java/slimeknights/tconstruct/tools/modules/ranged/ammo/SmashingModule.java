@@ -2,7 +2,6 @@ package slimeknights.tconstruct.tools.modules.ranged.ammo;
 
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
@@ -21,7 +20,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.fluids.capability.IFluidHandler.FluidAction;
+import slimeknights.tconstruct.library.utils.SimulationMode;
 import slimeknights.mantle.client.TooltipKey;
 import slimeknights.mantle.data.loadable.Loadables;
 import slimeknights.mantle.data.loadable.record.RecordLoadable;
@@ -69,8 +68,6 @@ public enum SmashingModule implements ModifierModule, FluidModifierHook, Project
   private static final Identifier KEY_FLUID = TConstruct.getResource("smashing_fluid");
   /** Key storing current fluid tag, if present */
   private static final Identifier KEY_FLUID_TAG = TConstruct.getResource("smashing_fluid_tag");
-  /** Marks the fluid payload as a complete 1.21 component-aware FluidStack. */
-  private static final Identifier KEY_FLUID_COMPONENTS = TConstruct.getResource("smashing_fluid_components");
   /** Key storing amount, only used on projectile data */
   private static final Identifier KEY_AMOUNT = TConstruct.getResource("smashing_amount");
   /** Key storing validation constant, ensures part swapping doesn't cause issues. Used only on the tool. */
@@ -123,26 +120,16 @@ public enum SmashingModule implements ModifierModule, FluidModifierHook, Project
     return Fluids.EMPTY;
   }
 
-  /** Gets the current fluid NBT */
-  @Nullable
-  private static CompoundTag getFluidTag(IModDataView data) {
-    if (data.contains(KEY_FLUID_TAG)) {
-      return data.getCompoundOrEmpty(KEY_FLUID_TAG);
-    }
-    return null;
-  }
-
-  /** Reconstructs the stored fluid, including native components and legacy NBT. */
+  /** Reconstructs the stored component-aware fluid stack. */
   private static FluidStack getStoredFluid(IModDataView data, Fluid fluid, int amount) {
-    CompoundTag stored = getFluidTag(data);
-    if (stored != null && data.getBooleanOr(KEY_FLUID_COMPONENTS, false)) {
-      FluidStack stack = FluidStackDataUtil.parse(RegistryAccessUtil.getRegistryAccess(), stored);
+    if (data.contains(KEY_FLUID_TAG)) {
+      FluidStack stack = FluidStackDataUtil.parse(RegistryAccessUtil.getRegistryAccess(), data.getCompoundOrEmpty(KEY_FLUID_TAG));
       if (!stack.isEmpty()) {
         stack.setAmount(amount);
         return stack;
       }
     }
-    return slimeknights.tconstruct.library.utils.FluidStackDataUtil.create(fluid, amount, stored);
+    return new FluidStack(fluid, amount);
   }
 
   /** Removes the fluid from the tool */
@@ -151,7 +138,6 @@ public enum SmashingModule implements ModifierModule, FluidModifierHook, Project
     data.remove(KEY_VALIDATE);
     data.remove(KEY_AMOUNT);
     data.remove(KEY_FLUID_TAG);
-    data.remove(KEY_FLUID_COMPONENTS);
   }
 
   /** Gets the amount to store in NBT to ensure no funny business with part swapping causes dupes */
@@ -166,7 +152,7 @@ public enum SmashingModule implements ModifierModule, FluidModifierHook, Project
   /* Tank filling/draining */
 
   @Override
-  public int fill(IToolStackView tool, ModifierEntry modifier, FluidStack resource, FluidAction action) {
+  public int insert(IToolStackView tool, ModifierEntry modifier, int tank, FluidStack resource) {
     if (resource.isEmpty()) {
       return 0;
     }
@@ -181,20 +167,17 @@ public enum SmashingModule implements ModifierModule, FluidModifierHook, Project
       return 0;
     }
     // success! we can fill
-    if (action.execute()) {
-      // we don't actually store the amount, its up to the modifier to determine that
-      data.putString(KEY_FLUID, Loadables.FLUID.getString(resource.getFluid()));
-      // we want to store a fixed size, but its possible part swapping changes our capacity, so keep track of our capacity at the time of storing
-      data.putFloat(KEY_VALIDATE, getValidationAmount(tool, modifier));
-      FluidStack stored = resource.copyWithAmount(amount);
-      data.put(KEY_FLUID_TAG, FluidStackDataUtil.save(RegistryAccessUtil.getRegistryAccess(), stored));
-      data.putBoolean(KEY_FLUID_COMPONENTS, true);
-    }
+    // we don't actually store the amount, its up to the modifier to determine that
+    data.putString(KEY_FLUID, Loadables.FLUID.getString(resource.getFluid()));
+    // we want to store a fixed size, but its possible part swapping changes our capacity, so keep track of our capacity at the time of storing
+    data.putFloat(KEY_VALIDATE, getValidationAmount(tool, modifier));
+    FluidStack stored = resource.copyWithAmount(amount);
+    data.put(KEY_FLUID_TAG, FluidStackDataUtil.save(RegistryAccessUtil.getRegistryAccess(), stored));
     return amount;
   }
 
   @Override
-  public FluidStack drain(IToolStackView tool, ModifierEntry modifier, int maxDrain, FluidAction action) {
+  public FluidStack extract(IToolStackView tool, ModifierEntry modifier, int tank, int maxDrain) {
     if (maxDrain > 0) {
       ModDataNBT data = tool.getPersistentData();
       Fluid fluid = getFluid(data);
@@ -206,9 +189,7 @@ public enum SmashingModule implements ModifierModule, FluidModifierHook, Project
           // ensure we requested enough
         } else if (amount <= maxDrain) {
           FluidStack result = getStoredFluid(data, fluid, amount);
-          if (action.execute()) {
-            clearFluid(data);
-          }
+          clearFluid(data);
           return result;
         }
       }
@@ -217,7 +198,7 @@ public enum SmashingModule implements ModifierModule, FluidModifierHook, Project
   }
 
   @Override
-  public FluidStack drain(IToolStackView tool, ModifierEntry modifier, FluidStack resource, FluidAction action) {
+  public FluidStack extract(IToolStackView tool, ModifierEntry modifier, int tank, FluidStack resource) {
     if (!resource.isEmpty()) {
       ModDataNBT data = tool.getPersistentData();
       Fluid fluid = getFluid(data);
@@ -232,9 +213,7 @@ public enum SmashingModule implements ModifierModule, FluidModifierHook, Project
           // ensure the tag matches
           FluidStack result = getStoredFluid(data, fluid, amount);
           if (FluidStack.isSameFluidSameComponents(result, resource)) {
-            if (action.execute()) {
-              clearFluid(data);
-            }
+            clearFluid(data);
             return result;
           }
         }
@@ -342,10 +321,10 @@ public enum SmashingModule implements ModifierModule, FluidModifierHook, Project
         if (effects.hasEntityEffects()) {
           // apply the effect
           int drained = effects.applyToEntity(
-            slimeknights.tconstruct.library.utils.FluidStackDataUtil.create(fluid, amount, getFluidTag(persistentData)),
+            getStoredFluid(persistentData, fluid, amount),
             modifier.getEffectiveLevel(),
             FluidEffectContext.builder(projectile.level()).user(attacker).projectile(projectile).location(hit.getLocation()).target(hit.getEntity(), target),
-            FluidAction.EXECUTE
+            SimulationMode.EXECUTE
           );
           // drain the fluid
           if (drained > 0) {
@@ -383,10 +362,10 @@ public enum SmashingModule implements ModifierModule, FluidModifierHook, Project
         if (effects.hasBlockEffects()) {
           // apply the effect
           int drained = effects.applyToBlock(
-            slimeknights.tconstruct.library.utils.FluidStackDataUtil.create(fluid, amount, getFluidTag(persistentData)),
+            getStoredFluid(persistentData, fluid, amount),
             modifier.getEffectiveLevel(),
             FluidEffectContext.builder(projectile.level()).user(attacker).projectile(projectile).location(hit.getLocation()).block(hit),
-            FluidAction.EXECUTE
+            SimulationMode.EXECUTE
           );
           // drain the fluid
           if (drained > 0) {
@@ -424,11 +403,11 @@ public enum SmashingModule implements ModifierModule, FluidModifierHook, Project
           // apply the effect at the location of the projectile
           Vec3 position = projectile.position();
           int drained = effects.applyToBlock(
-            slimeknights.tconstruct.library.utils.FluidStackDataUtil.create(fluid, amount, getFluidTag(persistentData)),
+            getStoredFluid(persistentData, fluid, amount),
             modifier.getEffectiveLevel(),
             FluidEffectContext.builder(projectile.level()).user(projectile.getOwner()).projectile(projectile).location(position)
               .block(new BlockHitResult(position, projectile.getDirection(), projectile.blockPosition(), false)),
-            FluidAction.EXECUTE
+            SimulationMode.EXECUTE
           );
           // drain the fluid
           if (drained > 0) {
@@ -462,7 +441,7 @@ public enum SmashingModule implements ModifierModule, FluidModifierHook, Project
     if (fluid != Fluids.EMPTY) {
       // formats as <name> <level> (<fluid>)
       return Component.translatable(FORMAT, name,
-        slimeknights.tconstruct.library.utils.FluidStackDataUtil.create(fluid, FluidValues.BOTTLE, getFluidTag(data)).getHoverName()
+        getStoredFluid(data, fluid, FluidValues.BOTTLE).getHoverName()
       ).withStyle(name.getStyle());
     }
     return name;
@@ -476,7 +455,7 @@ public enum SmashingModule implements ModifierModule, FluidModifierHook, Project
       int amount = getAmount(modifier, fluid);
       if (amount > 0) {
         // formats as <fluid>: <amount> mb
-          tooltip.add(modifier.getModifier().applyStyle(slimeknights.tconstruct.library.utils.FluidStackDataUtil.create(fluid, amount, getFluidTag(data)).getHoverName().copy()
+          tooltip.add(modifier.getModifier().applyStyle(getStoredFluid(data, fluid, amount).getHoverName().copy()
           .append(": ").append(Component.translatable(ToolTankHelper.MB_FORMAT, TranslationHelper.COMMA_FORMAT.format(amount)))));
       }
     }
@@ -494,7 +473,7 @@ public enum SmashingModule implements ModifierModule, FluidModifierHook, Project
       if (fluid != Fluids.EMPTY) {
         int amount = getAmount(fluid);
         if (amount > 0) {
-          return slimeknights.tconstruct.library.utils.FluidStackDataUtil.create(fluid, amount, getFluidTag(data));
+          return getStoredFluid(data, fluid, amount);
         }
       }
       return FluidStack.EMPTY;

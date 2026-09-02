@@ -18,6 +18,8 @@
     ],
     "priority": 100,
     "slot": "mainhand",
-    "tool": "tconstruct:war_pick"
+    "tool": {
+      "id": "tconstruct:war_pick"
+    }
   }
 }

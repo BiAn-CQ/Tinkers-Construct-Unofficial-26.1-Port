@@ -10,6 +10,8 @@
     "amount": 90,
     "tag": "c:molten_gold"
   },
-  "result": "tconstruct:bow_limb_cast",
+  "result": {
+    "id": "tconstruct:bow_limb_cast"
+  },
   "switch_slots": true
 }

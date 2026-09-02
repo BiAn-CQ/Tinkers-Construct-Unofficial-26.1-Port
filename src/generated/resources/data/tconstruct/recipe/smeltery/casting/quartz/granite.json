@@ -7,5 +7,7 @@
     "amount": 100,
     "tag": "tconstruct:molten_quartz"
   },
-  "result": "minecraft:granite"
+  "result": {
+    "id": "minecraft:granite"
+  }
 }

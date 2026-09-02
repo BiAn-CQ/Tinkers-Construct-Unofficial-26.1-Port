@@ -2,10 +2,12 @@
   "type": "tconstruct:showcase",
   "title": "升級強化",
   "item": {
-    "type": "forge:nbt",
-    "item": "tconstruct:creative_slot",
-    "nbt": {
-      "slot": "upgrades"
+    "id": "tconstruct:creative_slot",
+    "components": {
+      "minecraft:custom_data": {
+        "slot": "upgrades"
+
+      }
     }
   },
   "tooltip": [ "升級槽圖示" ],

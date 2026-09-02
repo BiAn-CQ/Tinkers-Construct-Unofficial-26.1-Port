@@ -10,5 +10,7 @@
     "amount": 50,
     "tag": "tconstruct:molten_quartz"
   },
-  "result": "minecraft:andesite"
+  "result": {
+    "id": "minecraft:andesite"
+  }
 }

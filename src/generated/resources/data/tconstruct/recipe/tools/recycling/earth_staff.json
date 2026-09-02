@@ -4,11 +4,11 @@
   "results": {
     "tconstruct:block": {
       "count": 2,
-      "item": "tconstruct:greenheart_log"
+      "id": "tconstruct:greenheart_log"
     },
     "tconstruct:crystal": {
       "count": 2,
-      "item": "tconstruct:earth_slime_crystal"
+      "id": "tconstruct:earth_slime_crystal"
     },
     "tconstruct:ingot": {
       "count": 1,

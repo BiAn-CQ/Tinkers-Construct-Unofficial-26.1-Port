@@ -7,5 +7,7 @@
     "amount": 250,
     "tag": "tconstruct:seared_stone"
   },
-  "result": "tconstruct:mighty_smelting"
+  "result": {
+    "id": "tconstruct:mighty_smelting"
+  }
 }

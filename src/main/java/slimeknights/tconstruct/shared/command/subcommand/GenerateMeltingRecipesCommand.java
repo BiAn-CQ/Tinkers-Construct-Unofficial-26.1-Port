@@ -43,8 +43,10 @@ import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.common.conditions.ICondition;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.FluidType;
-import net.neoforged.neoforge.fluids.capability.IFluidHandlerItem;
-import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
+import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.fluid.FluidResource;
+import net.neoforged.neoforge.transfer.fluid.FluidStacksResourceHandler;
+import net.neoforged.neoforge.transfer.fluid.FluidUtil;
 import org.apache.commons.lang3.mutable.MutableInt;
 import slimeknights.mantle.command.GeneratePackHelper;
 import slimeknights.mantle.command.MantleCommand;
@@ -456,7 +458,7 @@ public class GenerateMeltingRecipesCommand {
       ItemStack stack = new ItemStack(item);
       IFluidContainerTransfer transfer = FluidContainerTransferManager.INSTANCE.getTransfer(stack, FluidStack.EMPTY);
       if (transfer != null) {
-        FluidTank tank = new FluidTank(10000);
+        ResourceHandler<FluidResource> tank = new FluidStacksResourceHandler(1, 10000);
         TransferResult transferResult = transfer.transfer(stack, FluidStack.EMPTY, tank, TransferDirection.EMPTY_ITEM);
         if (transferResult != null) {
           return MeltingResult.from(transferResult.fluid());
@@ -471,9 +473,9 @@ public class GenerateMeltingRecipesCommand {
       }
       // fluid capability check
       try {
-        IFluidHandlerItem capability = slimeknights.tconstruct.library.utils.TinkerCapabilities.fluidHandler(stack);
-        if (capability != null) {
-          FluidStack contained = capability.getFluidInTank(0);
+        ResourceHandler<FluidResource> capability = slimeknights.tconstruct.library.utils.TinkerCapabilities.fluidHandler(stack);
+        if (capability != null && capability.size() > 0) {
+          FluidStack contained = FluidUtil.getStack(capability, 0);
           if (!contained.isEmpty()) {
             return MeltingResult.from(contained);
           }

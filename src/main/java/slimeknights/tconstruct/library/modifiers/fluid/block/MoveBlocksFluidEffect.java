@@ -18,7 +18,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.material.PushReaction;
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.fluids.capability.IFluidHandler.FluidAction;
+import slimeknights.tconstruct.library.utils.SimulationMode;
 import slimeknights.mantle.data.loadable.Loadables;
 import slimeknights.mantle.data.loadable.primitive.BooleanLoadable;
 import slimeknights.mantle.data.loadable.record.RecordLoadable;
@@ -63,7 +63,7 @@ public record MoveBlocksFluidEffect(boolean push, SoundEvent sound) implements F
   }
 
   @Override
-  public float apply(FluidStack fluid, EffectLevel level, FluidEffectContext.Block context, FluidAction action) {
+  public float apply(FluidStack fluid, EffectLevel level, FluidEffectContext.Block context, SimulationMode action) {
     if (level.isFull()) {
       if (context.breakRestricted()) {
         return 0;

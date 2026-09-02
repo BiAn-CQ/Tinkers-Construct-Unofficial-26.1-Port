@@ -14,5 +14,7 @@
       }
     ]
   },
-  "result": "tconstruct:helmet_plating_red_sand_cast"
+  "result": {
+    "id": "tconstruct:helmet_plating_red_sand_cast"
+  }
 }

@@ -10,9 +10,11 @@
     "tag": "tconstruct:molten_debris"
   },
   "result": {
-    "item": "tconstruct:repair_kit",
-    "nbt": {
-      "Material": "tconstruct:ancient"
-    }
+    "components": {
+      "minecraft:custom_data": {
+        "Material": "tconstruct:ancient"
+      }
+    },
+    "id": "tconstruct:repair_kit"
   }
 }

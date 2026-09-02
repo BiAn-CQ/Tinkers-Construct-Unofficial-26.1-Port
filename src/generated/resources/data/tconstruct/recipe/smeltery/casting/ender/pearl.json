@@ -5,5 +5,7 @@
     "amount": 250,
     "tag": "c:ender"
   },
-  "result": "minecraft:ender_pearl"
+  "result": {
+    "id": "minecraft:ender_pearl"
+  }
 }

@@ -4,7 +4,7 @@
   "results": {
     "tconstruct:scale": {
       "count": 5,
-      "item": "minecraft:turtle_scute"
+      "id": "minecraft:turtle_scute"
     }
   },
   "tool": "minecraft:turtle_helmet"

@@ -3,9 +3,8 @@ package slimeknights.tconstruct.smeltery.block.entity.inventory;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.fluids.FluidUtil;
+import net.neoforged.neoforge.transfer.fluid.FluidUtil;
 import slimeknights.mantle.inventory.SingleItemHandler;
 import slimeknights.tconstruct.common.TinkerTags;
 import slimeknights.tconstruct.common.network.InventorySlotSyncPacket;
@@ -44,12 +43,10 @@ public class DuctItemHandler extends SingleItemHandler<DuctBlockEntity> {
    * @param newStack  New stack
    */
   @Override
-  public void setStack(ItemStack newStack) {
+  protected void onStackChanged(ItemStack current, ItemStack newStack) {
     Level world = parent.getLevel();
-    ItemStack current = getStack();
     // if both are empty, assume shift click so we need to update
     boolean hasChange = (current.isEmpty() && newStack.isEmpty()) || !ItemStack.matches(current, newStack);
-    super.setStack(newStack);
     if (hasChange) {
       updateFluid();
       if (world != null) {
@@ -75,7 +72,7 @@ public class DuctItemHandler extends SingleItemHandler<DuctBlockEntity> {
     }
     // the item must contain fluid (no empty cans or buckets)
     var capability = slimeknights.tconstruct.library.utils.TinkerCapabilities.fluidHandler(stack);
-    return capability != null && !capability.getFluidInTank(0).isEmpty();
+    return capability != null && capability.size() > 0 && !capability.getResource(0).isEmpty();
   }
 
   /**
@@ -88,9 +85,8 @@ public class DuctItemHandler extends SingleItemHandler<DuctBlockEntity> {
       if (stack.isEmpty()) {
         fluid = FluidStack.EMPTY;
       } else {
-        fluid = FluidUtil.getFluidHandler(stack)
-          .map(handler -> handler.getFluidInTank(0))
-          .orElse(FluidStack.EMPTY);
+        var handler = slimeknights.tconstruct.library.utils.TinkerCapabilities.fluidHandler(stack);
+        fluid = handler == null || handler.size() == 0 ? FluidStack.EMPTY : FluidUtil.getStack(handler, 0);
       }
     }
     return fluid;

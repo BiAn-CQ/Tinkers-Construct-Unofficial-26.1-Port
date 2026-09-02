@@ -1,8 +1,6 @@
 {
   "title": "Kavrulmuş Tanklar",
-  "item": {
-    "tag": "tconstruct:scorched_tanks"
-  },
+  "item": "#tconstruct:scorched_tanks",
   "text": [
      {
       "text": "Tanklar ergimiş sıvıları ve yakıtları depolamak için iyidir. Dökümevinde metal ergitmek istiyorsan bir tane gerekecek! Tanklar bir şeyleri sonrası için saklamak istiyorsan dökümevinden içine dökülerek doldurulabilirler.",

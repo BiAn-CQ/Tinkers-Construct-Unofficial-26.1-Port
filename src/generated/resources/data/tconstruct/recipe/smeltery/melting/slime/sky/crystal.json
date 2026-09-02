@@ -3,7 +3,7 @@
   "ingredient": "tconstruct:sky_slime_crystal",
   "result": {
     "amount": 250,
-    "fluid": "tconstruct:sky_slime"
+    "id": "tconstruct:sky_slime"
   },
   "temperature": 10,
   "time": 29

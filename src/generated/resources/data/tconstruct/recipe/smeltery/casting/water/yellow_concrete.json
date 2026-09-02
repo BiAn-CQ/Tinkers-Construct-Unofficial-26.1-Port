@@ -7,5 +7,7 @@
     "amount": 100,
     "fluid": "minecraft:water"
   },
-  "result": "minecraft:yellow_concrete"
+  "result": {
+    "id": "minecraft:yellow_concrete"
+  }
 }

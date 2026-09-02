@@ -5,5 +5,7 @@
     "amount": 250,
     "tag": "tconstruct:molten_obsidian"
   },
-  "result": "tconstruct:obsidian_pane"
+  "result": {
+    "id": "tconstruct:obsidian_pane"
+  }
 }

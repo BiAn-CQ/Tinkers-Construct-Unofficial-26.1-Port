@@ -5,7 +5,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.level.ItemLike;
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.fluids.capability.IFluidHandler.FluidAction;
+import slimeknights.tconstruct.library.utils.SimulationMode;
 import slimeknights.mantle.data.loadable.common.ItemStackTemplateLoadable;
 import slimeknights.mantle.data.loadable.record.RecordLoadable;
 import slimeknights.tconstruct.library.modifiers.fluid.EffectLevel;
@@ -19,7 +19,7 @@ import slimeknights.tconstruct.library.utils.EffectCureUtil;
  * @param stack  Stack used for curing, standard is milk bucket
  */
 public record CureEffectsFluidEffect(ItemStackTemplate stack) implements FluidEffect<FluidEffectContext.Entity> {
-  public static final RecordLoadable<CureEffectsFluidEffect> LOADER = RecordLoadable.create(ItemStackTemplateLoadable.ITEM.requiredField("item", CureEffectsFluidEffect::stack), CureEffectsFluidEffect::new);
+  public static final RecordLoadable<CureEffectsFluidEffect> LOADER = RecordLoadable.create(ItemStackTemplateLoadable.STACK.requiredField("item", CureEffectsFluidEffect::stack), CureEffectsFluidEffect::new);
 
   public CureEffectsFluidEffect(ItemLike item) {
     this(new ItemStackTemplate(item.asItem()));
@@ -31,7 +31,7 @@ public record CureEffectsFluidEffect(ItemStackTemplate stack) implements FluidEf
   }
 
   @Override
-  public float apply(FluidStack fluid, EffectLevel level, Entity context, FluidAction action) {
+  public float apply(FluidStack fluid, EffectLevel level, Entity context, SimulationMode action) {
     ItemStack stack = this.stack.create();
     LivingEntity target = context.getLivingTarget();
     if (target != null && level.isFull()) {

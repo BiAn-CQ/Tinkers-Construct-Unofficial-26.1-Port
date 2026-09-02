@@ -4,7 +4,9 @@
     "neoforge:ingredient_type": "mantle:item_tag",
     "tag": "tconstruct:skyroot_logs"
   },
-  "leftover": "tconstruct:skyroot_planks",
+  "leftover": {
+    "id": "tconstruct:skyroot_planks"
+  },
   "material": "tconstruct:slimewood#skyroot",
   "needed": 1,
   "value": 4

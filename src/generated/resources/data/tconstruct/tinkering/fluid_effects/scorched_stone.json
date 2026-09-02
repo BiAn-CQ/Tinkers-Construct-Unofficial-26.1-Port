@@ -6,7 +6,7 @@
         {
           "effect": {
             "type": "tconstruct:drop_item",
-            "item": "tconstruct:scorched_brick"
+            "id": "tconstruct:scorched_brick"
           },
           "level": 1.0
         },
@@ -38,7 +38,7 @@
     },
     {
       "type": "tconstruct:drop_item",
-      "item": "tconstruct:scorched_brick"
+      "id": "tconstruct:scorched_brick"
     }
   ],
   "fluid": {

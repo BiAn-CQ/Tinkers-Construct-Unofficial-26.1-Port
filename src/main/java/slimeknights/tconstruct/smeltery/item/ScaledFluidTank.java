@@ -1,30 +1,70 @@
 package slimeknights.tconstruct.smeltery.item;
 
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
+import net.neoforged.neoforge.transfer.fluid.FluidResource;
+import net.neoforged.neoforge.transfer.fluid.FluidStacksResourceHandler;
+import net.neoforged.neoforge.transfer.fluid.FluidUtil;
+import net.neoforged.neoforge.transfer.transaction.TransactionContext;
 
-import javax.annotation.Nonnull;
+import java.util.function.Predicate;
 
 /**
- * Fluid tank representing a stack of multiple fluid tanks. All operations must affect every tack in the stack at the same time, so must in increments of the scale.
- * Internally works the same as a fluid tank with {@code capacity * scale}, except operations are truncated to the nearest scale (e.g. if scale is 4, we must fill in 4mb increments).
+ * Native fluid handler representing a stack of tanks. Every operation affects all tanks in the
+ * item stack together, so amounts are truncated to a multiple of {@code scale}.
  */
-public class ScaledFluidTank extends FluidTank {
+public class ScaledFluidTank extends FluidStacksResourceHandler {
   private final int scale;
+  private Predicate<FluidStack> validator = fluid -> true;
+
   private ScaledFluidTank(int capacity, int scale) {
-    super(capacity * scale);
+    super(1, capacity * scale);
     this.scale = scale;
   }
 
   /** Creates a new instance */
-  public static FluidTank create(int capacity, int scale) {
-    if (scale == 1) {
-      return new FluidTank(capacity);
-    }
+  public static ScaledFluidTank create(int capacity, int scale) {
     return new ScaledFluidTank(capacity, scale);
   }
 
-  /* Helpers */
+  /** Updates the total capacity. */
+  public ScaledFluidTank setCapacity(int capacity) {
+    this.capacity = enforceScale(capacity);
+    return this;
+  }
+
+  /** Limits resources accepted by this tank. */
+  public ScaledFluidTank setValidator(Predicate<FluidStack> validator) {
+    this.validator = validator;
+    return this;
+  }
+
+  /** Directly replaces the stored fluid. */
+  public void setFluid(FluidStack stack) {
+    FluidStack scaled = enforceScale(stack, true);
+    set(0, FluidResource.of(scaled), scaled.getAmount());
+  }
+
+  /** Gets a copy of the stored fluid. */
+  public FluidStack getFluid() {
+    return FluidUtil.getStack(this, 0);
+  }
+
+  public int getFluidAmount() {
+    return getAmountAsInt(0);
+  }
+
+  public int getCapacity() {
+    return getCapacityAsInt(0, getResource(0));
+  }
+
+  public boolean isEmpty() {
+    return getResource(0).isEmpty();
+  }
+
+  @Override
+  public boolean isValid(int index, FluidResource resource) {
+    return validator.test(resource.toStack(1));
+  }
 
   /** enforces the amount matches the scale */
   private int enforceScale(int amount) {
@@ -50,33 +90,13 @@ public class ScaledFluidTank extends FluidTank {
   }
 
 
-  /* Fluid tank methods */
-
   @Override
-  public FluidTank setCapacity(int capacity) {
-    return super.setCapacity(enforceScale(capacity));
+  public int insert(int index, FluidResource resource, int amount, TransactionContext transaction) {
+    return super.insert(index, resource, enforceScale(amount), transaction);
   }
 
   @Override
-  public void setFluid(FluidStack stack) {
-    super.setFluid(enforceScale(stack, false));
+  public int extract(int index, FluidResource resource, int amount, TransactionContext transaction) {
+    return super.extract(index, resource, enforceScale(amount), transaction);
   }
-
-  @Override
-  public int fill(FluidStack resource, FluidAction action) {
-    return super.fill(enforceScale(resource, true), action);
-  }
-
-  @Nonnull
-  @Override
-  public FluidStack drain(int maxDrain, FluidAction action) {
-    return super.drain(enforceScale(maxDrain), action);
-  }
-
-  @Nonnull
-  @Override
-  public FluidStack drain(FluidStack resource, FluidAction action) {
-    return super.drain(enforceScale(resource, true), action);
-  }
-
 }

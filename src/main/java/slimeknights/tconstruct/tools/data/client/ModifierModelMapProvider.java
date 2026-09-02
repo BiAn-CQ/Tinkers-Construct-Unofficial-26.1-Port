@@ -1,7 +1,7 @@
 package slimeknights.tconstruct.tools.data.client;
 
 import net.minecraft.data.PackOutput;
-import slimeknights.tconstruct.library.compat.ArmorItem;
+import slimeknights.tconstruct.library.tools.definition.ArmorSlotType;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.data.AbstractModifierModelMapProvider;
 import slimeknights.tconstruct.tools.TinkerModifiers;
@@ -251,7 +251,7 @@ public class ModifierModelMapProvider extends AbstractModifierModelMapProvider {
       .luminosity(2, SMALL, ModifierIds.unbreakable);
 
     // plate armor
-    for (ArmorItem.Type type : slimeknights.tconstruct.library.tools.definition.ModifiableArmorMaterial.ARMOR_TYPES) {
+    for (ArmorSlotType type : slimeknights.tconstruct.library.tools.definition.ModifiableArmorMaterial.ARMOR_TYPES) {
       String root = "armor/plate/" + type.getName() + "/maille";
       String item = "plate/" + type.getName();
       String path = "armor/" + item + "/modifiers";
@@ -280,14 +280,14 @@ public class ModifierModelMapProvider extends AbstractModifierModelMapProvider {
 
     // travelers
     travelers("goggles", null);
-    travelers("vest", ArmorItem.Type.CHESTPLATE);
-    travelers("pants", ArmorItem.Type.LEGGINGS);
-    travelers("boots", ArmorItem.Type.BOOTS);
+    travelers("vest", ArmorSlotType.CHESTPLATE);
+    travelers("pants", ArmorSlotType.LEGGINGS);
+    travelers("boots", ArmorSlotType.BOOTS);
     travelers("shield", null);
     tool("travelers/goggles").customTrim("armor/travelers/goggles", null);
 
     // slimesuit
-    for (ArmorItem.Type type : slimeknights.tconstruct.library.tools.definition.ModifiableArmorMaterial.ARMOR_TYPES) {
+    for (ArmorSlotType type : slimeknights.tconstruct.library.tools.definition.ModifiableArmorMaterial.ARMOR_TYPES) {
       tool("slime/" + type.getName()).trim(type);
     }
     tool("slime/wings")
@@ -350,7 +350,7 @@ public class ModifierModelMapProvider extends AbstractModifierModelMapProvider {
   }
 
   /** Adds dyed textures for travelers gear */
-  private void travelers(String name, @Nullable ArmorItem.Type type) {
+  private void travelers(String name, @Nullable ArmorSlotType type) {
     String root = "armor/travelers/" + name + "/modifiers/";
     String item = "travelers/" + name;
     Builder b = tool(item).dyed(root + "dyed");

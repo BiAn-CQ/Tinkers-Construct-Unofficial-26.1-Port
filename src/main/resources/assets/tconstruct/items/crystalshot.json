@@ -1,6 +1,6 @@
 {
     "model": {
-        "type": "mantle:nbt_key",
+        "type": "mantle:custom_data_key",
         "parent": "tconstruct:item/native/crystalshot",
         "textures": {
             "default": "tconstruct:item/arrow/crystalshot_random",
@@ -11,6 +11,6 @@
             "quartz": "tconstruct:item/arrow/quartz",
             "skyslime": "tconstruct:item/arrow/skyslime"
         },
-        "nbt_key": "variant"
+        "custom_data_key": "variant"
     }
 }

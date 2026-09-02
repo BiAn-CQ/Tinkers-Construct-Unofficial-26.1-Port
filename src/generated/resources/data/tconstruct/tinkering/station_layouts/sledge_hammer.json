@@ -1,17 +1,18 @@
 {
   "icon": {
-    "count": 1,
-    "item": "tconstruct:sledge_hammer",
-    "nbt": {
-      "tic_display": 1,
-      "tic_materials": [
-        "tconstruct:ui_render#head",
-        "tconstruct:ui_render#handle",
-        "tconstruct:ui_render#extra",
-        "tconstruct:ui_render#large",
-        "tconstruct:ui_render#extra_large"
-      ]
-    }
+    "components": {
+      "minecraft:custom_data": {
+        "tic_display": 1,
+        "tic_materials": [
+          "tconstruct:ui_render#head",
+          "tconstruct:ui_render#handle",
+          "tconstruct:ui_render#extra",
+          "tconstruct:ui_render#large",
+          "tconstruct:ui_render#extra_large"
+        ]
+      }
+    },
+    "id": "tconstruct:sledge_hammer"
   },
   "input_slots": [
     {

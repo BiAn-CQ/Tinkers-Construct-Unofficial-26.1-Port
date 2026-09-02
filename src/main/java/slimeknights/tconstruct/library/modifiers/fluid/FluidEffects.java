@@ -3,7 +3,7 @@ package slimeknights.tconstruct.library.modifiers.fluid;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.material.Fluid;
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.fluids.capability.IFluidHandler.FluidAction;
+import slimeknights.tconstruct.library.utils.SimulationMode;
 import org.jetbrains.annotations.ApiStatus.Internal;
 import slimeknights.mantle.data.loadable.Loadables;
 import slimeknights.mantle.data.loadable.primitive.BooleanLoadable;
@@ -70,7 +70,7 @@ public record FluidEffects(FluidIngredient ingredient, List<FluidEffect<? super 
   /* Running effects */
 
   /** Runs the effects for a generic context */
-  private <C extends FluidEffectContext> int apply(FluidStack fluid, float level, C context, List<FluidEffect<? super C>> effects, FluidAction action) {
+  private <C extends FluidEffectContext> int apply(FluidStack fluid, float level, C context, List<FluidEffect<? super C>> effects, SimulationMode action) {
     int amountPerLevel = getAmount(fluid.getFluid());
     float scale;
     if (fluid.getAmount() >= amountPerLevel * level) {
@@ -94,11 +94,11 @@ public record FluidEffects(FluidIngredient ingredient, List<FluidEffect<? super 
    * @param fluid    Input fluid, will not be modified
    * @param level    Level of effect to apply
    * @param context  Entity fluid context
-   * @param action   If {@link FluidAction#SIMULATE}, makes no changes to the context. If {@link FluidAction#EXECUTE}, the context may be modified.
+   * @param action   If {@link SimulationMode#SIMULATE}, makes no changes to the context. If {@link SimulationMode#EXECUTE}, the context may be modified.
    * @return  Amount of fluid to consumed from this effect, will return 0 if no effect was performed. Note this may be slightly larger than the input fluid due to rounding.
    */
   @SuppressWarnings("UnusedReturnValue")
-  public int applyToBlock(FluidStack fluid, float level, Block context, FluidAction action) {
+  public int applyToBlock(FluidStack fluid, float level, Block context, SimulationMode action) {
     return apply(fluid, level, context, blockEffects, action);
   }
 
@@ -107,10 +107,10 @@ public record FluidEffects(FluidIngredient ingredient, List<FluidEffect<? super 
    * @param fluid    Input fluid, will not be modified
    * @param level    Level of effect to apply
    * @param context  Entity fluid context
-   * @param action   If {@link FluidAction#SIMULATE}, makes no changes to the context. If {@link FluidAction#EXECUTE}, the context may be modified.
+   * @param action   If {@link SimulationMode#SIMULATE}, makes no changes to the context. If {@link SimulationMode#EXECUTE}, the context may be modified.
    * @return  Amount of fluid to consumed from this effect, will return 0 if no effect was performed.
    */
-  public int applyToEntity(FluidStack fluid, float level, Entity context, FluidAction action) {
+  public int applyToEntity(FluidStack fluid, float level, Entity context, SimulationMode action) {
     return apply(fluid, level, context, entityEffects, action);
   }
 

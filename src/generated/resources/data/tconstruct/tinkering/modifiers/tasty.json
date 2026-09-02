@@ -9,7 +9,9 @@
     },
     {
       "type": "tconstruct:edible_representative_item",
-      "representative_item": "tconstruct:bacon"
+      "representative_item": {
+        "id": "tconstruct:bacon"
+      }
     },
     {
       "type": "tconstruct:edible_consume_durability",

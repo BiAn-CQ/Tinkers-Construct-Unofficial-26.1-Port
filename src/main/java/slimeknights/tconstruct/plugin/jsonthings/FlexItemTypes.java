@@ -11,7 +11,7 @@ import net.minecraft.world.item.ProjectileWeaponItem;
 import net.neoforged.neoforge.common.util.Lazy;
 import slimeknights.mantle.data.loadable.Loadables;
 import slimeknights.tconstruct.TConstruct;
-import slimeknights.tconstruct.library.compat.ArmorItem;
+import slimeknights.tconstruct.library.tools.definition.ArmorSlotType;
 import slimeknights.tconstruct.library.json.TinkerLoadables;
 import slimeknights.tconstruct.library.materials.stats.MaterialStatsId;
 import slimeknights.tconstruct.library.tools.definition.ToolDefinition;
@@ -94,7 +94,7 @@ public final class FlexItemTypes {
       Identifier name = Identifier.parse(GsonHelper.getAsString(data, "texture_name"));
       SoundEvent sound = Loadables.SOUND_EVENT.getOrDefault(
         data, "equip_sound", SoundEvents.ARMOR_EQUIP_GENERIC.value());
-      ArmorItem.Type slot = TinkerLoadables.ARMOR_SLOT.getIfPresent(data, "slot");
+      ArmorSlotType slot = TinkerLoadables.ARMOR_SLOT.getIfPresent(data, "slot");
       return (IToolItemFactory<ModifiableArmorItem>) (properties, builder) -> {
         DummyArmorMaterial material = new DummyArmorMaterial(name, sound);
         return new ModifiableArmorItem(material.asArmorMaterial(), slot, properties,
@@ -106,7 +106,7 @@ public final class FlexItemTypes {
       Identifier name = Identifier.parse(GsonHelper.getAsString(data, "model_name"));
       SoundEvent sound = Loadables.SOUND_EVENT.getOrDefault(
         data, "equip_sound", SoundEvents.ARMOR_EQUIP_GENERIC.value());
-      ArmorItem.Type slot = TinkerLoadables.ARMOR_SLOT.getIfPresent(data, "slot");
+      ArmorSlotType slot = TinkerLoadables.ARMOR_SLOT.getIfPresent(data, "slot");
       return (IToolItemFactory<MultilayerArmorItem>) (properties, builder) -> {
         ToolDefinition definition = ToolDefinition.create(builder.getRegistryName());
         DummyArmorMaterial material = new DummyArmorMaterial(name, sound);

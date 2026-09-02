@@ -19,7 +19,10 @@
                     {
                       "type": "tconstruct:has_material",
                       "index": 0,
-                      "material": "tconstruct:blaze"
+                      "material": {
+                        "type": "tconstruct:id",
+                        "id": "tconstruct:blaze"
+                      }
                     }
                   ]
                 }
@@ -48,7 +51,10 @@
                     {
                       "type": "tconstruct:has_material",
                       "index": 0,
-                      "material": "tconstruct:blazing_bone"
+                      "material": {
+                        "type": "tconstruct:id",
+                        "id": "tconstruct:blazing_bone"
+                      }
                     }
                   ]
                 }
@@ -77,7 +83,10 @@
                     {
                       "type": "tconstruct:has_material",
                       "index": 0,
-                      "material": "tconstruct:bone"
+                      "material": {
+                        "type": "tconstruct:id",
+                        "id": "tconstruct:bone"
+                      }
                     }
                   ]
                 }
@@ -106,7 +115,10 @@
                     {
                       "type": "tconstruct:has_material",
                       "index": 0,
-                      "material": "tconstruct:copper"
+                      "material": {
+                        "type": "tconstruct:id",
+                        "id": "tconstruct:copper"
+                      }
                     }
                   ]
                 }
@@ -135,7 +147,10 @@
                     {
                       "type": "tconstruct:has_material",
                       "index": 0,
-                      "material": "tconstruct:darkthread"
+                      "material": {
+                        "type": "tconstruct:id",
+                        "id": "tconstruct:darkthread"
+                      }
                     }
                   ]
                 }
@@ -164,7 +179,10 @@
                     {
                       "type": "tconstruct:has_material",
                       "index": 0,
-                      "material": "tconstruct:dragon_scale"
+                      "material": {
+                        "type": "tconstruct:id",
+                        "id": "tconstruct:dragon_scale"
+                      }
                     }
                   ]
                 }
@@ -193,7 +211,10 @@
                     {
                       "type": "tconstruct:has_material",
                       "index": 0,
-                      "material": "tconstruct:ender_pearl"
+                      "material": {
+                        "type": "tconstruct:id",
+                        "id": "tconstruct:ender_pearl"
+                      }
                     }
                   ]
                 }
@@ -222,7 +243,10 @@
                     {
                       "type": "tconstruct:has_material",
                       "index": 0,
-                      "material": "tconstruct:glass"
+                      "material": {
+                        "type": "tconstruct:id",
+                        "id": "tconstruct:glass"
+                      }
                     }
                   ]
                 }
@@ -251,7 +275,10 @@
                     {
                       "type": "tconstruct:has_material",
                       "index": 0,
-                      "material": "tconstruct:gold"
+                      "material": {
+                        "type": "tconstruct:id",
+                        "id": "tconstruct:gold"
+                      }
                     }
                   ]
                 }
@@ -280,7 +307,10 @@
                     {
                       "type": "tconstruct:has_material",
                       "index": 0,
-                      "material": "tconstruct:ice"
+                      "material": {
+                        "type": "tconstruct:id",
+                        "id": "tconstruct:ice"
+                      }
                     }
                   ]
                 }
@@ -309,7 +339,10 @@
                     {
                       "type": "tconstruct:has_material",
                       "index": 0,
-                      "material": "tconstruct:iron"
+                      "material": {
+                        "type": "tconstruct:id",
+                        "id": "tconstruct:iron"
+                      }
                     }
                   ]
                 }
@@ -338,7 +371,10 @@
                     {
                       "type": "tconstruct:has_material",
                       "index": 0,
-                      "material": "tconstruct:knightmetal"
+                      "material": {
+                        "type": "tconstruct:id",
+                        "id": "tconstruct:knightmetal"
+                      }
                     }
                   ]
                 }
@@ -367,7 +403,10 @@
                     {
                       "type": "tconstruct:has_material",
                       "index": 0,
-                      "material": "tconstruct:leather"
+                      "material": {
+                        "type": "tconstruct:id",
+                        "id": "tconstruct:leather"
+                      }
                     }
                   ]
                 }
@@ -396,7 +435,10 @@
                     {
                       "type": "tconstruct:has_material",
                       "index": 0,
-                      "material": "tconstruct:necrotic_bone"
+                      "material": {
+                        "type": "tconstruct:id",
+                        "id": "tconstruct:necrotic_bone"
+                      }
                     }
                   ]
                 }
@@ -425,7 +467,10 @@
                     {
                       "type": "tconstruct:has_material",
                       "index": 0,
-                      "material": "tconstruct:pig_iron"
+                      "material": {
+                        "type": "tconstruct:id",
+                        "id": "tconstruct:pig_iron"
+                      }
                     }
                   ]
                 }
@@ -454,7 +499,10 @@
                     {
                       "type": "tconstruct:has_material",
                       "index": 0,
-                      "material": "tconstruct:rose_gold"
+                      "material": {
+                        "type": "tconstruct:id",
+                        "id": "tconstruct:rose_gold"
+                      }
                     }
                   ]
                 }
@@ -483,7 +531,10 @@
                     {
                       "type": "tconstruct:has_material",
                       "index": 0,
-                      "material": "tconstruct:string"
+                      "material": {
+                        "type": "tconstruct:id",
+                        "id": "tconstruct:string"
+                      }
                     }
                   ]
                 }
@@ -512,7 +563,10 @@
                     {
                       "type": "tconstruct:has_material",
                       "index": 0,
-                      "material": "tconstruct:venombone"
+                      "material": {
+                        "type": "tconstruct:id",
+                        "id": "tconstruct:venombone"
+                      }
                     }
                   ]
                 }

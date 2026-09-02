@@ -8,7 +8,6 @@ import lombok.RequiredArgsConstructor;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.neoforge.items.ItemHandlerHelper;
 import slimeknights.mantle.recipe.helper.ItemOutput;
 import slimeknights.tconstruct.library.utils.TinkerNetworkBuffer;
 
@@ -75,25 +74,18 @@ public abstract class RandomItem {
    * @return  Random item
    */
   public static RandomItem fromJson(JsonElement element, String name) {
-    // we serialize max to count for ranges as it looks cleaner, put it back
-    if (element.isJsonObject()) {
-      JsonObject object = element.getAsJsonObject();
-      if (object.has("max")) {
-        object.addProperty("count", GsonHelper.getAsInt(object, "max"));
-        object.remove("max");
-      }
-    }
-
-    ItemOutput result = ItemOutput.Loadable.REQUIRED_STACK.convert(element, name);
-    // primitive is just an item name, so constant
-    if (element.isJsonPrimitive()) {
-      return constant(result);
-    }
-    // can't handle null or array
     if (!element.isJsonObject()) {
-      throw new JsonSyntaxException("Invalid RandomItem at '" + name + "', must be a string or an object");
+      throw new JsonSyntaxException("Invalid RandomItem at '" + name + "', must be an object");
     }
     JsonObject object = element.getAsJsonObject();
+    JsonObject output = object.deepCopy();
+    // we serialize max to count for ranges as it looks cleaner, put it back
+    if (output.has("max")) {
+      output.addProperty("count", GsonHelper.getAsInt(output, "max"));
+      output.remove("max");
+    }
+
+    ItemOutput result = ItemOutput.Loadable.REQUIRED_STACK.convert(output, name);
     // min and max count
     if (object.has("min")) {
       return range(result, GsonHelper.getAsInt(object, "min"));
@@ -149,14 +141,7 @@ public abstract class RandomItem {
     @Override
     public JsonElement serialize() {
       JsonElement resultElement = this.result.serialize(true);
-      JsonObject object;
-      // if a primitive, that means its just an item name, so build an object around it
-      if (resultElement.isJsonPrimitive()) {
-        object = new JsonObject();
-        object.add("item", resultElement);
-      } else {
-        object = resultElement.getAsJsonObject();
-      }
+      JsonObject object = resultElement.getAsJsonObject();
       object.addProperty("min", minCount);
       object.addProperty("max", GsonHelper.getAsInt(object, "count", 1));
       object.remove("count");
@@ -194,14 +179,7 @@ public abstract class RandomItem {
       if (chance >= 1.0f) {
         return resultElement;
       }
-      JsonObject object;
-      // if a primitive, that means its just an item name, so build an object around it
-      if (resultElement.isJsonPrimitive()) {
-        object = new JsonObject();
-        object.add("item", resultElement);
-      } else {
-        object = resultElement.getAsJsonObject();
-      }
+      JsonObject object = resultElement.getAsJsonObject();
       object.addProperty("chance", chance);
       return object;
     }

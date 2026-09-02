@@ -10,6 +10,8 @@
     "amount": 90,
     "tag": "c:molten_gold"
   },
-  "result": "tconstruct:repair_kit_cast",
+  "result": {
+    "id": "tconstruct:repair_kit_cast"
+  },
   "switch_slots": true
 }

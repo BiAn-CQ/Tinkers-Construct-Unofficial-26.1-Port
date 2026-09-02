@@ -5,5 +5,7 @@
     "neoforge:ingredient_type": "mantle:item_tag",
     "tag": "tconstruct:casts/sand"
   },
-  "result": "tconstruct:bow_limb_sand_cast"
+  "result": {
+    "id": "tconstruct:bow_limb_sand_cast"
+  }
 }

@@ -5,5 +5,7 @@
     "amount": 30,
     "tag": "c:molten_gold"
   },
-  "result": "tconstruct:gold_bars"
+  "result": {
+    "id": "tconstruct:gold_bars"
+  }
 }

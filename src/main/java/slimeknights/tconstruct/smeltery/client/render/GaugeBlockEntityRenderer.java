@@ -10,7 +10,9 @@ import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.fluids.capability.IFluidHandler;
+import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.fluid.FluidResource;
+import net.neoforged.neoforge.transfer.fluid.FluidUtil;
 import org.jspecify.annotations.Nullable;
 import slimeknights.mantle.client.render.FluidCuboid;
 import slimeknights.mantle.client.render.FluidRenderer;
@@ -31,8 +33,8 @@ public class GaugeBlockEntityRenderer implements BlockEntityRenderer<GaugeBlockE
                                  ModelFeatureRenderer.@Nullable CrumblingOverlay breakProgress) {
     BlockEntityRenderer.super.extractRenderState(tile, state, partialTicks, cameraPosition, breakProgress);
     state.cuboids = List.copyOf(FluidCuboid.REGISTRY.get(tile.getBlockState(), List.of()));
-    IFluidHandler tank = tile.getTank();
-    state.fluid = tank.getTanks() > 0 ? tank.getFluidInTank(0).copy() : FluidStack.EMPTY;
+    ResourceHandler<FluidResource> tank = tile.getTank();
+    state.fluid = tank.size() > 0 ? FluidUtil.getStack(tank, 0) : FluidStack.EMPTY;
   }
 
   @Override

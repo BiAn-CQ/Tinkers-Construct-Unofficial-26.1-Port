@@ -10,8 +10,8 @@ import java.util.List;
  * Extracts representative textures from a block for material-block models.
  *
  * <p>Material-block models intentionally use the source block's particle
- * texture as one opaque replacement texture. This matches the 1.20.1 anvil
- * renderer and avoids applying a translucent source layer to every retextured
+ * texture as one opaque replacement texture. This avoids applying a
+ * translucent source layer to every retextured
  * face of the table or anvil.</p>
  */
 final class MaterialBlockTextureHelper {

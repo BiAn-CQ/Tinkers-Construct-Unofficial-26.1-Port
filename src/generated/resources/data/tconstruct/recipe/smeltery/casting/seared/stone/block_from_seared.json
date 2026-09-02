@@ -5,5 +5,7 @@
     "amount": 1000,
     "tag": "tconstruct:seared_stone"
   },
-  "result": "tconstruct:seared_stone"
+  "result": {
+    "id": "tconstruct:seared_stone"
+  }
 }

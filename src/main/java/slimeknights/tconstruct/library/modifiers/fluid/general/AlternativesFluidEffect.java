@@ -3,7 +3,7 @@ package slimeknights.tconstruct.library.modifiers.fluid.general;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.chat.Component;
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.fluids.capability.IFluidHandler.FluidAction;
+import slimeknights.tconstruct.library.utils.SimulationMode;
 import org.jetbrains.annotations.ApiStatus.Internal;
 import slimeknights.mantle.data.loadable.Loadable;
 import slimeknights.mantle.data.loadable.record.RecordLoadable;
@@ -27,7 +27,7 @@ public record AlternativesFluidEffect<C extends FluidEffectContext>(List<FluidEf
   public AlternativesFluidEffect {}
 
   @Override
-  public float apply(FluidStack fluid, EffectLevel level, C context, FluidAction action) {
+  public float apply(FluidStack fluid, EffectLevel level, C context, SimulationMode action) {
     for (FluidEffect<? super C> effect : effects) {
       float applied = effect.apply(fluid, level, context, action);
       if (applied > 0) {

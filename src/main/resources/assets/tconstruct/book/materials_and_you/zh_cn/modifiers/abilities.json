@@ -2,10 +2,12 @@
   "type": "tconstruct:showcase",
   "title": "能力强化",
   "item": {
-    "type": "forge:nbt",
-    "item": "tconstruct:creative_slot",
-    "nbt": {
-      "slot": "abilities"
+    "id": "tconstruct:creative_slot",
+    "components": {
+      "minecraft:custom_data": {
+        "slot": "abilities"
+
+      }
     }
   },
   "tooltip": [ "能力槽图标" ],

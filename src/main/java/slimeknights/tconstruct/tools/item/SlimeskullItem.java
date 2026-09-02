@@ -4,7 +4,7 @@ import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.Model;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.LivingEntity;
-import slimeknights.tconstruct.library.compat.ArmorItem;
+import slimeknights.tconstruct.library.tools.definition.ArmorSlotType;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
 import slimeknights.tconstruct.TConstruct;
@@ -23,7 +23,7 @@ public class SlimeskullItem extends ModifiableArmorItem {
   private final Identifier name;
 
   public SlimeskullItem(ModifiableArmorMaterial material, Identifier name, Properties properties) {
-    super(material, ArmorItem.Type.HELMET, properties);
+    super(material, ArmorSlotType.HELMET, properties);
     this.name = name;
   }
 

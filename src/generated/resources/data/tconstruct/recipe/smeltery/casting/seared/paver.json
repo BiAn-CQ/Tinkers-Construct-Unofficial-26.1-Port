@@ -7,5 +7,7 @@
     "amount": 500,
     "tag": "tconstruct:molten_clay"
   },
-  "result": "tconstruct:seared_paver"
+  "result": {
+    "id": "tconstruct:seared_paver"
+  }
 }

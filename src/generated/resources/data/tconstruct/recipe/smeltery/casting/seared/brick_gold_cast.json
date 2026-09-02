@@ -9,5 +9,7 @@
     "amount": 250,
     "tag": "tconstruct:seared_stone"
   },
-  "result": "tconstruct:seared_brick"
+  "result": {
+    "id": "tconstruct:seared_brick"
+  }
 }

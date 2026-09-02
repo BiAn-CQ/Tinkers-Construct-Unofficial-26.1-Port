@@ -8,5 +8,7 @@
     "neoforge:ingredient_type": "tconstruct:material",
     "match": "tconstruct:tool_binding"
   },
-  "result": "tconstruct:tool_binding_sand_cast"
+  "result": {
+    "id": "tconstruct:tool_binding_sand_cast"
+  }
 }

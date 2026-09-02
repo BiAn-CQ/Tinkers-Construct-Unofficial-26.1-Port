@@ -23,9 +23,10 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.phys.AABB;
 import net.neoforged.neoforge.model.data.ModelData;
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.fluids.capability.IFluidHandler;
-import net.neoforged.neoforge.items.IItemHandler;
-import net.neoforged.neoforge.items.ItemHandlerHelper;
+import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.fluid.FluidResource;
+import net.neoforged.neoforge.transfer.item.ItemResource;
+import net.neoforged.neoforge.transfer.item.ItemUtil;
 import slimeknights.mantle.block.InventoryBlock;
 import slimeknights.mantle.block.entity.IRetexturedBlockEntity;
 import slimeknights.mantle.block.entity.NameableBlockEntity;
@@ -197,7 +198,7 @@ public abstract class HeatingStructureBlockEntity extends NameableBlockEntity im
 
       // if we have listeners and a fluid, send a first update
       if (!fluidDisplayListeners.isEmpty()) {
-        FluidStack fluid = tank.getFluidInTank(0);
+        FluidStack fluid = tank.getFluids().isEmpty() ? FluidStack.EMPTY : tank.getFluids().getFirst();
         if (!fluid.isEmpty()) {
           updateListeners(fluid.copy());
         }
@@ -325,13 +326,13 @@ public abstract class HeatingStructureBlockEntity extends NameableBlockEntity im
 
   /* Capability */
 
-  public IItemHandler getItemCapability() {
+  public ResourceHandler<ItemResource> getItemCapability() {
     return meltingInventory;
   }
 
   @Nullable
   @Override
-  public IFluidHandler getFluidCapability() {
+  public ResourceHandler<FluidResource> getFluidCapability() {
     return structure == null ? null : tank;
   }
 
@@ -523,7 +524,7 @@ public abstract class HeatingStructureBlockEntity extends NameableBlockEntity im
    * @param stack  Stack to insert
    */
   private ItemStack insertIntoInventory(ItemStack stack) {
-    return ItemHandlerHelper.insertItem(meltingInventory, stack, false);
+    return ItemUtil.insertItemReturnRemaining(meltingInventory, stack, false, null);
   }
 
 
@@ -607,7 +608,7 @@ public abstract class HeatingStructureBlockEntity extends NameableBlockEntity im
     super.load(nbt);
     if (nbt.contains(TAG_TANK)) {
       tank.read(nbt.getCompoundOrEmpty(TAG_TANK), registries);
-      FluidStack first = tank.getFluidInTank(0);
+      FluidStack first = tank.getFluids().isEmpty() ? FluidStack.EMPTY : tank.getFluids().getFirst();
       if (!first.isEmpty()) {
         updateDisplayFluid(first);
       }

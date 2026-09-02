@@ -7,5 +7,7 @@
     "amount": 250,
     "tag": "c:beetroot_soup"
   },
-  "result": "minecraft:beetroot_soup"
+  "result": {
+    "id": "minecraft:beetroot_soup"
+  }
 }

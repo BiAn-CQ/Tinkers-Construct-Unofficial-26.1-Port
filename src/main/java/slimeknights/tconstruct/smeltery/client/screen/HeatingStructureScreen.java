@@ -62,7 +62,7 @@ public class HeatingStructureScreen extends MultiModuleScreen<HeatingStructureCo
     if (te != null) {
       this.te = te;
       this.tank = new GuiSmelteryTank(this, te.getTank(), 8, 16, 106, 106, Objects.requireNonNull(BuiltInRegistries.BLOCK_ENTITY_TYPE.getKey(te.getType())));
-      int slots = te.getMeltingInventory().getSlots();
+      int slots = te.getMeltingInventory().size();
       this.sideInventory = new HeatingStructureSideInventoryScreen(this, container.getSideInventory(), playerInventory, slots, HeatingStructureContainerMenu.calcColumns(slots));
       addModule(sideInventory);
       FuelModule fuelModule = te.getFuelModule();
@@ -84,7 +84,7 @@ public class HeatingStructureScreen extends MultiModuleScreen<HeatingStructureCo
     super.containerTick();
     // if the smeltery becomes invalid or the slot size changes, kill the UI
     if (te == null || !te.getBlockState().getValue(ControllerBlock.IN_STRUCTURE)
-        || te.getMeltingInventory().getSlots() != sideInventory.getSlotCount()) {
+        || te.getMeltingInventory().size() != sideInventory.getSlotCount()) {
       this.onClose();
     }
   }

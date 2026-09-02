@@ -34,7 +34,7 @@ public class CrystalshotRenderer extends ArrowRenderer<CrystalshotEntity, Crysta
     return TEXTURES.computeIfAbsent(state.variant, TEXTURE_GETTER);
   }
 
-  /** Render-state copy of the entity-only variant used by the 1.20.1 renderer. */
+  /** Render-state copy of the projectile's entity-only variant. */
   public static final class State extends ArrowRenderState {
     private String variant = "default";
   }

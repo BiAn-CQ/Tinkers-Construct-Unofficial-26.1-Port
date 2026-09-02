@@ -7,5 +7,7 @@
     "amount": 1250,
     "tag": "c:slime"
   },
-  "result": "minecraft:slime_block"
+  "result": {
+    "id": "minecraft:slime_block"
+  }
 }

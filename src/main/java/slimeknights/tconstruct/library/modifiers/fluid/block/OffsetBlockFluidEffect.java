@@ -5,7 +5,7 @@ import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.phys.BlockHitResult;
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.fluids.capability.IFluidHandler.FluidAction;
+import slimeknights.tconstruct.library.utils.SimulationMode;
 import slimeknights.mantle.data.loadable.Loadables;
 import slimeknights.mantle.data.loadable.record.RecordLoadable;
 import slimeknights.tconstruct.library.modifiers.fluid.EffectLevel;
@@ -31,7 +31,7 @@ public record OffsetBlockFluidEffect(FluidEffect<? super FluidEffectContext.Bloc
   }
 
   @Override
-  public float apply(FluidStack fluid, EffectLevel level, FluidEffectContext.Block context, FluidAction action) {
+  public float apply(FluidStack fluid, EffectLevel level, FluidEffectContext.Block context, SimulationMode action) {
     BlockHitResult hitResult = context.getHitResult();
     Direction direction = this.direction != null ? this.direction : hitResult.getDirection();
     FluidEffectContext.Block offset = context.withHitResult(new BlockHitResult(hitResult.getLocation(), direction, hitResult.getBlockPos().relative(direction), hitResult.isInside()));

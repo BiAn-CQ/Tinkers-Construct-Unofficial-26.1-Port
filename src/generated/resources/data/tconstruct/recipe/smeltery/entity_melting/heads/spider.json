@@ -9,7 +9,7 @@
   },
   "result": {
     "amount": 500,
-    "fluid": "tconstruct:venom"
+    "id": "tconstruct:venom"
   },
   "temperature": 10,
   "time": 68

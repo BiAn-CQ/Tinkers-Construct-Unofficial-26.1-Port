@@ -7,8 +7,9 @@ import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.neoforged.neoforge.capabilities.Capabilities;
-import net.neoforged.neoforge.items.IItemHandler;
-import net.neoforged.neoforge.items.wrapper.EmptyItemHandler;
+import net.neoforged.neoforge.transfer.EmptyResourceHandler;
+import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.item.ItemResource;
 import slimeknights.mantle.inventory.BaseContainerMenu;
 import slimeknights.mantle.inventory.SmartItemHandlerSlot;
 
@@ -21,7 +22,7 @@ public class SideInventoryContainer<TILE extends BlockEntity> extends BaseContai
   @Getter
   private final int slotCount;
 
-  protected final IItemHandler itemHandler;
+  protected final ResourceHandler<ItemResource> itemHandler;
 
   public SideInventoryContainer(MenuType<?> containerType, int windowId, Inventory inv, @Nullable TILE tile, int x, int y, int columns) {
     this(containerType, windowId, inv, tile, null, x, y, columns);
@@ -32,15 +33,15 @@ public class SideInventoryContainer<TILE extends BlockEntity> extends BaseContai
 
     // must have a TE
     if (tile == null) {
-      this.itemHandler = EmptyItemHandler.INSTANCE;
+      this.itemHandler = EmptyResourceHandler.instance();
     } else {
-      IItemHandler capability = slimeknights.tconstruct.library.utils.TinkerCapabilityAdapters.itemHandler(tile.getLevel().getCapability(Capabilities.Item.BLOCK, tile.getBlockPos(), inventoryDirection));
-      this.itemHandler = capability == null ? EmptyItemHandler.INSTANCE : capability;
+      ResourceHandler<ItemResource> capability = tile.getLevel().getCapability(Capabilities.Item.BLOCK, tile.getBlockPos(), inventoryDirection);
+      this.itemHandler = capability == null ? EmptyResourceHandler.instance() : capability;
     }
 
     // slot properties
-    IItemHandler handler = itemHandler;
-    this.slotCount = handler.getSlots();
+    ResourceHandler<ItemResource> handler = itemHandler;
+    this.slotCount = handler.size();
     // Empty/temporarily invalid multiblocks can expose zero slots. Keep layout math valid.
     this.columns = Math.max(1, columns);
     int rows = this.slotCount / this.columns;
@@ -70,7 +71,7 @@ public class SideInventoryContainer<TILE extends BlockEntity> extends BaseContai
    * @param y            Slot Y position
    * @return  Inventory slot
    */
-  protected Slot createSlot(IItemHandler itemHandler, int index, int x, int y) {
+  protected Slot createSlot(ResourceHandler<ItemResource> itemHandler, int index, int x, int y) {
     return new SmartItemHandlerSlot(itemHandler, index, x, y);
   }
 }

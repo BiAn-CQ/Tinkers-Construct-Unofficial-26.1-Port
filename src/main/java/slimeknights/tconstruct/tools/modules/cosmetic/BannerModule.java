@@ -34,7 +34,6 @@ import slimeknights.tconstruct.library.utils.Util;
 
 import javax.annotation.Nullable;
 import java.util.List;
-import java.util.Map;
 
 /** Module for banner pattern tooltips */
 public enum BannerModule implements ModifierModule, DisplayNameModifierHook, TooltipModifierHook {
@@ -46,7 +45,7 @@ public enum BannerModule implements ModifierModule, DisplayNameModifierHook, Too
   public static final String KEY_DYE = "dye";
   /** Key for a pattern color, as a 24 bit integer */
   public static final String KEY_COLOR = "color";
-  /** Key for a pattern asset ID. Legacy short vanilla hashes are also accepted when reading. */
+  /** Key for a pattern asset ID. */
   public static final String KEY_PATTERN = "pattern";
   /** Tooltip key saying hold shift for patterns */
   private static final Component HOLD_SHIFT = TConstruct.makeTranslation("modifier", "banner.hold_shift").withStyle(ChatFormatting.GRAY);
@@ -140,31 +139,9 @@ public enum BannerModule implements ModifierModule, DisplayNameModifierHook, Too
     data.putInt(cacheKey(id), hashCode);
   }
 
-  private static final Map<String,String> LEGACY_PATTERNS = Map.ofEntries(
-    Map.entry("b", "base"), Map.entry("bl", "square_bottom_left"), Map.entry("br", "square_bottom_right"),
-    Map.entry("tl", "square_top_left"), Map.entry("tr", "square_top_right"), Map.entry("bs", "stripe_bottom"),
-    Map.entry("ts", "stripe_top"), Map.entry("ls", "stripe_left"), Map.entry("rs", "stripe_right"),
-    Map.entry("cs", "stripe_center"), Map.entry("ms", "stripe_middle"), Map.entry("drs", "stripe_downright"),
-    Map.entry("dls", "stripe_downleft"), Map.entry("ss", "small_stripes"), Map.entry("cr", "cross"),
-    Map.entry("sc", "straight_cross"), Map.entry("bt", "triangle_bottom"), Map.entry("tt", "triangle_top"),
-    Map.entry("bts", "triangles_bottom"), Map.entry("tts", "triangles_top"), Map.entry("ld", "diagonal_left"),
-    Map.entry("rd", "diagonal_right"), Map.entry("lud", "diagonal_up_left"), Map.entry("rud", "diagonal_up_right"),
-    Map.entry("mc", "circle"), Map.entry("mr", "rhombus"), Map.entry("vh", "half_vertical"),
-    Map.entry("hh", "half_horizontal"), Map.entry("vhr", "half_vertical_right"), Map.entry("hhb", "half_horizontal_bottom"),
-    Map.entry("bo", "border"), Map.entry("cbo", "curly_border"), Map.entry("gra", "gradient"),
-    Map.entry("gru", "gradient_up"), Map.entry("bri", "bricks"), Map.entry("glb", "globe"),
-    Map.entry("cre", "creeper"), Map.entry("sku", "skull"), Map.entry("flo", "flower"),
-    Map.entry("moj", "mojang"), Map.entry("pig", "piglin")
-  );
-
   @Nullable
   public static Identifier getAssetId(String storedId) {
-    Identifier assetId = Identifier.tryParse(storedId);
-    if (assetId == null || storedId.indexOf(':') < 0) {
-      String path = LEGACY_PATTERNS.get(storedId);
-      assetId = path == null ? null : Identifier.withDefaultNamespace(path);
-    }
-    return assetId;
+    return storedId.indexOf(':') < 0 ? null : Identifier.tryParse(storedId);
   }
 
   @Nullable

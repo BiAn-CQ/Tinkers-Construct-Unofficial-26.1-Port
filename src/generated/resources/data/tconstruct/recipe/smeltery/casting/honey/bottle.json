@@ -7,5 +7,7 @@
     "amount": 250,
     "tag": "c:honey"
   },
-  "result": "minecraft:honey_bottle"
+  "result": {
+    "id": "minecraft:honey_bottle"
+  }
 }

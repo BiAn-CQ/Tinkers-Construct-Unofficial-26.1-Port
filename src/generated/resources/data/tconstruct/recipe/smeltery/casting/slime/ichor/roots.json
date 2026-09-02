@@ -7,5 +7,7 @@
     "amount": 1000,
     "tag": "tconstruct:ichor"
   },
-  "result": "tconstruct:ichor_enderbark_roots"
+  "result": {
+    "id": "tconstruct:ichor_enderbark_roots"
+  }
 }

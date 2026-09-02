@@ -61,15 +61,12 @@ public final class TinkerIngredients {
     };
   }
 
-  /**
-   * Tests an ingredient while preserving the 1.20.1 meaning of the removed
-   * {@code Ingredient.EMPTY}: it matches an empty item stack.
-   */
+  /** Tests an ingredient, treating the local empty sentinel as a match for an empty stack. */
   public static boolean matches(Ingredient ingredient, ItemStack stack) {
     return ingredient == EMPTY ? stack.isEmpty() : ingredient.test(stack);
   }
 
-  /** Materializes an ingredient for legacy display code that still expects item stacks. */
+  /** Materializes an ingredient for display code that expects item stacks. */
   public static ItemStack[] getItems(Ingredient ingredient) {
     if (ingredient == EMPTY) {
       return new ItemStack[0];

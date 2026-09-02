@@ -14,7 +14,7 @@ import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagBuilder;
 import net.minecraft.tags.TagEntry;
 import net.minecraft.tags.TagKey;
-import slimeknights.tconstruct.library.compat.ArmorItem;
+import slimeknights.tconstruct.library.tools.definition.ArmorSlotType;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
@@ -402,7 +402,7 @@ public class ItemTagProvider extends IntrinsicHolderTagsProvider<Item> {
     addArmorTags(TinkerTools.plateArmor,    MULTIPART_TOOL, DURABILITY, BONUS_SLOTS, DYEABLE, TRIM);
     addArmorTags(TinkerTools.slimesuit,     DURABILITY, BONUS_SLOTS, DYEABLE, TRIM, SINGLEPART_TOOL, UNRECYCLABLE);
     addToolTags(TinkerTools.slimeWings, DURABILITY, BONUS_SLOTS, DYEABLE, TRIM, SINGLEPART_TOOL, CHESTPLATES, ItemTags.CHEST_ARMOR);
-    addToolTags(TinkerTools.slimesuit.get(ArmorItem.Type.HELMET), SWAPPABLE_SKULLS);
+    addToolTags(TinkerTools.slimesuit.get(ArmorSlotType.HELMET), SWAPPABLE_SKULLS);
 
     // shields
     addToolTags(TinkerTools.travelersShield, DURABILITY, BONUS_SLOTS, SHIELDS, INTERACTABLE_LEFT, Tags.Items.TOOLS_SHIELD, SINGLEPART_TOOL, UNRECYCLABLE, DYEABLE);
@@ -411,18 +411,18 @@ public class ItemTagProvider extends IntrinsicHolderTagsProvider<Item> {
     // care about order for armor in the book
     tag(BASIC_ARMOR);
     TagAppender<Item,Item> bookArmor = tag(PUNY_ARMOR);
-    for (ArmorItem.Type slotType : slimeknights.tconstruct.library.tools.definition.ModifiableArmorMaterial.ARMOR_TYPES) {
+    for (ArmorSlotType slotType : slimeknights.tconstruct.library.tools.definition.ModifiableArmorMaterial.ARMOR_TYPES) {
       bookArmor.add(TinkerTools.travelersGear.get(slotType));
     }
     bookArmor.add(TinkerTools.travelersShield.get());
-    for (ArmorItem.Type slotType : slimeknights.tconstruct.library.tools.definition.ModifiableArmorMaterial.ARMOR_TYPES) {
+    for (ArmorSlotType slotType : slimeknights.tconstruct.library.tools.definition.ModifiableArmorMaterial.ARMOR_TYPES) {
       bookArmor.add(TinkerTools.plateArmor.get(slotType));
     }
     bookArmor.add(TinkerTools.plateShield.get());
     tag(MIGHTY_ARMOR);
     tag(FANTASTIC_ARMOR);
     bookArmor = tag(GADGETRY_ARMOR);
-    for (ArmorItem.Type slotType : slimeknights.tconstruct.library.tools.definition.ModifiableArmorMaterial.ARMOR_TYPES) {
+    for (ArmorSlotType slotType : slimeknights.tconstruct.library.tools.definition.ModifiableArmorMaterial.ARMOR_TYPES) {
       bookArmor.add(TinkerTools.slimesuit.get(slotType));
     }
     bookArmor.add(TinkerTools.slimeWings.asItem());
@@ -805,7 +805,7 @@ public class ItemTagProvider extends IntrinsicHolderTagsProvider<Item> {
     }
   }
 
-  private TagKey<Item> getArmorTag(ArmorItem.Type slotType) {
+  private TagKey<Item> getArmorTag(ArmorSlotType slotType) {
     return switch (slotType) {
       case BOOTS -> BOOTS;
       case LEGGINGS -> LEGGINGS;
@@ -814,7 +814,7 @@ public class ItemTagProvider extends IntrinsicHolderTagsProvider<Item> {
     };
   }
 
-  private TagKey<Item> getForgeArmorTag(ArmorItem.Type slotType) {
+  private TagKey<Item> getForgeArmorTag(ArmorSlotType slotType) {
     return switch (slotType) {
       case BOOTS -> ItemTags.FOOT_ARMOR;
       case LEGGINGS -> ItemTags.LEG_ARMOR;
@@ -824,7 +824,7 @@ public class ItemTagProvider extends IntrinsicHolderTagsProvider<Item> {
   }
 
   @SafeVarargs
-  private void addArmorTags(EnumObject<ArmorItem.Type,? extends Item> armor, TagKey<Item>... tags) {
+  private void addArmorTags(EnumObject<ArmorSlotType,? extends Item> armor, TagKey<Item>... tags) {
     armor.forEach((type, item) -> {
       for (TagKey<Item> tag : tags) {
         this.tag(tag).add(item);

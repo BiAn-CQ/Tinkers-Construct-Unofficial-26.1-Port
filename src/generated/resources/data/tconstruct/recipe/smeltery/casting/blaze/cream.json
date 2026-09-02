@@ -10,5 +10,7 @@
     "amount": 50,
     "tag": "tconstruct:blazing_blood"
   },
-  "result": "minecraft:magma_cream"
+  "result": {
+    "id": "minecraft:magma_cream"
+  }
 }

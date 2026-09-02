@@ -1,5 +1,5 @@
 {
-    "parent": "neoforge:item/default",
+    "parent": "neominecraft:item/generated",
     "textures": {
         "layer0": "tconstruct:item/tool/armor/slime/chestplate/ribcage"
     }

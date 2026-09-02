@@ -20,8 +20,9 @@ import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.fluids.capability.IFluidHandler.FluidAction;
-import net.neoforged.neoforge.items.IItemHandler;
+import slimeknights.tconstruct.library.utils.SimulationMode;
+import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.item.ItemResource;
 import slimeknights.mantle.fluid.FluidTransferHelper;
 import slimeknights.mantle.inventory.SingleItemHandler;
 import slimeknights.tconstruct.common.network.InventorySlotSyncPacket;
@@ -117,7 +118,7 @@ public class FluidCannonBlockEntity extends TankBlockEntity implements ITankInve
           // this saves fluid compared to the projectile for many interactions, but also means no multi-hit behavior
           BlockHitResult hit = Util.createTraceResult(target, facing.getOpposite(), false);
           ItemStack stack = itemHandler.getStack().copy();
-          int consumed = recipe.applyToBlock(fluid, power, FluidEffectContext.builder(level).stack(stack).block(hit), FluidAction.EXECUTE);
+          int consumed = recipe.applyToBlock(fluid, power, FluidEffectContext.builder(level).stack(stack).block(hit), SimulationMode.EXECUTE);
           if (consumed > 0) {
             Vec3 location = hit.getLocation();
             level.sendParticles(new FluidParticleData(TinkerCommons.fluidParticle.get(), fluid), location.x(), location.y(), location.z(), 10, 0.1, 0.2, 0.1, 0.2);
@@ -162,7 +163,7 @@ public class FluidCannonBlockEntity extends TankBlockEntity implements ITankInve
   /* Inventory */
   private static final String TAG_ITEM = "item";
 
-  public IItemHandler getItemCapability() {
+  public ResourceHandler<ItemResource> getItemCapability() {
     return itemHandler;
   }
 
@@ -205,10 +206,9 @@ public class FluidCannonBlockEntity extends TankBlockEntity implements ITankInve
     }
 
     @Override
-    public void setStack(ItemStack newStack) {
+    protected void onStackChanged(ItemStack previousStack, ItemStack newStack) {
       Level world = parent.getLevel();
-      boolean hasChange = world != null && !world.isClientSide() && !ItemStack.matches(getStack(), newStack);
-      super.setStack(newStack);
+      boolean hasChange = world != null && !world.isClientSide() && !ItemStack.matches(previousStack, newStack);
       if (hasChange) {
         BlockPos pos = parent.getBlockPos();
         TinkerNetwork.getInstance().sendToClientsAround(new InventorySlotSyncPacket(newStack, 0, pos), world, pos);

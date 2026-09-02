@@ -9,7 +9,10 @@
               "tconstruct:tool_stack": {
                 "predicate": {
                   "type": "tconstruct:has_material",
-                  "material": "tconstruct:amethyst_bronze"
+                  "material": {
+                    "type": "tconstruct:id",
+                    "id": "tconstruct:amethyst_bronze"
+                  }
                 }
               }
             }
@@ -26,7 +29,10 @@
               "tconstruct:tool_stack": {
                 "predicate": {
                   "type": "tconstruct:has_material",
-                  "material": "tconstruct:bamboo"
+                  "material": {
+                    "type": "tconstruct:id",
+                    "id": "tconstruct:bamboo"
+                  }
                 }
               }
             }
@@ -43,7 +49,10 @@
               "tconstruct:tool_stack": {
                 "predicate": {
                   "type": "tconstruct:has_material",
-                  "material": "tconstruct:blazewood"
+                  "material": {
+                    "type": "tconstruct:id",
+                    "id": "tconstruct:blazewood"
+                  }
                 }
               }
             }
@@ -60,7 +69,10 @@
               "tconstruct:tool_stack": {
                 "predicate": {
                   "type": "tconstruct:has_material",
-                  "material": "tconstruct:blazing_bone"
+                  "material": {
+                    "type": "tconstruct:id",
+                    "id": "tconstruct:blazing_bone"
+                  }
                 }
               }
             }
@@ -77,7 +89,10 @@
               "tconstruct:tool_stack": {
                 "predicate": {
                   "type": "tconstruct:has_material",
-                  "material": "tconstruct:bone"
+                  "material": {
+                    "type": "tconstruct:id",
+                    "id": "tconstruct:bone"
+                  }
                 }
               }
             }
@@ -94,7 +109,10 @@
               "tconstruct:tool_stack": {
                 "predicate": {
                   "type": "tconstruct:has_material",
-                  "material": "tconstruct:chorus"
+                  "material": {
+                    "type": "tconstruct:id",
+                    "id": "tconstruct:chorus"
+                  }
                 }
               }
             }
@@ -111,7 +129,10 @@
               "tconstruct:tool_stack": {
                 "predicate": {
                   "type": "tconstruct:has_material",
-                  "material": "tconstruct:cinderslime"
+                  "material": {
+                    "type": "tconstruct:id",
+                    "id": "tconstruct:cinderslime"
+                  }
                 }
               }
             }
@@ -128,7 +149,10 @@
               "tconstruct:tool_stack": {
                 "predicate": {
                   "type": "tconstruct:has_material",
-                  "material": "tconstruct:cobalt"
+                  "material": {
+                    "type": "tconstruct:id",
+                    "id": "tconstruct:cobalt"
+                  }
                 }
               }
             }
@@ -145,7 +169,10 @@
               "tconstruct:tool_stack": {
                 "predicate": {
                   "type": "tconstruct:has_material",
-                  "material": "tconstruct:copper"
+                  "material": {
+                    "type": "tconstruct:id",
+                    "id": "tconstruct:copper"
+                  }
                 }
               }
             }
@@ -162,7 +189,10 @@
               "tconstruct:tool_stack": {
                 "predicate": {
                   "type": "tconstruct:has_material",
-                  "material": "tconstruct:darkthread"
+                  "material": {
+                    "type": "tconstruct:id",
+                    "id": "tconstruct:darkthread"
+                  }
                 }
               }
             }
@@ -179,7 +209,10 @@
               "tconstruct:tool_stack": {
                 "predicate": {
                   "type": "tconstruct:has_material",
-                  "material": "tconstruct:enderslime_vine"
+                  "material": {
+                    "type": "tconstruct:id",
+                    "id": "tconstruct:enderslime_vine"
+                  }
                 }
               }
             }
@@ -196,7 +229,10 @@
               "tconstruct:tool_stack": {
                 "predicate": {
                   "type": "tconstruct:has_material",
-                  "material": "tconstruct:flint"
+                  "material": {
+                    "type": "tconstruct:id",
+                    "id": "tconstruct:flint"
+                  }
                 }
               }
             }
@@ -213,7 +249,10 @@
               "tconstruct:tool_stack": {
                 "predicate": {
                   "type": "tconstruct:has_material",
-                  "material": "tconstruct:hepatizon"
+                  "material": {
+                    "type": "tconstruct:id",
+                    "id": "tconstruct:hepatizon"
+                  }
                 }
               }
             }
@@ -230,7 +269,10 @@
               "tconstruct:tool_stack": {
                 "predicate": {
                   "type": "tconstruct:has_material",
-                  "material": "tconstruct:ichorskin"
+                  "material": {
+                    "type": "tconstruct:id",
+                    "id": "tconstruct:ichorskin"
+                  }
                 }
               }
             }
@@ -247,7 +289,10 @@
               "tconstruct:tool_stack": {
                 "predicate": {
                   "type": "tconstruct:has_material",
-                  "material": "tconstruct:iron"
+                  "material": {
+                    "type": "tconstruct:id",
+                    "id": "tconstruct:iron"
+                  }
                 }
               }
             }
@@ -264,7 +309,10 @@
               "tconstruct:tool_stack": {
                 "predicate": {
                   "type": "tconstruct:has_material",
-                  "material": "tconstruct:jeweled_hide"
+                  "material": {
+                    "type": "tconstruct:id",
+                    "id": "tconstruct:jeweled_hide"
+                  }
                 }
               }
             }
@@ -281,7 +329,10 @@
               "tconstruct:tool_stack": {
                 "predicate": {
                   "type": "tconstruct:has_material",
-                  "material": "tconstruct:knightmetal"
+                  "material": {
+                    "type": "tconstruct:id",
+                    "id": "tconstruct:knightmetal"
+                  }
                 }
               }
             }
@@ -298,7 +349,10 @@
               "tconstruct:tool_stack": {
                 "predicate": {
                   "type": "tconstruct:has_material",
-                  "material": "tconstruct:knightslime"
+                  "material": {
+                    "type": "tconstruct:id",
+                    "id": "tconstruct:knightslime"
+                  }
                 }
               }
             }
@@ -315,7 +369,10 @@
               "tconstruct:tool_stack": {
                 "predicate": {
                   "type": "tconstruct:has_material",
-                  "material": "tconstruct:leather"
+                  "material": {
+                    "type": "tconstruct:id",
+                    "id": "tconstruct:leather"
+                  }
                 }
               }
             }
@@ -332,7 +389,10 @@
               "tconstruct:tool_stack": {
                 "predicate": {
                   "type": "tconstruct:has_material",
-                  "material": "tconstruct:manyullyn"
+                  "material": {
+                    "type": "tconstruct:id",
+                    "id": "tconstruct:manyullyn"
+                  }
                 }
               }
             }
@@ -349,7 +409,10 @@
               "tconstruct:tool_stack": {
                 "predicate": {
                   "type": "tconstruct:has_material",
-                  "material": "tconstruct:nahuatl"
+                  "material": {
+                    "type": "tconstruct:id",
+                    "id": "tconstruct:nahuatl"
+                  }
                 }
               }
             }
@@ -366,7 +429,10 @@
               "tconstruct:tool_stack": {
                 "predicate": {
                   "type": "tconstruct:has_material",
-                  "material": "tconstruct:necrotic_bone"
+                  "material": {
+                    "type": "tconstruct:id",
+                    "id": "tconstruct:necrotic_bone"
+                  }
                 }
               }
             }
@@ -383,7 +449,10 @@
               "tconstruct:tool_stack": {
                 "predicate": {
                   "type": "tconstruct:has_material",
-                  "material": "tconstruct:pig_iron"
+                  "material": {
+                    "type": "tconstruct:id",
+                    "id": "tconstruct:pig_iron"
+                  }
                 }
               }
             }
@@ -400,7 +469,10 @@
               "tconstruct:tool_stack": {
                 "predicate": {
                   "type": "tconstruct:has_material",
-                  "material": "tconstruct:queens_slime"
+                  "material": {
+                    "type": "tconstruct:id",
+                    "id": "tconstruct:queens_slime"
+                  }
                 }
               }
             }
@@ -417,7 +489,10 @@
               "tconstruct:tool_stack": {
                 "predicate": {
                   "type": "tconstruct:has_material",
-                  "material": "tconstruct:rock"
+                  "material": {
+                    "type": "tconstruct:id",
+                    "id": "tconstruct:rock"
+                  }
                 }
               }
             }
@@ -434,7 +509,10 @@
               "tconstruct:tool_stack": {
                 "predicate": {
                   "type": "tconstruct:has_material",
-                  "material": "tconstruct:rose_gold"
+                  "material": {
+                    "type": "tconstruct:id",
+                    "id": "tconstruct:rose_gold"
+                  }
                 }
               }
             }
@@ -451,7 +529,10 @@
               "tconstruct:tool_stack": {
                 "predicate": {
                   "type": "tconstruct:has_material",
-                  "material": "tconstruct:scorched_stone"
+                  "material": {
+                    "type": "tconstruct:id",
+                    "id": "tconstruct:scorched_stone"
+                  }
                 }
               }
             }
@@ -468,7 +549,10 @@
               "tconstruct:tool_stack": {
                 "predicate": {
                   "type": "tconstruct:has_material",
-                  "material": "tconstruct:seared_stone"
+                  "material": {
+                    "type": "tconstruct:id",
+                    "id": "tconstruct:seared_stone"
+                  }
                 }
               }
             }
@@ -485,7 +569,10 @@
               "tconstruct:tool_stack": {
                 "predicate": {
                   "type": "tconstruct:has_material",
-                  "material": "tconstruct:skyslime_vine"
+                  "material": {
+                    "type": "tconstruct:id",
+                    "id": "tconstruct:skyslime_vine"
+                  }
                 }
               }
             }
@@ -502,7 +589,10 @@
               "tconstruct:tool_stack": {
                 "predicate": {
                   "type": "tconstruct:has_material",
-                  "material": "tconstruct:slimeskin"
+                  "material": {
+                    "type": "tconstruct:id",
+                    "id": "tconstruct:slimeskin"
+                  }
                 }
               }
             }
@@ -519,7 +609,10 @@
               "tconstruct:tool_stack": {
                 "predicate": {
                   "type": "tconstruct:has_material",
-                  "material": "tconstruct:slimesteel"
+                  "material": {
+                    "type": "tconstruct:id",
+                    "id": "tconstruct:slimesteel"
+                  }
                 }
               }
             }
@@ -536,7 +629,10 @@
               "tconstruct:tool_stack": {
                 "predicate": {
                   "type": "tconstruct:has_material",
-                  "material": "tconstruct:slimewood"
+                  "material": {
+                    "type": "tconstruct:id",
+                    "id": "tconstruct:slimewood"
+                  }
                 }
               }
             }
@@ -553,7 +649,10 @@
               "tconstruct:tool_stack": {
                 "predicate": {
                   "type": "tconstruct:has_material",
-                  "material": "tconstruct:string"
+                  "material": {
+                    "type": "tconstruct:id",
+                    "id": "tconstruct:string"
+                  }
                 }
               }
             }
@@ -570,7 +669,10 @@
               "tconstruct:tool_stack": {
                 "predicate": {
                   "type": "tconstruct:has_material",
-                  "material": "tconstruct:twisting_vine"
+                  "material": {
+                    "type": "tconstruct:id",
+                    "id": "tconstruct:twisting_vine"
+                  }
                 }
               }
             }
@@ -587,7 +689,10 @@
               "tconstruct:tool_stack": {
                 "predicate": {
                   "type": "tconstruct:has_material",
-                  "material": "tconstruct:vine"
+                  "material": {
+                    "type": "tconstruct:id",
+                    "id": "tconstruct:vine"
+                  }
                 }
               }
             }
@@ -604,7 +709,10 @@
               "tconstruct:tool_stack": {
                 "predicate": {
                   "type": "tconstruct:has_material",
-                  "material": "tconstruct:weeping_vine"
+                  "material": {
+                    "type": "tconstruct:id",
+                    "id": "tconstruct:weeping_vine"
+                  }
                 }
               }
             }
@@ -621,7 +729,10 @@
               "tconstruct:tool_stack": {
                 "predicate": {
                   "type": "tconstruct:has_material",
-                  "material": "tconstruct:whitestone"
+                  "material": {
+                    "type": "tconstruct:id",
+                    "id": "tconstruct:whitestone"
+                  }
                 }
               }
             }
@@ -638,7 +749,10 @@
               "tconstruct:tool_stack": {
                 "predicate": {
                   "type": "tconstruct:has_material",
-                  "material": "tconstruct:wood"
+                  "material": {
+                    "type": "tconstruct:id",
+                    "id": "tconstruct:wood"
+                  }
                 }
               }
             }

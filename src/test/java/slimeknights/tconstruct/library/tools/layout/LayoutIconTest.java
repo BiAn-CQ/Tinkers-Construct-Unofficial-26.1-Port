@@ -17,6 +17,7 @@ import slimeknights.tconstruct.library.utils.ItemStackDataUtil;
 import slimeknights.tconstruct.test.BaseMcTest;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.mock;
 
 class LayoutIconTest extends BaseMcTest {
@@ -86,17 +87,21 @@ class LayoutIconTest extends BaseMcTest {
     ItemStackDataUtil.setTag(original, originalTag);
     LayoutIcon itemIcon = LayoutIcon.ofItem(original);
     JsonObject json = itemIcon.toJson();
-    assertThat(json.entrySet()).hasSize(3);
-    assertThat(GsonHelper.getAsString(json, "item")).isEqualTo(BuiltInRegistries.ITEM.getKey(Items.DIAMOND_PICKAXE).toString());
-    assertThat(GsonHelper.getAsInt(json, "count")).isEqualTo(1);
-    assertThat(json.getAsJsonObject("nbt").get("test").getAsInt()).isEqualTo(1);
+    assertThat(json.entrySet()).hasSize(2);
+    assertThat(GsonHelper.getAsString(json, "id")).isEqualTo(BuiltInRegistries.ITEM.getKey(Items.DIAMOND_PICKAXE).toString());
+    assertThat(json.has("count")).isFalse();
+    assertThat(json.getAsJsonObject("components").getAsJsonObject("minecraft:custom_data").get("test").getAsInt()).isEqualTo(1);
   }
 
   @Test
   void item_jsonDeserialize() {
     JsonObject json = new JsonObject();
-    json.addProperty("item", BuiltInRegistries.ITEM.getKey(Items.DIAMOND).toString());
-    json.addProperty("nbt", "{test:1}");
+    json.addProperty("id", BuiltInRegistries.ITEM.getKey(Items.DIAMOND).toString());
+    JsonObject customData = new JsonObject();
+    customData.addProperty("test", 1);
+    JsonObject components = new JsonObject();
+    components.add("minecraft:custom_data", customData);
+    json.add("components", components);
     LayoutIcon icon = LayoutIcon.SERIALIZER.deserialize(json, LayoutIcon.class, mock(JsonDeserializationContext.class));
     assertThat(icon).isInstanceOf(ItemStackIcon.class);
     ItemStack stack = icon.getValue(ItemStack.class);
@@ -105,6 +110,14 @@ class LayoutIconTest extends BaseMcTest {
     CompoundTag nbt = ItemStackDataUtil.getTag(stack);
     assertThat(nbt).isNotNull();
     assertThat(nbt.getIntOr("test", 0)).isEqualTo(1);
+  }
+
+  @Test
+  void item_legacyJsonRejected() {
+    JsonObject json = new JsonObject();
+    json.addProperty("item", BuiltInRegistries.ITEM.getKey(Items.DIAMOND).toString());
+    assertThatThrownBy(() -> LayoutIcon.SERIALIZER.deserialize(json, LayoutIcon.class, mock(JsonDeserializationContext.class)))
+      .isInstanceOf(com.google.gson.JsonSyntaxException.class);
   }
 
 

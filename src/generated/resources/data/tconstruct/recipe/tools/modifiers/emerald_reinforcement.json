@@ -7,5 +7,7 @@
     "amount": 25,
     "tag": "tconstruct:molten_emerald"
   },
-  "result": "tconstruct:emerald_reinforcement"
+  "result": {
+    "id": "tconstruct:emerald_reinforcement"
+  }
 }

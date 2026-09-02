@@ -10,6 +10,8 @@
     "amount": 90,
     "tag": "c:molten_gold"
   },
-  "result": "tconstruct:tool_handle_cast",
+  "result": {
+    "id": "tconstruct:tool_handle_cast"
+  },
   "switch_slots": true
 }

@@ -7,5 +7,7 @@
     "amount": 250,
     "tag": "tconstruct:scorched_stone"
   },
-  "result": "tconstruct:scorched_soul_glass_pane"
+  "result": {
+    "id": "tconstruct:scorched_soul_glass_pane"
+  }
 }

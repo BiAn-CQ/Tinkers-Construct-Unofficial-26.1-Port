@@ -8,5 +8,7 @@
     "neoforge:ingredient_type": "tconstruct:material",
     "match": "tconstruct:maille"
   },
-  "result": "tconstruct:maille_red_sand_cast"
+  "result": {
+    "id": "tconstruct:maille_red_sand_cast"
+  }
 }

@@ -1,5 +1,5 @@
 {
-  "parent": "forge:item/default",
+  "parent": "minecraft:item/generated",
   "gui_light": "front",
   "display": {
     "thirdperson_righthand": {

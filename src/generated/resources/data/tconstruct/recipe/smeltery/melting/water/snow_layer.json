@@ -3,8 +3,7 @@
   "ingredient": "minecraft:snow",
   "result": {
     "amount": 125,
-    "fluid": "minecraft:water",
-    "nbt": {}
+    "id": "minecraft:water"
   },
   "temperature": 0,
   "time": 14

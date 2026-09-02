@@ -10,5 +10,7 @@
     "amount": 250,
     "tag": "tconstruct:scorched_stone"
   },
-  "result": "tconstruct:scorched_brick"
+  "result": {
+    "id": "tconstruct:scorched_brick"
+  }
 }

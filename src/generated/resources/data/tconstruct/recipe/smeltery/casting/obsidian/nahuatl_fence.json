@@ -10,5 +10,7 @@
     "amount": 250,
     "tag": "tconstruct:molten_obsidian"
   },
-  "result": "tconstruct:nahuatl_fence"
+  "result": {
+    "id": "tconstruct:nahuatl_fence"
+  }
 }

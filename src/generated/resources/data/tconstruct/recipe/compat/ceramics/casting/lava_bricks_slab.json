@@ -13,5 +13,7 @@
     "amount": 50,
     "fluid": "minecraft:lava"
   },
-  "result": "ceramics:lava_bricks_slab"
+  "result": {
+    "id": "ceramics:lava_bricks_slab"
+  }
 }

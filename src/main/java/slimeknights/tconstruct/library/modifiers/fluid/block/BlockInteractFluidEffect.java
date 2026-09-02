@@ -23,7 +23,7 @@ import net.neoforged.neoforge.common.CommonHooks;
 import net.minecraft.util.TriState;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.fluids.capability.IFluidHandler.FluidAction;
+import slimeknights.tconstruct.library.utils.SimulationMode;
 import slimeknights.mantle.data.loadable.record.SingletonLoader;
 import slimeknights.tconstruct.common.TinkerTags;
 import slimeknights.tconstruct.library.modifiers.fluid.EffectLevel;
@@ -54,7 +54,7 @@ public enum BlockInteractFluidEffect implements FluidEffect<FluidEffectContext.B
 
   /** Based on {@link net.minecraft.server.level.ServerPlayerGameMode#useItemOn(ServerPlayer, Level, ItemStack, InteractionHand, BlockHitResult)} */
   @Override
-  public float apply(FluidStack fluid, EffectLevel level, FluidEffectContext.Block context, FluidAction action) {
+  public float apply(FluidStack fluid, EffectLevel level, FluidEffectContext.Block context, SimulationMode action) {
     // inside world border?
     Level world = context.getLevel();
     BlockPos pos = context.getBlockPos();

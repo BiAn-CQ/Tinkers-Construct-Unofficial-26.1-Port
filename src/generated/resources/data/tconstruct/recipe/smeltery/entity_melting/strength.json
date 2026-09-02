@@ -3,17 +3,19 @@
   "damage": 4,
   "entity": {
     "types": [
+      "minecraft:zoglin",
       "minecraft:ravager",
       "minecraft:panda",
-      "minecraft:zoglin",
       "minecraft:polar_bear"
     ]
   },
   "result": {
     "amount": 50,
-    "nbt": {
-      "Potion": "minecraft:strength"
+    "components": {
+      "minecraft:potion_contents": {
+        "potion": "minecraft:strength"
+      }
     },
-    "tag": "c:potion"
+    "id": "tconstruct:potion"
   }
 }

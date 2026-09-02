@@ -14,5 +14,7 @@
       }
     ]
   },
-  "result": "tconstruct:leggings_plating_sand_cast"
+  "result": {
+    "id": "tconstruct:leggings_plating_sand_cast"
+  }
 }

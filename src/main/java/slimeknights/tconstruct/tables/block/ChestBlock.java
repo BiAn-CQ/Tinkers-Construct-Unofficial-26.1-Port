@@ -19,9 +19,9 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.neoforged.neoforge.items.IItemHandler;
-import net.neoforged.neoforge.items.IItemHandlerModifiable;
-import net.neoforged.neoforge.items.ItemHandlerHelper;
+import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.item.ItemResource;
+import net.neoforged.neoforge.transfer.item.ItemUtil;
 import slimeknights.tconstruct.tables.block.entity.chest.AbstractChestBlockEntity;
 
 import javax.annotation.Nullable;
@@ -84,8 +84,8 @@ public class ChestBlock extends TabbedTableBlock {
     ItemStack heldItem = playerInventory.getSelectedItem();
 
     if (!heldItem.isEmpty() && te instanceof AbstractChestBlockEntity chest && chest.canInsert(player, heldItem)) {
-      IItemHandlerModifiable itemHandler = chest.getItemHandler();
-      ItemStack rest = ItemHandlerHelper.insertItem(itemHandler, heldItem, false);
+      ResourceHandler<ItemResource> itemHandler = chest.getItemHandler();
+      ItemStack rest = ItemUtil.insertItemReturnRemaining(itemHandler, heldItem, false, null);
       if (rest.isEmpty() || rest.getCount() < heldItem.getCount()) {
         playerInventory.setItem(playerInventory.getSelectedSlot(), rest);
         return InteractionResult.SUCCESS;
@@ -96,7 +96,7 @@ public class ChestBlock extends TabbedTableBlock {
   }
 
   @Override
-  public void dropInventoryItems(BlockState state, Level worldIn, BlockPos pos, IItemHandler inventory) {
+  public void dropInventoryItems(BlockState state, Level worldIn, BlockPos pos, ResourceHandler<ItemResource> inventory) {
     if (dropsItems) {
       dropInventoryItems(worldIn, pos, inventory);
     }

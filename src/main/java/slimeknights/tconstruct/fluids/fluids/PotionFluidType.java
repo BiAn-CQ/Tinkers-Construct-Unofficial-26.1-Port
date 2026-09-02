@@ -3,22 +3,17 @@ package slimeknights.tconstruct.fluids.fluids;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponents;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.alchemy.Potion;
 import net.minecraft.world.item.alchemy.PotionContents;
 import net.minecraft.world.item.alchemy.Potions;
-import net.minecraft.world.item.component.CustomData;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.FluidType;
 import slimeknights.mantle.recipe.helper.FluidOutput;
 import slimeknights.tconstruct.fluids.TinkerFluids;
 
-import java.util.Objects;
-import java.util.List;
-import java.util.Optional;
 
 public class PotionFluidType extends FluidType {
   public PotionFluidType(Properties properties) {
@@ -40,16 +35,8 @@ public class PotionFluidType extends FluidType {
     PotionContents contents = getPotionContents(fluidStack);
     if (!contents.equals(PotionContents.EMPTY)) {
       itemStack.set(DataComponents.POTION_CONTENTS, contents);
-      removeLegacyPotionData(itemStack);
     }
     return itemStack;
-  }
-
-  /** Creates the potion tag */
-  private static CompoundTag potionTag(Identifier location) {
-    CompoundTag tag = new CompoundTag();
-    tag.putString("Potion", location.toString());
-    return tag;
   }
 
   /** Creates a fluid stack for the given potion */
@@ -74,9 +61,7 @@ public class PotionFluidType extends FluidType {
 
   /** Creates a fluid output for the given potion */
   public static FluidOutput potionResult(Holder<Potion> potion, int size) {
-    Identifier id = potion.unwrapKey().map(ResourceKey::identifier)
-      .orElseGet(() -> BuiltInRegistries.POTION.getKey(potion.value()));
-    return FluidOutput.fromTag(Objects.requireNonNull(TinkerFluids.potion.getCommonTag()), size, potionTag(id));
+    return FluidOutput.fromStack(potionFluid(potion, size));
   }
 
   /** Creates a fluid output for the given potion */
@@ -99,57 +84,14 @@ public class PotionFluidType extends FluidType {
     return stack;
   }
 
-  /**
-   * Gets potion contents from a fluid stack, accepting the legacy {@code Potion}
-   * custom-data key still used by tag-preference recipe outputs.
-   */
+  /** Gets native potion contents from a fluid stack. */
   public static PotionContents getPotionContents(FluidStack stack) {
-    return mergeLegacyPotionData(
-      stack.get(DataComponents.POTION_CONTENTS),
-      stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY).copyTag());
+    return stack.getOrDefault(DataComponents.POTION_CONTENTS, PotionContents.EMPTY);
   }
 
-  /** Gets potion contents from an item stack, including legacy mod-item custom data. */
+  /** Gets native potion contents from an item stack. */
   public static PotionContents getPotionContents(ItemStack stack) {
-    return mergeLegacyPotionData(
-      stack.get(DataComponents.POTION_CONTENTS),
-      stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY).copyTag());
-  }
-
-  private static PotionContents mergeLegacyPotionData(PotionContents contents, CompoundTag legacy) {
-    Optional<Integer> customColor = legacy.contains("CustomPotionColor")
-      ? Optional.of(legacy.getIntOr("CustomPotionColor", PotionContents.BASE_POTION_COLOR))
-      : Optional.empty();
-    if (contents != null) {
-      if (contents.customColor().isEmpty() && customColor.isPresent()) {
-        return new PotionContents(contents.potion(), customColor, contents.customEffects(), contents.customName());
-      }
-      return contents;
-    }
-    Identifier id = Identifier.tryParse(legacy.getStringOr("Potion", ""));
-    Optional<Holder<Potion>> potion = id == null
-      ? Optional.empty()
-      : BuiltInRegistries.POTION.get(id).map(holder -> holder);
-    if (potion.isPresent() || customColor.isPresent()) {
-      return new PotionContents(potion, customColor, List.of(), Optional.empty());
-    }
-    return PotionContents.EMPTY;
-  }
-
-  /** Removes potion fields that have already been converted to the native item component. */
-  public static void removeLegacyPotionData(ItemStack stack) {
-    CustomData customData = stack.get(DataComponents.CUSTOM_DATA);
-    if (customData == null) {
-      return;
-    }
-    CompoundTag remaining = customData.copyTag();
-    remaining.remove("Potion");
-    remaining.remove("CustomPotionColor");
-    if (remaining.isEmpty()) {
-      stack.remove(DataComponents.CUSTOM_DATA);
-    } else {
-      stack.set(DataComponents.CUSTOM_DATA, CustomData.of(remaining));
-    }
+    return stack.getOrDefault(DataComponents.POTION_CONTENTS, PotionContents.EMPTY);
   }
 
   /** Gets the native potion holder carried by a fluid stack, defaulting to water. */

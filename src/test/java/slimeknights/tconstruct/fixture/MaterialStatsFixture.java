@@ -1,7 +1,7 @@
 package slimeknights.tconstruct.fixture;
 
 import com.google.common.collect.ImmutableList;
-import slimeknights.tconstruct.library.compat.Tiers;
+import net.minecraft.world.item.ToolMaterial;
 import slimeknights.tconstruct.library.materials.stats.ComplexTestStats;
 import slimeknights.tconstruct.library.materials.stats.IMaterialStats;
 import slimeknights.tconstruct.library.materials.stats.MaterialStatType;
@@ -24,7 +24,7 @@ public final class MaterialStatsFixture {
   public static final ComplexTestStats MATERIAL_STATS = new ComplexTestStats(COMPLEX_TYPE, 1, 2, "3");
   public static final ComplexTestStats MATERIAL_STATS_2 = new ComplexTestStats(ComplexTestStats.makeType(STATS_TYPE_2), 4, 5, "6");
 
-  public static final HeadMaterialStats MATERIAL_STATS_HEAD = new HeadMaterialStats(100, 1f, Tiers.GOLD, 1f);
+  public static final HeadMaterialStats MATERIAL_STATS_HEAD = new HeadMaterialStats(100, 1f, ToolMaterial.GOLD, 1f);
   public static final HandleMaterialStats MATERIAL_STATS_HANDLE = new HandleMaterialStats(0.5f, 0f, 0f, 0f);
   public static final StatlessMaterialStats MATERIAL_STATS_EXTRA = StatlessMaterialStats.BINDING;
 

@@ -6,7 +6,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.phys.AABB;
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.fluids.capability.IFluidHandler.FluidAction;
+import slimeknights.tconstruct.library.utils.SimulationMode;
 import slimeknights.mantle.data.loadable.record.RecordLoadable;
 import slimeknights.tconstruct.library.modifiers.fluid.EffectLevel;
 import slimeknights.tconstruct.library.modifiers.fluid.FluidEffect;
@@ -34,7 +34,7 @@ public record AreaMobEffectFluidEffect(FluidMobEffect effect, TimeAction action,
   }
 
   @Override
-  public float apply(FluidStack fluid, EffectLevel level, FluidEffectContext context, FluidAction action) {
+  public float apply(FluidStack fluid, EffectLevel level, FluidEffectContext context, SimulationMode action) {
     float used = 0;
     Entity source = context.getEffectSource();
     for(LivingEntity living : context.getLevel().getEntitiesOfClass(LivingEntity.class, new AABB(context.getBlockPos()))) {

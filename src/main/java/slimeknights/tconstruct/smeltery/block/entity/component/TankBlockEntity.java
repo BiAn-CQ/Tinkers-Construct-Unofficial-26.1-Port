@@ -14,8 +14,9 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.model.data.ModelData;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.FluidType;
-import net.neoforged.neoforge.fluids.IFluidTank;
-import net.neoforged.neoforge.fluids.capability.IFluidHandler;
+import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.fluid.FluidResource;
+import net.neoforged.neoforge.transfer.fluid.FluidUtil;
 import slimeknights.tconstruct.common.multiblock.IMasterLogic;
 import slimeknights.tconstruct.library.client.model.ModelProperties;
 import slimeknights.tconstruct.library.fluid.FluidTankAnimated;
@@ -93,10 +94,10 @@ public class TankBlockEntity extends SmelteryComponentBlockEntity implements ITa
   }
 
   /** Updates the light for this tank using {@link SearedTankBlock#LIGHT} */
-  public static void updateLight(BlockEntity be, IFluidTank tank) {
+  public static void updateLight(BlockEntity be, ResourceHandler<FluidResource> tank) {
     Level level = be.getLevel();
     if (level != null && !level.isClientSide()) {
-      FluidStack fluid = tank.getFluid();
+      FluidStack fluid = tank.size() == 0 ? FluidStack.EMPTY : FluidUtil.getStack(tank, 0);
       int light = fluid.isEmpty() ? 0 : fluid.getFluid().getFluidType().getLightLevel(fluid);
       BlockState state = be.getBlockState();
       if (light != state.getValue(SearedTankBlock.LIGHT)) {

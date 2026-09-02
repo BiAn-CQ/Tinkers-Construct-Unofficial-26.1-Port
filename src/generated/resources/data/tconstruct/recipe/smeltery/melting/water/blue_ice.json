@@ -3,8 +3,7 @@
   "ingredient": "minecraft:blue_ice",
   "result": {
     "amount": 81000,
-    "fluid": "minecraft:water",
-    "nbt": {}
+    "id": "minecraft:water"
   },
   "temperature": 0,
   "time": 253

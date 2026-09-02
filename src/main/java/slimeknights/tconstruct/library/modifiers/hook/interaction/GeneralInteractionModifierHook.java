@@ -125,7 +125,7 @@ public interface GeneralInteractionModifierHook {
   }
 
   /**
-   * Use in {@link net.minecraft.world.item.Item#use(Level, Player, InteractionHand)} or {@link #onToolUse(IToolStackView, ModifierEntry, Player, InteractionHand, InteractionSource)} to setup draw time for {@link slimeknights.tconstruct.library.client.model.TinkerItemProperties}.
+   * Use in {@link net.minecraft.world.item.Item#use(Level, Player, InteractionHand)} or {@link #onToolUse(IToolStackView, ModifierEntry, Player, InteractionHand, InteractionSource)} to set up draw time for the native item model properties.
    * @param tool      Tool being used
    * @param living    Entity using the tool, used for the vanilla hook
    * @param speedFactor  Additional factor to multiply drawtime by, after considering {@link ToolStats#DRAW_SPEED}

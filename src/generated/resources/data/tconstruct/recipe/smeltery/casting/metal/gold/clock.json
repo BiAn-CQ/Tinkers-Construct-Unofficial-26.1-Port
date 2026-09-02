@@ -7,5 +7,7 @@
     "amount": 360,
     "tag": "c:molten_gold"
   },
-  "result": "minecraft:clock"
+  "result": {
+    "id": "minecraft:clock"
+  }
 }

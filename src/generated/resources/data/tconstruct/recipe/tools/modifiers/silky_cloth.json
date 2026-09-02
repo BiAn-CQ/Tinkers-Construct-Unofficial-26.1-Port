@@ -7,5 +7,7 @@
     "amount": 90,
     "tag": "c:molten_rose_gold"
   },
-  "result": "tconstruct:silky_cloth"
+  "result": {
+    "id": "tconstruct:silky_cloth"
+  }
 }

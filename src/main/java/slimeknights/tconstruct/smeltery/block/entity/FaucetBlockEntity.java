@@ -15,10 +15,9 @@ import net.minecraft.world.phys.AABB;
 import net.neoforged.neoforge.capabilities.BlockCapabilityCache;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.fluids.capability.IFluidHandler;
-import net.neoforged.neoforge.fluids.capability.IFluidHandler.FluidAction;
 import net.neoforged.neoforge.transfer.ResourceHandler;
 import net.neoforged.neoforge.transfer.fluid.FluidResource;
+import net.neoforged.neoforge.transfer.transaction.Transaction;
 import javax.annotation.Nullable;
 import slimeknights.mantle.block.entity.MantleBlockEntity;
 import slimeknights.tconstruct.TConstruct;
@@ -100,8 +99,8 @@ public class FaucetBlockEntity extends MantleBlockEntity {
     }
 
     @Nullable
-    private IFluidHandler get() {
-      IFluidHandler handler = slimeknights.tconstruct.library.utils.TinkerCapabilityAdapters.fluidHandler(cache.getCapability());
+    private ResourceHandler<FluidResource> get() {
+      ResourceHandler<FluidResource> handler = cache.getCapability();
       return handler != null ? handler : findDirectFluidHandler(target, context);
     }
   }
@@ -112,7 +111,7 @@ public class FaucetBlockEntity extends MantleBlockEntity {
    * path instead of silently making the faucet inert.
    */
   @Nullable
-  private IFluidHandler findDirectFluidHandler(BlockPos target, @Nullable Direction context) {
+  private ResourceHandler<FluidResource> findDirectFluidHandler(BlockPos target, @Nullable Direction context) {
     if (level == null) {
       return null;
     }
@@ -133,7 +132,7 @@ public class FaucetBlockEntity extends MantleBlockEntity {
   }
 
   @Nullable
-  private IFluidHandler findFluidHandler(Direction side, boolean input) {
+  private ResourceHandler<FluidResource> findFluidHandler(Direction side, boolean input) {
     assert level != null;
     if (level instanceof ServerLevel serverLevel) {
       FluidCache cache = new FluidCache(serverLevel, side, input);
@@ -143,7 +142,7 @@ public class FaucetBlockEntity extends MantleBlockEntity {
     }
     BlockPos target = worldPosition.relative(side);
     Direction context = side.getOpposite();
-    IFluidHandler handler = slimeknights.tconstruct.library.utils.TinkerCapabilityAdapters.fluidHandler(level.getCapability(Capabilities.Fluid.BLOCK, target, context));
+    ResourceHandler<FluidResource> handler = level.getCapability(Capabilities.Fluid.BLOCK, target, context);
     return handler != null ? handler : findDirectFluidHandler(target, context);
   }
 
@@ -152,7 +151,7 @@ public class FaucetBlockEntity extends MantleBlockEntity {
    * @return  Input fluid handler
    */
   @Nullable
-  private IFluidHandler getInputHandler() {
+  private ResourceHandler<FluidResource> getInputHandler() {
     if (inputHandler == null) {
       return findFluidHandler(getBlockState().getValue(FACING).getOpposite(), true);
     }
@@ -164,7 +163,7 @@ public class FaucetBlockEntity extends MantleBlockEntity {
    * @return  Output fluid handler
    */
   @Nullable
-  private IFluidHandler getOutputHandler() {
+  private ResourceHandler<FluidResource> getOutputHandler() {
     if (outputHandler == null) {
       return findFluidHandler(Direction.DOWN, false);
     }
@@ -278,20 +277,20 @@ public class FaucetBlockEntity extends MantleBlockEntity {
    */
   private boolean doTransfer(boolean execute) {
     // still got content left
-    IFluidHandler input = getInputHandler();
-    IFluidHandler output = getOutputHandler();
+    ResourceHandler<FluidResource> input = getInputHandler();
+    ResourceHandler<FluidResource> output = getOutputHandler();
     if (execute && (input == null || output == null)) {
       TConstruct.LOG.debug("Faucet at {} cannot start: input handler={}, output handler={}", worldPosition, input, output);
     }
     if (input != null && output != null) {
       // can we drain?
-      FluidStack drained = input.drain(PACKET_SIZE, FluidAction.SIMULATE);
+      FluidStack drained = extractFirst(input, PACKET_SIZE, false);
       if (execute && drained.isEmpty()) {
         TConstruct.LOG.debug("Faucet at {} found an input handler but no drainable fluid", worldPosition);
       }
       if (!drained.isEmpty()) {
         // can we fill
-        int filled = output.fill(drained, FluidAction.SIMULATE);
+        int filled = insert(output, drained, false);
         if (execute && filled <= 0) {
           TConstruct.LOG.debug("Faucet at {} output {} rejected {} mB of {}", worldPosition,
                                output.getClass().getName(), drained.getAmount(), drained.getFluid());
@@ -300,11 +299,11 @@ public class FaucetBlockEntity extends MantleBlockEntity {
           // ensure we can actually fill in our min increment, deals with handlers like copper cans
           // can skip this step if we already received a small enough number
           drained.setAmount(MB_PER_TICK); // done using this fluid stack's original size, so save some memory and reuse
-          if (filled <= MB_PER_TICK || output.fill(drained, FluidAction.SIMULATE) > 0) {
+          if (filled <= MB_PER_TICK || insert(output, drained, false) > 0) {
             // execute if requested
             if (execute) {
               // drain the liquid and transfer it, buffer the amount for delay
-              this.drained = input.drain(filled, FluidAction.EXECUTE);
+              this.drained = extract(input, FluidResource.of(drained), filled, true);
 
               // sync to clients if we have changes
               if (faucetState == FaucetState.OFF || !FluidStack.isSameFluidSameComponents(renderFluid, drained)) {
@@ -345,13 +344,12 @@ public class FaucetBlockEntity extends MantleBlockEntity {
     }
 
     // ensure we have an output
-    IFluidHandler output = getOutputHandler();
+    ResourceHandler<FluidResource> output = getOutputHandler();
     if (output != null) {
       FluidStack fillStack = drained.copy();
       fillStack.setAmount(Math.min(drained.getAmount(), MB_PER_TICK));
 
-      // can we fill?
-      int filled = output.fill(fillStack, IFluidHandler.FluidAction.SIMULATE);
+      int filled = insert(output, fillStack, true);
       if (filled > 0) {
         // update client if they do not think we have fluid
         if (!FluidStack.isSameFluidSameComponents(renderFluid, drained)) {
@@ -360,8 +358,6 @@ public class FaucetBlockEntity extends MantleBlockEntity {
 
         // transfer it
         this.drained.shrink(filled);
-        fillStack.setAmount(filled);
-        output.fill(fillStack, IFluidHandler.FluidAction.EXECUTE);
       }
     }
     else {
@@ -380,6 +376,48 @@ public class FaucetBlockEntity extends MantleBlockEntity {
       faucetState = FaucetState.OFF;
       syncToClient(FluidStack.EMPTY, false);
     }
+  }
+
+  /** Inserts fluid into a native handler, committing only for actual transfers. */
+  private static int insert(ResourceHandler<FluidResource> handler, FluidStack fluid, boolean execute) {
+    if (fluid.isEmpty()) {
+      return 0;
+    }
+    try (Transaction transaction = Transaction.open(null)) {
+      int inserted = handler.insert(FluidResource.of(fluid), fluid.getAmount(), transaction);
+      if (execute && inserted > 0) {
+        transaction.commit();
+      }
+      return inserted;
+    }
+  }
+
+  /** Extracts a specific fluid from a native handler, committing only for actual transfers. */
+  private static FluidStack extract(ResourceHandler<FluidResource> handler, FluidResource resource, int amount, boolean execute) {
+    if (resource.isEmpty() || amount <= 0) {
+      return FluidStack.EMPTY;
+    }
+    try (Transaction transaction = Transaction.open(null)) {
+      int extracted = handler.extract(resource, amount, transaction);
+      if (execute && extracted > 0) {
+        transaction.commit();
+      }
+      return resource.toStack(extracted);
+    }
+  }
+
+  /** Extracts the first available fluid from a native handler. */
+  private static FluidStack extractFirst(ResourceHandler<FluidResource> handler, int amount, boolean execute) {
+    for (int index = 0; index < handler.size(); index++) {
+      FluidResource resource = handler.getResource(index);
+      if (!resource.isEmpty()) {
+        FluidStack extracted = extract(handler, resource, amount, execute);
+        if (!extracted.isEmpty()) {
+          return extracted;
+        }
+      }
+    }
+    return FluidStack.EMPTY;
   }
 
   public AABB getRenderBoundingBox() {

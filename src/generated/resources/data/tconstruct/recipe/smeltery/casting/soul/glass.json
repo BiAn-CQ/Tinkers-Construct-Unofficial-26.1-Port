@@ -5,5 +5,7 @@
     "amount": 1000,
     "tag": "tconstruct:liquid_soul"
   },
-  "result": "tconstruct:soul_glass"
+  "result": {
+    "id": "tconstruct:soul_glass"
+  }
 }

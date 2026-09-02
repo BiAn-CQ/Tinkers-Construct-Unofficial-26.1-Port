@@ -3,7 +3,7 @@
   "byproducts": [
     {
       "amount": 1000,
-      "fluid": "tconstruct:scorched_stone"
+      "id": "tconstruct:scorched_stone"
     }
   ],
   "ingredient": {
@@ -15,7 +15,7 @@
   },
   "result": {
     "amount": 500,
-    "fluid": "tconstruct:molten_obsidian"
+    "id": "tconstruct:molten_obsidian"
   },
   "temperature": 1000,
   "time": 166

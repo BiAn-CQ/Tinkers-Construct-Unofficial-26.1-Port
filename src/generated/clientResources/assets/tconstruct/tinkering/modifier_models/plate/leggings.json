@@ -27,22 +27,62 @@
     }
   },
   "modifiers": {
-    "tconstruct:diamond": "tconstruct:item/tool/armor/plate/leggings/modifiers/tconstruct_diamond",
-    "tconstruct:emerald": "tconstruct:item/tool/armor/plate/leggings/modifiers/tconstruct_emerald",
+    "tconstruct:diamond": {
+      "type": "tconstruct:basic",
+      "texture": "tconstruct:item/tool/armor/plate/leggings/modifiers/tconstruct_diamond"
+    },
+    "tconstruct:emerald": {
+      "type": "tconstruct:basic",
+      "texture": "tconstruct:item/tool/armor/plate/leggings/modifiers/tconstruct_emerald"
+    },
     "tconstruct:fiery": {
+      "type": "tconstruct:basic",
       "luminosity": 10,
       "texture": "tconstruct:item/tool/armor/plate/leggings/modifiers/tconstruct_fiery"
     },
-    "tconstruct:freezing": "tconstruct:item/tool/armor/plate/leggings/modifiers/tconstruct_freezing",
-    "tconstruct:leaping": "tconstruct:item/tool/armor/plate/leggings/modifiers/tconstruct_leaping",
-    "tconstruct:luck": "tconstruct:item/tool/armor/plate/leggings/modifiers/tconstruct_luck",
-    "tconstruct:netherite": "tconstruct:item/tool/armor/plate/leggings/modifiers/tconstruct_netherite",
-    "tconstruct:ricochet": "tconstruct:item/tool/armor/plate/leggings/modifiers/tconstruct_ricochet",
-    "tconstruct:shield_strap": "tconstruct:item/tool/armor/plate/leggings/modifiers/tconstruct_shield_strap",
-    "tconstruct:speedy": "tconstruct:item/tool/armor/plate/leggings/modifiers/tconstruct_speedy",
-    "tconstruct:springy": "tconstruct:item/tool/armor/plate/leggings/modifiers/tconstruct_springy",
-    "tconstruct:step_up": "tconstruct:item/tool/armor/plate/leggings/modifiers/tconstruct_step_up",
-    "tconstruct:swift_sneak": "tconstruct:item/tool/armor/plate/leggings/modifiers/tconstruct_swift_sneak",
-    "tconstruct:thorns": "tconstruct:item/tool/armor/plate/leggings/modifiers/tconstruct_thorns"
+    "tconstruct:freezing": {
+      "type": "tconstruct:basic",
+      "texture": "tconstruct:item/tool/armor/plate/leggings/modifiers/tconstruct_freezing"
+    },
+    "tconstruct:leaping": {
+      "type": "tconstruct:basic",
+      "texture": "tconstruct:item/tool/armor/plate/leggings/modifiers/tconstruct_leaping"
+    },
+    "tconstruct:luck": {
+      "type": "tconstruct:basic",
+      "texture": "tconstruct:item/tool/armor/plate/leggings/modifiers/tconstruct_luck"
+    },
+    "tconstruct:netherite": {
+      "type": "tconstruct:basic",
+      "texture": "tconstruct:item/tool/armor/plate/leggings/modifiers/tconstruct_netherite"
+    },
+    "tconstruct:ricochet": {
+      "type": "tconstruct:basic",
+      "texture": "tconstruct:item/tool/armor/plate/leggings/modifiers/tconstruct_ricochet"
+    },
+    "tconstruct:shield_strap": {
+      "type": "tconstruct:basic",
+      "texture": "tconstruct:item/tool/armor/plate/leggings/modifiers/tconstruct_shield_strap"
+    },
+    "tconstruct:speedy": {
+      "type": "tconstruct:basic",
+      "texture": "tconstruct:item/tool/armor/plate/leggings/modifiers/tconstruct_speedy"
+    },
+    "tconstruct:springy": {
+      "type": "tconstruct:basic",
+      "texture": "tconstruct:item/tool/armor/plate/leggings/modifiers/tconstruct_springy"
+    },
+    "tconstruct:step_up": {
+      "type": "tconstruct:basic",
+      "texture": "tconstruct:item/tool/armor/plate/leggings/modifiers/tconstruct_step_up"
+    },
+    "tconstruct:swift_sneak": {
+      "type": "tconstruct:basic",
+      "texture": "tconstruct:item/tool/armor/plate/leggings/modifiers/tconstruct_swift_sneak"
+    },
+    "tconstruct:thorns": {
+      "type": "tconstruct:basic",
+      "texture": "tconstruct:item/tool/armor/plate/leggings/modifiers/tconstruct_thorns"
+    }
   }
 }

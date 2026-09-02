@@ -18,7 +18,7 @@ import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.arrow.AbstractArrow;
 import net.minecraft.world.entity.projectile.Projectile;
-import slimeknights.tconstruct.library.compat.ArmorItem;
+import slimeknights.tconstruct.library.tools.item.armor.ModifiableArmorItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
@@ -60,7 +60,6 @@ import slimeknights.tconstruct.library.modifiers.hook.armor.ProtectionModifierHo
 import slimeknights.tconstruct.library.modifiers.hook.mining.BreakSpeedContext;
 import slimeknights.tconstruct.library.modifiers.hook.ranged.ProjectileHitModifierHook;
 import slimeknights.tconstruct.library.modifiers.modules.armor.MobDisguiseModule;
-import slimeknights.tconstruct.library.modifiers.modules.technical.ArmorStatModule;
 import slimeknights.tconstruct.library.module.ModuleHook;
 import slimeknights.tconstruct.library.tools.capability.EntityModifierCapability;
 import slimeknights.tconstruct.library.tools.capability.PersistentDataCapability;
@@ -130,7 +129,7 @@ public class ToolEvents {
     }
 
     // next, add in armor haste
-    double armorMultiplier = player.getAttributeValue(TinkerAttributes.MINING_SPEED_MULTIPLIER) + ArmorStatModule.getStat(player, TinkerDataKeys.MINING_SPEED);
+    double armorMultiplier = player.getAttributeValue(TinkerAttributes.MINING_SPEED_MULTIPLIER);
     if (armorMultiplier >= 0) {
       event.setNewSpeed((float) (event.getNewSpeed() * armorMultiplier));
     }
@@ -299,7 +298,6 @@ public class ToolEvents {
       // run shulking global damage "boost", its a bit hardcoded Java wise to make it softcoded in JSON
       if (attacker.isCrouching()) {
         double crouchMultiplier = living.getAttributeValue(TinkerAttributes.CROUCH_DAMAGE_MULTIPLIER);
-        crouchMultiplier += ArmorStatModule.getStat(attacker, TinkerDataKeys.CROUCH_DAMAGE);
         if (crouchMultiplier != 0) {
           originalDamage *= crouchMultiplier;
         }
@@ -362,7 +360,7 @@ public class ToolEvents {
     // that said, don't actually care about cap unless we have some protection, can use vanilla to simplify logic
     float cap = 20f;
     if (modifierValue > 0) {
-      cap = (float) ProtectionModifierHook.getProtectionCap(entity, context.getTinkerData());
+      cap = (float) ProtectionModifierHook.getProtectionCap(entity);
     }
     if (vanillaModifier != modifierValue || (cap > 20 && vanillaModifier > 20) || (cap < 20 && vanillaModifier > cap)) {
       // fetch armor and toughness if blockable, passing in 0 to the logic will skip the armor calculations
@@ -390,7 +388,7 @@ public class ToolEvents {
             if (tool != null && damageableBySource) {
               // mark this as protection (any valid modifier really would do) so tanned can reduce it to not count it as separate damage
               ToolDamageUtil.damageAnimated(tool, damageMissed, entity, slotType, ARMOR_DAMAGE);
-            } else if (!armorStack.isEmpty() && damageableBySource && armorStack.getItem() instanceof ArmorItem) {
+            } else if (!armorStack.isEmpty() && damageableBySource && armorStack.getItem() instanceof ModifiableArmorItem) {
               // if not our armor, damage using vanilla like logic
               armorStack.hurtAndBreak(damageMissed, entity, slotType);
             }

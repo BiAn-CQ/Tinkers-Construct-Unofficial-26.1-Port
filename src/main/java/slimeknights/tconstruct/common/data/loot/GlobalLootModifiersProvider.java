@@ -32,6 +32,7 @@ import slimeknights.tconstruct.common.TinkerTags;
 import slimeknights.tconstruct.common.json.BlockOrEntityCondition;
 import slimeknights.tconstruct.common.json.ConfigEnabledCondition;
 import slimeknights.tconstruct.library.json.loot.HasLootContextSetCondition;
+import slimeknights.tconstruct.library.recipe.TinkerIngredients;
 import slimeknights.tconstruct.shared.TinkerCommons;
 import slimeknights.tconstruct.shared.TinkerMaterials;
 import slimeknights.tconstruct.smeltery.data.SmelteryCompat;
@@ -80,8 +81,7 @@ public class GlobalLootModifiersProvider extends GlobalLootModifierProvider {
     // chrysophilite modifier hook
     add("chrysophilite_modifier", AddEntryLootModifier.builder(LootItem.lootTableItem(Items.GOLD_NUGGET))
       .addCondition(new BlockTagLootCondition(TinkerTags.Blocks.CHRYSOPHILITE_ORES))
-      .addCondition(new ContainsItemModifierLootCondition(Ingredient.of(
-        registries.lookupOrThrow(Registries.ITEM).getOrThrow(TinkerTags.Items.CHRYSOPHILITE_ORES))).inverted())
+      .addCondition(new ContainsItemModifierLootCondition(TinkerIngredients.of(TinkerTags.Items.CHRYSOPHILITE_ORES)).inverted())
       .addCondition(ChrysophiliteLootCondition.INSTANCE)
       .addFunction(SetItemCountFunction.setCount(UniformGenerator.between(2, 6)).build())
       .addFunction(ChrysophiliteBonusFunction.oreDrops(false).build())
@@ -107,8 +107,7 @@ public class GlobalLootModifiersProvider extends GlobalLootModifierProvider {
     Identifier ores = commonResource("ores/" + name);
     AddEntryLootModifier.Builder builder = AddEntryLootModifier.builder(TagPreferenceLootEntry.tagPreference(nuggets));
     builder.addCondition(new BlockTagLootCondition(TagKey.create(Registries.BLOCK, ores)))
-           .addCondition(new ContainsItemModifierLootCondition(Ingredient.of(registries.lookupOrThrow(Registries.ITEM)
-             .getOrThrow(TagKey.create(Registries.ITEM, ores)))).inverted());
+           .addCondition(new ContainsItemModifierLootCondition(TinkerIngredients.of(TagKey.create(Registries.ITEM, ores))).inverted());
     if (optional) {
       builder.addCondition(new TagFilledCondition<>(nuggets));
     }

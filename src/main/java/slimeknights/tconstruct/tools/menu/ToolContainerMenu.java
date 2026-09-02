@@ -23,18 +23,20 @@ import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.items.IItemHandler;
-import net.neoforged.neoforge.items.IItemHandlerModifiable;
-import net.neoforged.neoforge.items.ItemStackHandler;
+import net.neoforged.neoforge.transfer.EmptyResourceHandler;
+import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.fluid.FluidResource;
+import net.neoforged.neoforge.transfer.fluid.FluidStacksResourceHandler;
+import net.neoforged.neoforge.transfer.fluid.FluidUtil;
+import net.neoforged.neoforge.transfer.item.ItemResource;
+import net.neoforged.neoforge.transfer.item.ItemStacksResourceHandler;
 import slimeknights.mantle.fluid.FluidTransferHelper;
 import slimeknights.mantle.fluid.transfer.IFluidContainerTransfer.TransferDirection;
 import slimeknights.mantle.fluid.transfer.IFluidContainerTransfer.TransferResult;
-import slimeknights.mantle.inventory.EmptyItemHandler;
 import slimeknights.mantle.inventory.SmartItemHandlerSlot;
 import slimeknights.tconstruct.common.TinkerTags;
 import slimeknights.tconstruct.common.config.Config.ToolSyncType;
 import slimeknights.tconstruct.common.network.TinkerNetwork;
-import slimeknights.tconstruct.library.fluid.SimpleFluidTank;
 import slimeknights.tconstruct.library.tools.capability.fluid.ToolTankHelper;
 import slimeknights.tconstruct.library.tools.capability.inventory.ToolInventoryCapability;
 import slimeknights.tconstruct.library.utils.TinkerCapabilities;
@@ -68,10 +70,10 @@ public class ToolContainerMenu extends AbstractContainerMenu {
   private final IToolStackView tool;
   /** Item handler being rendered */
   @Getter
-  private final IItemHandler itemHandler;
+  private final ResourceHandler<ItemResource> itemHandler;
   /** Tank in the tool */
   @Getter
-  private final SimpleFluidTank tank;
+  private final ResourceHandler<FluidResource> tank;
   @Getter
   private final Player player;
   @Getter
@@ -89,12 +91,11 @@ public class ToolContainerMenu extends AbstractContainerMenu {
   @Getter
   private final int playerInventoryStart;
 
-  public ToolContainerMenu(int id, Inventory playerInventory, ItemStack stack, IItemHandler itemHandler, int slotIndex) {
+  public ToolContainerMenu(int id, Inventory playerInventory, ItemStack stack, ResourceHandler<ItemResource> itemHandler, int slotIndex) {
     this(TinkerTools.toolContainer.get(), id, playerInventory, stack, itemHandler, slotIndex);
   }
 
-  // TODO 1.21: probably ditch this constructor
-  protected ToolContainerMenu(@Nullable MenuType<?> type, int id, Inventory playerInventory, ItemStack stack, IItemHandler handler, int slotIndex) {
+  protected ToolContainerMenu(@Nullable MenuType<?> type, int id, Inventory playerInventory, ItemStack stack, ResourceHandler<ItemResource> handler, int slotIndex) {
     this(type, id, playerInventory, stack, handler, slotIndex, CraftingType.fromStack(stack), ModifierUtil.checkVolatileFlag(stack, ToolInventoryCapability.INCLUDE_OFFHAND));
   }
 
@@ -125,22 +126,22 @@ public class ToolContainerMenu extends AbstractContainerMenu {
       includeOffhand = ModifierUtil.checkVolatileFlag(stack, ToolInventoryCapability.INCLUDE_OFFHAND);
     }
     // if the stack looks like it could be our tool, fetch the handler from it
-    IItemHandler handler;
+    ResourceHandler<ItemResource> handler;
     if (!stack.getComponentsPatch().isEmpty() && stack.is(TinkerTags.Items.MODIFIABLE)) {
-      IItemHandler capability = TinkerCapabilities.itemHandler(stack);
-      handler = capability instanceof IItemHandlerModifiable ? capability : EmptyItemHandler.INSTANCE;
+      ResourceHandler<ItemResource> capability = TinkerCapabilities.itemHandler(stack);
+      handler = capability == null ? EmptyResourceHandler.instance() : capability;
       // wrong number of slots means something went wrong, use a dummy
-      if (handler.getSlots() != size) {
-        handler = new ItemStackHandler(size);
+      if (handler.size() != size) {
+        handler = new ItemStacksResourceHandler(size);
       }
     } else {
       // stack doesn't look right? use a dummy
-      handler = new ItemStackHandler(size);
+      handler = new ItemStacksResourceHandler(size);
     }
     return new ToolContainerMenu(TinkerTools.toolContainer.get(), id, inventory, stack, handler, slotIndex, craftingType, includeOffhand);
   }
 
-  protected ToolContainerMenu(@Nullable MenuType<?> type, int id, Inventory playerInventory, ItemStack stack, IItemHandler handler, int slotIndex, CraftingType craftingType, boolean includeOffhand) {
+  protected ToolContainerMenu(@Nullable MenuType<?> type, int id, Inventory playerInventory, ItemStack stack, ResourceHandler<ItemResource> handler, int slotIndex, CraftingType craftingType, boolean includeOffhand) {
     super(type, id);
     this.stack = stack;
     this.tool = ToolStack.from(stack);
@@ -150,7 +151,7 @@ public class ToolContainerMenu extends AbstractContainerMenu {
     this.slotIndex = slotIndex;
 
     // if requested, add 3x3 crafting area
-    int slots = itemHandler.getSlots();
+    int slots = itemHandler.size();
     int craftingOffset = (slots == 0 ? REPEAT_BACKGROUND_START : UI_START) + 1;
     if (craftingType == CraftingType.FULL) {
       this.craftingContainer = new TransientCraftingContainer(this, 3, 3);
@@ -199,7 +200,7 @@ public class ToolContainerMenu extends AbstractContainerMenu {
 
     // add player slots
     yOffset += TITLE_SIZE + ((slots + 8) / 9) * SLOT_SIZE;
-    if (tank.getCapacity() > 0) {
+    if (getTankCapacity() > 0) {
       yOffset += 14;
     }
     for(int r = 0; r < 3; ++r) {
@@ -332,11 +333,8 @@ public class ToolContainerMenu extends AbstractContainerMenu {
   }
 
   private static class ToolContainerSlot extends SmartItemHandlerSlot {
-    private final int index;
-
-    public ToolContainerSlot(IItemHandler itemHandler, int index, int xPosition, int yPosition) {
+    public ToolContainerSlot(ResourceHandler<ItemResource> itemHandler, int index, int xPosition, int yPosition) {
       super(itemHandler, index, xPosition, yPosition);
-      this.index = index;
     }
 
     @Override
@@ -344,45 +342,42 @@ public class ToolContainerMenu extends AbstractContainerMenu {
       return true;
     }
 
-    @Override
-    public void set(@Nonnull ItemStack stack) {
-      // using set as an indicator it changed, so no need to call setChanged anymore here
-      ((IItemHandlerModifiable) this.getItemHandler()).setStackInSlot(index, stack);
-    }
+  }
 
-    @Override
-    public void setChanged() {
-      // no proper setChanged method on item handler, so just set the existing stack
-      set(getItem());
-    }
+  /** Gets the capacity of the single tool tank. */
+  public int getTankCapacity() {
+    return tank.size() == 0 ? 0 : tank.getCapacityAsInt(0, tank.getResource(0));
+  }
+
+  /** Applies a server-synced fluid value on the client. */
+  public void setTankFluid(FluidStack fluid) {
+    ((ToolFluidHandler)tank).setFluid(fluid);
   }
 
   /** Logic handling the fluid tank in the UI */
-  private record ToolFluidHandler(IToolStackView tool, @Nullable Player player) implements SimpleFluidTank {
-    @Nonnull
-    @Override
-    public FluidStack getFluid() {
-      return ToolTankHelper.TANK_HELPER.getFluid(tool);
+  private static class ToolFluidHandler extends FluidStacksResourceHandler {
+    private final IToolStackView tool;
+    @Nullable
+    private final Player player;
+
+    private ToolFluidHandler(IToolStackView tool, @Nullable Player player) {
+      super(1, ToolTankHelper.TANK_HELPER.getCapacity(tool));
+      this.tool = tool;
+      this.player = player;
+      this.stacks.set(0, ToolTankHelper.TANK_HELPER.getFluid(tool));
     }
 
-    @Override
     public void setFluid(FluidStack fluid) {
-      ToolTankHelper.TANK_HELPER.setFluid(tool, fluid);
+      set(0, FluidResource.of(fluid), fluid.getAmount());
     }
 
     @Override
-    public void updateFluid(FluidStack updated, int change) {
-      if (change != 0) {
-        setFluid(updated);
-        if (player != null) {
-          TinkerNetwork.getInstance().sendTo(new ToolContainerFluidUpdatePacket(updated), player);
-        }
+    protected void onContentsChanged(int index, FluidStack previousContents) {
+      FluidStack updated = FluidUtil.getStack(this, index);
+      ToolTankHelper.TANK_HELPER.setFluid(tool, updated);
+      if (player != null) {
+        TinkerNetwork.getInstance().sendTo(new ToolContainerFluidUpdatePacket(updated), player);
       }
-    }
-
-    @Override
-    public int getCapacity() {
-      return ToolTankHelper.TANK_HELPER.getCapacity(tool);
     }
   }
 }

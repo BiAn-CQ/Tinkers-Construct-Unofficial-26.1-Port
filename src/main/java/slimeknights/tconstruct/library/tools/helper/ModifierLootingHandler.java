@@ -104,7 +104,7 @@ public class ModifierLootingHandler {
     }
   }
 
-  /** Computes the effective level using the same weapon, projectile and armor hooks as 1.20.1. */
+  /** Computes the effective level from weapon, projectile and armor hooks. */
   public static int getLootingLevel(LivingEntity target, DamageSource damageSource, LivingEntity holder, int vanillaLevel) {
     if (damageSource.is(TinkerDamageTypes.BLEEDING)) {
       return Math.max(0, TinkerEffect.getAmplifier(target, TinkerEffects.bleeding.get()));

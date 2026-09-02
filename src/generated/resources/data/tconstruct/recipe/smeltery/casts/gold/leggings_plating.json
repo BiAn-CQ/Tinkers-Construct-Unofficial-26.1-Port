@@ -16,6 +16,8 @@
     "amount": 90,
     "tag": "c:molten_gold"
   },
-  "result": "tconstruct:leggings_plating_cast",
+  "result": {
+    "id": "tconstruct:leggings_plating_cast"
+  },
   "switch_slots": true
 }

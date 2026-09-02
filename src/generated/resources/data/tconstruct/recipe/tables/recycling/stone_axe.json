@@ -4,7 +4,7 @@
   "results": {
     "tconstruct:block": {
       "count": 3,
-      "item": "minecraft:cobblestone"
+      "id": "minecraft:cobblestone"
     }
   },
   "tool": {

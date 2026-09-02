@@ -2,10 +2,12 @@
   "type": "tconstruct:showcase",
   "title": "Yükseltmeler",
   "item": {
-    "type": "forge:nbt",
-    "item": "tconstruct:creative_slot",
-    "nbt": {
-      "slot": "upgrades"
+    "id": "tconstruct:creative_slot",
+    "components": {
+      "minecraft:custom_data": {
+        "slot": "upgrades"
+
+      }
     }
   },
   "tooltip": [ "Yükseltme Yuvası İmgesi" ],

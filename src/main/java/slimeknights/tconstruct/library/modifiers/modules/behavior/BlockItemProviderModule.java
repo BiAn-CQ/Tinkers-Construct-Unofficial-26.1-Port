@@ -30,7 +30,7 @@ import java.util.List;
 public record BlockItemProviderModule(ItemStackTemplate item, int damage, ModifierCondition<IToolStackView> condition) implements ModifierModule, BlockItemProviderModifierHook, ModifierCondition.ConditionalModule<IToolStackView> {
     private static final List<ModuleHook<?>> DEFAULT_HOOKS = List.of(ModifierHooks.BLOCK_ITEM_PROVIDER);
     public static final RecordLoadable<BlockItemProviderModule> LOADER = RecordLoadable.create(
-      ItemStackTemplateLoadable.ITEM_NBT.validate((template, error) -> {
+      ItemStackTemplateLoadable.STACK.validate((template, error) -> {
         if (template.item().value() instanceof BlockItem) {
           return template;
         }

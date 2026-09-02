@@ -6,6 +6,6 @@
   },
   "result": {
     "amount": 25,
-    "fluid": "tconstruct:ender_slime"
+    "id": "tconstruct:ender_slime"
   }
 }

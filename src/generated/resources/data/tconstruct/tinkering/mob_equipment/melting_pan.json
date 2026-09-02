@@ -16,6 +16,8 @@
     ],
     "priority": 100,
     "slot": "offhand",
-    "tool": "tconstruct:melting_pan"
+    "tool": {
+      "id": "tconstruct:melting_pan"
+    }
   }
 }

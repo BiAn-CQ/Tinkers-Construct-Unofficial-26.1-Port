@@ -4,7 +4,7 @@
   "rate": "gem",
   "result": {
     "amount": 1000,
-    "fluid": "tconstruct:sky_slime"
+    "id": "tconstruct:sky_slime"
   },
   "temperature": 10,
   "time": 72

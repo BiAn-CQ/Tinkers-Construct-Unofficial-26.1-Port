@@ -4,7 +4,7 @@ import lombok.Getter;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.StringRepresentable;
-import slimeknights.tconstruct.library.compat.Tiers;
+import net.minecraft.world.item.ToolMaterial;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.material.MapColor;
 import slimeknights.tconstruct.TConstruct;
@@ -16,17 +16,17 @@ import java.util.Locale;
 /** Variants of slimy dirt */
 @Getter
 public enum DirtType implements StringRepresentable {
-  EARTH  (Tiers.STONE,   MapColor.GRASS),
-  SKY    (Tiers.GOLD,    MapColor.WARPED_STEM),
-  ICHOR  (Tiers.IRON,    MapColor.TERRACOTTA_LIGHT_BLUE),
-  ENDER  (Tiers.DIAMOND, MapColor.TERRACOTTA_ORANGE),
-  VANILLA(Tiers.WOOD,    MapColor.DIRT);
+  EARTH  (ToolMaterial.STONE,   MapColor.GRASS),
+  SKY    (ToolMaterial.GOLD,    MapColor.WARPED_STEM),
+  ICHOR  (ToolMaterial.IRON,    MapColor.TERRACOTTA_LIGHT_BLUE),
+  ENDER  (ToolMaterial.DIAMOND, MapColor.TERRACOTTA_ORANGE),
+  VANILLA(ToolMaterial.WOOD,    MapColor.DIRT);
 
   /** Dirt types added by the mod */
   public static final DirtType[] TINKER = {EARTH, SKY, ICHOR, ENDER};
 
   /** Tier needed to harvest dirt blocks of this type */
-  private final Tiers harvestTier;
+  private final ToolMaterial harvestTier;
   /** Color for this block on maps */
   private final MapColor mapColor;
   @Getter
@@ -36,12 +36,12 @@ public enum DirtType implements StringRepresentable {
   /** Tag for dirt blocks of this type, including blocks with grass on top */
   private final TagKey<Block> blockTag;
 
-  public Tiers getHarvestTier() { return harvestTier; }
+  public ToolMaterial getHarvestTier() { return harvestTier; }
   public MapColor getMapColor() { return mapColor; }
   @Override public String getSerializedName() { return serializedName; }
   public TagKey<Block> getBlockTag() { return blockTag; }
 
-  DirtType(Tiers harvestTier, MapColor mapColor) {
+  DirtType(ToolMaterial harvestTier, MapColor mapColor) {
     this.harvestTier = harvestTier;
     this.mapColor = mapColor;
     this.blockTag = BlockTags.create(TConstruct.getResource("slimy_soil/" + this.getSerializedName()));

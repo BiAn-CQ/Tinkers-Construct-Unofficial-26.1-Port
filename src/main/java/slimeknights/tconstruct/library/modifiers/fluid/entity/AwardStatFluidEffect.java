@@ -7,7 +7,7 @@ import net.minecraft.stats.Stat;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.fluids.capability.IFluidHandler.FluidAction;
+import slimeknights.tconstruct.library.utils.SimulationMode;
 import slimeknights.mantle.data.loadable.primitive.IntLoadable;
 import slimeknights.mantle.data.loadable.record.RecordLoadable;
 import slimeknights.tconstruct.library.json.variable.StatLoadable;
@@ -37,7 +37,7 @@ public record AwardStatFluidEffect(Stat<?> stat, int amount) implements FluidEff
   }
 
   @Override
-  public float apply(FluidStack fluid, EffectLevel level, Entity context, FluidAction action) {
+  public float apply(FluidStack fluid, EffectLevel level, Entity context, SimulationMode action) {
     if (context.getLivingTarget() instanceof Player player) {
       float value = level.value();
       if (action.execute()) {

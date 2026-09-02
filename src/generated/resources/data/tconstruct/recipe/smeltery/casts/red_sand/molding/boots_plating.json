@@ -14,5 +14,7 @@
       }
     ]
   },
-  "result": "tconstruct:boots_plating_red_sand_cast"
+  "result": {
+    "id": "tconstruct:boots_plating_red_sand_cast"
+  }
 }

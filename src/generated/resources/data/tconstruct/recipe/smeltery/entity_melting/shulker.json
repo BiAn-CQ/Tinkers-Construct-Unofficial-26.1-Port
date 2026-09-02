@@ -6,9 +6,11 @@
   },
   "result": {
     "amount": 25,
-    "nbt": {
-      "Potion": "minecraft:leaping"
+    "components": {
+      "minecraft:potion_contents": {
+        "potion": "minecraft:leaping"
+      }
     },
-    "tag": "c:potion"
+    "id": "tconstruct:potion"
   }
 }

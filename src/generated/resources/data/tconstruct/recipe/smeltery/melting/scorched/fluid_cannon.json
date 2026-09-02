@@ -3,11 +3,11 @@
   "byproducts": [
     {
       "amount": 1000,
-      "fluid": "tconstruct:scorched_stone"
+      "id": "tconstruct:scorched_stone"
     },
     {
       "amount": 500,
-      "fluid": "tconstruct:molten_quartz"
+      "id": "tconstruct:molten_quartz"
     }
   ],
   "ingredient": "tconstruct:scorched_fluid_cannon",

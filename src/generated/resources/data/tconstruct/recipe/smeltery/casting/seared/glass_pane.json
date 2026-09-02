@@ -10,5 +10,7 @@
     "amount": 250,
     "tag": "tconstruct:seared_stone"
   },
-  "result": "tconstruct:seared_glass_pane"
+  "result": {
+    "id": "tconstruct:seared_glass_pane"
+  }
 }

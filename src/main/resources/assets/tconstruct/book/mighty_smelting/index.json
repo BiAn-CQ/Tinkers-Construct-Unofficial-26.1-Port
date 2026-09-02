@@ -26,9 +26,11 @@
     "extraData": { "tconstruct:material_tier": { "type": "tconstruct:melee_harvest", "tier": 3, "predicate": { "type": "mantle:inverted", "inverted_type": "mantle:tag", "tag": "tconstruct:book/distant" }}},
     "icon": {
       "item": {
-        "type": "forge:nbt",
-        "item": "tconstruct:hammer_head",
-        "nbt": { "Material": "tconstruct:slimesteel" }
+        "id": "tconstruct:hammer_head",
+        "components": {
+          "minecraft:custom_data": { "Material": "tconstruct:slimesteel"
+          }
+        }
       }
     }
   },
@@ -38,9 +40,11 @@
     "extraData": { "tconstruct:material_tier": { "type": "tconstruct:ranged", "tier": 3, "predicate": { "type": "mantle:inverted", "inverted_type": "mantle:tag", "tag": "tconstruct:book/distant" }}},
     "icon": {
       "item": {
-        "type": "forge:nbt",
-        "item": "tconstruct:bow_limb",
-        "nbt": { "Material": "tconstruct:nahuatl" }
+        "id": "tconstruct:bow_limb",
+        "components": {
+          "minecraft:custom_data": { "Material": "tconstruct:nahuatl"
+          }
+        }
       }
     }
   },
@@ -50,9 +54,11 @@
     "extraData": { "tconstruct:material_tier": { "type": "tconstruct:armor", "tier": 3, "predicate": { "type": "mantle:inverted", "inverted_type": "mantle:tag", "tag": "tconstruct:book/distant" }}},
     "icon": {
       "item": {
-        "type": "forge:nbt",
-        "item": "tconstruct:chestplate_plating",
-        "nbt": { "Material": "tconstruct:obsidian" }
+        "id": "tconstruct:chestplate_plating",
+        "components": {
+          "minecraft:custom_data": { "Material": "tconstruct:obsidian"
+          }
+        }
       }
     }
   },
@@ -60,18 +66,20 @@
     "name": "tools",
     "icon": {
       "item": {
-        "type": "forge:nbt",
-        "item": "tconstruct:cleaver",
-        "nbt": {
-          "tic_broken": false,
-          "tic_display": true,
-          "Damage": 0,
-          "tic_materials": [
-            "tconstruct:ui_render#head",
-            "tconstruct:ui_render#handle",
-            "tconstruct:ui_render#extra",
-            "tconstruct:ui_render#large"
-          ]
+        "id": "tconstruct:cleaver",
+        "components": {
+          "minecraft:custom_data": {
+            "tic_broken": false,
+            "tic_display": true,
+            "Damage": 0,
+            "tic_materials": [
+              "tconstruct:ui_render#head",
+              "tconstruct:ui_render#handle",
+              "tconstruct:ui_render#extra",
+              "tconstruct:ui_render#large"
+            ]
+
+          }
         }
       }
     },
@@ -97,10 +105,12 @@
     "data": "sections/abilities.json",
     "icon": {
       "item": {
-        "type": "forge:nbt",
-        "item": "tconstruct:creative_slot",
-        "nbt": {
-          "slot": "abilities"
+        "id": "tconstruct:creative_slot",
+        "components": {
+          "minecraft:custom_data": {
+            "slot": "abilities"
+
+          }
         }
       }
     }
@@ -110,10 +120,12 @@
     "data": "sections/defense.json",
     "icon": {
       "item": {
-        "type": "forge:nbt",
-        "item": "tconstruct:creative_slot",
-        "nbt": {
-          "slot": "defense"
+        "id": "tconstruct:creative_slot",
+        "components": {
+          "minecraft:custom_data": {
+            "slot": "defense"
+
+          }
         }
       }
     }

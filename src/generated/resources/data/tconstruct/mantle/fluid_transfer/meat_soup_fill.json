@@ -5,5 +5,7 @@
     "tag": "tconstruct:meat_soup"
   },
   "input": "minecraft:bowl",
-  "result": "tconstruct:meat_soup"
+  "result": {
+    "id": "tconstruct:meat_soup"
+  }
 }

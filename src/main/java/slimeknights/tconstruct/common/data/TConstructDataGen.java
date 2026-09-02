@@ -27,7 +27,6 @@ import slimeknights.tconstruct.common.data.tags.MenuTypeTagProvider;
 import slimeknights.tconstruct.common.data.tags.ModifierTagProvider;
 import slimeknights.tconstruct.common.data.tags.PotionTagProvider;
 import slimeknights.tconstruct.fluids.data.FluidBlockstateModelProvider;
-import slimeknights.tconstruct.fluids.data.FluidBucketModelProvider;
 import slimeknights.tconstruct.fluids.data.FluidTextureProvider;
 import slimeknights.tconstruct.fluids.data.FluidTooltipProvider;
 import slimeknights.tconstruct.gadgets.data.GadgetRecipeProvider;
@@ -42,7 +41,6 @@ import slimeknights.tconstruct.tools.data.ModifierProvider;
 import slimeknights.tconstruct.tools.data.ModifierRecipeProvider;
 import slimeknights.tconstruct.tools.data.StationSlotLayoutProvider;
 import slimeknights.tconstruct.tools.data.ToolDefinitionDataProvider;
-import slimeknights.tconstruct.tools.data.ToolItemModelProvider;
 import slimeknights.tconstruct.tools.data.ToolsRecipeProvider;
 import slimeknights.tconstruct.tools.data.material.MaterialDataProvider;
 import slimeknights.tconstruct.tools.data.material.MaterialRecipeProvider;
@@ -132,7 +130,6 @@ public final class TConstructDataGen {
     event.createProvider(RenderItemProvider::new);
     event.createProvider(FluidTooltipProvider::new);
     event.createProvider(FluidTextureProvider::new);
-    event.createProvider(output -> new FluidBucketModelProvider(output, "tconstruct"));
     event.createProvider(output -> new FluidBlockstateModelProvider(output, "tconstruct"));
     event.createProvider(GadgetItemModelProvider::new);
 
@@ -140,7 +137,6 @@ public final class TConstructDataGen {
     PackOutput output = event.getGenerator().getPackOutput();
     TinkerMaterialSpriteProvider materialSprites = new TinkerMaterialSpriteProvider();
     TinkerPartSpriteProvider partSprites = new TinkerPartSpriteProvider();
-    event.addProvider(new ToolItemModelProvider(output, resources));
     event.addProvider(new MaterialRenderInfoProvider(output, materialSprites, resources));
     event.addProvider(new GeneratorPartTextureJsonGenerator(output, TConstruct.MOD_ID, partSprites));
     event.addProvider(new MaterialPartTextureGenerator(output, resources, partSprites, materialSprites));

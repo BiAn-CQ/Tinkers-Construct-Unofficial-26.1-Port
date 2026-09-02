@@ -1,5 +1,5 @@
 {
-    "parent": "forge:item/default",
+    "parent": "minecraft:item/generated",
     "textures": {
         "layer0": "tconstruct:item/materials/queens_slime_nugget"
     }

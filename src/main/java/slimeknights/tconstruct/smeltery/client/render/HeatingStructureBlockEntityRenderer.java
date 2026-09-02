@@ -21,6 +21,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.util.ARGB;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.neoforged.neoforge.transfer.item.ItemUtil;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LightLayer;
 import net.minecraft.world.level.block.state.BlockState;
@@ -97,8 +98,8 @@ public class HeatingStructureBlockEntityRenderer
     MeltingModuleInventory inventory = smeltery.getMeltingInventory();
     List<MeltingItemState> items = new ArrayList<>();
     int estimatedQuads = 0;
-    for (int slot = 0; slot < inventory.getSlots(); slot++) {
-      ItemStack stack = inventory.getStackInSlot(slot);
+    for (int slot = 0; slot < inventory.size(); slot++) {
+      ItemStack stack = ItemUtil.getStack(inventory, slot);
       if (stack.isEmpty()) {
         continue;
       }

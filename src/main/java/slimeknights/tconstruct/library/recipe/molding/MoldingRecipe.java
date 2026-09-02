@@ -65,9 +65,7 @@ public class MoldingRecipe implements ICommonRecipe<IMoldingContainer> {
 
   @Override
   public boolean matches(IMoldingContainer inv, Level worldIn) {
-    // 1.20.1's Ingredient.EMPTY matched the empty pattern slot.  26.1 no
-    // longer exposes that singleton, so the compatibility sentinel must be
-    // checked through the shared helper instead of Ingredient.test().
+    // The local empty sentinel matches the empty pattern slot and is checked through the shared helper.
     return TinkerIngredients.matches(material, inv.getMaterial())
         && TinkerIngredients.matches(pattern, inv.getPattern());
   }

@@ -29,7 +29,9 @@
     },
     {
       "type": "tconstruct:block_item_provider",
-      "item": "tconstruct:glow",
+      "item": {
+        "id": "tconstruct:glow"
+      },
       "tool": {
         "type": "mantle:tag",
         "tag": "tconstruct:modifiable/held"

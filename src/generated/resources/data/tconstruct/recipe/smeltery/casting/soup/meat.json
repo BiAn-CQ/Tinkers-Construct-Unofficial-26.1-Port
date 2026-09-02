@@ -7,5 +7,7 @@
     "amount": 250,
     "tag": "tconstruct:meat_soup"
   },
-  "result": "tconstruct:meat_soup"
+  "result": {
+    "id": "tconstruct:meat_soup"
+  }
 }

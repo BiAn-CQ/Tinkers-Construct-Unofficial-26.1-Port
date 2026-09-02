@@ -62,7 +62,7 @@ import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.client.TConstructItemModelProperties;
 import slimeknights.tconstruct.library.client.materials.MaterialRenderInfo;
 import slimeknights.tconstruct.library.client.materials.MaterialRenderInfoLoader;
-import slimeknights.tconstruct.library.compat.ArmorItem;
+import slimeknights.tconstruct.library.tools.item.armor.ModifiableArmorItem;
 import slimeknights.tconstruct.library.materials.definition.IMaterial;
 import slimeknights.tconstruct.library.materials.definition.MaterialVariantId;
 import slimeknights.tconstruct.library.modifiers.ModifierEntry;
@@ -137,29 +137,29 @@ public final class NativeTinkerItemModel implements ItemModel {
     return context != ItemDisplayContext.GUI && !SMALL_MODEL_CONTEXTS.contains(context);
   }
 
-  /** One compact entry from the old 1.20.1 item-property override list. */
-  public record LegacyOverride(Map<String, Float> predicate, ItemModel.Unbaked model) {
-    public static final Codec<LegacyOverride> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-      Codec.unboundedMap(Codec.STRING, Codec.FLOAT).fieldOf("predicate").forGetter(LegacyOverride::predicate),
-      ItemModels.CODEC.fieldOf("model").forGetter(LegacyOverride::model)
-    ).apply(instance, LegacyOverride::new));
+  /** One compact item-property override entry. */
+  public record PropertyOverride(Map<String, Float> predicate, ItemModel.Unbaked model) {
+    public static final Codec<PropertyOverride> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+      Codec.unboundedMap(Codec.STRING, Codec.FLOAT).fieldOf("predicate").forGetter(PropertyOverride::predicate),
+      ItemModels.CODEC.fieldOf("model").forGetter(PropertyOverride::model)
+    ).apply(instance, PropertyOverride::new));
   }
 
   /**
-   * Native item model adapter for legacy overrides.
+   * Compact native item-property override model.
    *
    * <p>The vanilla 26.1 condition/range/select nodes are excellent for
-   * authored definitions, but expanding every old override into a nested
+   * authored definitions, but expanding every override into a nested
    * fallback tree duplicates the base tool model many times.  This compact
    * adapter keeps the same native item-model lifecycle and property values
    * while baking each model exactly once.</p>
    */
-  public record LegacyOverridesUnbaked(ItemModel.Unbaked base, List<LegacyOverride> overrides)
+  public record PropertyOverridesUnbaked(ItemModel.Unbaked base, List<PropertyOverride> overrides)
       implements ItemModel.Unbaked {
-    public static final MapCodec<LegacyOverridesUnbaked> MAP_CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-      ItemModels.CODEC.fieldOf("base").forGetter(LegacyOverridesUnbaked::base),
-      LegacyOverride.CODEC.listOf().fieldOf("overrides").forGetter(LegacyOverridesUnbaked::overrides)
-    ).apply(instance, LegacyOverridesUnbaked::new));
+    public static final MapCodec<PropertyOverridesUnbaked> MAP_CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
+      ItemModels.CODEC.fieldOf("base").forGetter(PropertyOverridesUnbaked::base),
+      PropertyOverride.CODEC.listOf().fieldOf("overrides").forGetter(PropertyOverridesUnbaked::overrides)
+    ).apply(instance, PropertyOverridesUnbaked::new));
 
     @Override
     public void resolveDependencies(Resolver resolver) {
@@ -173,21 +173,21 @@ public final class NativeTinkerItemModel implements ItemModel {
       List<ItemModel> bakedOverrides = overrides.stream()
         .map(override -> override.model().bake(context, transformation))
         .toList();
-      return new LegacyOverridesModel(bakedBase, overrides, bakedOverrides);
+      return new PropertyOverridesModel(bakedBase, overrides, bakedOverrides);
     }
 
     @Override
-    public MapCodec<LegacyOverridesUnbaked> type() {
+    public MapCodec<PropertyOverridesUnbaked> type() {
       return MAP_CODEC;
     }
   }
 
-  private static final class LegacyOverridesModel implements ItemModel {
+  private static final class PropertyOverridesModel implements ItemModel {
     private final ItemModel base;
-    private final List<LegacyOverride> overrides;
+    private final List<PropertyOverride> overrides;
     private final List<ItemModel> bakedOverrides;
 
-    private LegacyOverridesModel(ItemModel base, List<LegacyOverride> overrides, List<ItemModel> bakedOverrides) {
+    private PropertyOverridesModel(ItemModel base, List<PropertyOverride> overrides, List<ItemModel> bakedOverrides) {
       this.base = base;
       this.overrides = overrides;
       this.bakedOverrides = bakedOverrides;
@@ -199,7 +199,7 @@ public final class NativeTinkerItemModel implements ItemModel {
                        @Nullable ItemOwner owner, int seed) {
       ItemModel selected = base;
       for (int index = 0; index < overrides.size(); index++) {
-        LegacyOverride override = overrides.get(index);
+        PropertyOverride override = overrides.get(index);
         boolean matches = true;
         for (Map.Entry<String, Float> predicate : override.predicate().entrySet()) {
           if (TConstructItemModelProperties.getValue(predicate.getKey(), stack, level, owner, displayContext, seed)
@@ -240,8 +240,7 @@ public final class NativeTinkerItemModel implements ItemModel {
     Set<ModifierId> hidden = ModifierSetWorktableRecipe.getModifierSet(
       data.tool().getPersistentData(), TConstruct.getResource("invisible_modifiers"));
 
-    // Generate from visually highest to lowest. The finished collection is
-    // reversed once, exactly like the 1.20.1 ReversedListBuilder pipeline.
+    // Generate from visually highest to lowest, then reverse the finished collection once.
     for (int index = activeList.size() - 1; index >= 0; index--) {
       ModifierEntry entry = activeList.get(index);
       Identifier id = entry.getId().location();
@@ -440,7 +439,7 @@ public final class NativeTinkerItemModel implements ItemModel {
       return;
     }
     if (definition instanceof NativeModifierModel.ArmorTrim trim) {
-      if (entry != null && !large && tool.getItem() instanceof ArmorItem) {
+      if (entry != null && !large && tool.getItem() instanceof ModifiableArmorItem) {
         addTrimModifierTexture(baker, parent, reversedLayers, usedPixels, entry, tool,
           Identifier.withDefaultNamespace("trims/items/" + trim.slot() + "_trim"));
       }

@@ -38,7 +38,7 @@
   },
   "result": {
     "amount": 1000,
-    "fluid": "tconstruct:molten_porcelain"
+    "id": "tconstruct:molten_porcelain"
   },
   "temperature": 700,
   "time": 114

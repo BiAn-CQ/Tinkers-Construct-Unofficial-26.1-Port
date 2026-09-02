@@ -7,5 +7,7 @@
     "amount": 200,
     "tag": "tconstruct:blazing_blood"
   },
-  "result": "tconstruct:blazewood_fence"
+  "result": {
+    "id": "tconstruct:blazewood_fence"
+  }
 }

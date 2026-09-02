@@ -1,17 +1,13 @@
 package slimeknights.tconstruct.library.materials;
 
-import com.google.gson.JsonObject;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import net.minecraft.tags.TagKey;
-import net.minecraft.util.GsonHelper;
 import net.minecraft.util.RandomSource;
 import net.neoforged.neoforge.common.conditions.ICondition;
-import slimeknights.mantle.data.loadable.LegacyLoadable;
-import slimeknights.mantle.data.loadable.field.ContextKey;
 import slimeknights.mantle.data.loadable.mapping.ConditionalLoadable.ConditionalObject;
 import slimeknights.mantle.data.loadable.primitive.BooleanLoadable;
 import slimeknights.mantle.data.loadable.record.RecordLoadable;
@@ -19,11 +15,9 @@ import slimeknights.mantle.data.loadable.record.SingletonLoader;
 import slimeknights.mantle.data.predicate.IJsonPredicate;
 import slimeknights.mantle.data.registry.GenericLoaderRegistry;
 import slimeknights.mantle.data.registry.GenericLoaderRegistry.IHaveLoader;
-import slimeknights.mantle.util.typed.TypedMap;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.TinkerTags;
 import slimeknights.tconstruct.library.json.IntRange;
-import slimeknights.tconstruct.library.json.TinkerLoadables;
 import slimeknights.tconstruct.library.json.predicate.material.MaterialPredicate;
 import slimeknights.tconstruct.library.materials.definition.IMaterial;
 import slimeknights.tconstruct.library.materials.definition.MaterialId;
@@ -154,28 +148,11 @@ public abstract class RandomMaterial implements IHaveLoader {
   @RequiredArgsConstructor
   private static class Randomized extends RandomMaterial implements Function<MaterialStatsId,List<MaterialId>> {
     public static final IntRange TIER_RANGE = new IntRange(0, Integer.MAX_VALUE);
-    public static final RecordLoadable<Randomized> LOADER = new LegacyLoadable<>(RecordLoadable.create(
+    public static final RecordLoadable<Randomized> LOADER = RecordLoadable.create(
       TIER_RANGE.defaultField("tier", r -> r.tier),
       BooleanLoadable.INSTANCE.defaultField("allow_hidden", false, false, r -> r.allowHidden),
       MaterialPredicate.LOADER.defaultField("material", r -> r.material),
-      Randomized::new)) {
-
-      @Override
-      public Randomized deserialize(JsonObject json, TypedMap context) {
-        if (json.has("tag")) {
-          // warn of deprecated usage
-          String debug = context.get(ContextKey.DEBUG);
-          debug = debug != null ? " while parsing " + debug : "";
-          TConstruct.LOG.warn("Using deprecated randomized material key 'tag' in {}, use 'material' instead", debug);
-          // parse all properties that existed in parallel to the deprecated field
-          IntRange tier = TIER_RANGE.getOrDefault(json, "tier");
-          boolean allowHidden = GsonHelper.getAsBoolean(json, "allow_hidden", false);
-          TagKey<IMaterial> tag = TinkerLoadables.MATERIAL_TAGS.getIfPresent(json, "tag");
-          return new Randomized(tier, allowHidden, MaterialPredicate.tag(tag));
-        }
-        return base.deserialize(json, context);
-      }
-    };
+      Randomized::new);
 
     /** Minimum material tier */
     private final IntRange tier;

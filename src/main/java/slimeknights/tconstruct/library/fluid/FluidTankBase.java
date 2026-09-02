@@ -1,33 +1,37 @@
 package slimeknights.tconstruct.library.fluid;
 
-import net.minecraft.world.level.Level;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.ProblemReporter;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.storage.TagValueInput;
 import net.minecraft.world.level.storage.TagValueOutput;
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
+import net.neoforged.neoforge.transfer.fluid.FluidResource;
+import net.neoforged.neoforge.transfer.fluid.FluidStacksResourceHandler;
 import slimeknights.mantle.block.entity.MantleBlockEntity;
 import slimeknights.tconstruct.common.network.TinkerNetwork;
 import slimeknights.tconstruct.smeltery.network.FluidUpdatePacket;
 
-public class FluidTankBase<T extends MantleBlockEntity> extends FluidTank {
+import java.util.function.Predicate;
 
-  protected T parent;
+/** Single fluid tank backed by NeoForge's transactional transfer API. */
+public class FluidTankBase<T extends MantleBlockEntity> extends FluidStacksResourceHandler {
+  protected final T parent;
+  private Predicate<FluidStack> validator = stack -> true;
 
   public FluidTankBase(int capacity, T parent) {
-    super(capacity);
+    super(1, capacity);
     this.parent = parent;
   }
 
-  /** Compatibility bridge for the pre-26.1 CompoundTag tank API. */
+  /** Reads this tank from the block entity's nested tank tag. */
   public FluidTankBase<T> readFromNBT(HolderLookup.Provider provider, CompoundTag nbt) {
     deserialize(TagValueInput.create(ProblemReporter.DISCARDING, provider, nbt));
     return this;
   }
 
-  /** Compatibility bridge for the pre-26.1 CompoundTag tank API. */
+  /** Writes this tank to the block entity's nested tank tag. */
   public CompoundTag writeToNBT(HolderLookup.Provider provider, CompoundTag nbt) {
     TagValueOutput output = TagValueOutput.createWithContext(ProblemReporter.DISCARDING, provider);
     serialize(output);
@@ -35,56 +39,67 @@ public class FluidTankBase<T extends MantleBlockEntity> extends FluidTank {
     return nbt;
   }
 
-  // override to fix bug with onContentsChanged during fill
-  @Override
-  public int fill(FluidStack resource, FluidAction action) {
-    if (resource.isEmpty() || !isFluidValid(resource)) {
-      return 0;
-    }
-    if (action.simulate()) {
-      if (fluid.isEmpty()) {
-        return Math.min(capacity, resource.getAmount());
-      }
-      if (!FluidStack.isSameFluidSameComponents(fluid, resource)) {
-        return 0;
-      }
-      return Math.min(capacity - fluid.getAmount(), resource.getAmount());
-    }
-    if (fluid.isEmpty()) {
-      // FIX: the Forge implementation returns fluid.getAmount() here, which may be wrong if the fluid gets changed during onContentsChanged()
-      // we instead use a local variable for the amount filled to guarantee its accurate
-      int filled = Math.min(capacity, resource.getAmount());
-      fluid = resource.copyWithAmount(filled);
-      onContentsChanged();
-      return filled;
-    }
-    if (!FluidStack.isSameFluidSameComponents(fluid, resource)) {
-      return 0;
-    }
-    int filled = capacity - fluid.getAmount();
+  public FluidTankBase<T> setCapacity(int capacity) {
+    this.capacity = capacity;
+    return this;
+  }
 
-    if (resource.getAmount() < filled) {
-      fluid.grow(resource.getAmount());
-      filled = resource.getAmount();
-    } else {
-      fluid.setAmount(capacity);
+  public FluidTankBase<T> setValidator(Predicate<FluidStack> validator) {
+    if (validator != null) {
+      this.validator = validator;
     }
-    if (filled > 0) {
-      onContentsChanged();
-    }
-    return filled;
+    return this;
   }
 
   @Override
+  public boolean isValid(int index, FluidResource resource) {
+    return index == 0 && !resource.isEmpty() && validator.test(resource.toStack(1));
+  }
+
+  @Override
+  protected void onContentsChanged(int index, FluidStack previousContents) {
+    onContentsChanged();
+  }
+
+  /** Notifies the parent after a direct or committed transactional change. */
   public void onContentsChanged() {
-    if (parent instanceof IFluidTankUpdater) {
-      ((IFluidTankUpdater) parent).onTankContentsChanged();
+    if (parent instanceof IFluidTankUpdater updater) {
+      updater.onTankContentsChanged();
     }
 
     parent.setChanged();
     Level level = parent.getLevel();
-    if(level != null && !level.isClientSide()) {
-      TinkerNetwork.getInstance().sendToClientsAround(new FluidUpdatePacket(parent.getBlockPos(), this.getFluid()), level, parent.getBlockPos());
+    if (level != null && !level.isClientSide()) {
+      TinkerNetwork.getInstance().sendToClientsAround(new FluidUpdatePacket(parent.getBlockPos(), getFluid()), level, parent.getBlockPos());
     }
   }
+
+  public FluidStack getFluid() {
+    return stacks.getFirst();
+  }
+
+  public int getFluidAmount() {
+    return getAmountAsInt(0);
+  }
+
+  public int getCapacity() {
+    return capacity;
+  }
+
+  public void setFluid(FluidStack stack) {
+    stacks.set(0, stack);
+  }
+
+  public boolean isEmpty() {
+    return getFluid().isEmpty();
+  }
+
+  public int getSpace() {
+    return Math.max(0, capacity - getFluidAmount());
+  }
+
+  public boolean isFluidValid(FluidStack stack) {
+    return !stack.isEmpty() && validator.test(stack);
+  }
+
 }

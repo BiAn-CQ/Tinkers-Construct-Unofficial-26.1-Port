@@ -7,5 +7,7 @@
     "amount": 250,
     "tag": "c:magma"
   },
-  "result": "tconstruct:magma_bottle"
+  "result": {
+    "id": "tconstruct:magma_bottle"
+  }
 }

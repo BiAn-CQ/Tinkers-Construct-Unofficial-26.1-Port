@@ -21,5 +21,7 @@
       }
     ]
   },
-  "result": "tconstruct:ingot_sand_cast"
+  "result": {
+    "id": "tconstruct:ingot_sand_cast"
+  }
 }

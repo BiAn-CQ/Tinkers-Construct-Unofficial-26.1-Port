@@ -28,7 +28,7 @@ public record EdibleCureEffectsModule(ItemStackTemplate curativeItem, IJsonPredi
   implements ModifierModule, EdibleEffectHook, ConditionalModule<IToolStackView> {
   private static final List<ModuleHook<?>> DEFAULT_HOOKS = HookProvider.<EdibleCureEffectsModule>defaultHooks(ModifierHooks.EDIBLE_EFFECT);
   public static final RecordLoadable<EdibleCureEffectsModule> LOADER = RecordLoadable.create(
-    ItemStackTemplateLoadable.ITEM_NBT.requiredField("curative_item", EdibleCureEffectsModule::curativeItem),
+    ItemStackTemplateLoadable.STACK.requiredField("curative_item", EdibleCureEffectsModule::curativeItem),
     LivingEntityPredicate.LOADER.defaultField("holder", EdibleCureEffectsModule::holder), ModifierCondition.TOOL_FIELD, EdibleCureEffectsModule::new);
   public EdibleCureEffectsModule(ItemLike item) { this(new ItemStackTemplate(item.asItem()), LivingEntityPredicate.ANY, ModifierCondition.ANY_TOOL); }
   @Override public RecordLoadable<EdibleCureEffectsModule> getLoader() { return LOADER; }

@@ -16,7 +16,7 @@
   ],
   "result": {
     "amount": 180,
-    "fluid": "tconstruct:molten_knightslime"
+    "id": "tconstruct:molten_knightslime"
   },
   "temperature": 1125
 }

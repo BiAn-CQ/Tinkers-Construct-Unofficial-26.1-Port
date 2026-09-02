@@ -15,7 +15,7 @@ import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Explosion.BlockInteraction;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.fluids.capability.IFluidHandler.FluidAction;
+import slimeknights.tconstruct.library.utils.SimulationMode;
 import org.jetbrains.annotations.ApiStatus.Internal;
 import slimeknights.mantle.data.loadable.primitive.BooleanLoadable;
 import slimeknights.mantle.data.loadable.primitive.EnumLoadable;
@@ -53,7 +53,7 @@ public record ExplosionFluidEffect(LevelingValue radius, LevelingValue damage, L
   }
 
   @Override
-  public float apply(FluidStack fluid, EffectLevel level, FluidEffectContext context, FluidAction action) {
+  public float apply(FluidStack fluid, EffectLevel level, FluidEffectContext context, SimulationMode action) {
     // if nothing scales, charge 1 level. If anything scales, scale it
     boolean isFlat = radius.isFlat() && damage.isFlat() && knockback.isFlat();
     if (isFlat && !level.isFull()) {

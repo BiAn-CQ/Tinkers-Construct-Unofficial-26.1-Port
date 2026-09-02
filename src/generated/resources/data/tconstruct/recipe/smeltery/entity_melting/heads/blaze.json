@@ -3,7 +3,7 @@
   "ingredient": "tconstruct:blaze_head",
   "result": {
     "amount": 100,
-    "fluid": "tconstruct:blazing_blood"
+    "id": "tconstruct:blazing_blood"
   },
   "temperature": 1000,
   "time": 80

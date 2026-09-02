@@ -3,8 +3,7 @@
   "ingredient": "minecraft:snow_block",
   "result": {
     "amount": 500,
-    "fluid": "minecraft:water",
-    "nbt": {}
+    "id": "minecraft:water"
   },
   "temperature": 0,
   "time": 21

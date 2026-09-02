@@ -22,7 +22,7 @@
   },
   "leftover": {
     "count": 2,
-    "item": "minecraft:stick"
+    "id": "minecraft:stick"
   },
   "material": "tconstruct:wood",
   "needed": 1,

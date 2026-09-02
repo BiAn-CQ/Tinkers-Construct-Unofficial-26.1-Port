@@ -2,7 +2,7 @@ package slimeknights.tconstruct.library.modifiers.fluid.entity;
 
 import net.minecraft.world.entity.LivingEntity;
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.fluids.capability.IFluidHandler.FluidAction;
+import slimeknights.tconstruct.library.utils.SimulationMode;
 import slimeknights.mantle.data.loadable.record.RecordLoadable;
 import slimeknights.tconstruct.library.events.teleport.FluidEffectTeleportEvent;
 import slimeknights.tconstruct.library.json.LevelingInt;
@@ -27,7 +27,7 @@ public record RandomTeleportFluidEffect(LevelingInt diameter, LevelingInt chance
   }
 
   @Override
-  public float apply(FluidStack fluid, EffectLevel level, Entity context, FluidAction action) {
+  public float apply(FluidStack fluid, EffectLevel level, Entity context, SimulationMode action) {
     LivingEntity target = context.getLivingTarget();
     // must have a full level to apply, unless we have scaling behavior
     boolean isFlat = diameter.eachLevel() == 0 && chances.eachLevel() == 0;

@@ -16,5 +16,7 @@
     "amount": 90,
     "tag": "c:molten_uranium"
   },
-  "result": "tconstruct:necronium_bone"
+  "result": {
+    "id": "tconstruct:necronium_bone"
+  }
 }

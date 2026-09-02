@@ -4,7 +4,7 @@ import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.LivingEntity;
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.fluids.capability.IFluidHandler.FluidAction;
+import slimeknights.tconstruct.library.utils.SimulationMode;
 import slimeknights.mantle.data.loadable.record.RecordLoadable;
 import slimeknights.tconstruct.library.modifiers.fluid.EffectLevel;
 import slimeknights.tconstruct.library.modifiers.fluid.FluidEffect;
@@ -30,7 +30,7 @@ public record MobEffectFluidEffect(FluidMobEffect effect, TimeAction action) imp
   }
 
   @Override
-  public float apply(FluidStack fluid, EffectLevel scale, FluidEffectContext.Entity context, FluidAction action) {
+  public float apply(FluidStack fluid, EffectLevel scale, FluidEffectContext.Entity context, SimulationMode action) {
     // first, need a target
     LivingEntity target = context.getLivingTarget();
     if (target != null) {

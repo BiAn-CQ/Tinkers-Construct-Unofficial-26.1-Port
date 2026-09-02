@@ -9,9 +9,10 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.ContainerInput;
 import net.minecraft.world.inventory.Slot;
+import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.fluid.FluidResource;
 import slimeknights.mantle.client.screen.ElementScreen;
 import slimeknights.tconstruct.TConstruct;
-import slimeknights.tconstruct.library.fluid.SimpleFluidTank;
 import slimeknights.tconstruct.library.client.GuiUtil;
 import slimeknights.tconstruct.library.modifiers.ModifierEntry;
 import slimeknights.tconstruct.library.recipe.partbuilder.Pattern;
@@ -67,7 +68,7 @@ public class ToolContainerScreen extends AbstractContainerScreen<ToolContainerMe
   private final GuiTankModule tank;
   public ToolContainerScreen(ToolContainerMenu menu, Inventory inv, Component title) {
     super(menu, inv, title, 176, calculateImageHeight(menu));
-    int slots = menu.getItemHandler().getSlots();
+    int slots = menu.getItemHandler().size();
     if (menu.isShowOffhand()) {
       slots++;
     }
@@ -82,8 +83,8 @@ public class ToolContainerScreen extends AbstractContainerScreen<ToolContainerMe
     this.inventoryRows = inventoryRows;
     this.slotsInLastRow = slotsInLastRow;
     int craftingHeight = menu.getCraftingHeight() * SLOT_SIZE;
-    SimpleFluidTank tank = menu.getTank();
-    if (tank.getCapacity() > 0) {
+    ResourceHandler<FluidResource> tank = menu.getTank();
+    if (menu.getTankCapacity() > 0) {
       this.tank = new GuiTankModule(this, tank, 8, this.imageHeight - PLAYER_INVENTORY_HEIGHT - 9, 160, 8, true, null);
     } else {
       this.tank = null;
@@ -95,14 +96,14 @@ public class ToolContainerScreen extends AbstractContainerScreen<ToolContainerMe
   }
 
   private static int calculateImageHeight(ToolContainerMenu menu) {
-    int slots = menu.getItemHandler().getSlots() + (menu.isShowOffhand() ? 1 : 0);
+    int slots = menu.getItemHandler().size() + (menu.isShowOffhand() ? 1 : 0);
     int inventoryRows = slots / 9;
     if (slots % 9 != 0) {
       inventoryRows++;
     }
     int craftingHeight = menu.getCraftingHeight() * SLOT_SIZE;
     int height = UI_START + TITLE_SIZE + PLAYER_INVENTORY_HEIGHT + inventoryRows * SLOT_SIZE + craftingHeight;
-    if (menu.getTank().getCapacity() > 0) {
+    if (menu.getTankCapacity() > 0) {
       height += FLUID_TANK.h;
     }
     return height;

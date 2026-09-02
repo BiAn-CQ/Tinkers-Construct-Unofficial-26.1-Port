@@ -7,5 +7,7 @@
     "amount": 250,
     "tag": "c:mushroom_stew"
   },
-  "result": "minecraft:mushroom_stew"
+  "result": {
+    "id": "minecraft:mushroom_stew"
+  }
 }

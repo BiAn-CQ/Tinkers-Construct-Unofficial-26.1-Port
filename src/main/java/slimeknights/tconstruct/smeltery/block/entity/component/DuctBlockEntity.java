@@ -13,8 +13,8 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.model.data.ModelData;
-import net.neoforged.neoforge.fluids.capability.IFluidHandler;
-import net.neoforged.neoforge.items.IItemHandler;
+import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.fluid.FluidResource;
 import slimeknights.mantle.util.RetexturedHelper;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.client.model.ModelProperties;
@@ -61,7 +61,7 @@ public class DuctBlockEntity extends SmelteryFluidIO implements MenuProvider {
 
 
   @Override
-  protected IFluidHandler wrapCapability(IFluidHandler capability) {
+  protected ResourceHandler<FluidResource> wrapCapability(ResourceHandler<FluidResource> capability) {
     return new DuctTankWrapper(capability, itemHandler);
   }
 

@@ -15,7 +15,7 @@
   "input": "tconstruct:fiery",
   "result": {
     "amount": 250,
-    "fluid": "tconstruct:fiery_liquid"
+    "id": "tconstruct:fiery_liquid"
   },
   "temperature": 1500
 }

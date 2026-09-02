@@ -5,5 +5,7 @@
     "amount": 1000,
     "tag": "tconstruct:molten_clay"
   },
-  "result": "minecraft:terracotta"
+  "result": {
+    "id": "minecraft:terracotta"
+  }
 }

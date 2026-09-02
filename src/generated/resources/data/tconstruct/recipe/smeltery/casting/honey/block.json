@@ -5,5 +5,7 @@
     "amount": 1000,
     "tag": "c:honey"
   },
-  "result": "minecraft:honey_block"
+  "result": {
+    "id": "minecraft:honey_block"
+  }
 }

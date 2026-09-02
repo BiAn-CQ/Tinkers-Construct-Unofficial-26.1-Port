@@ -8,5 +8,7 @@
     "neoforge:ingredient_type": "mantle:item_tag",
     "tag": "c:gems"
   },
-  "result": "tconstruct:gem_sand_cast"
+  "result": {
+    "id": "tconstruct:gem_sand_cast"
+  }
 }

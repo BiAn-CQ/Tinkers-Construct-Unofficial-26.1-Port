@@ -7,5 +7,7 @@
     "amount": 360,
     "tag": "c:molten_iron"
   },
-  "result": "minecraft:compass"
+  "result": {
+    "id": "minecraft:compass"
+  }
 }

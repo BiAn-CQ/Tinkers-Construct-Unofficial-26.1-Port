@@ -15,6 +15,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.neoforge.transfer.item.ItemUtil;
 import org.jspecify.annotations.Nullable;
 import slimeknights.mantle.client.render.RenderItem;
 import slimeknights.mantle.client.render.RenderingHelper;
@@ -49,8 +50,8 @@ public class TankInventoryBlockEntityRenderer<T extends BlockEntity & ITankInven
     for (int slot = 0; slot < placements.size(); slot++) {
       ItemStackRenderState itemState = new ItemStackRenderState();
       RenderItem placement = placements.get(slot);
-      if (!placement.isHidden() && slot < melter.getItemHandler().getSlots()) {
-        itemModelResolver.updateForTopItem(itemState, melter.getItemHandler().getStackInSlot(slot), placement.getTransform(),
+      if (!placement.isHidden() && slot < melter.getItemHandler().size()) {
+        itemModelResolver.updateForTopItem(itemState, ItemUtil.getStack(melter.getItemHandler(), slot), placement.getTransform(),
                                            melter.getLevel(), null, seed + slot);
       }
       items.add(itemState);

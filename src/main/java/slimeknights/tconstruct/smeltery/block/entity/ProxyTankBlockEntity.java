@@ -7,6 +7,10 @@ import net.minecraft.nbt.Tag;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.fluid.FluidResource;
+import net.neoforged.neoforge.transfer.fluid.FluidUtil;
+import net.neoforged.neoforge.transfer.item.ItemResource;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import slimeknights.mantle.block.entity.MantleBlockEntity;
@@ -39,11 +43,12 @@ public class ProxyTankBlockEntity extends MantleBlockEntity implements IFluidTan
    * @return  Tank comparator strength
    */
   private int calculateComparatorStrength() {
-    int capacity = itemTank.getTankCapacity(0);
-    if (capacity == 0) {
+    ResourceHandler<FluidResource> handler = itemTank.getFluidHandler();
+    if (handler.size() == 0) {
       return 0;
     }
-    return 1 + 14 * itemTank.getFluidInTank(0).getAmount() / capacity;
+    int capacity = handler.getCapacityAsInt(0, handler.getResource(0));
+    return capacity == 0 ? 0 : 1 + 14 * FluidUtil.getStack(handler, 0).getAmount() / capacity;
   }
 
   /** Gets the current comparator strength */
@@ -81,8 +86,8 @@ public class ProxyTankBlockEntity extends MantleBlockEntity implements IFluidTan
     // if we have an active tank, try interacting
     if (!inventory.isEmpty()) {
       // must have a held item to interact
-      if (!held.isEmpty() && FluidTransferHelper.interactWithContainer(level, worldPosition, itemTank, player, hand).didTransfer()
-        || FluidTransferHelper.interactWithFilledBucket(level, worldPosition, itemTank, player, hand, getBlockState().getValue(HORIZONTAL_FACING)).didTransfer()) {
+      if (!held.isEmpty() && FluidTransferHelper.interactWithContainer(level, worldPosition, itemTank.getFluidHandler(), player, hand).didTransfer()
+        || FluidTransferHelper.interactWithFilledBucket(level, worldPosition, itemTank.getFluidHandler(), player, hand, getBlockState().getValue(HORIZONTAL_FACING)).didTransfer()) {
         return;
       }
       // if we clicked the tank, don't try and swap items unless we have no tank
@@ -94,9 +99,9 @@ public class ProxyTankBlockEntity extends MantleBlockEntity implements IFluidTan
     // no fluid transfer? swap items around
     // inventory is empty means place item inside
     if (inventory.isEmpty()) {
-      if (!held.isEmpty() && itemTank.isItemValid(0, held)) {
+      if (!held.isEmpty() && itemTank.isValid(0, ItemResource.of(held))) {
         // split the stack to place into inventory
-        ItemStack stack = held.split(itemTank.getSlotLimit(0));
+        ItemStack stack = held.split(itemTank.getCapacityAsInt(0, ItemResource.of(held)));
         player.setItemInHand(hand, held.isEmpty() ? ItemStack.EMPTY : held);
         itemTank.setStack(stack);
       }

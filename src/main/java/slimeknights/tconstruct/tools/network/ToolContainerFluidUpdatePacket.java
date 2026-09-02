@@ -24,7 +24,7 @@ public record ToolContainerFluidUpdatePacket(FluidStack fluid) implements IThrea
   public void handleThreadsafe(IPayloadContext context) {
     Player player = SafeClientAccess.getPlayer();
     if (player != null && player.containerMenu instanceof ToolContainerMenu toolMenu) {
-      toolMenu.getTank().setFluid(fluid);
+      toolMenu.setTankFluid(fluid);
     }
   }
 }

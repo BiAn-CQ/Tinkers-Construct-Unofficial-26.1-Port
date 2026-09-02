@@ -5,5 +5,7 @@
     "amount": 250,
     "tag": "c:slime"
   },
-  "result": "minecraft:slime_ball"
+  "result": {
+    "id": "minecraft:slime_ball"
+  }
 }

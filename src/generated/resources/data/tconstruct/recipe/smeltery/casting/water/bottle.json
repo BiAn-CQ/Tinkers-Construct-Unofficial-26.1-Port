@@ -7,5 +7,12 @@
     "amount": 500,
     "tag": "mantle:water"
   },
-  "result": "minecraft:potion"
+  "result": {
+    "components": {
+      "minecraft:potion_contents": {
+        "potion": "minecraft:water"
+      }
+    },
+    "id": "minecraft:potion"
+  }
 }

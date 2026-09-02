@@ -15,9 +15,8 @@ import net.neoforged.neoforge.model.data.ModelData;
 import net.neoforged.neoforge.capabilities.BlockCapability;
 import net.neoforged.neoforge.capabilities.BlockCapabilityCache;
 import net.neoforged.neoforge.capabilities.Capabilities;
-import net.neoforged.neoforge.fluids.capability.IFluidHandler;
-import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.fluid.FluidResource;
 import net.neoforged.neoforge.transfer.item.ItemResource;
 import slimeknights.mantle.block.entity.IRetexturedBlockEntity;
 import slimeknights.mantle.util.RetexturedHelper;
@@ -133,8 +132,8 @@ public abstract class SmelteryInputOutputBlockEntity<T> extends SmelteryComponen
       return null;
     }
 
-    // Smeltery controllers intentionally do not expose the standard external fluid capability.
-    // Query their legacy internal handler directly first, matching the original 1.20.1 behavior.
+    // Smeltery controllers intentionally do not expose the standard external fluid capability,
+    // so their internal handler is queried directly before trying the public capability.
     BlockEntity masterBlockEntity = level.getBlockEntity(master);
     T source = masterBlockEntity == null ? null : getDirectMasterCapability(masterBlockEntity);
     if (source == null) {
@@ -216,15 +215,15 @@ public abstract class SmelteryInputOutputBlockEntity<T> extends SmelteryComponen
   }
 
 
-  /** Fluid implementation of smeltery IO */
-  public static abstract class SmelteryFluidIO extends SmelteryInputOutputBlockEntity<IFluidHandler> {
+  /** Fluid implementation of smeltery IO. */
+  public static abstract class SmelteryFluidIO extends SmelteryInputOutputBlockEntity<ResourceHandler<FluidResource>> {
     protected SmelteryFluidIO(BlockEntityType<?> type, BlockPos pos, BlockState state) {
       super(type, pos, state, TinkerSmeltery.SMELTERY_TANK_CAPABILITY);
     }
 
     @Nullable
     @Override
-    protected IFluidHandler getDirectMasterCapability(BlockEntity master) {
+    protected ResourceHandler<FluidResource> getDirectMasterCapability(BlockEntity master) {
       if (master instanceof ISmelteryTankHandler tankHandler) {
         return tankHandler.getFluidCapability();
       }

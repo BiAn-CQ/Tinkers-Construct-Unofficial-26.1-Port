@@ -4,7 +4,9 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.material.Fluid;
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.fluids.capability.IFluidHandler;
+import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.fluid.FluidResource;
+import net.neoforged.neoforge.transfer.transaction.Transaction;
 import slimeknights.mantle.recipe.ICustomOutputRecipe;
 import slimeknights.mantle.registration.object.FluidObject;
 import slimeknights.tconstruct.library.recipe.FluidValues;
@@ -41,7 +43,21 @@ public interface IMeltingRecipe extends ICustomOutputRecipe<IMeltingContainer> {
    * @param inv      Input inventory
    * @param handler  Fluid handler to fill with the byproduct
    */
-  default void handleByproducts(IMeltingContainer inv, IFluidHandler handler) {}
+  default void handleByproducts(IMeltingContainer inv, ResourceHandler<FluidResource> handler) {}
+
+  /** Inserts as much of the stack as possible and commits the transfer. */
+  static int insert(ResourceHandler<FluidResource> handler, FluidStack stack) {
+    if (stack.isEmpty()) {
+      return 0;
+    }
+    try (Transaction transaction = Transaction.openRoot()) {
+      int inserted = handler.insert(FluidResource.of(stack), stack.getAmount(), transaction);
+      if (inserted > 0) {
+        transaction.commit();
+      }
+      return inserted;
+    }
+  }
 
   /* Recipe data */
 

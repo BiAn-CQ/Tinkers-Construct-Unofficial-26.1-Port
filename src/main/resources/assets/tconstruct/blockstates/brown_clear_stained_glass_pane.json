@@ -10,7 +10,7 @@
                 "predicate": "pane",
                 "colors": [
                     {
-                        "color": "FF664C33"
+                        "color": "#FF664C33"
                     }
                 ]
             }
@@ -25,7 +25,7 @@
                 "predicate": "pane",
                 "colors": [
                     {
-                        "color": "FF664C33"
+                        "color": "#FF664C33"
                     }
                 ]
             },
@@ -43,7 +43,7 @@
                 "predicate": "pane",
                 "colors": [
                     {
-                        "color": "FF664C33"
+                        "color": "#FF664C33"
                     }
                 ]
             },
@@ -61,7 +61,7 @@
                 "predicate": "pane",
                 "colors": [
                     {
-                        "color": "FF664C33"
+                        "color": "#FF664C33"
                     }
                 ]
             },
@@ -79,7 +79,7 @@
                 "predicate": "pane",
                 "colors": [
                     {
-                        "color": "FF664C33"
+                        "color": "#FF664C33"
                     }
                 ],
                 "y": 90
@@ -98,7 +98,7 @@
                 "predicate": "pane",
                 "colors": [
                     {
-                        "color": "FF664C33"
+                        "color": "#FF664C33"
                     }
                 ],
                 "y": 90
@@ -117,7 +117,7 @@
                 "predicate": "pane",
                 "colors": [
                     {
-                        "color": "FF664C33"
+                        "color": "#FF664C33"
                     }
                 ],
                 "y": 270
@@ -136,7 +136,7 @@
                 "predicate": "pane",
                 "colors": [
                     {
-                        "color": "FF664C33"
+                        "color": "#FF664C33"
                     }
                 ],
                 "y": 90
@@ -155,7 +155,7 @@
                 "predicate": "pane",
                 "colors": [
                     {
-                        "color": "FF664C33"
+                        "color": "#FF664C33"
                     }
                 ]
             },

@@ -18,5 +18,7 @@
     "amount": 10,
     "tag": "c:molten_gold"
   },
-  "result": "ceramics:golden_bricks_wall"
+  "result": {
+    "id": "ceramics:golden_bricks_wall"
+  }
 }

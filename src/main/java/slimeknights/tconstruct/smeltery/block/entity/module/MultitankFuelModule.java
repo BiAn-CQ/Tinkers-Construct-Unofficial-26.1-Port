@@ -9,24 +9,24 @@ import net.minecraft.server.level.ServerLevel;
 import net.neoforged.neoforge.capabilities.BlockCapabilityCache;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.fluids.capability.IFluidHandler;
-import net.neoforged.neoforge.fluids.capability.templates.EmptyFluidHandler;
+import net.neoforged.neoforge.transfer.EmptyResourceHandler;
 import net.neoforged.neoforge.transfer.ResourceHandler;
 import net.neoforged.neoforge.transfer.fluid.FluidResource;
+import net.neoforged.neoforge.transfer.fluid.FluidUtil;
+import net.neoforged.neoforge.transfer.transaction.TransactionContext;
 import slimeknights.mantle.block.entity.MantleBlockEntity;
-import slimeknights.tconstruct.library.fluid.IndexedFluidHandler;
 import slimeknights.tconstruct.library.utils.TagUtil;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Objects;
 import java.util.function.Supplier;
 
 /** Fuel module that supports multiple tanks, selecting just one for the fuel result */
-public class MultitankFuelModule extends FuelModule implements IndexedFluidHandler {
+public class MultitankFuelModule extends FuelModule implements ResourceHandler<FluidResource> {
   /** Block position that will never be valid in world, used for sync */
   private static final BlockPos NULL_POS = new BlockPos(0, Short.MIN_VALUE, 0);
 
@@ -52,10 +52,10 @@ public class MultitankFuelModule extends FuelModule implements IndexedFluidHandl
     }
 
     @Nullable
-    private IFluidHandler get() {
+    private ResourceHandler<FluidResource> get() {
       return cache == null
-        ? slimeknights.tconstruct.library.utils.TinkerCapabilityAdapters.fluidHandler(getLevel().getCapability(Capabilities.Fluid.BLOCK, pos, null))
-        : slimeknights.tconstruct.library.utils.TinkerCapabilityAdapters.fluidHandler(cache.getCapability());
+        ? getLevel().getCapability(Capabilities.Fluid.BLOCK, pos, null)
+        : cache.getCapability();
     }
   }
 
@@ -111,13 +111,13 @@ public class MultitankFuelModule extends FuelModule implements IndexedFluidHandl
   }
 
   @Nullable
-  private IFluidHandler getHandler(BlockPos pos) {
+  private ResourceHandler<FluidResource> getHandler(BlockPos pos) {
     Level level = getLevel();
     if (level instanceof ServerLevel) {
       TankCache cache = getTankHandlers().get(pos);
       return cache == null ? null : cache.get();
     }
-    return slimeknights.tconstruct.library.utils.TinkerCapabilityAdapters.fluidHandler(level.getCapability(Capabilities.Fluid.BLOCK, pos, null));
+    return level.getCapability(Capabilities.Fluid.BLOCK, pos, null);
   }
 
 
@@ -129,7 +129,7 @@ public class MultitankFuelModule extends FuelModule implements IndexedFluidHandl
    * @return   Temperature of the consumed fuel, 0 if none found
    */
   private int tryFuelPosition(BlockPos pos, boolean consume) {
-    IFluidHandler tankCap = getHandler(pos);
+    ResourceHandler<FluidResource> tankCap = getHandler(pos);
     if (tankCap != null) {
       // if we find a valid cap, try to consume fuel from it
       int temperature = tryLiquidFuel(tankCap, consume);
@@ -259,7 +259,7 @@ public class MultitankFuelModule extends FuelModule implements IndexedFluidHandl
 
     // fetch primary fuel handler
     if (fluidHandler == null) {
-      IFluidHandler fluidCap = getHandler(mainTank);
+      ResourceHandler<FluidResource> fluidCap = getHandler(mainTank);
       if (fluidCap != null) {
         fluidHandler = fluidCap;
       }
@@ -273,14 +273,15 @@ public class MultitankFuelModule extends FuelModule implements IndexedFluidHandl
       FluidStack currentFuel = info.getFluid();
       for (Entry<BlockPos,TankCache> entry : getTankHandlers().entrySet()) {
         if (!mainTank.equals(entry.getKey())) {
-          IFluidHandler handler = entry.getValue().get();
-          if (handler != null) {
+          ResourceHandler<FluidResource> handler = entry.getValue().get();
+          if (handler != null && handler.size() > 0) {
             // sum if empty (more capacity) or the same fluid (more amount and capacity)
-            FluidStack fluid = handler.getFluidInTank(0);
+            FluidStack fluid = FluidUtil.getStack(handler, 0);
+            int capacity = handler.getCapacityAsInt(0, handler.getResource(0));
             if (fluid.isEmpty()) {
-              info.add(0, handler.getTankCapacity(0));
+              info.add(0, capacity);
             } else if (FluidStack.isSameFluidSameComponents(currentFuel, fluid)) {
-              info.add(fluid.getAmount(), handler.getTankCapacity(0));
+              info.add(fluid.getAmount(), capacity);
             }
           }
         }
@@ -296,7 +297,7 @@ public class MultitankFuelModule extends FuelModule implements IndexedFluidHandl
   /** Gets the most recently used fluid */
   public FluidStack getLastFluid() {
     if (fluidHandler != null) {
-      return fluidHandler.getFluidInTank(0);
+      return fluidHandler.size() == 0 ? FluidStack.EMPTY : FluidUtil.getStack(fluidHandler, 0);
     }
     BlockPos pos;
     if (lastPos.getY() != NULL_POS.getY()) {
@@ -309,161 +310,84 @@ public class MultitankFuelModule extends FuelModule implements IndexedFluidHandl
         return FluidStack.EMPTY;
       }
     }
-    IFluidHandler handler = getHandler(pos);
-    return handler == null ? FluidStack.EMPTY : handler.getFluidInTank(0);
+    ResourceHandler<FluidResource> handler = getHandler(pos);
+    return handler == null || handler.size() == 0 ? FluidStack.EMPTY : FluidUtil.getStack(handler, 0);
   }
 
   @Override
-  public int getTanks() {
+  public int size() {
     return tankSupplier.get().size();
   }
 
-  /** Gets the tank at the given index */
-  private IFluidHandler getTank(int tank) {
-    if (tank >= 0) {
-      List<BlockPos> positions = tankSupplier.get();
-      if (tank < positions.size()) {
-        IFluidHandler handler = getHandler(positions.get(tank));
-        return handler == null ? EmptyFluidHandler.INSTANCE : handler;
-      }
-    }
-    return EmptyFluidHandler.INSTANCE;
-  }
-
-  @Nonnull
-  @Override
-  public FluidStack getFluidInTank(int tank) {
-    return getTank(tank).getFluidInTank(0);
+  /** Gets the native tank at the given logical index. */
+  private ResourceHandler<FluidResource> getTank(int tank) {
+    List<BlockPos> positions = tankSupplier.get();
+    Objects.checkIndex(tank, positions.size());
+    ResourceHandler<FluidResource> handler = getHandler(positions.get(tank));
+    return handler == null ? EmptyResourceHandler.instance() : handler;
   }
 
   @Override
-  public int getTankCapacity(int tank) {
-    return getTank(tank).getTankCapacity(0);
+  public FluidResource getResource(int tank) {
+    ResourceHandler<FluidResource> handler = getTank(tank);
+    return handler.size() == 0 ? FluidResource.EMPTY : handler.getResource(0);
   }
 
   @Override
-  public boolean isFluidValid(int tank, @Nonnull FluidStack stack) {
-    return getTank(tank).isFluidValid(0, stack);
+  public long getAmountAsLong(int tank) {
+    ResourceHandler<FluidResource> handler = getTank(tank);
+    return handler.size() == 0 ? 0 : handler.getAmountAsLong(0);
   }
 
   @Override
-  public int fill(FluidStack resource, FluidAction action) {
-    int totalFilled = 0;
-    resource = resource.copy();
-    // try each handler, updating the amount we filled as we go
-    // note the map internally is a linked hash map so order is consistent
+  public long getCapacityAsLong(int tank, FluidResource resource) {
+    ResourceHandler<FluidResource> handler = getTank(tank);
+    return handler.size() == 0 ? 0 : handler.getCapacityAsLong(0, resource);
+  }
+
+  @Override
+  public boolean isValid(int tank, FluidResource resource) {
+    ResourceHandler<FluidResource> handler = getTank(tank);
+    return handler.size() > 0 && handler.isValid(0, resource);
+  }
+
+  @Override
+  public int insert(int tank, FluidResource resource, int amount, TransactionContext transaction) {
+    return getTank(tank).insert(resource, amount, transaction);
+  }
+
+  @Override
+  public int insert(FluidResource resource, int amount, TransactionContext transaction) {
+    int inserted = 0;
     for (TankCache cache : getTankHandlers().values()) {
-      IFluidHandler handler = cache.get();
-      if (handler == null) continue;
-      int filled = handler.fill(resource, action);
-      if (filled > 0) {
-        // if we finished filling, we are done, return that value
-        // this is a quick exit that might save us a copy
-        totalFilled += filled;
-        if (filled >= resource.getAmount()) {
+      ResourceHandler<FluidResource> handler = cache.get();
+      if (handler != null) {
+        inserted += handler.insert(resource, amount - inserted, transaction);
+        if (inserted == amount) {
           break;
         }
-        // if this was our first fill, copy the resource
-        if (totalFilled == filled) {
-          resource = resource.copyWithAmount(resource.getAmount() - filled);
-        } else {
-          resource.shrink(filled);
-        }
-        // resource will never be empty, as if it was the above break would be hit
       }
     }
-    return totalFilled;
+    return inserted;
   }
 
   @Override
-  public int fill(int tank, FluidStack resource, FluidAction action) {
-    IFluidHandler handler = getTank(tank);
-    if (handler instanceof IndexedFluidHandler indexed) {
-      return indexed.fill(0, resource, action);
-    }
-    return handler.getTanks() == 1 ? handler.fill(resource, action) : 0;
+  public int extract(int tank, FluidResource resource, int amount, TransactionContext transaction) {
+    return getTank(tank).extract(resource, amount, transaction);
   }
 
-  @Nonnull
   @Override
-  public FluidStack drain(FluidStack resource, FluidAction action) {
-    FluidStack drainedSoFar = FluidStack.EMPTY;
-    // try each handler, updating the amount we filled as we go
-    // note the map internally is a linked hash map so order is consistent
+  public int extract(FluidResource resource, int amount, TransactionContext transaction) {
+    int extracted = 0;
     for (TankCache cache : getTankHandlers().values()) {
-      IFluidHandler handler = cache.get();
-      if (handler == null) continue;
-      FluidStack drained = handler.drain(resource, action);
-      if (!drained.isEmpty()) {
-        // if we managed to drain something, add it into our current drained stack, and decrease the amount we still want to drain
-        if (drainedSoFar.isEmpty()) {
-          drainedSoFar = drained;
-          // if the first success, make a copy of the resource before shrinking it, need to shrink to prevent passing in too much to future hooks
-          // though we can skip copying if the first one is all we need
-          // note the >= part is just for redundancy, practically its always either = or less than
-          if (drained.getAmount() >= resource.getAmount()) {
-            break;
-          }
-          resource = resource.copyWithAmount(resource.getAmount() - drained.getAmount());
-        } else {
-          // resource is guaranteed a copy, and drainedSoFar is a newly created stack, both safe to mutate
-          drainedSoFar.grow(drained.getAmount());
-          resource.shrink(drained.getAmount());
-          // if we drained everything desired, we are done
-          if (resource.isEmpty()) {
-            break;
-          }
+      ResourceHandler<FluidResource> handler = cache.get();
+      if (handler != null) {
+        extracted += handler.extract(resource, amount - extracted, transaction);
+        if (extracted == amount) {
+          break;
         }
       }
     }
-    return drainedSoFar;
-  }
-
-  @Nonnull
-  @Override
-  public FluidStack drain(int tank, FluidStack resource, FluidAction action) {
-    IFluidHandler handler = getTank(tank);
-    if (handler instanceof IndexedFluidHandler indexed) {
-      return indexed.drain(0, resource, action);
-    }
-    return handler.getTanks() == 1 ? handler.drain(resource, action) : FluidStack.EMPTY;
-  }
-
-  @Nonnull
-  @Override
-  public FluidStack drain(int maxDrain, FluidAction action) {
-    FluidStack drainedSoFar = FluidStack.EMPTY;
-    FluidStack toDrain = FluidStack.EMPTY;
-    // try each handler, updating the amount we filled as we go
-    // note the map internally is a linked hash map so order is consistent
-    for (TankCache cache : getTankHandlers().values()) {
-      IFluidHandler handler = cache.get();
-      if (handler == null) continue;
-      // if we have not drained anything yet, can use typeless hook
-      if (toDrain.isEmpty()) {
-        FluidStack drained = handler.drain(maxDrain, action);
-        if (!drained.isEmpty()) {
-          drainedSoFar = drained;
-          // if we finished draining, we are done, otherwise we need to create a filter for future drain attempts
-          // note the >= part is just for redundancy, practically its always either = or less than
-          if (drained.getAmount() >= maxDrain) {
-            break;
-          }
-          toDrain = drained.copyWithAmount(maxDrain - drained.getAmount());
-        }
-      } else {
-        // if we already drained some fluid, type sensitive and increase our results
-        FluidStack drained = handler.drain(toDrain, action);
-        if (!drained.isEmpty()) {
-          drainedSoFar.grow(drained.getAmount());
-          toDrain.shrink(drained.getAmount());
-          // if we drained everything desired, we are done
-          if (toDrain.isEmpty()) {
-            break;
-          }
-        }
-      }
-    }
-    return drainedSoFar;
+    return extracted;
   }
 }

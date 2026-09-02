@@ -4,7 +4,9 @@
     "neoforge:ingredient_type": "mantle:item_tag",
     "tag": "minecraft:mangrove_logs"
   },
-  "leftover": "minecraft:mangrove_planks",
+  "leftover": {
+    "id": "minecraft:mangrove_planks"
+  },
   "material": "tconstruct:wood",
   "needed": 1,
   "value": 4

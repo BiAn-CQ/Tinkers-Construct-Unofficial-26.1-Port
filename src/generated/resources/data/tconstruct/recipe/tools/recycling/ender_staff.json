@@ -4,11 +4,11 @@
   "results": {
     "tconstruct:block": {
       "count": 2,
-      "item": "tconstruct:enderbark_log"
+      "id": "tconstruct:enderbark_log"
     },
     "tconstruct:crystal": {
       "count": 2,
-      "item": "tconstruct:ender_slime_crystal"
+      "id": "tconstruct:ender_slime_crystal"
     },
     "tconstruct:ingot": {
       "count": 1,

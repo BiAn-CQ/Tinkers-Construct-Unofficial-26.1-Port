@@ -10,6 +10,8 @@
     "amount": 90,
     "tag": "c:molten_gold"
   },
-  "result": "tconstruct:gem_cast",
+  "result": {
+    "id": "tconstruct:gem_cast"
+  },
   "switch_slots": true
 }

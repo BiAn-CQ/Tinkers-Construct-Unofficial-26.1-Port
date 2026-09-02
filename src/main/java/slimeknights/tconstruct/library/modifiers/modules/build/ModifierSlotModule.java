@@ -3,7 +3,6 @@ package slimeknights.tconstruct.library.modifiers.modules.build;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.ApiStatus.Internal;
-import slimeknights.mantle.data.loadable.field.LegacyField;
 import slimeknights.mantle.data.loadable.primitive.IntLoadable;
 import slimeknights.mantle.data.loadable.record.RecordLoadable;
 import slimeknights.tconstruct.library.json.LevelingInt;
@@ -30,8 +29,7 @@ public record ModifierSlotModule(SlotType type, LevelingInt count, ModifierCondi
   public static final RecordLoadable<ModifierSlotModule> LOADER = RecordLoadable.create(
     SlotType.LOADABLE.requiredField("name", ModifierSlotModule::type),
     IntLoadable.ANY_SHORT.defaultField("flat", 0, m -> m.count.flat()),
-    // TODO 1.21ish: drop legacy support in favor of a direct LevelingInt field
-    new LegacyField<>(IntLoadable.ANY_SHORT.defaultField("each_level", 0, m -> m.count.eachLevel()), "count"),
+    IntLoadable.ANY_SHORT.defaultField("each_level", 0, m -> m.count.eachLevel()),
     ModifierCondition.CONTEXT_FIELD,
     (type, flat, leveling, condition) -> new ModifierSlotModule(type, new LevelingInt(flat, leveling), condition));
   

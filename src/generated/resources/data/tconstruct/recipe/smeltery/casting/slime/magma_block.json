@@ -5,5 +5,7 @@
     "amount": 1000,
     "tag": "c:magma"
   },
-  "result": "minecraft:magma_block"
+  "result": {
+    "id": "minecraft:magma_block"
+  }
 }

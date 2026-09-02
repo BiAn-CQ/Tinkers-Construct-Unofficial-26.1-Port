@@ -3,7 +3,7 @@
   "byproducts": [
     {
       "amount": 1000,
-      "fluid": "tconstruct:scorched_stone"
+      "id": "tconstruct:scorched_stone"
     }
   ],
   "ingredient": "tconstruct:scorched_duct",

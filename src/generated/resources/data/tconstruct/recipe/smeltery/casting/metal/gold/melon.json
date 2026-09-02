@@ -7,5 +7,7 @@
     "amount": 80,
     "tag": "c:molten_gold"
   },
-  "result": "minecraft:glistering_melon_slice"
+  "result": {
+    "id": "minecraft:glistering_melon_slice"
+  }
 }

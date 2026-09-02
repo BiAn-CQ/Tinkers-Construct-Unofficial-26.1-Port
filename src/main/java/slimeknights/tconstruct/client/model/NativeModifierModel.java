@@ -17,12 +17,9 @@ import java.util.Optional;
 import java.util.Set;
 
 /**
- * Strict resource-boundary representation of the legacy modifier-model format.
- *
- * <p>The generated 26.1 item definitions intentionally retain the compact
- * 1.20.1 syntax, including texture strings and arrays as shorthand.  Decode
- * that syntax once into typed records instead of interpreting an unchecked
- * {@link Dynamic} every time a tool model is baked.</p>
+ * Strict resource-boundary representation of the native modifier-model format.
+ * Every definition is an explicitly typed object and is decoded once before a
+ * tool model is baked.
  */
 final class NativeModifierModel {
   static final Codec<NativeModifierModel> CODEC = Codec.PASSTHROUGH.flatXmap(
@@ -56,24 +53,7 @@ final class NativeModifierModel {
   }
 
   private static Definition parse(Dynamic<?> raw, String path) {
-    List<Dynamic<?>> list = listValues(raw);
-    if (list != null) {
-      if (list.isEmpty()) {
-        throw error(path, "modifier model array must not be empty");
-      }
-      List<Definition> children = new ArrayList<>(list.size());
-      for (int index = 0; index < list.size(); index++) {
-        children.add(parse(list.get(index), path + '[' + index + ']'));
-      }
-      return new Compound(List.copyOf(children));
-    }
-
-    Optional<String> scalar = raw.asString().result();
-    if (scalar.isPresent()) {
-      return new Texture(TextureKind.BASIC, identifier(scalar.get(), path), null, -1, 0);
-    }
-
-    String type = optionalString(raw, "type", path).orElse("tconstruct:basic");
+    String type = requiredString(raw, "type", path);
     return switch (type) {
       case "tconstruct:basic" -> texture(raw, path, TextureKind.BASIC);
       case "tconstruct:empty" -> Empty.INSTANCE;
@@ -85,7 +65,7 @@ final class NativeModifierModel {
         requiredIdentifier(raw, "modifier", path),
         parse(required(raw, "model", path), path + ".model")
       );
-      case "tconstruct:compound", "tconstruct:conditional" -> {
+      case "tconstruct:compound" -> {
         Dynamic<?> models = required(raw, "models", path);
         List<Dynamic<?>> values = listValues(models);
         if (values == null || values.isEmpty()) {
@@ -257,15 +237,6 @@ final class NativeModifierModel {
   private static String requiredString(Dynamic<?> raw, String field, String path) {
     return required(raw, field, path).asString().result()
       .orElseThrow(() -> error(path + '.' + field, "must be a string"));
-  }
-
-  private static Optional<String> optionalString(Dynamic<?> raw, String field, String path) {
-    Optional<? extends Dynamic<?>> value = raw.get(field).result();
-    if (value.isEmpty()) {
-      return Optional.empty();
-    }
-    return Optional.of(value.get().asString().result()
-      .orElseThrow(() -> error(path + '.' + field, "must be a string")));
   }
 
   private static Identifier requiredIdentifier(Dynamic<?> raw, String field, String path) {

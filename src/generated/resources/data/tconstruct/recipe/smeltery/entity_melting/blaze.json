@@ -6,6 +6,6 @@
   },
   "result": {
     "amount": 20,
-    "fluid": "tconstruct:blazing_blood"
+    "id": "tconstruct:blazing_blood"
   }
 }

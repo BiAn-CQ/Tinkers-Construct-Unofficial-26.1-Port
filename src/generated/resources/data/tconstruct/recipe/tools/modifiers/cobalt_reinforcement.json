@@ -7,5 +7,7 @@
     "amount": 90,
     "tag": "c:molten_cobalt"
   },
-  "result": "tconstruct:cobalt_reinforcement"
+  "result": {
+    "id": "tconstruct:cobalt_reinforcement"
+  }
 }

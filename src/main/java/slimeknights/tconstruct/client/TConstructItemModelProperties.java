@@ -34,8 +34,7 @@ import slimeknights.tconstruct.library.utils.ItemStackDataUtil;
 import javax.annotation.Nullable;
 
 /**
- * Native 26.1 item model properties replacing the removed 1.20.1
- * {@code ItemProperties.register} table.
+ * Native item model properties used by the current item-model pipeline.
  *
  * <p>The values intentionally mirror the old Tinkers properties.  Keeping
  * the state calculation in one place is important: the item-definition
@@ -55,8 +54,7 @@ public final class TConstructItemModelProperties {
 
   /**
    * Returns the numeric form used by the compact legacy override adapter.
-   * Numeric predicates use the same greater-than-or-equal comparison as the
-   * removed 1.20.1 item-property resolver.
+   * Numeric predicates use a greater-than-or-equal comparison.
    */
   public static float getValue(String property, ItemStack stack, @Nullable ClientLevel level,
                                @Nullable ItemOwner owner, ItemDisplayContext displayContext, int seed) {

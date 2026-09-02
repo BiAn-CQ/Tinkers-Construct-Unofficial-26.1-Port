@@ -12,5 +12,7 @@
     "amount": 50,
     "tag": "mantle:water"
   },
-  "result": "minecraft:arrow"
+  "result": {
+    "id": "minecraft:arrow"
+  }
 }

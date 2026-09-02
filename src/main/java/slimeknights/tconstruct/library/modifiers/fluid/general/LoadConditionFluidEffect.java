@@ -2,7 +2,7 @@ package slimeknights.tconstruct.library.modifiers.fluid.general;
 
 import net.neoforged.neoforge.common.conditions.ICondition;
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.fluids.capability.IFluidHandler.FluidAction;
+import slimeknights.tconstruct.library.utils.SimulationMode;
 import slimeknights.mantle.data.loadable.record.RecordLoadable;
 import slimeknights.mantle.data.registry.GenericLoaderRegistry;
 import slimeknights.tconstruct.library.modifiers.fluid.EffectLevel;
@@ -47,7 +47,7 @@ public record LoadConditionFluidEffect<C extends FluidEffectContext>(FluidEffect
   }
 
   @Override
-  public float apply(FluidStack fluid, EffectLevel level, C context, FluidAction action) {
+  public float apply(FluidStack fluid, EffectLevel level, C context, SimulationMode action) {
     FluidEffect<? super C> effect = (Util.testConditions(conditions) ? ifTrue : ifFalse);
     return effect.apply(fluid, level, context, action);
   }

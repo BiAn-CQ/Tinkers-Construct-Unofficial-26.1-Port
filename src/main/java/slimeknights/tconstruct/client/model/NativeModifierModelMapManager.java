@@ -22,8 +22,8 @@ import java.util.concurrent.ConcurrentHashMap;
  *
  * <p>Keeping these maps as shared resources avoids copying the same modifier
  * definitions into every charge, blocking, and broken item-model state. The
- * merge order deliberately matches the 1.20.1 loader: earlier
- * resource IDs take priority, and an explicit empty model removes a fallback.</p>
+ * merge order gives earlier resource IDs priority, and an explicit empty model
+ * removes a fallback.</p>
  */
 public final class NativeModifierModelMapManager extends MergingJsonDataLoader<NativeModifierModelMapManager.Builder> {
   public static final NativeModifierModelMapManager INSTANCE = new NativeModifierModelMapManager();
@@ -101,7 +101,7 @@ public final class NativeModifierModelMapManager extends MergingJsonDataLoader<N
     this.resolved.clear();
   }
 
-  /** Resolves a prioritized list of shared maps using the legacy merge rules. */
+  /** Resolves a prioritized list of shared maps in declared priority order. */
   public ModelMap get(List<Identifier> options) {
     if (options.isEmpty()) {
       return ModelMap.EMPTY;

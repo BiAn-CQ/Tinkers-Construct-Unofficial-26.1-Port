@@ -11,7 +11,9 @@
       "type": "tconstruct:restore_hunger",
       "can_always_eat": true,
       "hunger": 1,
-      "representative_item": "minecraft:wheat_seeds",
+      "representative_item": {
+        "id": "minecraft:wheat_seeds"
+      },
       "saturation": 1.0
     },
     {

@@ -3,8 +3,7 @@
   "ingredient": "minecraft:packed_ice",
   "result": {
     "amount": 9000,
-    "fluid": "minecraft:water",
-    "nbt": {}
+    "id": "minecraft:water"
   },
   "temperature": 0,
   "time": 84

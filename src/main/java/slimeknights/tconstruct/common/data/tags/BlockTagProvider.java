@@ -9,7 +9,7 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagEntry;
 import net.minecraft.tags.TagKey;
-import slimeknights.tconstruct.library.compat.Tiers;
+import net.minecraft.world.item.ToolMaterial;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.neoforged.neoforge.common.Tags;
@@ -34,6 +34,7 @@ import slimeknights.tconstruct.smeltery.data.SmelteryCompat;
 import slimeknights.tconstruct.smeltery.data.SmelteryCompat.CompatType;
 import slimeknights.tconstruct.tables.TinkerTables;
 import slimeknights.tconstruct.tools.TinkerToolParts;
+import slimeknights.tconstruct.library.utils.HarvestTiers;
 import slimeknights.tconstruct.world.TinkerHeadType;
 import slimeknights.tconstruct.world.TinkerWorld;
 import slimeknights.tconstruct.world.block.DirtType;
@@ -446,19 +447,11 @@ public class BlockTagProvider extends BlockTagsProvider {
     // slime
     tagBlocks(MINEABLE_WITH_SHOVEL, TinkerWorld.congealedSlime, TinkerWorld.slimeDirt, TinkerWorld.vanillaSlimeGrass, TinkerWorld.earthSlimeGrass, TinkerWorld.skySlimeGrass, TinkerWorld.enderSlimeGrass, TinkerWorld.ichorSlimeGrass);
     // harvest tiers on shovel blocks
-    TinkerWorld.slimeDirt.forEach((type, block) -> this.tag(Objects.requireNonNull(type.getHarvestTier().getTag())).add(block));
+    TinkerWorld.slimeDirt.forEach((type, block) -> this.tag(HarvestTiers.getRequiredTag(type.getHarvestTier())).add(block));
     for (DirtType dirt : DirtType.values()) {
       for (FoliageType grass : FoliageType.values()) {
-        Tiers dirtTier = dirt.getHarvestTier();
-        Tiers grassTier = grass.getHarvestTier();
-        // cannot use tier sorting registry as it's not init during datagen, stuck comparing levels and falling back to ordinal for gold
-        Tiers tier;
-        if (dirtTier.ordinal() == grassTier.ordinal()) {
-          tier = dirtTier.ordinal() > grassTier.ordinal() ? dirtTier : grassTier;
-        } else {
-          tier = dirtTier.ordinal() > grassTier.ordinal() ? dirtTier : grassTier;
-        }
-        this.tag(Objects.requireNonNull(tier.getTag())).add(TinkerWorld.slimeGrass.get(dirt).get(grass));
+        ToolMaterial tier = HarvestTiers.max(dirt.getHarvestTier(), grass.getHarvestTier());
+        this.tag(HarvestTiers.getRequiredTag(tier)).add(TinkerWorld.slimeGrass.get(dirt).get(grass));
       }
     }
 

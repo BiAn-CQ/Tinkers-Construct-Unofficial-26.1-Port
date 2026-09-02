@@ -73,7 +73,6 @@ import slimeknights.tconstruct.library.modifiers.hook.build.ConditionalStatModif
 import slimeknights.tconstruct.library.modifiers.hook.interaction.GeneralInteractionModifierHook;
 import slimeknights.tconstruct.library.modifiers.modules.armor.EffectImmunityModule;
 import slimeknights.tconstruct.library.modifiers.modules.technical.ArmorLevelModule;
-import slimeknights.tconstruct.library.modifiers.modules.technical.ArmorStatModule;
 import slimeknights.tconstruct.library.tools.capability.EntityModifierCapability;
 import slimeknights.tconstruct.library.tools.capability.PersistentDataCapability;
 import slimeknights.tconstruct.library.tools.capability.TinkerDataCapability;
@@ -110,13 +109,11 @@ public class ModifierEvents {
   /** Volatile data int for making a modifier on a shield grant reflecting */
   public static final Identifier REFLECTING = TConstruct.getResource("reflecting");
 
-  @SuppressWarnings("removal")
   @SubscribeEvent
   static void onKnockback(LivingKnockBackEvent event) {
     LivingEntity entity = event.getEntity();
     Optional<TinkerDataCapability.Holder> dataCap = TinkerDataCapability.getDataOptional(entity);
-    double knockback = entity.getAttributeValue(TinkerAttributes.KNOCKBACK_MULTIPLIER)
-                     + dataCap.map(data -> data.get(TinkerDataKeys.KNOCKBACK)).orElse(0f);
+    double knockback = entity.getAttributeValue(TinkerAttributes.KNOCKBACK_MULTIPLIER);
     if (knockback != 1) {
       event.setStrength((float) (event.getStrength() * knockback));
     }
@@ -131,22 +128,20 @@ public class ModifierEvents {
   }
 
   /** Reduce fall distance for fall damage */
-  @SuppressWarnings("removal")
   @SubscribeEvent
   static void onLivingFall(LivingFallEvent event) {
     LivingEntity entity = event.getEntity();
-    double boost = entity.getAttributeValue(TinkerAttributes.SAFE_FALL_DISTANCE) + ArmorStatModule.getStat(entity, TinkerDataKeys.JUMP_BOOST);
+    double boost = entity.getAttributeValue(TinkerAttributes.SAFE_FALL_DISTANCE);
     if (boost != 0) {
       event.setDistance((float) Math.max(event.getDistance() - boost, 0));
     }
   }
 
   /** Called on jumping to boost the jump height of the entity */
-  @SuppressWarnings("removal")
   @SubscribeEvent
   public static void onLivingJump(LivingJumpEvent event) {
     LivingEntity entity = event.getEntity();
-    double boost = entity.getAttributeValue(TinkerAttributes.JUMP_BOOST) + ArmorStatModule.getStat(entity, TinkerDataKeys.JUMP_BOOST);
+    double boost = entity.getAttributeValue(TinkerAttributes.JUMP_BOOST);
     if (boost > 0) {
       entity.setDeltaMovement(entity.getDeltaMovement().add(0, boost * 0.1, 0));
     }
@@ -251,12 +246,10 @@ public class ModifierEvents {
     // use the event tool so offhand/custom block breaking retains the original stack
     // TODO: can we make that datapack configurable?
     double bonus = player.getAttributeValue(TinkerAttributes.EXPERIENCE_MULTIPLIER)
-                 + ModifierUtil.getModifierLevel(event.getTool(), ModifierIds.experienced) * 0.5f
-                 + ArmorStatModule.getStat(player, TinkerDataKeys.EXPERIENCE);
+                 + ModifierUtil.getModifierLevel(event.getTool(), ModifierIds.experienced) * 0.5f;
     event.setDroppedExperience((int)(event.getDroppedExperience() * bonus));
   }
 
-  @SuppressWarnings("removal")
   @SubscribeEvent
   static void onExperienceDrop(LivingExperienceDropEvent event) {
     // boost entity experience if they are under the effects of experienced
@@ -267,7 +260,7 @@ public class ModifierEvents {
     // always add armor boost, unfortunately no good way to stop shield stuff here
     Player player = event.getAttackingPlayer();
     if (player != null) {
-      multiplier += player.getAttributeValue(TinkerAttributes.EXPERIENCE_MULTIPLIER) + ArmorStatModule.getStat(player, TinkerDataKeys.EXPERIENCE);
+      multiplier += player.getAttributeValue(TinkerAttributes.EXPERIENCE_MULTIPLIER);
     }
     // if the target was killed by an experienced arrow, use that level
     TinkerDataCapability.Holder data = TinkerDataCapability.getData(entity);
@@ -293,7 +286,7 @@ public class ModifierEvents {
     // critical boost is defined where the base value is 150%, setting smaller amounts can reduce the critical damage
     // this event however is defined in terms of adding or subtracting critical, so just treat it as additive
     Holder<Attribute> attribute = TinkerAttributes.CRITICAL_DAMAGE;
-    double criticalBoost = living.getAttributeValue(attribute) - attribute.value().getDefaultValue() + ArmorStatModule.getStat(living, TinkerDataKeys.CRITICAL_DAMAGE);
+    double criticalBoost = living.getAttributeValue(attribute) - attribute.value().getDefaultValue();
     if (criticalBoost > 0) {
       // make it critical if we meet our simpler conditions, note this does not boost attack damage
       boolean isCritical = event.isCriticalHit();
@@ -310,7 +303,6 @@ public class ModifierEvents {
     }
   }
 
-  @SuppressWarnings("removal")
   @SubscribeEvent
   static void onPotionStart(MobEffectEvent.Added event) {
     MobEffectInstance newEffect = event.getEffectInstance();
@@ -318,8 +310,7 @@ public class ModifierEvents {
       // use two different stats based on whether the effect is beneficial
       boolean beneficial = newEffect.getEffect().value().isBeneficial();
       LivingEntity entity = event.getEntity();
-      double multiplier = entity.getAttributeValue(beneficial ? TinkerAttributes.GOOD_EFFECT_DURATION : TinkerAttributes.BAD_EFFECT_DURATION)
-                        + ArmorStatModule.getStat(entity, beneficial ? TinkerDataKeys.GOOD_EFFECT_DURATION : TinkerDataKeys.BAD_EFFECT_DURATION);
+      double multiplier = entity.getAttributeValue(beneficial ? TinkerAttributes.GOOD_EFFECT_DURATION : TinkerAttributes.BAD_EFFECT_DURATION);
       if (multiplier != 1) {
         newEffect.duration = Math.max(1, (int) (newEffect.getDuration() * multiplier));
       }
@@ -405,12 +396,10 @@ public class ModifierEvents {
     }
   }
 
-  @SuppressWarnings("removal") // lets us work with Neo 1.20 for now
   @SubscribeEvent(priority = EventPriority.LOW) // lower priority so general modifier hook runs first
   static void projectileImpact(ProjectileImpactEvent event) {
-    Entity entity = event.getEntity();
-    Level level = entity.level();
     Projectile projectile = event.getProjectile();
+    Level level = projectile.level();
     HitResult hit = event.getRayTraceResult();
     if (hit.getType() == Type.ENTITY && ((EntityHitResult) hit).getEntity() instanceof LivingEntity target) {
       // reflecting //
@@ -461,7 +450,7 @@ public class ModifierEvents {
                 // damage the shield, and stop using it if needed
                 if (ToolDamageUtil.damageAnimated(tool, 3, target, target.getUsedItemHand())) {
                   target.stopUsingItem();
-                  entity.playSound(SoundEvents.SHIELD_BREAK.value(), 0.8F, 0.8F + entity.level().getRandom().nextFloat() * 0.4F);
+                  projectile.playSound(SoundEvents.SHIELD_BREAK.value(), 0.8F, 0.8F + projectile.level().getRandom().nextFloat() * 0.4F);
                 }
               }
             }

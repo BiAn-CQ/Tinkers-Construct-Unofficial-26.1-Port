@@ -2,31 +2,35 @@ package slimeknights.tconstruct.smeltery.block.entity.tank;
 
 import net.minecraft.core.Direction;
 import net.minecraft.core.Direction.Axis;
-import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.transfer.fluid.FluidResource;
+import net.neoforged.neoforge.transfer.transaction.RootCommitJournal;
+import net.neoforged.neoforge.transfer.transaction.TransactionContext;
 import slimeknights.tconstruct.library.fluid.FillOnlyFluidHandler;
 import slimeknights.tconstruct.smeltery.block.entity.ChannelBlockEntity;
 
-import net.neoforged.neoforge.fluids.capability.IFluidHandler.FluidAction;
-
-/** Tank for each side connection, for the sake of rendering */
+/** Side-specific channel insertion view used to update flow rendering. */
 public class ChannelSideTank extends FillOnlyFluidHandler {
-	private final ChannelBlockEntity channel;
-	private final Direction side;
+  private final ChannelBlockEntity channel;
+  private final Direction side;
 
-	public ChannelSideTank(ChannelBlockEntity channel, ChannelTank tank, Direction side) {
-		super(tank);
-		// only horizontals
-		assert side.getAxis() != Axis.Y;
-		this.channel = channel;
-		this.side = side;
-	}
+  public ChannelSideTank(ChannelBlockEntity channel, ChannelTank tank, Direction side) {
+    super(tank);
+    assert side.getAxis() != Axis.Y;
+    this.channel = channel;
+    this.side = side;
+  }
 
-	@Override
-	public int fill(FluidStack resource, FluidAction action) {
-		int filled = super.fill(resource, action);
-		if (action.execute() && filled > 0) {
-			channel.setFlow(side, true);
-		}
-		return filled;
-	}
+  @Override
+  public int insert(int index, FluidResource resource, int amount, TransactionContext transaction) {
+    int inserted = super.insert(index, resource, amount, transaction);
+    if (inserted > 0) {
+      new RootCommitJournal(() -> channel.setFlow(side, true)).updateSnapshots(transaction);
+    }
+    return inserted;
+  }
+
+  @Override
+  public int insert(FluidResource resource, int amount, TransactionContext transaction) {
+    return insert(0, resource, amount, transaction);
+  }
 }

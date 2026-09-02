@@ -3,7 +3,7 @@
   "byproducts": [
     {
       "amount": 500,
-      "fluid": "tconstruct:molten_quartz"
+      "id": "tconstruct:molten_quartz"
     }
   ],
   "ingredient": {
@@ -18,7 +18,7 @@
   },
   "result": {
     "amount": 1000,
-    "fluid": "tconstruct:scorched_stone"
+    "id": "tconstruct:scorched_stone"
   },
   "temperature": 500,
   "time": 100

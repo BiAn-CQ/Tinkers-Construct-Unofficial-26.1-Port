@@ -1,8 +1,6 @@
 {
   "title": "Réservoirs Scellés",
-  "item": {
-    "tag": "tconstruct:seared_tanks"
-  },
+  "item": "#tconstruct:seared_tanks",
   "text": [
     {
       "text": "Les réservoirs permettent de stocker des fluides en fusion ou du combustible. Ils sont indispensables pour fondre des métaux dans votre fonderie ! Vous pouvez les remplir avec des seaux, des potions, ou y verser directement le contenu de la fonderie pour un stockage ultérieur ou un moulage autonome.",

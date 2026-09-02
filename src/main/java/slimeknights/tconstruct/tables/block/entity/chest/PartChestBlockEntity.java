@@ -4,6 +4,8 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
+import net.neoforged.neoforge.transfer.item.ItemResource;
+import net.neoforged.neoforge.transfer.item.ItemUtil;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.TinkerTags;
 import slimeknights.tconstruct.tables.TinkerTables;
@@ -21,16 +23,16 @@ public class PartChestBlockEntity extends AbstractChestBlockEntity {
   /** Item handler for part chests */
   public static class PartChestItemHandler extends ScalingChestItemHandler {
     @Override
-    public int getSlotLimit(int slot) {
+    protected int getCapacity(int slot, ItemResource resource) {
       return 8;
     }
 
     @Override
     public boolean isItemValid(int slot, ItemStack stack) {
       // check if there is no other slot containing that item
-      for (int i = 0; i < this.getSlots(); i++) {
+      for (int i = 0; i < this.size(); i++) {
         // don't compare count
-        if (ItemStack.isSameItemSameComponents(stack, this.getStackInSlot(i))) {
+        if (ItemStack.isSameItemSameComponents(stack, ItemUtil.getStack(this, i))) {
           return i == slot; // only allowed in the same slot
         }
       }

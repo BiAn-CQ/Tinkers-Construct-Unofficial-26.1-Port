@@ -12,5 +12,7 @@
   ],
   "functions": [],
   "original": "minecraft:bone",
-  "replacement": "tconstruct:necrotic_bone"
+  "replacement": {
+    "id": "tconstruct:necrotic_bone"
+  }
 }

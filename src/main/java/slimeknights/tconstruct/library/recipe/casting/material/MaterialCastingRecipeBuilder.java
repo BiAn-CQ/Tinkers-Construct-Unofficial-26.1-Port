@@ -105,8 +105,7 @@ public class MaterialCastingRecipeBuilder extends AbstractRecipeBuilder<Material
    * @return  Builder instance
    */
   public MaterialCastingRecipeBuilder setCast(Ingredient cast, boolean consumed) {
-    // TODO 1.21: switch MAYBE_MATERIAL to CONSUMED
-    return setCast(cast, consumed ? CastPurpose.MAYBE_MATERIAL : CastPurpose.CATALYST);
+    return setCast(cast, consumed ? CastPurpose.CONSUMED : CastPurpose.CATALYST);
   }
 
   /**

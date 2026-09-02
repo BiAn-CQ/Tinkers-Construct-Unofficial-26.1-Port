@@ -7,5 +7,7 @@
     "amount": 250,
     "tag": "c:rabbit_stew"
   },
-  "result": "minecraft:rabbit_stew"
+  "result": {
+    "id": "minecraft:rabbit_stew"
+  }
 }

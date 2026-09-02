@@ -64,7 +64,7 @@ public final class TConstructClientRenderCompat {
     SkullBlockRenderer.SKIN_BY_TYPE.put(type, texture);
   }
 
-  /** Restores the per-mob head geometry used by the 1.20.1 client. */
+  /** Registers the per-mob head geometry used by slime renderers. */
   @SubscribeEvent
   static void registerSkullLayerDefinitions(RegisterLayerDefinitions event) {
     for (TinkerHeadType type : TinkerHeadType.values()) {

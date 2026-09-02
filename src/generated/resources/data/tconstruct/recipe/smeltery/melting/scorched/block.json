@@ -20,7 +20,7 @@
   },
   "result": {
     "amount": 1000,
-    "fluid": "tconstruct:scorched_stone"
+    "id": "tconstruct:scorched_stone"
   },
   "temperature": 500,
   "time": 100

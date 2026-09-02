@@ -10,5 +10,7 @@
     "amount": 200,
     "tag": "c:milk"
   },
-  "result": "minecraft:bone"
+  "result": {
+    "id": "minecraft:bone"
+  }
 }

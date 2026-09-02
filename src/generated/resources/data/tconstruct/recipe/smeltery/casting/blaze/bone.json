@@ -10,5 +10,7 @@
     "amount": 200,
     "tag": "tconstruct:blazing_blood"
   },
-  "result": "tconstruct:blazing_bone"
+  "result": {
+    "id": "tconstruct:blazing_bone"
+  }
 }

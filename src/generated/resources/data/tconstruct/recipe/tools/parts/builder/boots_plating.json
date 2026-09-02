@@ -13,5 +13,7 @@
       "tconstruct:boots_plating_cast"
     ]
   },
-  "result": "tconstruct:boots_plating_dummy"
+  "result": {
+    "id": "tconstruct:boots_plating_dummy"
+  }
 }

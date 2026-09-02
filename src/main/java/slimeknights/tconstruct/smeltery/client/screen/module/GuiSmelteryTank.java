@@ -178,7 +178,7 @@ public class GuiSmelteryTank implements IScreenWithFluidTank {
         FluidTooltipHandler.appendShift(tooltip);
       }
       else {
-        tooltip = FluidTooltipHandler.getFluidTooltip(tank.getFluidInTank(hovered));
+        tooltip = FluidTooltipHandler.getFluidTooltip(tank.getFluids().get(hovered));
       }
       graphics.setComponentTooltipForNextFrame(parent.getMinecraft().font, tooltip, mouseX, mouseY);
     }
@@ -219,7 +219,7 @@ public class GuiSmelteryTank implements IScreenWithFluidTank {
       for (int i = 0; i < heights.length; i++) {
         y -= heights[i];
         if (y < checkY) {
-          return new FluidLocation(tank.getFluidInTank(i), new Rect2i(x, y, width, heights[i]));
+          return new FluidLocation(tank.getFluids().get(i), new Rect2i(x, y, width, heights[i]));
         }
       }
     }

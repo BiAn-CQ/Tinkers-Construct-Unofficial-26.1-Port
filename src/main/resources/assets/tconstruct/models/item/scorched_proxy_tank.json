@@ -1,3 +1,70 @@
 {
-  "parent": "tconstruct:block/foundry/proxy_tank"
+  "render_type": "minecraft:cutout",
+  "parent": "block/block",
+  "textures": {
+    "particle": "tconstruct:block/foundry/casting/tank_side",
+    "side": "tconstruct:block/foundry/casting/tank_side",
+    "top": "tconstruct:block/foundry/casting/tank_top",
+    "bottom": "tconstruct:block/foundry/casting/basin_bottom",
+    "inside": "tconstruct:block/foundry/casting/tank_inside"
+  },
+  "elements": [
+    {
+      "name": "outer",
+      "from": [0, 0, 0],
+      "to": [16, 16, 16],
+      "faces": {
+        "north": {"uv": [0, 0, 16, 16], "texture": "#side", "cullface": "north"},
+        "east": {"uv": [0, 0, 16, 16], "texture": "#side", "cullface": "east"},
+        "south": {"uv": [0, 0, 16, 16], "texture": "#side", "cullface": "south"},
+        "west": {"uv": [0, 0, 16, 16], "texture": "#side", "cullface": "west"},
+        "up": {"uv": [0, 0, 16, 16], "texture": "#top", "cullface": "up"},
+        "down": {"uv": [0, 0, 16, 16], "texture": "#bottom", "cullface": "down"}
+      }
+    },
+    {
+      "name": "northwest",
+      "from": [0, 3, 0],
+      "to": [5, 16, 5],
+      "faces": {
+        "east": {"uv": [11, 0, 16, 13], "texture": "#side"},
+        "south": {"uv": [0, 0, 5, 13], "texture": "#side"}
+      }
+    },
+    {
+      "name": "northeast",
+      "from": [11, 3, 0],
+      "to": [16, 16, 5],
+      "faces": {
+        "south": {"uv": [11, 0, 16, 13], "texture": "#side"},
+        "west": {"uv": [0, 0, 5, 13], "texture": "#side"}
+      }
+    },
+    {
+      "name": "southwest",
+      "from": [0, 3, 11],
+      "to": [5, 16, 16],
+      "faces": {
+        "north": {"uv": [11, 0, 16, 13], "texture": "#side"},
+        "east": {"uv": [0, 0, 5, 13], "texture": "#side"}
+      }
+    },
+    {
+      "name": "southeast",
+      "from": [11, 3, 11],
+      "to": [16, 16, 16],
+      "faces": {
+        "north": {"uv": [0, 0, 5, 13], "texture": "#side"},
+        "west": {"uv": [11, 0, 16, 13], "texture": "#side"}
+      }
+    },
+    {
+      "name": "inside_top",
+      "from": [0, 3, 0],
+      "to": [16, 3, 16],
+      "faces": {
+        "up": {"uv": [0, 0, 16, 16], "texture": "#inside"}
+      }
+    }
+  ]
 }

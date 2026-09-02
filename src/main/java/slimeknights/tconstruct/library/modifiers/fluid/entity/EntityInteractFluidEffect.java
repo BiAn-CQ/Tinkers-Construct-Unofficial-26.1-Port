@@ -12,7 +12,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.common.CommonHooks;
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.fluids.capability.IFluidHandler.FluidAction;
+import slimeknights.tconstruct.library.utils.SimulationMode;
 import slimeknights.mantle.data.loadable.record.SingletonLoader;
 import slimeknights.tconstruct.library.modifiers.fluid.EffectLevel;
 import slimeknights.tconstruct.library.modifiers.fluid.FluidEffect;
@@ -26,7 +26,7 @@ public enum EntityInteractFluidEffect implements FluidEffect<FluidEffectContext.
   private final SingletonLoader<EntityInteractFluidEffect> loader = new SingletonLoader<>(this);
 
   @Override
-  public float apply(FluidStack fluid, EffectLevel level, FluidEffectContext.Entity context, FluidAction action) {
+  public float apply(FluidStack fluid, EffectLevel level, FluidEffectContext.Entity context, SimulationMode action) {
     Player player = context.getPlayer();
     if (player != null) {
       Level world = context.getLevel();

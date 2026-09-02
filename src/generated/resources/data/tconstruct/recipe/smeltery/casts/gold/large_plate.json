@@ -10,6 +10,8 @@
     "amount": 90,
     "tag": "c:molten_gold"
   },
-  "result": "tconstruct:large_plate_cast",
+  "result": {
+    "id": "tconstruct:large_plate_cast"
+  },
   "switch_slots": true
 }

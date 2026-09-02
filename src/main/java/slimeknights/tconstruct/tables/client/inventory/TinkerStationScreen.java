@@ -85,7 +85,7 @@ public class TinkerStationScreen extends ToolTableScreen<TinkerStationBlockEntit
   // text boxes
   private static final ElementScreen TEXT_BOX = ACTIVE_TEXT_FIELD.move(0, 244, 90, 12);
 
-  /** Preserve the alpha modulation used by the 1.20.1 GUI for slot overlays. */
+  /** Applies alpha modulation to slot overlays. */
   private static void drawTinted(GuiGraphicsExtractor graphics, ElementScreen element, int x, int y, int color) {
     graphics.blit(RenderPipelines.GUI_TEXTURED, element.texture, x, y,
       element.x, element.y, element.w, element.h, element.w, element.h, element.texW, element.texH, color);

@@ -2,16 +2,14 @@ package slimeknights.tconstruct.library.utils;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.component.DataComponentMap;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.nbt.Tag;
-import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.item.alchemy.PotionContents;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.Identifier;
 import net.minecraft.core.component.DataComponentPatch;
 import net.minecraft.core.Holder;
 import net.minecraft.world.item.alchemy.Potion;
@@ -22,9 +20,8 @@ import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.SimpleFluidContent;
 
 import java.util.Optional;
-import java.util.List;
 
-/** Component-based helpers for fluid stacks that carried custom NBT before 1.21. */
+/** Component-based helpers for fluid stacks. */
 public final class FluidStackDataUtil {
   private FluidStackDataUtil() {}
 
@@ -56,33 +53,6 @@ public final class FluidStackDataUtil {
       reference.bindComponents(DataComponentMap.EMPTY);
     }
     return new FluidStack(fluid, amount, components);
-  }
-
-  public static FluidStack create(Fluid fluid, int amount, CompoundTag data) {
-    FluidStack stack = new FluidStack(fluid, amount);
-    if (data != null && !data.isEmpty()) {
-      CompoundTag remaining = data.copy();
-      Optional<Holder<Potion>> potion = Optional.empty();
-      String potionId = remaining.getStringOr("Potion", "");
-      if (!potionId.isEmpty()) {
-        Identifier id = Identifier.tryParse(potionId);
-        if (id != null) {
-          potion = BuiltInRegistries.POTION.get(id).map(holder -> holder);
-        }
-        remaining.remove("Potion");
-      }
-      Optional<Integer> customColor = remaining.contains("CustomPotionColor")
-        ? Optional.of(remaining.getIntOr("CustomPotionColor", PotionContents.BASE_POTION_COLOR))
-        : Optional.empty();
-      remaining.remove("CustomPotionColor");
-      if (potion.isPresent() || customColor.isPresent()) {
-        stack.set(DataComponents.POTION_CONTENTS, new PotionContents(potion, customColor, List.of(), Optional.empty()));
-      }
-      if (!remaining.isEmpty()) {
-        stack.set(DataComponents.CUSTOM_DATA, CustomData.of(remaining));
-      }
-    }
-    return stack;
   }
 
   /** Creates a stack with an exact copy of the supplied native data component patch. */

@@ -22,7 +22,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.fluids.capability.IFluidHandler.FluidAction;
+import slimeknights.tconstruct.library.utils.SimulationMode;
 import slimeknights.mantle.data.loadable.Loadables;
 import slimeknights.mantle.data.loadable.record.RecordLoadable;
 import slimeknights.tconstruct.TConstruct;
@@ -53,7 +53,7 @@ public record PlaceBlockFluidEffect(@Nullable Block block, @Nullable SoundEvent 
   }
 
   @Override
-  public float apply(FluidStack fluid, EffectLevel level, FluidEffectContext.Block context, FluidAction action) {
+  public float apply(FluidStack fluid, EffectLevel level, FluidEffectContext.Block context, SimulationMode action) {
     if (level.isFull()) {
       // if we have no block, then use the block held by the player
       // its a bit magic, but eh, some fluids are magic
@@ -110,7 +110,7 @@ public record PlaceBlockFluidEffect(@Nullable Block block, @Nullable SoundEvent 
    * @return {@code null} if the item couldn't provide a {@link BlockItem} to place. {@code 0} if placement failed, {@code 1} if it succeeded.
    */
   @Nullable
-  private Integer maybePlaceFrom(FluidEffectContext.Block context, FluidAction action, ItemStack held, InteractionHand useHand) {
+  private Integer maybePlaceFrom(FluidEffectContext.Block context, SimulationMode action, ItemStack held, InteractionHand useHand) {
     LivingEntity entity = context.getEntity();
     BlockItemProviderCapability cap = getBlockProvider(held);
     if (cap == null) return null;
@@ -132,7 +132,7 @@ public record PlaceBlockFluidEffect(@Nullable Block block, @Nullable SoundEvent 
     return result;
   }
 
-  private int placeBlockItem(BlockItem blockItem, FluidEffectContext.Block context, FluidAction action, Block block, BlockPlaceContext placeContext) {
+  private int placeBlockItem(BlockItem blockItem, FluidEffectContext.Block context, SimulationMode action, Block block, BlockPlaceContext placeContext) {
     Level world = context.getLevel();
     BlockPos clicked = placeContext.getClickedPos();
     Player player = context.getPlayer();
@@ -162,7 +162,7 @@ public record PlaceBlockFluidEffect(@Nullable Block block, @Nullable SoundEvent 
     }
   }
 
-  private int placeNonBlockItem(FluidEffectContext.Block context, FluidAction action, Block block, BlockPlaceContext placeContext) {
+  private int placeNonBlockItem(FluidEffectContext.Block context, SimulationMode action, Block block, BlockPlaceContext placeContext) {
 
     // following code is based on block item, with notably differences of not calling block item methods (as if we had one we'd use it above)
     // we do notably call this logic in simulation as we need to stop the block item logic early, differences are noted in comments with their vanilla impacts

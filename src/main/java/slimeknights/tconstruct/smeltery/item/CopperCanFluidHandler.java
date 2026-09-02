@@ -1,130 +1,31 @@
 package slimeknights.tconstruct.smeltery.item;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.material.Fluid;
-import net.minecraft.world.level.material.Fluids;
-import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.fluids.capability.IFluidHandlerItem;
+import net.neoforged.neoforge.transfer.access.ItemAccess;
+import net.neoforged.neoforge.transfer.fluid.FluidResource;
+import net.neoforged.neoforge.transfer.fluid.ItemAccessFluidHandler;
+import net.neoforged.neoforge.transfer.transaction.TransactionContext;
+import slimeknights.tconstruct.common.TinkerModule;
 import slimeknights.tconstruct.library.recipe.FluidValues;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
-/** Capability handler instance for the copper can item */
-@AllArgsConstructor
-public class CopperCanFluidHandler implements IFluidHandlerItem {
-
-  @Getter
-  private final ItemStack container;
-
-  /* Tank properties */
-
-  @Override
-  public int getTanks() {
-    return 1;
+/** Native all-or-nothing fluid handler for copper cans. */
+public class CopperCanFluidHandler extends ItemAccessFluidHandler {
+  public CopperCanFluidHandler(ItemAccess itemAccess) {
+    super(itemAccess, TinkerModule.FLUID_STACK_COMPONENT.get(), FluidValues.INGOT);
   }
 
   @Override
-  public boolean isFluidValid(int tank, FluidStack stack) {
-    return true;
-  }
-
-  /** Gets the stack size sensitive capacity of the container */
-  private int getCapacity() {
-    // scale up by the stack size to prevent dupes with people trying to fill a stack of containers
-    return FluidValues.INGOT * container.getCount();
+  public int insert(int index, FluidResource resource, int amount, TransactionContext transaction) {
+    int capacity = getCapacityAsInt(index, resource);
+    return getAmountAsInt(index) == 0 && amount >= capacity
+      ? super.insert(index, resource, capacity, transaction)
+      : 0;
   }
 
   @Override
-  public int getTankCapacity(int tank) {
-    return getCapacity();
-  }
-
-  /** Gets the contained fluid */
-  private Fluid getFluid() {
-    return CopperCanItem.getFluid(container);
-  }
-
-  /** Gets the contained fluid */
-  @Nullable
-  private CompoundTag getFluidTag() {
-    return CopperCanItem.getFluidTag(container);
-  }
-
-  @Nonnull
-  @Override
-  public FluidStack getFluidInTank(int tank) {
-    Fluid fluid = getFluid();
-    if (fluid == Fluids.EMPTY) {
-      return FluidStack.EMPTY;
-    }
-    return slimeknights.tconstruct.library.utils.FluidStackDataUtil.create(getFluid(), getCapacity(), getFluidTag());
-  }
-
-
-  /* Interaction */
-
-  @Override
-  public int fill(FluidStack resource, FluidAction action) {
-    // must not be filled, must have enough
-    int capacity = getCapacity();
-    if (getFluid() != Fluids.EMPTY || resource.getAmount() < capacity) {
-      return 0;
-    }
-    // update fluid and return
-    if (action.execute()) {
-      // this is not size sensitive so no need to shrink resource for stack size
-      CopperCanItem.setFluid(container, resource);
-    }
-    return capacity;
-  }
-
-  @Nonnull
-  @Override
-  public FluidStack drain(FluidStack resource, FluidAction action) {
-    // must be draining at least an ingot
-    int capacity = getCapacity();
-    if (resource.isEmpty() || resource.getAmount() < capacity) {
-      return FluidStack.EMPTY;
-    }
-    // must have a fluid, must match what they are draining
-    Fluid fluid = getFluid();
-    if (fluid == Fluids.EMPTY || fluid != resource.getFluid()) {
-      return FluidStack.EMPTY;
-    }
-    // make sure NBT matches the requested NBT
-    FluidStack output = slimeknights.tconstruct.library.utils.FluidStackDataUtil.create(fluid, capacity, getFluidTag());
-    if (!FluidStack.isSameFluidSameComponents(resource, output)) {
-      return FluidStack.EMPTY;
-    }
-    // output 1 ingot times stack size
-    if (action.execute()) {
-      CopperCanItem.setFluid(container, FluidStack.EMPTY);
-    }
-    return output;
-  }
-
-  @Nonnull
-  @Override
-  public FluidStack drain(int maxDrain, FluidAction action) {
-    // must be draining at least an ingot
-    int capacity = getCapacity();
-    if (maxDrain < capacity) {
-      return FluidStack.EMPTY;
-    }
-    // must have a fluid
-    Fluid fluid = getFluid();
-    if (fluid == Fluids.EMPTY) {
-      return FluidStack.EMPTY;
-    }
-    // output 1 ingot
-    FluidStack output = slimeknights.tconstruct.library.utils.FluidStackDataUtil.create(fluid, capacity, getFluidTag());
-    if (action.execute()) {
-      CopperCanItem.setFluid(container, FluidStack.EMPTY);
-    }
-    return output;
+  public int extract(int index, FluidResource resource, int amount, TransactionContext transaction) {
+    int stored = getAmountAsInt(index);
+    return stored > 0 && amount >= stored
+      ? super.extract(index, resource, stored, transaction)
+      : 0;
   }
 }

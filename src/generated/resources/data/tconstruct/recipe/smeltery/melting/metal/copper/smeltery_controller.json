@@ -3,7 +3,7 @@
   "byproducts": [
     {
       "amount": 1000,
-      "fluid": "tconstruct:seared_stone"
+      "id": "tconstruct:seared_stone"
     }
   ],
   "ingredient": "tconstruct:smeltery_controller",

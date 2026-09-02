@@ -23,7 +23,10 @@
     "tconstruct:lure": {
       "type": "tconstruct:empty"
     },
-    "tconstruct:netherite": "tconstruct:item/tool/fishing_rod/modifiers/tconstruct_netherite_broken",
+    "tconstruct:netherite": {
+      "type": "tconstruct:basic",
+      "texture": "tconstruct:item/tool/fishing_rod/modifiers/tconstruct_netherite_broken"
+    },
     "tconstruct:quick_charge": {
       "type": "tconstruct:empty"
     },

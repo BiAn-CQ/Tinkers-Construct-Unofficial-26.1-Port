@@ -3,14 +3,14 @@
   "byproducts": [
     {
       "amount": 400,
-      "fluid": "tconstruct:molten_quartz"
+      "id": "tconstruct:molten_quartz"
     }
   ],
   "ingredient": "minecraft:amethyst_cluster",
   "rate": "gem",
   "result": {
     "amount": 400,
-    "fluid": "tconstruct:molten_amethyst"
+    "id": "tconstruct:molten_amethyst"
   },
   "temperature": 950,
   "time": 259

@@ -10,8 +10,7 @@
   },
   "result": {
     "amount": 250,
-    "fluid": "minecraft:milk",
-    "nbt": {}
+    "id": "minecraft:milk"
   },
   "temperature": 0,
   "time": 47

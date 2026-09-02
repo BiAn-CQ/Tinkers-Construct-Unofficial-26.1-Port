@@ -2,15 +2,17 @@ package slimeknights.tconstruct.tables.block.entity.inventory;
 
 import lombok.Getter;
 import lombok.Setter;
+import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.neoforge.items.ItemStackHandler;
+import net.neoforged.neoforge.transfer.item.ItemResource;
+import net.neoforged.neoforge.transfer.item.ItemStacksResourceHandler;
+import net.neoforged.neoforge.transfer.item.ItemUtil;
 import slimeknights.mantle.block.entity.MantleBlockEntity;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 /** Base logic for scaling chest inventories */
-public abstract class ScalingChestItemHandler extends ItemStackHandler implements IChestItemHandler {
+public abstract class ScalingChestItemHandler extends ItemStacksResourceHandler implements IChestItemHandler {
   /** Default maximum size */
   protected static final int DEFAULT_MAX = 256;
   /** Current size for display in containers */
@@ -28,14 +30,19 @@ public abstract class ScalingChestItemHandler extends ItemStackHandler implement
     this(DEFAULT_MAX);
   }
 
-  @Override
   public abstract boolean isItemValid(int slot, ItemStack stack);
 
   @Override
-  protected void onLoad() {
-    int newLimit = getSlots();
-    if (newLimit > 1 && this.getStackInSlot(newLimit - 1).isEmpty()) {
-      while (newLimit > 1 && this.getStackInSlot(newLimit - 2).isEmpty()) {
+  public boolean isValid(int index, ItemResource resource) {
+    return !resource.isEmpty() && isItemValid(index, resource.toStack());
+  }
+
+  @Override
+  public void deserialize(ValueInput input) {
+    super.deserialize(input);
+    int newLimit = size();
+    if (newLimit > 1 && ItemUtil.getStack(this, newLimit - 1).isEmpty()) {
+      while (newLimit > 1 && ItemUtil.getStack(this, newLimit - 2).isEmpty()) {
         newLimit--;
       }
     }
@@ -45,15 +52,15 @@ public abstract class ScalingChestItemHandler extends ItemStackHandler implement
   /** Updates the visual size of the inventory */
   private void updateVisualSize(int slotChanged, ItemStack stack) {
     // if the slot is too large, nothing to do
-    int maxSlots = getSlots();
+    int maxSlots = size();
     if (slotChanged >= maxSlots) {
       return;
     }
     // if the slot is past the current one, update to there
     if (stack.isEmpty()) {
       // if the current index was the last slot, decrease size
-      if (slotChanged + 1 == visualSize || (slotChanged + 2 == visualSize && this.getStackInSlot(visualSize - 1).isEmpty())) {
-        while (visualSize > 1 && this.getStackInSlot(visualSize - 2).isEmpty()) {
+      if (slotChanged + 1 == visualSize || (slotChanged + 2 == visualSize && ItemUtil.getStack(this, visualSize - 1).isEmpty())) {
+        while (visualSize > 1 && ItemUtil.getStack(this, visualSize - 2).isEmpty()) {
           visualSize--;
         }
       }
@@ -65,37 +72,9 @@ public abstract class ScalingChestItemHandler extends ItemStackHandler implement
     }
   }
 
-
-  /* Hook in visual size update */
-
   @Override
-  public void setStackInSlot(int slot, ItemStack stack) {
-    super.setStackInSlot(slot, stack);
-    updateVisualSize(slot, stack);
-  }
-
-  @Nonnull
-  @Override
-  public ItemStack insertItem(int slot, ItemStack stack, boolean simulate) {
-    ItemStack result = super.insertItem(slot, stack, simulate);
-    if (!simulate) {
-      updateVisualSize(slot, getStackInSlot(slot));
-    }
-    return result;
-  }
-
-  @Nonnull
-  @Override
-  public ItemStack extractItem(int slot, int amount, boolean simulate) {
-    ItemStack result = super.extractItem(slot, amount, simulate);
-    if (!simulate) {
-      updateVisualSize(slot, getStackInSlot(slot));
-    }
-    return result;
-  }
-
-  @Override
-  protected void onContentsChanged(int slot) {
+  protected void onContentsChanged(int slot, ItemStack previousContents) {
+    updateVisualSize(slot, stacks.get(slot));
     if (parent != null) {
       parent.setChangedFast();
     }

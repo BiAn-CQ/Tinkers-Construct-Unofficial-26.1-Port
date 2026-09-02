@@ -9,7 +9,6 @@ import com.google.gson.JsonParseException;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 import com.google.gson.JsonSyntaxException;
-import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import io.netty.handler.codec.DecoderException;
 import lombok.RequiredArgsConstructor;
 import net.minecraft.network.FriendlyByteBuf;
@@ -21,7 +20,6 @@ import slimeknights.mantle.util.JsonHelper;
 import slimeknights.mantle.data.loadable.common.ItemStackTemplateLoadable;
 import slimeknights.mantle.util.typed.TypedMap;
 import slimeknights.tconstruct.library.recipe.partbuilder.Pattern;
-import slimeknights.tconstruct.library.utils.ItemStackDataUtil;
 import slimeknights.tconstruct.library.utils.TinkerNetworkBuffer;
 
 import javax.annotation.Nullable;
@@ -109,13 +107,7 @@ public abstract class LayoutIcon {
 
     @Override
     public JsonObject toJson() {
-      JsonElement serialized = ItemStackTemplateLoadable.STACK_NBT.serialize(template);
-      if (serialized.isJsonObject()) {
-        return serialized.getAsJsonObject();
-      }
-      JsonObject json = new JsonObject();
-      json.add("item", serialized);
-      return json;
+      return ItemStackTemplateLoadable.STACK.serialize(template).getAsJsonObject();
     }
   }
 
@@ -163,22 +155,14 @@ public abstract class LayoutIcon {
         Pattern pattern = new Pattern(JsonHelper.getIdentifier(object, "pattern"));
         return new PatternIcon(pattern);
       }
-      if (object.has("item")) {
-        ItemStackTemplate template;
-        try {
-          template = ItemStackTemplateLoadable.STACK_NBT.convert(object, "item", TypedMap.empty());
-        } catch (JsonParseException exception) {
-          // Some old tool preview NBT uses a legacy SNBT form rejected by the
-          // 26.1 parser. The icon remains useful without that optional preview data.
-          template = ItemStackTemplateLoadable.STACK.convert(object, "item", TypedMap.empty());
-        }
-        return new ItemStackIcon(template);
+      if (object.has("id")) {
+        return new ItemStackIcon(ItemStackTemplateLoadable.STACK.convert(object, "item", TypedMap.empty()));
       }
       // not sure why this would be needed, but might as well
       if (object.entrySet().isEmpty()) {
         return EMPTY;
       }
-      throw new JsonSyntaxException("LayoutButtonIcon must have either pattern or item");
+      throw new JsonSyntaxException("LayoutButtonIcon must have either pattern or a native item stack template");
     }
 
     @Override

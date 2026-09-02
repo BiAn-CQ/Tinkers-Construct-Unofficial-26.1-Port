@@ -8,7 +8,7 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.inventory.Slot;
-import slimeknights.tconstruct.library.compat.ArmorItem;
+import slimeknights.tconstruct.library.tools.definition.ArmorSlotType;
 import net.minecraft.world.item.ItemStack;
 import slimeknights.mantle.util.sync.LambdaDataSlot;
 import slimeknights.tconstruct.tables.TinkerTables;
@@ -58,7 +58,7 @@ public class ModifierWorktableContainerMenu extends TabbedContainerMenu<Modifier
     }
 
     // add armor and offhand slots, for convenience
-    for (ArmorItem.Type slotType : slimeknights.tconstruct.library.tools.definition.ModifiableArmorMaterial.ARMOR_TYPES) {
+    for (ArmorSlotType slotType : slimeknights.tconstruct.library.tools.definition.ModifiableArmorMaterial.ARMOR_TYPES) {
       this.addSlot(new ArmorSlot(inv, armorSlot(slotType), 152, 16 + slotType.ordinal() * 18));
     }
     this.addSlot(new Slot(inv, 40, 132, 70));
@@ -68,7 +68,7 @@ public class ModifierWorktableContainerMenu extends TabbedContainerMenu<Modifier
     this.addInventorySlots();
   }
 
-  private static EquipmentSlot armorSlot(ArmorItem.Type type) {
+  private static EquipmentSlot armorSlot(ArmorSlotType type) {
     return switch (type) {
       case BOOTS -> EquipmentSlot.FEET;
       case LEGGINGS -> EquipmentSlot.LEGS;

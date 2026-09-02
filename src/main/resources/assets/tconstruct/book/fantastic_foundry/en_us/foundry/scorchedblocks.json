@@ -1,8 +1,6 @@
 {
   "title": "Scorched Blocks",
-  "item": {
-    "tag": "tconstruct:scorched_blocks"
-  },
+  "item": "#tconstruct:scorched_blocks",
   "text": [
     {
       "text": "These blocks can be used for any part of the foundry, as floors or walls. They are also useful for decorating your base.",

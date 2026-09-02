@@ -13,5 +13,7 @@
       "tconstruct:chestplate_plating_cast"
     ]
   },
-  "result": "tconstruct:chestplate_plating_dummy"
+  "result": {
+    "id": "tconstruct:chestplate_plating_dummy"
+  }
 }

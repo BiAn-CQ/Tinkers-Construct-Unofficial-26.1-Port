@@ -4,19 +4,21 @@
   "grid": [
     [
       {
-        "type": "forge:nbt",
-        "item": "tconstruct:pickaxe",
-        "nbt": {
-          "tic_broken": false,
-          "tic_display": true,
-          "Damage": 70,
-          "tic_materials": [
-            "tconstruct:ui_render#head",
-            "tconstruct:ui_render#handle",
-            "tconstruct:ui_render#extra"
-          ],
-          "tic_stats": {
-            "tconstruct:durability": 100
+        "id": "tconstruct:pickaxe",
+        "components": {
+          "minecraft:custom_data": {
+            "tic_broken": false,
+            "tic_display": true,
+            "Damage": 70,
+            "tic_materials": [
+              "tconstruct:ui_render#head",
+              "tconstruct:ui_render#handle",
+              "tconstruct:ui_render#extra"
+            ],
+            "tic_stats": {
+              "tconstruct:durability": 100
+            }
+
           }
         }
       },
@@ -24,18 +26,20 @@
     ]
   ],
   "result": {
-    "type": "forge:nbt",
-    "item": "tconstruct:pickaxe",
-    "nbt": {
-      "tic_broken": false,
-      "tic_display": true,
-      "Damage": 10,
-      "tic_materials": [
-        "tconstruct:ui_render#head",
-        "tconstruct:ui_render#handle",
-        "tconstruct:ui_render#extra"
-      ],
-      "tic_stats": { "tconstruct:durability": 100 }
+    "id": "tconstruct:pickaxe",
+    "components": {
+      "minecraft:custom_data": {
+        "tic_broken": false,
+        "tic_display": true,
+        "Damage": 10,
+        "tic_materials": [
+          "tconstruct:ui_render#head",
+          "tconstruct:ui_render#handle",
+          "tconstruct:ui_render#extra"
+        ],
+        "tic_stats": { "tconstruct:durability": 100 }
+
+      }
     }
   },
   "description": [

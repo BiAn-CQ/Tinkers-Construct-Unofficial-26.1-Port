@@ -6,9 +6,11 @@
   },
   "result": {
     "amount": 25,
-    "nbt": {
-      "Potion": "minecraft:turtle_master"
+    "components": {
+      "minecraft:potion_contents": {
+        "potion": "minecraft:turtle_master"
+      }
     },
-    "tag": "c:potion"
+    "id": "tconstruct:potion"
   }
 }

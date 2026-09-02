@@ -10,5 +10,7 @@
     "amount": 250,
     "fluid": "minecraft:water"
   },
-  "result": "minecraft:mud"
+  "result": {
+    "id": "minecraft:mud"
+  }
 }

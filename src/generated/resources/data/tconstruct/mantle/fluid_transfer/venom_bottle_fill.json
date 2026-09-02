@@ -5,5 +5,7 @@
     "tag": "tconstruct:venom"
   },
   "input": "minecraft:glass_bottle",
-  "result": "tconstruct:venom_bottle"
+  "result": {
+    "id": "tconstruct:venom_bottle"
+  }
 }

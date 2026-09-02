@@ -2,9 +2,12 @@ package slimeknights.tconstruct.library.tools.capability;
 
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
-import net.neoforged.neoforge.capabilities.ItemCapability;
 import net.neoforged.neoforge.capabilities.Capabilities;
-import net.neoforged.neoforge.energy.IEnergyStorage;
+import net.neoforged.neoforge.capabilities.ItemCapability;
+import net.neoforged.neoforge.transfer.TransferPreconditions;
+import net.neoforged.neoforge.transfer.energy.EnergyHandler;
+import net.neoforged.neoforge.transfer.transaction.SnapshotJournal;
+import net.neoforged.neoforge.transfer.transaction.TransactionContext;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.modifiers.modules.ModifierModule;
 import slimeknights.tconstruct.library.modifiers.modules.build.ModifierTraitModule;
@@ -17,7 +20,7 @@ import slimeknights.tconstruct.tools.TinkerModifiers;
 import java.util.function.Supplier;
 
 /** Standard implementation of energy capability on a tool. Not currently used in the mod directly, but should help addons have more unity. */
-public record ToolEnergyCapability(Supplier<? extends IToolStackView> tool) implements IEnergyStorage {
+public final class ToolEnergyCapability implements EnergyHandler {
   /** Format string to display energy amounts, used internally by the stat */
   public static final String ENERGY_FORMAT = TConstruct.makeDescriptionId("tool_stat", "energy");
   /** Stat marking the max capacity */
@@ -26,6 +29,13 @@ public record ToolEnergyCapability(Supplier<? extends IToolStackView> tool) impl
   public static final Identifier ENERGY_KEY = TConstruct.getResource("energy");
   /** Include this module in a modifier adding energy capacity or functionality to ensure capacity changes are properly cleaned up */
   public static final ModifierModule ENERGY_HANDLER = new ModifierTraitModule(TinkerModifiers.energyHandler.getId(), 1, true);
+
+  private final Supplier<? extends IToolStackView> tool;
+  private final EnergyJournal journal = new EnergyJournal();
+
+  public ToolEnergyCapability(Supplier<? extends IToolStackView> tool) {
+    this.tool = tool;
+  }
 
   /** Gets the energy capacity for the given tool */
   public static int getMaxEnergy(IToolStackView tool) {
@@ -72,22 +82,35 @@ public record ToolEnergyCapability(Supplier<? extends IToolStackView> tool) impl
   }
 
   @Override
-  public int receiveEnergy(int maxReceive, boolean simulate) {
-    if (maxReceive <= 0) {
+  public long getAmountAsLong() {
+    return getEnergy(tool.get());
+  }
+
+  @Override
+  public long getCapacityAsLong() {
+    return getMaxEnergy(tool.get());
+  }
+
+  @Override
+  public int insert(int maxReceive, TransactionContext transaction) {
+    TransferPreconditions.checkNonNegative(maxReceive);
+    if (maxReceive == 0) {
       return 0;
     }
     IToolStackView tool = this.tool.get();
     int current = getEnergy(tool);
     int filled = Math.min(getMaxEnergy(tool) - current, maxReceive);
-    if (!simulate) {
+    if (filled > 0) {
+      journal.updateSnapshots(transaction);
       setEnergyRaw(tool, current + filled);
     }
     return filled;
   }
 
   @Override
-  public int extractEnergy(int maxExtract, boolean simulate) {
-    if (maxExtract <= 0) {
+  public int extract(int maxExtract, TransactionContext transaction) {
+    TransferPreconditions.checkNonNegative(maxExtract);
+    if (maxExtract == 0) {
       return 0;
     }
     IToolStackView tool = this.tool.get();
@@ -99,35 +122,28 @@ public record ToolEnergyCapability(Supplier<? extends IToolStackView> tool) impl
     if (current < drained) {
       drained = current;
     }
-    if (!simulate) {
+    if (drained > 0) {
+      journal.updateSnapshots(transaction);
       setEnergyRaw(tool, current - drained);
     }
     return drained;
   }
 
-  @Override
-  public int getEnergyStored() {
-    return getEnergy(tool.get());
+  private class EnergyJournal extends SnapshotJournal<Integer> {
+    @Override
+    protected Integer createSnapshot() {
+      return getEnergy(tool.get());
+    }
+
+    @Override
+    protected void revertToSnapshot(Integer snapshot) {
+      setEnergyRaw(tool.get(), snapshot);
+    }
   }
 
-  @Override
-  public int getMaxEnergyStored() {
-    return getMaxEnergy(tool.get());
-  }
-
-  @Override
-  public boolean canExtract() {
-    return true;
-  }
-
-  @Override
-  public boolean canReceive() {
-    return true;
-  }
-
-  /** Provider instance for a fluid cap */
+  /** Provider instance for the energy capability. */
   public static class Provider implements IToolCapabilityProvider {
-    private final IEnergyStorage energyCap;
+    private final EnergyHandler energyCap;
     public Provider(Supplier<? extends IToolStackView> toolStack) {
       this.energyCap = new ToolEnergyCapability(toolStack);
     }

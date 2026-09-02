@@ -11,5 +11,7 @@
     "neoforge:ingredient_type": "mantle:item_tag",
     "tag": "tconstruct:casts/sand"
   },
-  "result": "tconstruct:plate_sand_cast"
+  "result": {
+    "id": "tconstruct:plate_sand_cast"
+  }
 }

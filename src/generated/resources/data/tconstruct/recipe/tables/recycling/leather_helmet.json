@@ -4,7 +4,7 @@
   "results": {
     "tconstruct:maille": {
       "count": 5,
-      "item": "minecraft:leather"
+      "id": "minecraft:leather"
     }
   },
   "tool": "minecraft:leather_helmet"

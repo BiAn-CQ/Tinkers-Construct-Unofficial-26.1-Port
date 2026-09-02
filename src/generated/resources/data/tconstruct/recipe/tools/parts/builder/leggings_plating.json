@@ -13,5 +13,7 @@
       "tconstruct:leggings_plating_cast"
     ]
   },
-  "result": "tconstruct:leggings_plating_dummy"
+  "result": {
+    "id": "tconstruct:leggings_plating_dummy"
+  }
 }

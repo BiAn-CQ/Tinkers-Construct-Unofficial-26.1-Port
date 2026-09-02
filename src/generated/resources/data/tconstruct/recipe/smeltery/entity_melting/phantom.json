@@ -6,9 +6,11 @@
   },
   "result": {
     "amount": 50,
-    "nbt": {
-      "Potion": "minecraft:slow_falling"
+    "components": {
+      "minecraft:potion_contents": {
+        "potion": "minecraft:slow_falling"
+      }
     },
-    "tag": "c:potion"
+    "id": "tconstruct:potion"
   }
 }

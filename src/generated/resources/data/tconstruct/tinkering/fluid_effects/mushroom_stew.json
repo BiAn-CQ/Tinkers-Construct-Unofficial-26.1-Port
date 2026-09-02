@@ -4,7 +4,9 @@
       "type": "tconstruct:restore_hunger",
       "can_always_eat": false,
       "hunger": 1,
-      "representative_item": "minecraft:mushroom_stew",
+      "representative_item": {
+        "id": "minecraft:mushroom_stew"
+      },
       "saturation": 0.72
     }
   ],

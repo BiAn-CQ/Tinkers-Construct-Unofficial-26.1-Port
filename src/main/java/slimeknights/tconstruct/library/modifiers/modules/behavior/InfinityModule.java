@@ -42,7 +42,7 @@ public record InfinityModule(ItemStackTemplate ammo, String variantTag, int dura
   private static final String INFINITY = "tic_infinity";
   private static final List<ModuleHook<?>> DEFAULT_HOOKS = HookProvider.<InfinityModule>defaultHooks(ModifierHooks.BOW_AMMO, ModifierHooks.PROJECTILE_LAUNCH, ModifierHooks.PROJECTILE_SHOT, ModifierHooks.REMOVE);
   public static final RecordLoadable<InfinityModule> LOADER = RecordLoadable.create(
-    ItemStackTemplateLoadable.ITEM_NBT.requiredField("ammo", InfinityModule::ammo),
+    ItemStackTemplateLoadable.STACK.requiredField("ammo", InfinityModule::ammo),
     StringLoadable.DEFAULT.defaultField("variant_tag", "", InfinityModule::variantTag),
     IntLoadable.FROM_ZERO.requiredField("durability_usage", InfinityModule::durabilityUsage),
     BooleanLoadable.INSTANCE.defaultField("check_standard_arrows", true, InfinityModule::checkStandardArrows),
