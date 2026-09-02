@@ -1,5 +1,5 @@
 {
-    "parent": "neominecraft:item/generated",
+    "parent": "minecraft:item/generated",
     "textures": {
         "layer0": "tconstruct:item/tool/ammo/arrow_shaft"
     }

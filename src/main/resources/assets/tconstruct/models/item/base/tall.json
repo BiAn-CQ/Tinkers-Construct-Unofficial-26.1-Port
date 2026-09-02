@@ -1,5 +1,5 @@
 {
-  "parent": "neominecraft:item/handheld",
+  "parent": "minecraft:item/handheld",
   "gui_light": "front",
   "display": {
     "tconstruct:thrown": {

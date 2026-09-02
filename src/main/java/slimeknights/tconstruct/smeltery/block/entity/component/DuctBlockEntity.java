@@ -91,13 +91,13 @@ public class DuctBlockEntity extends SmelteryFluidIO implements MenuProvider {
   public void load(CompoundTag tags) {
     super.load(tags);
     if (tags.contains(TAG_ITEM)) {
-      itemHandler.readFromNBT(tags.getCompoundOrEmpty(TAG_ITEM));
+      itemHandler.readFromNBT(registries, tags.getCompoundOrEmpty(TAG_ITEM));
     }
   }
 
   @Override
   protected void saveSynced(CompoundTag tags, net.minecraft.core.HolderLookup.Provider provider) {
     super.saveSynced(tags, provider);
-    tags.put(TAG_ITEM, itemHandler.writeToNBT());
+    tags.put(TAG_ITEM, itemHandler.writeToNBT(provider));
   }
 }

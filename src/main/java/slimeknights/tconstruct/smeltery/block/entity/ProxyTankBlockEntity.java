@@ -129,13 +129,13 @@ public class ProxyTankBlockEntity extends MantleBlockEntity implements IFluidTan
   public void load(CompoundTag tag) {
     super.load(tag);
     if (tag.contains(TAG_ITEM)) {
-      itemTank.readFromNBT(tag.getCompoundOrEmpty(TAG_ITEM));
+      itemTank.readFromNBT(registries, tag.getCompoundOrEmpty(TAG_ITEM));
     }
   }
 
   @Override
-  protected void saveSynced(CompoundTag tag) {
-    super.saveSynced(tag);
-    tag.put(TAG_ITEM, itemTank.writeToNBT());
+  protected void saveSynced(CompoundTag tag, net.minecraft.core.HolderLookup.Provider provider) {
+    super.saveSynced(tag, provider);
+    tag.put(TAG_ITEM, itemTank.writeToNBT(provider));
   }
 }

@@ -172,14 +172,14 @@ public class FluidCannonBlockEntity extends TankBlockEntity implements ITankInve
     super.load(tag);
     tank.readFromNBT(registries, tag.getCompoundOrEmpty(NBTTags.TANK));
     if (tag.contains(TAG_ITEM)) {
-      itemHandler.readFromNBT(tag.getCompoundOrEmpty(TAG_ITEM));
+      itemHandler.readFromNBT(registries, tag.getCompoundOrEmpty(TAG_ITEM));
     }
   }
 
   @Override
   protected void saveSynced(CompoundTag tag, net.minecraft.core.HolderLookup.Provider registries) {
     super.saveSynced(tag, registries);
-    tag.put(TAG_ITEM, itemHandler.writeToNBT());
+    tag.put(TAG_ITEM, itemHandler.writeToNBT(registries));
   }
 
 

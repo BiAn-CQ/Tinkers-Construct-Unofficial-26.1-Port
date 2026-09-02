@@ -56,13 +56,13 @@ public class HeaterBlockEntity extends NameableBlockEntity {
   public void load(CompoundTag tags) {
     super.load(tags);
     if (tags.contains(TAG_ITEM)) {
-      itemHandler.readFromNBT(tags.getCompoundOrEmpty(TAG_ITEM));
+      itemHandler.readFromNBT(registries, tags.getCompoundOrEmpty(TAG_ITEM));
     }
   }
 
   @Override
   public void saveAdditional(CompoundTag tags) {
     super.saveAdditional(tags);
-    tags.put(TAG_ITEM, itemHandler.writeToNBT());
+    tags.put(TAG_ITEM, itemHandler.writeToNBT(registries()));
   }
 }
