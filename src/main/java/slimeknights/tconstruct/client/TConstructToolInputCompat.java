@@ -119,7 +119,18 @@ public final class TConstructToolInputCompat {
     }
 
     ItemStack using = player.getUseItem();
-    double speed = player.getAttributeValue(TinkerAttributes.USE_ITEM_SPEED);
+    float vanillaMultiplier = using.getOrDefault(DataComponents.USE_EFFECTS, UseEffects.DEFAULT).speedMultiplier();
+    if (vanillaMultiplier <= 0) {
+      return;
+    }
+
+    // The attribute's default (0.2) is the old vanilla use speed.  Treat it
+    // as a Tinkers adjustment relative to the item's own 26.1 use effect so
+    // items such as the vanilla spear (which uses a multiplier of 1.0) keep
+    // their full movement speed.
+    double speed = vanillaMultiplier
+                   + player.getAttributeValue(TinkerAttributes.USE_ITEM_SPEED)
+                   - TinkerAttributes.USE_ITEM_SPEED.value().getDefaultValue();
     if (using.is(TinkerTags.Items.HELD)) {
       ToolStack tool = ToolStack.from(using);
       speed += tool.getStats().get(ToolStats.USE_ITEM_SPEED) - ToolStats.USE_ITEM_SPEED.getDefaultValue();
@@ -128,10 +139,7 @@ public final class TConstructToolInputCompat {
 
     ClientInput input = event.getInput();
     Vec2 movement = input.getMoveVector();
-    float vanillaMultiplier = using.getOrDefault(DataComponents.USE_EFFECTS, UseEffects.DEFAULT).speedMultiplier();
-    if (vanillaMultiplier > 0) {
-      input.moveVector = movement.scale((float)(speed / vanillaMultiplier));
-    }
+    input.moveVector = movement.scale((float)(speed / vanillaMultiplier));
   }
 
   @SubscribeEvent
