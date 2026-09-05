@@ -3,6 +3,7 @@ package slimeknights.tconstruct.client;
 import net.minecraft.client.renderer.entity.ArmorStandRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.state.ArmorStandRenderState;
+import net.minecraft.client.renderer.entity.state.HumanoidRenderState;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.decoration.ArmorStand;
 import slimeknights.tconstruct.TConstruct;
@@ -26,6 +27,11 @@ public class FancyArmorStandRendererCompat extends ArmorStandRenderer {
 
   public FancyArmorStandRendererCompat(EntityRendererProvider.Context context) {
     super(context);
+  }
+
+  /** Small stands retain adult armor texture layouts, regardless of their entity type. */
+  public static boolean usesBabyArmorTextures(HumanoidRenderState state) {
+    return state.isBaby && !(state instanceof ArmorStandRenderState);
   }
 
   @Override

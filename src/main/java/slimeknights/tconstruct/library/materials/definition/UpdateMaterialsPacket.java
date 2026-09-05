@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.tags.TagKey;
+import net.minecraft.world.item.Rarity;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import slimeknights.mantle.network.packet.IThreadsafePacket;
 import slimeknights.tconstruct.library.materials.MaterialRegistry;
@@ -30,9 +31,10 @@ public class UpdateMaterialsPacket implements IThreadsafePacket {
       MaterialId id = new MaterialId(buffer.readIdentifier());
       int tier = buffer.readVarInt();
       int sortOrder = buffer.readVarInt();
+      Rarity rarity = buffer.readEnum(Rarity.class);
       boolean craftable = buffer.readBoolean();
       boolean hidden = buffer.readBoolean();
-      materials.put(id, new Material(id.location(), tier, sortOrder, craftable, hidden));
+      materials.put(id, new Material(id.location(), tier, sortOrder, rarity, craftable, hidden));
     }
     this.materials = materials.build();
     // process redirects
@@ -55,6 +57,7 @@ public class UpdateMaterialsPacket implements IThreadsafePacket {
       buffer.writeIdentifier(material.getIdentifier().location());
       buffer.writeVarInt(material.getTier());
       buffer.writeVarInt(material.getSortOrder());
+      buffer.writeEnum(material.getRarity());
       buffer.writeBoolean(material.isCraftable());
       buffer.writeBoolean(material.isHidden());
     });

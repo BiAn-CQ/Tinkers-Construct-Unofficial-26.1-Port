@@ -10,7 +10,8 @@
   ],
   "client": [
     "client.CreativeModeInventoryScreenMixin",
-    "client.EquipmentLayerRendererMixin"
+    "client.EquipmentLayerRendererMixin",
+    "client.HumanoidArmorLayerMixin"
   ],
   "injectors": {
     "defaultRequire": 1

@@ -274,9 +274,11 @@ public class MaterialManager extends TinkerJsonResourceReloadListener {
 
       boolean isCraftable = Boolean.TRUE.equals(materialJson.getCraftable());
       boolean hidden = Boolean.TRUE.equals(materialJson.getHidden());
+      int tier = requireNonNullElse(materialJson.getTier(), 0);
+      net.minecraft.world.item.Rarity rarity = requireNonNullElse(materialJson.getRarity(), IMaterial.computeRarity(tier));
 
       // parse trait
-      return new Material(materialId, requireNonNullElse(materialJson.getTier(), 0), requireNonNullElse(materialJson.getSortOrder(), 100), isCraftable, hidden);
+      return new Material(materialId, tier, requireNonNullElse(materialJson.getSortOrder(), 100), rarity, isCraftable, hidden);
     } catch (Exception e) {
       log.error("Could not deserialize material {}. JSON: {}", materialId, jsonObject, e);
       return null;
