@@ -110,7 +110,8 @@ public class ProxyTankBlockEntity extends MantleBlockEntity implements IFluidTan
       player.setItemInHand(hand, inventory);
       itemTank.setStack(ItemStack.EMPTY);
     } else {
-      // the proxy tank prefers you giving it the same instance it had before on no change
+      // Preserve the stored value until setStack compares it and synchronizes the removal.
+      inventory = inventory.copy();
       player.addItem(inventory);
       itemTank.setStack(inventory);
     }

@@ -340,7 +340,7 @@ public abstract class CastingBlockEntity extends TableBlockEntity implements Wor
     if (this.lastCastingRecipe != null && this.lastCastingRecipe.value().matches(castingInventory, level)) {
       return this.lastCastingRecipe;
     }
-    RecipeHolder<ICastingRecipe> castingRecipe = slimeknights.tconstruct.library.utils.TinkerRecipeHelper.getRecipeManager(level).getRecipeFor(this.castingType, castingInventory, level).orElse(null);
+    RecipeHolder<ICastingRecipe> castingRecipe = slimeknights.tconstruct.library.utils.TinkerRecipeHelper.getRecipeFor(slimeknights.tconstruct.library.utils.TinkerRecipeHelper.getRecipeManager(level), this.castingType, castingInventory, level).orElse(null);
     if (castingRecipe != null) {
       this.lastCastingRecipe = castingRecipe;
     }

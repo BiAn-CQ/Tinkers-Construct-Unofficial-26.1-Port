@@ -25,6 +25,10 @@ import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.FluidType;
 import slimeknights.tconstruct.library.utils.ItemTransferUtil;
 import net.neoforged.neoforge.transfer.item.WorldlyContainerWrapper;
+import net.neoforged.neoforge.transfer.transaction.RootCommitJournal;
+import net.neoforged.neoforge.transfer.transaction.TransactionContext;
+import slimeknights.tconstruct.common.network.InventorySlotSyncPacket;
+import slimeknights.tconstruct.common.network.TinkerNetwork;
 import slimeknights.mantle.fluid.FluidTransferHelper;
 import slimeknights.mantle.fluid.transfer.FluidContainerTransferManager;
 import slimeknights.mantle.fluid.transfer.IFluidContainerTransfer;
@@ -56,6 +60,7 @@ public class CastingTankBlockEntity extends TableBlockEntity implements ITankBlo
   protected final FluidTankAnimated tank;
   /** Last redstone state of the block */
   private boolean lastRedstone = false;
+  private final RootCommitJournal itemTransferJournal = new RootCommitJournal(this::finishItemTransfer);
   /** Last comparator strength to reduce block updates */
   @Getter @Setter
   private int lastStrength = -1;
@@ -144,6 +149,31 @@ public class CastingTankBlockEntity extends TableBlockEntity implements ITankBlo
 
   private void setInputItem(ItemStack stack) {
     super.setItem(INPUT, stack);
+  }
+
+  @Override
+  public void setItem(int slot, ItemStack stack, boolean insideTransaction) {
+    if (insideTransaction) {
+      setItemWithoutUpdate(slot, stack);
+    } else {
+      setItem(slot, stack);
+    }
+  }
+
+  @Override
+  public void onTransfer(int slot, int amountChange, TransactionContext transaction) {
+    itemTransferJournal.updateSnapshots(transaction);
+  }
+
+  /** Processing may open another root transaction, so it must run after inventory commit. */
+  private void finishItemTransfer() {
+    tryToProcessItem();
+    if (level != null && !level.isClientSide()) {
+      for (int slot = 0; slot < getContainerSize(); slot++) {
+        TinkerNetwork.getInstance().sendToClientsAround(
+          new InventorySlotSyncPacket(getItem(slot), slot, worldPosition), level, worldPosition);
+      }
+    }
   }
 
   @Override

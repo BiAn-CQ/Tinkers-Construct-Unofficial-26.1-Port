@@ -67,7 +67,7 @@ public final class TinkerGadgets extends TinkerModule {
    */
   public static final ItemObject<PiggyBackPackItem> piggyBackpack = ITEMS.register("piggy_backpack", () -> new PiggyBackPackItem(itemProperties().stacksTo(16)));
   public static final EnumObject<FrameType,FancyItemFrameItem> itemFrame = ITEMS.registerEnum(FrameType.values(), "item_frame", (type) -> new FancyItemFrameItem(itemProperties(ITEM_PROPS), (world, pos, dir) -> new FancyItemFrameEntity(world, pos, dir, type)));
-  public static final EnumObject<StandType,FancyArmorStandItem> armorStand = ITEMS.registerEnum(StandType.values(), "armor_stand", type -> new FancyArmorStandItem(itemProperties(ITEM_PROPS).stacksTo(16), type));
+  public static final EnumObject<StandType,FancyArmorStandItem> armorStand = ITEMS.registerEnum(StandType.values(), "armor_stand", type -> new FancyArmorStandItem(itemProperties().stacksTo(16), type));
 
   // throwballs
   @Deprecated
