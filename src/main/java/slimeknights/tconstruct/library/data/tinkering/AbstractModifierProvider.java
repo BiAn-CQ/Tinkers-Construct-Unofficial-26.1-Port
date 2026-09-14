@@ -102,7 +102,13 @@ public abstract class AbstractModifierProvider extends GenericDataProvider {
   @Override
   public CompletableFuture<?> run(CachedOutput cache) {
     addModifiers();
-    return allOf(composableModifiers.entrySet().stream().map(entry -> saveJson(cache, entry.getKey().location(), entry.getValue().serialize())));
+    return allOf(composableModifiers.entrySet().stream().map(entry -> {
+      try {
+        return saveJson(cache, entry.getKey().location(), entry.getValue().serialize());
+      } catch (RuntimeException e) {
+        throw new RuntimeException("Failed to serialize modifier " + entry.getKey(), e);
+      }
+    }));
   }
 
   /** Result for composable too */

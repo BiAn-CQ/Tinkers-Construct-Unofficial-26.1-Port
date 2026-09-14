@@ -3423,6 +3423,11 @@
   "advancements.tconstruct.world.piggybackpack.description": "Поднимите свинью с помощью свино-рюкзака",
   "advancements.tconstruct.world.ancient_tools.title": "Археолог",
   "advancements.tconstruct.world.ancient_tools.description": "Откройте для себя все оригинальные типы древних инструментов",
+  "fluid_effect.tconstruct.extinguish": "Тушит огонь",
+  "material.tconstruct.skyslimeskin": "Слизневая кожа",
+  "material.tconstruct.skyslimeskin.flavor": "Порхай как бабочка, жаль как пчела.",
+  "material.tconstruct.enderslimeskin": "Эндер-слизневая кожа",
+  "material.tconstruct.enderslimeskin.encyclopedia.armor": "Имеет 25% шанс за каждый предмет случайным образом телепортировать атакующих.",
   "key.category.tconstruct.tconstruct": "Литейное дело",
   "jade.modName.tconstruct": "Tinkers' Construct"
 }

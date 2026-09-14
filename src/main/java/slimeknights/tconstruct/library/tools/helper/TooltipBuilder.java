@@ -221,4 +221,13 @@ public class TooltipBuilder {
     }
     return this;
   }
+
+  public TooltipBuilder addModifierInfo(slimeknights.tconstruct.library.modifiers.util.ModifierTooltip context, @Nullable RegistryAccess access) {
+    for (ModifierEntry entry : tool.getModifierList()) {
+      if (entry.getModifier().shouldDisplay(context)) {
+        tooltips.add(entry.getModifier().getDisplayName(tool, entry, access));
+      }
+    }
+    return this;
+  }
 }

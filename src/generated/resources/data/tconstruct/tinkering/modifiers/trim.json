@@ -19,5 +19,5 @@
       "hook": "tconstruct:trim_trait"
     }
   ],
-  "tooltip_display": "tinker_station"
+  "show_in_tooltips": "bonus_slot"
 }

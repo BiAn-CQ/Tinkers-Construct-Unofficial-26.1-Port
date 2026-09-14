@@ -29,10 +29,19 @@ import slimeknights.tconstruct.library.tools.part.IToolPart;
 import slimeknights.tconstruct.tables.TinkerTables;
 
 import java.util.BitSet;
+import slimeknights.mantle.recipe.IMultiRecipe;
+import slimeknights.tconstruct.library.materials.IMaterialRegistry;
+import slimeknights.tconstruct.library.materials.definition.IMaterial;
+import slimeknights.tconstruct.library.materials.definition.MaterialVariant;
+import slimeknights.tconstruct.library.recipe.tinkerstation.IDisplayToolModification;
+import slimeknights.tconstruct.library.tools.helper.ToolBuildHandler;
+import slimeknights.tconstruct.library.tools.nbt.ToolStack;
+import java.util.Arrays;
+import java.util.stream.Stream;
 import java.util.List;
 
 /** Recipe for swapping a single material on a tool given a specific tool part. Notably allows swapping a part into a tool on an index other than the first. */
-public class PartSwappingOverrideRecipe extends MaterialSwappingRecipe {
+public class PartSwappingOverrideRecipe extends MaterialSwappingRecipe implements slimeknights.mantle.recipe.IMultiRecipe<IDisplayToolModification> {
   public static final RecordLoadable<PartSwappingOverrideRecipe> LOADER = RecordLoadable.create(
     ContextKey.ID.requiredField(), TOOLS_FIELD, STACK_SIZE_FIELD,
     TinkerLoadables.TOOL_PART_ITEM.requiredField("part", r -> r.part),
@@ -136,5 +145,34 @@ public class PartSwappingOverrideRecipe extends MaterialSwappingRecipe {
   @Override
   public RecipeSerializer getSerializer() {
     return TinkerTables.fixedMaterialSwapping.get();
+  }
+  /* JEI */
+  private List<IDisplayToolModification> multiRecipes;
+
+  @Override
+  public List<IDisplayToolModification> getRecipes(net.minecraft.core.HolderLookup.Provider access) {
+    if (multiRecipes == null) {
+      IMaterialRegistry registry = MaterialRegistry.getInstance();
+      MaterialStatsId statType = part.getStatType();
+      // since we know the part ahead of time, only need to filter materials once
+      List<IMaterial> materials = registry.getVisibleMaterials().stream().filter(mat -> registry.getMaterialStats(mat.getIdentifier(), statType).isPresent()).toList();
+      // create a recipe per tool, then per index, matching standard part swapping
+      multiRecipes = Arrays.stream(slimeknights.tconstruct.library.recipe.TinkerIngredients.getItems(this.tools)).flatMap(stack -> {
+        ToolStack tool = ToolStack.from(stack);
+        // JEI only shows up to 5 slots
+        if (ToolMaterialHook.stats(tool.getDefinition()).size() > MAX_SLOTS) {
+          return Stream.empty();
+        }
+        return Arrays.stream(indices).filter(VALID_SLOT).<IDisplayToolModification>mapToObj(i -> new LinkedDisplayRecipe(i,
+          // one part per material
+          materials.stream().map(mat -> part.withMaterialForDisplay(mat.getIdentifier())).toList(),
+          // single tool with the material to swap left blank
+          List.of(withMaterial(tool.copy(), i, MaterialVariant.of(ToolBuildHandler.getRenderMaterial(i)))),
+          // one output per material
+          materials.stream().map(mat -> withMaterial(tool.copy(), i, MaterialVariant.of(mat))).toList()
+        ));
+      }).toList();
+    }
+    return multiRecipes;
   }
 }

@@ -1,15 +1,17 @@
 {
   "type": "tconstruct:crafting_shaped_materials",
   "category": "equipment",
-  "extra_materials": [
-    "tconstruct:leather"
-  ],
   "key": {
     "A": {
-      "neoforge:ingredient_type": "mantle:item_tag",
-      "tag": "c:leathers"
+      "neoforge:ingredient_type": "tconstruct:material_value",
+      "material": {
+        "type": "tconstruct:stat_type",
+        "stat_type": "tconstruct:cuirass"
+      },
+      "value": 1
     },
-    "B": {
+    "B": "minecraft:flint",
+    "C": {
       "neoforge:ingredient_type": "neoforge:compound",
       "children": [
         {
@@ -43,10 +45,10 @@
       ]
     }
   },
-  "parts": "B",
+  "parts": "AC",
   "pattern": [
-    "AAA",
-    "B B",
+    "ABA",
+    "C C",
     "A A"
   ],
   "result": {

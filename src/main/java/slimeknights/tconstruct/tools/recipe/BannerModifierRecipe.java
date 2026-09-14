@@ -1,7 +1,9 @@
 package slimeknights.tconstruct.tools.recipe;
 
 import lombok.Getter;
+import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
@@ -16,6 +18,8 @@ import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BannerPattern;
+import net.minecraft.world.level.block.entity.BannerPatterns;
 import net.minecraft.world.level.block.entity.BannerPatternLayers;
 import slimeknights.mantle.recipe.IMultiRecipe;
 import slimeknights.mantle.util.RegistryHelper;
@@ -43,6 +47,11 @@ import java.util.stream.Stream;
 
 /** Recipe to add a banner to a shield */
 public class BannerModifierRecipe implements ITinkerStationRecipe, IMultiRecipe<IDisplayModifierRecipe> {
+  public static final slimeknights.mantle.data.loadable.record.RecordLoadable<BannerModifierRecipe> LOADER = slimeknights.mantle.data.loadable.record.RecordLoadable.create(
+    slimeknights.mantle.data.loadable.field.ContextKey.ID.requiredField(),
+    slimeknights.mantle.data.loadable.common.IngredientLoadable.ALLOW_EMPTY.defaultField("clear_input", slimeknights.tconstruct.library.recipe.TinkerIngredients.EMPTY, false, r -> r.clearInput),
+    BannerModifierRecipe::new);
+  private final net.minecraft.world.item.crafting.Ingredient clearInput;
   @Getter
   private final Identifier id;
 
@@ -55,7 +64,12 @@ public class BannerModifierRecipe implements ITinkerStationRecipe, IMultiRecipe<
   }
 
   public BannerModifierRecipe(Identifier id) {
+    this(id, slimeknights.tconstruct.library.recipe.TinkerIngredients.EMPTY);
+  }
+
+  public BannerModifierRecipe(Identifier id, net.minecraft.world.item.crafting.Ingredient clearInput) {
     this.id = id;
+    this.clearInput = clearInput;
     ModifierRecipeLookup.addRecipeModifier(null, TinkerModifiers.banner);
   }
 
@@ -67,10 +81,14 @@ public class BannerModifierRecipe implements ITinkerStationRecipe, IMultiRecipe<
     }
     // slots must be only banner
     boolean found = false;
+    boolean clear = false;
     for (int i = 0; i < inv.getInputCount(); i++) {
       ItemStack input = inv.getInput(i);
       if (!input.isEmpty()) {
-        if (input.getItem() instanceof BannerItem) {
+        if (slimeknights.tconstruct.library.recipe.TinkerIngredients.matches(clearInput, input)) {
+          if (clear) return false;
+          clear = true;
+        } else if (input.getItem() instanceof BannerItem) {
           if (found) {
             // multiple banners
             return false;
@@ -112,6 +130,15 @@ public class BannerModifierRecipe implements ITinkerStationRecipe, IMultiRecipe<
 
     // get the banner data
     BannerPatternLayers patterns = banner.getOrDefault(DataComponents.BANNER_PATTERNS, BannerPatternLayers.EMPTY);
+    for (int i = 0; i < inv.getInputCount(); i++) {
+      if (!inv.getInput(i).isEmpty() && slimeknights.tconstruct.library.recipe.TinkerIngredients.matches(clearInput, inv.getInput(i))) {
+        if (patterns.layers().isEmpty()) {
+          return RecipeResult.failure(TConstruct.makeTranslationKey("recipe", "banner.clear.no_patterns"));
+        }
+        dye = null;
+        break;
+      }
+    }
 
     // apply the pattern
     BannerModule.copyPatterns(tool.getPersistentData(), key, dye, patterns);
@@ -144,21 +171,44 @@ public class BannerModifierRecipe implements ITinkerStationRecipe, IMultiRecipe<
             stack = stack.copyWithCount(Math.min(stack.getMaxStackSize(), DEFAULT_TOOL_STACK_SIZE));
           }
           return stack;
-        }).toList();
+      }).toList();
       if (!toolInputs.isEmpty()) {
         Identifier id = getId();
-        displayRecipes = RegistryHelper.getTagValueStream(BuiltInRegistries.ITEM, ItemTags.BANNERS)
+        Stream<IDisplayModifierRecipe> recipes = RegistryHelper.getTagValueStream(BuiltInRegistries.ITEM, ItemTags.BANNERS)
           .flatMap(item -> {
             if (item instanceof BannerItem banner) {
-              return Stream.of(new DisplayRecipe(id, toolInputs, banner));
+              return Stream.of(new DisplayRecipe(id, toolInputs, banner.getColor(), List.of(new ItemStack(banner)), List.of(), BannerPatternLayers.EMPTY));
             }
             return Stream.empty();
-          }).collect(Collectors.toList());
+          });
+        // If a clear ingredient exists, add a separate JEI recipe showing the clear operation.
+        if (clearInput != slimeknights.tconstruct.library.recipe.TinkerIngredients.EMPTY) {
+          BannerPatternLayers samplePatterns = createSamplePatterns(access);
+          List<ItemStack> patternedBanners = RegistryHelper.getTagValueStream(BuiltInRegistries.ITEM, ItemTags.BANNERS)
+            .map(item -> {
+              ItemStack stack = new ItemStack(item);
+              stack.set(DataComponents.BANNER_PATTERNS, samplePatterns);
+              return stack;
+            }).toList();
+          recipes = Stream.concat(recipes, Stream.of(new DisplayRecipe(
+            id, toolInputs, null, patternedBanners, List.of(slimeknights.tconstruct.library.recipe.TinkerIngredients.getItems(clearInput)), samplePatterns
+          )));
+        }
+        displayRecipes = recipes.collect(Collectors.toList());
       } else {
         displayRecipes = List.of();
       }
     }
     return displayRecipes;
+  }
+
+  /** Creates one visible pattern for the JEI clear-banner example. */
+  private static BannerPatternLayers createSamplePatterns(HolderLookup.Provider access) {
+    Holder<BannerPattern> cross = access.lookupOrThrow(Registries.BANNER_PATTERN).get(BannerPatterns.CROSS).orElse(null);
+    if (cross == null) {
+      return BannerPatternLayers.EMPTY;
+    }
+    return new BannerPatternLayers(List.of(new BannerPatternLayers.Layer(cross, DyeColor.BLACK)));
   }
 
   /** Display recipe instance */
@@ -169,21 +219,26 @@ public class BannerModifierRecipe implements ITinkerStationRecipe, IMultiRecipe<
     @Getter
     private final Identifier recipeId;
     private final List<ItemStack> banner;
+    private final List<ItemStack> clearInput;
     @Getter
     private final List<ItemStack> toolWithoutModifier;
     @Getter
     private final List<ItemStack> toolWithModifier;
     @Getter
     private final Component variant;
-    public DisplayRecipe(Identifier recipeId, List<ItemStack> tools, BannerItem banner) {
+    private final DyeColor dye;
+    private final BannerPatternLayers patterns;
+    public DisplayRecipe(Identifier recipeId, List<ItemStack> tools, @Nullable DyeColor dye, List<ItemStack> banner,
+                         List<ItemStack> clearInput, BannerPatternLayers patterns) {
       this.recipeId = recipeId;
       this.toolWithoutModifier = tools;
-      this.banner = List.of(new ItemStack(banner));
-      DyeColor dye = banner.getColor();
-      this.variant = Component.translatable("color.minecraft." + dye.getSerializedName());
+      this.banner = banner;
+      this.clearInput = clearInput;
+      this.dye = dye;
+      this.variant = dye != null ? Component.translatable("color.minecraft." + dye.getSerializedName()) : TConstruct.makeTranslation("recipe", "banner.clear");
+      this.patterns = patterns;
 
       ModifierId key = RESULT.getId();
-      BannerPatternLayers patterns = BannerPatternLayers.EMPTY;
       List<ModifierEntry> results = List.of(RESULT);
       toolWithModifier = tools.stream().map(stack -> IDisplayModifierRecipe.withModifiers(stack, DEFAULT_TOOL_STACK_SIZE, results, data -> BannerModule.copyPatterns(data, key, dye, patterns))).toList();
     }
@@ -195,7 +250,7 @@ public class BannerModifierRecipe implements ITinkerStationRecipe, IMultiRecipe<
 
     @Override
     public int getInputCount() {
-      return 1;
+      return clearInput.isEmpty() ? 1 : 2;
     }
 
     @Override
@@ -203,12 +258,40 @@ public class BannerModifierRecipe implements ITinkerStationRecipe, IMultiRecipe<
       if (slot == 0) {
         return banner;
       }
+      if (slot == 1) {
+        return clearInput;
+      }
       return List.of();
     }
 
     @Override
     public IntRange getLevel() {
       return LEVELS;
+    }
+
+    @Override
+    public boolean isTool(ItemStack check) {
+      return check.is(TinkerTags.Items.BANNER);
+    }
+
+    @Nullable
+    @Override
+    public Component canApply(slimeknights.tconstruct.library.tools.nbt.IToolStackView tool) {
+      return null;
+    }
+
+    @Override
+    public void applyModifier(ToolStack tool) {
+      ModifierId modifier = TinkerModifiers.banner.getId();
+      BannerModule.copyPatterns(tool.getPersistentData(), modifier, dye, patterns);
+      if (tool.getModifierLevel(modifier) == 0) {
+        tool.addModifier(modifier, 1);
+      }
+    }
+
+    @Override
+    public boolean shouldDisplayValidate() {
+      return false;
     }
   }
 }

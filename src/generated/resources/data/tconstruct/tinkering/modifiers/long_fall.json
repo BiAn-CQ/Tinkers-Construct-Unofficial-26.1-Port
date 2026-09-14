@@ -5,19 +5,19 @@
       "type": "tconstruct:requirements",
       "display_modifiers": [
         {
-          "level": 2,
-          "name": "tconstruct:feather_falling"
+          "level": 4,
+          "name": "tconstruct:feather_fall"
         }
       ],
       "requirement": {
         "type": "tconstruct:has_modifier",
         "check": "all",
         "level": {
-          "min": 2
+          "min": 4
         },
         "modifier": {
           "type": "tconstruct:single",
-          "modifier": "tconstruct:feather_falling"
+          "modifier": "tconstruct:feather_fall"
         }
       },
       "translation_key": "modifier.tconstruct.long_fall.requirements"
@@ -29,6 +29,5 @@
         "tag": "tconstruct:protection/fall"
       }
     }
-  ],
-  "tooltip_display": "always"
+  ]
 }

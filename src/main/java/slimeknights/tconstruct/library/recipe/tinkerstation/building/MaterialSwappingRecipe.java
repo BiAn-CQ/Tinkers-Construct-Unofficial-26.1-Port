@@ -34,6 +34,14 @@ import slimeknights.tconstruct.library.tools.nbt.ToolStack;
 
 import java.util.BitSet;
 import java.util.List;
+import slimeknights.tconstruct.library.recipe.tinkerstation.IDisplayToolModification;
+import slimeknights.tconstruct.library.materials.MaterialRegistry;
+import slimeknights.tconstruct.library.tools.nbt.MaterialNBT;
+import slimeknights.tconstruct.library.tools.helper.ToolBuildHandler;
+import slimeknights.tconstruct.library.client.materials.MaterialTooltipCache;
+import java.util.function.IntPredicate;
+import java.util.Arrays;
+import javax.annotation.Nullable;
 
 /** Common logic for different implementations of material swapping. */
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
@@ -184,5 +192,137 @@ public abstract class MaterialSwappingRecipe implements ITinkerStationRecipe {
     }
     // shrink remaining requirements
     ModifierRecipe.updateInputs(inv, extraRequirements, used);
+  }
+  /* JEI helpers */
+  /** Maximum slot index supported by JEI */
+  protected static final int MAX_SLOTS = 5;
+  /** Int stream filter to validate the slot index */
+  protected static IntPredicate VALID_SLOT = i -> i < MAX_SLOTS;
+
+  /** Creates a new item stack with the given material. Will modify {@code tool}. */
+  public ItemStack withMaterial(ItemStack tool, int index, MaterialVariant material) {
+    return withMaterial(ToolStack.from(tool), index, material);
+  }
+
+  /** Creates a new item stack with the given material. Will modify {@code tool}. */
+  public ItemStack withMaterial(ToolStack tool, int index, MaterialVariant material) {
+    return withMaterial(tool, index, material, maxStackSize);
+  }
+
+  /** Creates a new item stack with the given material. Will modify {@code tool}. */
+  public static ItemStack withMaterial(ItemStack tool, int index, MaterialVariant material, int maxStackSize) {
+    return withMaterial(ToolStack.from(tool), index, material, maxStackSize);
+  }
+
+  /** Sets the materials on the given tool using the passed material */
+  public static void setMaterials(ToolStack tool, int index, MaterialVariant material) {
+    if (tool.getMaterials().isEmpty()) {
+      MaterialNBT.Builder builder = MaterialNBT.builder();
+      List<MaterialStatsId> requirements = ToolMaterialHook.stats(tool.getDefinition());
+      for (int i = 0; i < requirements.size(); i++) {
+        if (i == index) {
+          builder.add(material);
+        } else {
+          builder.add(MaterialRegistry.firstWithStatType(requirements.get(i)));
+        }
+      }
+      tool.setMaterials(builder.build());
+    } else {
+      // if it has materials already just swap the one to update
+      tool.replaceMaterial(index, material);
+    }
+  }
+
+  /** Creates a new item stack with the given material. Will modify {@code tool}. */
+  public static ItemStack withMaterial(ToolStack tool, int index, MaterialVariant material, int maxStackSize) {
+    setMaterials(tool, index, material);
+    return tool.createStack(Math.min(maxStackSize, tool.createStack().getMaxStackSize()));
+  }
+
+  /** Recipe mapping a single ingredient to a part */
+  @RequiredArgsConstructor
+  protected class DisplayRecipe implements IDisplayToolModification {
+    public static final Component TITLE = TConstruct.makeTranslation("recipe", "part_swapping");
+    public static final Component TOOLTIP = TConstruct.makeTranslation("recipe", "part_swapping.tooltip");
+
+    protected final int index;
+    protected final List<ItemStack> input;
+    @Getter
+    protected final List<ItemStack> toolWithoutModifier, toolWithModifier;
+
+    @Override
+    public Component getTitle() {
+      return TITLE;
+    }
+
+    @Override
+    public Component getTooltip() {
+      return TOOLTIP;
+    }
+
+    @Override
+    public Identifier getRecipeId() {
+      return getId();
+    }
+
+    @Override
+    public int getInputCount() {
+      // need 1 input for the part, and 1 for each extra requirement
+      // if it's just the part by itself though, ensure we have an index for each location before it
+      return Math.min(index, extraRequirements.size()) + 1;
+    }
+
+    @Override
+    public List<ItemStack> getDisplayItems(int slot) {
+      if (slot == index) {
+        return input;
+      }
+      // place extra requirements around the part by offsetting if the slot is after the index
+      if (slot > index) {
+        slot--;
+      }
+      if (slot < extraRequirements.size()) {
+        return extraRequirements.get(slot).getMatchingStacks();
+      }
+      return List.of();
+    }
+  }
+
+  /** Display recipe linking the input to the output slot */
+  protected class LinkedDisplayRecipe extends DisplayRecipe {
+    private final int[] outputLinks;
+    public LinkedDisplayRecipe(int index, List<ItemStack> input, List<ItemStack> toolWithoutModifier, List<ItemStack> toolWithModifier) {
+      super(index, input, toolWithoutModifier, toolWithModifier);
+      this.outputLinks = new int[] {index};
+    }
+
+    @Override
+    public int[] linkToOutput() {
+      return outputLinks;
+    }
+  }
+
+  /** Overrides the title for the display recipe */
+  protected class MaterialDisplayRecipe extends DisplayRecipe {
+    public static final Component TITLE = TConstruct.makeTranslation("recipe", "material_swapping");
+    public static final Component TOOLTIP = TConstruct.makeTranslation("recipe", "material_swapping.tooltip");
+
+    @Nullable
+    @Getter
+    private final Component variant;
+    public MaterialDisplayRecipe(@Nullable Component variant, int index, List<ItemStack> input, List<ItemStack> toolWithoutModifier, List<ItemStack> toolWithModifier) {
+      super(index, input, toolWithoutModifier, toolWithModifier);
+      this.variant = variant;
+    }
+
+    @Override
+    public Component getTitle() {
+      return TITLE;
+    }
+
+    @Override
+    public Component getTooltip() {
+      return TOOLTIP;
+    }
   }
 }

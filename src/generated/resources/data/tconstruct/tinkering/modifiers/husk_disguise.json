@@ -5,6 +5,5 @@
       "type": "tconstruct:mob_disguise",
       "entity": "minecraft:husk"
     }
-  ],
-  "tooltip_display": "always"
+  ]
 }

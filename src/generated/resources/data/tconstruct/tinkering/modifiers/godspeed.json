@@ -3,9 +3,9 @@
   "modules": [
     {
       "type": "tconstruct:attribute",
-      "attribute": "minecraft:movement_speed",
-      "each_level": 0.025,
-      "flat": 0.025,
+      "attribute": "minecraft:attack_speed",
+      "each_level": 0.015,
+      "flat": 0.01,
       "operation": "add_multiplied_total",
       "slots": [
         "mainhand",
@@ -21,9 +21,9 @@
     },
     {
       "type": "tconstruct:attribute",
-      "attribute": "minecraft:attack_speed",
-      "each_level": 0.015,
-      "flat": 0.01,
+      "attribute": "minecraft:movement_speed",
+      "each_level": 0.025,
+      "flat": 0.025,
       "operation": "add_multiplied_total",
       "slots": [
         "mainhand",
@@ -55,6 +55,5 @@
       ],
       "tooltip_style": "percent"
     }
-  ],
-  "tooltip_display": "always"
+  ]
 }

@@ -1,4 +1,9 @@
 package slimeknights.tconstruct.plugin.jei.melting;
+import mezz.jei.api.gui.builder.IRecipeSlotBuilder;
+import net.neoforged.neoforge.fluids.FluidStack;
+import slimeknights.tconstruct.plugin.jei.util.CategoryUtil;
+import java.util.ArrayList;
+import java.util.List;
 
 import lombok.Getter;
 import mezz.jei.api.constants.VanillaTypes;
@@ -13,7 +18,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.recipe.FluidValues;
-import slimeknights.tconstruct.library.recipe.melting.MeltingRecipe;
+import slimeknights.tconstruct.library.recipe.melting.IDisplayableMeltingRecipe;
 import slimeknights.tconstruct.plugin.jei.AlloyRecipeCategory;
 import slimeknights.tconstruct.plugin.jei.TConstructJEIConstants;
 import slimeknights.tconstruct.smeltery.TinkerSmeltery;
@@ -33,7 +38,7 @@ public class FoundryCategory extends AbstractMeltingCategory {
   }
 
   @Override
-  public RecipeType<MeltingRecipe> getRecipeType() {
+  public RecipeType<IDisplayableMeltingRecipe> getRecipeType() {
     return TConstructJEIConstants.FOUNDRY;
   }
 
@@ -43,12 +48,36 @@ public class FoundryCategory extends AbstractMeltingCategory {
   }
 
   @Override
-  public void setRecipe(IRecipeLayoutBuilder builder, MeltingRecipe recipe, IFocusGroup focuses) {
+  public void setRecipe(IRecipeLayoutBuilder builder, IDisplayableMeltingRecipe recipe, IFocusGroup focuses) {
     // input
-    builder.addSlot(RecipeIngredientRole.INPUT, 24, 18).addIngredients(recipe.getInput());
+    List<ItemStack> inputs = recipe.getInputs();
+    IRecipeSlotBuilder inputSlot = builder.addInputSlot(24, 18).addItemStacks(inputs);
 
     // output fluid
-    AlloyRecipeCategory.drawVariableFluids(builder, RecipeIngredientRole.OUTPUT, 96, 4, 32, 32, recipe.getOutputWithByproducts(), FluidValues.METAL_BLOCK, Function.identity(), list -> MeltingFluidCallback.INSTANCE);
+    List<List<FluidStack>> fluids = recipe.getOutputWithByproducts();
+    List<IRecipeSlotBuilder> slots = new ArrayList<>(fluids.size() + 1);
+    CategoryUtil.drawMultipleFluids(builder, i -> RecipeIngredientRole.OUTPUT, 96, 4, 32, 32, recipe.getOutputWithByproducts(), FluidValues.METAL_BLOCK, Function.identity(), list -> MeltingFluidCallback.INSTANCE, slots::add);
+    // first one is the main output, should always be present
+    slots.get(0).setSlotName(FLUID_SLOT);
+
+    // apply focus links to anything matching the first output size
+    int size = fluids.get(0).size();
+    if (fluids.get(0).size() > 1) {
+      // remove any byproducts that have the wrong size
+      for (int i = fluids.size() - 1; i >= 1; i--) {
+        if (fluids.get(i).size() != size) {
+          slots.remove(i);
+        }
+      }
+      // add input if its size matches
+      if (inputs.size() == size) {
+        slots.add(inputSlot);
+      }
+      // link slots
+      if (slots.size() > 1) {
+        builder.createFocusLink(slots.toArray(IRecipeSlotBuilder[]::new));
+      }
+    }
 
     // fuel
     builder.addSlot(RecipeIngredientRole.RENDER_ONLY, 4, 4)

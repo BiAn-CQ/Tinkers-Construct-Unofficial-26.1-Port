@@ -1,4 +1,5 @@
 package slimeknights.tconstruct.library.recipe.melting;
+import net.minecraft.world.item.ItemStack;
 
 import slimeknights.tconstruct.library.recipe.TinkerIngredients;
 
@@ -29,7 +30,7 @@ import java.util.stream.Stream;
 /**
  * Recipe to melt an ingredient into a specific fuel
  */
-public class MeltingRecipe implements IMeltingRecipe {
+public class MeltingRecipe implements IDisplayableMeltingRecipe, IMeltingRecipe {
   /* Reusable fields */
   protected static final LoadableField<Ingredient, MeltingRecipe> INPUT = IngredientLoadable.DISALLOW_EMPTY.requiredField("ingredient", MeltingRecipe::getInput);
   protected static final LoadableField<FluidOutput, MeltingRecipe> OUTPUT = FluidOutput.Loadable.REQUIRED.requiredField("result", r -> r.output);
@@ -139,6 +140,15 @@ public class MeltingRecipe implements IMeltingRecipe {
       return output.get();
     });
   }
+
+  @Override
+  public Identifier getRecipeId() { return id; }
+
+  @Override
+  public List<ItemStack> getInputs() { return TinkerIngredients.getItemList(input); }
+
+  @Override
+  public List<FluidStack> getOutputs() { return List.of(getOutput()); }
 
   /** Gets the recipe output for foundry display in JEI */
   public List<List<FluidStack>> getOutputWithByproducts() {

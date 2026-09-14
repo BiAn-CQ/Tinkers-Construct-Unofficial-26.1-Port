@@ -242,6 +242,9 @@ public class MaterialRecipeProvider extends BaseRecipeProvider implements IMater
     // slimesuit
     materialRecipe(consumer, MaterialIds.enderslime, TinkerIngredients.of(TinkerWorld.enderGeode), 1, 1, folder + "enderslime");
     materialRecipe(consumer, MaterialIds.honey,      TinkerIngredients.of(Items.HONEY_BOTTLE), 1, 1, folder + "honey");
+    materialRecipe(consumer, MaterialIds.honey, TinkerIngredients.of(Blocks.HONEY_BLOCK), 4, 1, folder + "honey_block");
+    materialRecipe(consumer, MaterialIds.venom, TinkerIngredients.of(Items.SPIDER_EYE), 1, 1, folder + "venom_eye");
+    materialRecipe(consumer, MaterialIds.venom, TinkerIngredients.of(Items.FERMENTED_SPIDER_EYE), 1, 1, folder + "venom_fermented");
     materialRecipe(consumer, MaterialIds.phantom,    TinkerIngredients.of(Items.PHANTOM_MEMBRANE), 1, 1, folder + "phantom_membrane");
     materialRecipe(consumer, MaterialIds.cheese,     TinkerIngredients.of(TinkerCommons.cheeseIngot), 1, 1, folder + "cheese_ingot");
     materialRecipe(consumer, MaterialIds.cheese,     TinkerIngredients.of(TinkerCommons.cheeseBlock), 4, 1, folder + "cheese_block");
@@ -377,6 +380,7 @@ public class MaterialRecipeProvider extends BaseRecipeProvider implements IMater
     materialMeltingCasting(consumer, MaterialIds.clay,       TinkerFluids.moltenClay,  FluidValues.BRICK,    folder);
     materialMeltingCasting(consumer, MaterialIds.enderPearl, TinkerFluids.moltenEnder, FluidValues.SLIMEBALL, folder);
     materialMeltingCasting(consumer, MaterialIds.honey,      TinkerFluids.honey,       FluidValues.BOTTLE,    folder);
+    materialMeltingCasting(consumer, MaterialIds.venom, TinkerFluids.venom, FluidValues.BOTTLE, folder);
     // slimesuit - repair kits
     materialMeltingCasting(consumer, MaterialIds.glass, TinkerFluids.moltenGlass, FluidValues.GLASS_PANE, folder);
   }

@@ -186,7 +186,7 @@ public abstract class ToolTableScreen<T extends BlockEntity, C extends TabbedCon
                                            .collect(Collectors.toMap(ModifierEntry::getModifier, ModifierEntry::getLevel, Integer::sum));
       for (ModifierEntry entry : tool.getModifierList()) {
         Modifier mod = entry.getModifier();
-        if (mod.shouldDisplay(true)) {
+        if (mod.shouldDisplay(slimeknights.tconstruct.library.modifiers.util.ModifierTooltip.TINKER_STATION)) {
           int level = entry.getLevel() - upgrades.getOrDefault(mod, 0);
           if (level > 0) {
             ModifierEntry trait = new ModifierEntry(entry.getModifier(), level);
@@ -207,7 +207,7 @@ public abstract class ToolTableScreen<T extends BlockEntity, C extends TabbedCon
       }
       for (ModifierEntry entry : modifiers) {
         Modifier mod = entry.getModifier();
-        if (mod.shouldDisplay(true)) {
+        if (mod.shouldDisplay(slimeknights.tconstruct.library.modifiers.util.ModifierTooltip.TINKER_STATION)) {
           modifierNames.add(mod.getDisplayName(tool, entry, access));
           modifierTooltip.add(mod.getDescription(tool, entry));
         }

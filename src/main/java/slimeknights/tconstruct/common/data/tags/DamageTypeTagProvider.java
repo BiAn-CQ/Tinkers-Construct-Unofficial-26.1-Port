@@ -76,6 +76,14 @@ public class DamageTypeTagProvider extends DamageTypeTagsProvider {
   @SuppressWarnings("unchecked")
   @Override
   protected void addTags(Provider pProvider) {
+    tag(slimeknights.tconstruct.common.TinkerTags.DamageTypes.RUGGED_TERRAIN)
+      .add(net.minecraft.world.damagesource.DamageTypes.HOT_FLOOR, net.minecraft.world.damagesource.DamageTypes.CACTUS,
+        net.minecraft.world.damagesource.DamageTypes.SWEET_BERRY_BUSH, net.minecraft.world.damagesource.DamageTypes.STALAGMITE,
+        slimeknights.tconstruct.common.TinkerDamageTypes.KNIGHTMETAL);
+    tag(slimeknights.tconstruct.common.TinkerTags.DamageTypes.RUGGED_ATTACKS)
+      .add(CRAMMING, STING, net.minecraft.world.damagesource.DamageTypes.THORNS);
+    addOptional(slimeknights.tconstruct.common.TinkerTags.DamageTypes.RUGGED_TERRAIN, "twilightforest", "knightmetal", "fiery");
+    addOptional(slimeknights.tconstruct.common.TinkerTags.DamageTypes.RUGGED_ATTACKS, "twilightforest", "thorns");
     tag(IS_FIRE).add(SMELTERY_HEAT).add(FLUID_FIRE.values());
     tag(IS_EXPLOSION).add(SELF_DESTRUCT).add(EXPLOSION.values()).add(MOB_EXPLOSION.values());
     tag(IS_FREEZING).add(FLUID_COLD.values());

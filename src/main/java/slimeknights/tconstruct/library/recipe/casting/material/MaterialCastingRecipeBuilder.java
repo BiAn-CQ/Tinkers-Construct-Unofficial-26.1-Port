@@ -49,6 +49,13 @@ public class MaterialCastingRecipeBuilder extends AbstractRecipeBuilder<Material
   private IJsonPredicate<MaterialVariantId> allowedMaterials = MaterialPredicate.ANY;
   /** Extra materials for tool casting. Has no impact on part casting. */
   private final List<MaterialVariantId> extraMaterials = new ArrayList<>();
+  private boolean fluidSwapping = true;
+
+  /** Controls whether tool casting also permits replacing materials with fluid. */
+  public MaterialCastingRecipeBuilder fluidSwapping(boolean enabled) {
+    this.fluidSwapping = enabled;
+    return this;
+  }
 
   /**
    * Creates a new material casting recipe for an basin recipe
@@ -177,7 +184,7 @@ public class MaterialCastingRecipeBuilder extends AbstractRecipeBuilder<Material
     if (result != null) {
       saveRecipe(consumer, id, new MaterialCastingRecipe(recipeSerializer, id, group, cast, itemCost, result, allowedMaterials, castPurpose != CastPurpose.CATALYST, switchSlots), advancementId);
     } else if (resultTool != null) {
-      saveRecipe(consumer, id, new ToolCastingRecipe(recipeSerializer, id, group, cast, itemCost, castPurpose, resultTool, allowedMaterials, extraMaterials), advancementId);
+      saveRecipe(consumer, id, new ToolCastingRecipe(recipeSerializer, id, group, cast, itemCost, castPurpose, resultTool, allowedMaterials, extraMaterials, fluidSwapping), advancementId);
     } else {
       throw new IllegalArgumentException("Must have either result or result tool");
     }

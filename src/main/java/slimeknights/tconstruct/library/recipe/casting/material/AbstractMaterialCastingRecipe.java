@@ -63,6 +63,11 @@ public abstract class AbstractMaterialCastingRecipe extends AbstractCastingRecip
   }
 
   /** Resizes the list of the fluids with respect to the item cost */
+  protected FluidStack resizeFluid(FluidStack fluid) {
+    return itemCost == 1 ? fluid : fluid.copyWithAmount(fluid.getAmount() * itemCost);
+  }
+
+  /** Resizes the list of the fluids with respect to the item cost */
   protected List<FluidStack> resizeFluids(List<FluidStack> fluids) {
     if (itemCost != 1) {
       return fluids.stream()

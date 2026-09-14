@@ -36,7 +36,6 @@ sourceSets.main {
     // 26.1.2 build. Restore them to the artifact when those APIs become available.
     java.exclude(
         'slimeknights/tconstruct/plugin/DietPlugin.java',
-        'slimeknights/tconstruct/plugin/DummmmmmyPlugin.java',
         'slimeknights/tconstruct/plugin/ImmersiveEngineeringPlugin.java',
         'slimeknights/tconstruct/common/data/FakeRegistryEntry.java'
     )
@@ -150,6 +149,7 @@ dependencies {
     // branch.  Keep the API compile-only and load the full mod only in local
     // development runs; packaged users may install JEI independently.
     compileOnly "mezz.jei:jei-${minecraft_version}-neoforge-api:${jei_version}"
+    testImplementation "mezz.jei:jei-${minecraft_version}-neoforge-api:${jei_version}"
     localRuntime "mezz.jei:jei-${minecraft_version}-neoforge:${jei_version}"
 
     // Crafting Tweaks publishes a native 26.1 API, so keep its integration

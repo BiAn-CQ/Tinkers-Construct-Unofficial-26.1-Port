@@ -43,6 +43,8 @@ public class ToolBuildingCategory implements TinkersRecipeCategory<ToolBuildingR
   private static final int WIDTH = 134;
   private static final int HEIGHT = 66;
   private static final int ITEM_SIZE = 16;
+  private static final String PART_SLOT_PREFIX = "part_";
+  private static final String RESULT_SLOT = "result";
 
   public ToolBuildingCategory(IGuiHelper guiHelper) {
     this.icon = guiHelper.createDrawableItemStack(TinkerTools.pickaxe.get().getRenderTool());
@@ -56,7 +58,16 @@ public class ToolBuildingCategory implements TinkersRecipeCategory<ToolBuildingR
   @Override
   public void setRecipe(IRecipeLayoutBuilder builder, ToolBuildingRecipe recipe, IFocusGroup focuses) {
     List<List<ItemStack>> partsAndExtras = Stream.concat(recipe.getAllToolParts().stream(),
-      recipe.getExtraRequirements().stream().map(ingredient -> Arrays.asList(slimeknights.tconstruct.library.recipe.TinkerIngredients.getItems(ingredient)))).toList();
+      recipe.getExtraRequirements().stream().map(ingredient -> Arrays.asList(slimeknights.tconstruct.library.recipe.TinkerIngredients.getItems(ingredient)))).collect(java.util.stream.Collectors.toList());
+    int partCount = recipe.getAllToolParts().size();
+    ItemStack focus = slimeknights.tconstruct.plugin.jei.util.CategoryUtil.getResultItemFocus(focuses);
+    if (!focus.isEmpty()) {
+      var materials = slimeknights.tconstruct.library.tools.nbt.MaterialIdNBT.from(focus);
+      var parts = recipe.getToolParts();
+      for (int i = 0; i < partCount; i++) {
+        partsAndExtras.set(i, List.of(parts.get(i).withMaterial(materials.getMaterial(i))));
+      }
+    }
     List<LayoutSlot> layoutSlots = recipe.getLayoutSlots();
 
     int missingSlots = partsAndExtras.size() - layoutSlots.size();
@@ -73,6 +84,7 @@ public class ToolBuildingCategory implements TinkersRecipeCategory<ToolBuildingR
     for (int i = 0; i < layoutSlots.size(); i++) {
       IRecipeSlotBuilder slot = builder.addSlot(RecipeIngredientRole.INPUT, layoutSlots.get(i).getX() + X_OFFSET, layoutSlots.get(i).getY() + Y_OFFSET)
              .addItemStacks(partsAndExtras.get(i));
+      if (i < partCount) slot.setSlotName(PART_SLOT_PREFIX + i);
       if (i == 0) {
         firstSlot = slot;
       }
@@ -80,8 +92,8 @@ public class ToolBuildingCategory implements TinkersRecipeCategory<ToolBuildingR
 
     // create a focus link between result and first slot if same size
     List<ItemStack> result = recipe.getDisplayOutput();
-    IRecipeSlotBuilder resultSlot = builder.addSlot(RecipeIngredientRole.OUTPUT, WIDTH - 26, 23).addItemStacks(result);
-    if (result.size() > 1 && partsAndExtras.get(0).size() == result.size()) {
+    IRecipeSlotBuilder resultSlot = builder.addSlot(RecipeIngredientRole.OUTPUT, WIDTH - 26, 23).addItemStacks(result).setSlotName(RESULT_SLOT).setOutputSlotBackground();
+    if (partCount == 0 && result.size() > 1 && !partsAndExtras.isEmpty() && partsAndExtras.get(0).size() == result.size()) {
       builder.createFocusLink(resultSlot, firstSlot);
     }
 
@@ -122,6 +134,21 @@ public class ToolBuildingCategory implements TinkersRecipeCategory<ToolBuildingR
     if (recipe.requiresAnvil()) {
       this.anvil.draw(graphics, 76, 44);
     }
+  }
+
+  @Override
+  public void onDisplayedIngredientsUpdate(ToolBuildingRecipe recipe, List<mezz.jei.api.gui.ingredient.IRecipeSlotDrawable> slots, IFocusGroup focuses) {
+    var output = slimeknights.tconstruct.plugin.jei.util.CategoryUtil.findSlot(slots, RESULT_SLOT);
+    var inputs = slimeknights.tconstruct.plugin.jei.util.CategoryUtil.filterSlots(slots, PART_SLOT_PREFIX);
+    if (output == null || inputs.isEmpty()) return;
+    var parts = recipe.getToolParts();
+    List<slimeknights.tconstruct.library.materials.definition.MaterialVariantId> variants = new ArrayList<>();
+    for (int i = 0; i < parts.size(); i++) {
+      variants.add(parts.get(i).getMaterial(inputs.get(i).getDisplayedItemStack().orElse(ItemStack.EMPTY)));
+    }
+    variants.addAll(recipe.getExtraMaterials());
+    output.createDisplayOverrides().addItemStack(new slimeknights.tconstruct.library.tools.nbt.MaterialIdNBT(variants)
+      .updateStack(new ItemStack(recipe.getOutput())));
   }
 
   @Override

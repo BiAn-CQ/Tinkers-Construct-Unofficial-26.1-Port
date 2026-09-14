@@ -150,6 +150,28 @@ public class SwappableModifierRecipe extends ModifierRecipe {
   }
 
 
+  @Nullable
+  @Override
+  public Component canApply(slimeknights.tconstruct.library.tools.nbt.IToolStackView tool) {
+    ModifierId result = this.result.getId();
+    if (tool.getUpgrades().getLevel(result) == 0) {
+      return checkSlots(tool, getSlots());
+    }
+    if (tool.getPersistentData().getString(result).equals(value)) {
+      return Component.translatable(ALREADY_PRESENT, this.result.get().getDisplayName(), variant);
+    }
+    return null;
+  }
+
+  @Override
+  public void applyModifier(ToolStack tool) {
+    ModifierId result = this.result.getId();
+    if (tool.getUpgrades().getLevel(result) == 0) {
+      super.applyModifier(tool);
+    }
+    tool.getPersistentData().putString(result, value);
+  }
+
   /** Methods of formatting the variant string */
   @FunctionalInterface
   public interface VariantFormatter {

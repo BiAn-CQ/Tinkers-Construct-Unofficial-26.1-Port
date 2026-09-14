@@ -4,13 +4,13 @@
   "entity": {
     "types": [
       "minecraft:dolphin",
-      "minecraft:trader_llama",
       "minecraft:llama",
       "minecraft:horse",
       "minecraft:fox",
-      "minecraft:ocelot",
       "minecraft:mule",
-      "minecraft:donkey"
+      "minecraft:donkey",
+      "minecraft:trader_llama",
+      "minecraft:ocelot"
     ]
   },
   "result": {

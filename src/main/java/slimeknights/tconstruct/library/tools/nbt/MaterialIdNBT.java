@@ -16,6 +16,7 @@ import slimeknights.tconstruct.library.materials.definition.MaterialVariantId;
 import slimeknights.tconstruct.library.utils.ItemStackDataUtil;
 
 import javax.annotation.Nullable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -39,6 +40,11 @@ public class MaterialIdNBT {
     this.materials = ImmutableList.copyOf(materials);
   }
 
+  /** Gets the number of materials on this stack. Note this may not match the number of materials the tool desires. */
+  public int size() {
+    return materials.size();
+  }
+
   /**
    * Gets the material at the given index
    * @param index  Index
@@ -49,6 +55,15 @@ public class MaterialIdNBT {
       return MaterialId.UNKNOWN;
     }
     return materials.get(index);
+  }
+
+  /** Copies the list, padding missing entries when replacing a material. */
+  public MaterialIdNBT replaceMaterial(int index, MaterialVariantId replacement) {
+    if (index < 0) throw new IndexOutOfBoundsException("Material index is out of bounds");
+    List<MaterialVariantId> result = new ArrayList<>(materials);
+    while (result.size() <= index) result.add(MaterialId.UNKNOWN);
+    result.set(index, replacement);
+    return new MaterialIdNBT(result);
   }
 
   /** Resolves all redirects, replacing with material redirects */
@@ -69,6 +84,25 @@ public class MaterialIdNBT {
       return new MaterialIdNBT(builder.build());
     }
     return this;
+  }
+
+  /**
+   * Creates a copy of the given materials. Used for recipe viewers to ensure the materials displayed is craftable.
+   * @param keep            Number of materials to keep
+   * @param extraMaterials  Extra materials to add after those kept
+   * @return  Updated materials list.
+   */
+  public MaterialIdNBT normalize(int keep, List<MaterialVariantId> extraMaterials) {
+    // no work to do if the size is already fine
+    if (extraMaterials.isEmpty() && size() <= keep) {
+      return this;
+    }
+    List<MaterialVariantId> list = new ArrayList<>(keep + extraMaterials.size());
+    for (int i = 0; i < keep; i++) {
+      list.add(materials.get(i));
+    }
+    list.addAll(extraMaterials);
+    return new MaterialIdNBT(list);
   }
 
   /**

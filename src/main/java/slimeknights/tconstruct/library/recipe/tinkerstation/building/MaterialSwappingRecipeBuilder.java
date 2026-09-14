@@ -48,6 +48,13 @@ public class MaterialSwappingRecipeBuilder extends AbstractRecipeBuilder<Materia
   /** Repair value on swapping, used by fixed */
   @Setter
   private int repairValue = 0;
+  private slimeknights.mantle.data.predicate.IJsonPredicate<MaterialVariantId> materials = slimeknights.tconstruct.library.json.predicate.material.MaterialPredicate.ANY;
+
+  public MaterialSwappingRecipeBuilder materials(slimeknights.mantle.data.predicate.IJsonPredicate<MaterialVariantId> materials, int cost) {
+    this.materials = materials;
+    this.repairValue = cost;
+    return this;
+  }
 
   /** Creates a builder for the given tool */
   public static MaterialSwappingRecipeBuilder tool(ItemLike tool) {
@@ -109,8 +116,10 @@ public class MaterialSwappingRecipeBuilder extends AbstractRecipeBuilder<Materia
         throw new IllegalStateException("Cannot set both part and ingredient");
       }
       saveRecipe(consumer, id, new PartSwappingOverrideRecipe(id, tools, maxStackSize, part, indices, extraRequirements), null);
-    } else {
+    } else if (material != MaterialId.UNKNOWN) {
       saveRecipe(consumer, id, new FixedMaterialSwappingRecipe(id, tools, maxStackSize, ingredient, material, indices, repairValue, extraRequirements), null);
+    } else if (repairValue > 0) {
+      saveRecipe(consumer, id, new MaterialValueSwappingRecipe(id, tools, maxStackSize, materials, repairValue, indices, extraRequirements), null);
     }
   }
 }

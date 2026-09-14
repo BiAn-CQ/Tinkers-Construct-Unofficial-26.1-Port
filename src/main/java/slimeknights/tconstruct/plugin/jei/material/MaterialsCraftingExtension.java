@@ -5,6 +5,11 @@ import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.builder.IRecipeSlotBuilder;
 import mezz.jei.api.gui.ingredient.ICraftingGridHelper;
+import mezz.jei.api.gui.ingredient.IRecipeSlotDrawable;
+import slimeknights.tconstruct.library.materials.definition.MaterialVariantId;
+import slimeknights.tconstruct.library.tools.nbt.MaterialIdNBT;
+import slimeknights.tconstruct.plugin.jei.util.CategoryUtil;
+import java.util.ArrayList;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.category.extensions.vanilla.crafting.ICraftingCategoryExtension;
@@ -85,7 +90,21 @@ public abstract class MaterialsCraftingExtension<T extends CraftingRecipe & Mate
       materialSlots = null;
     }
 
-    setRecipe(builder, craftingGridHelper, getInputIngredients(recipe), result, plainResult,
+    List<List<ItemStack>> inputs = new ArrayList<>(getInputIngredients(recipe).stream()
+      .map(ingredient -> List.of(TinkerIngredients.getItems(ingredient))).toList());
+    ItemStack focus = CategoryUtil.getResultItemFocus(focuses);
+    if (!focus.isEmpty() && recipe.getPartCount() > 1) {
+      MaterialIdNBT materials = MaterialIdNBT.from(focus);
+      for (int i = 0; i < recipe.getPartCount(); i++) {
+        Ingredient part = recipe.getParts().get(i);
+        MaterialVariantId material = materials.getMaterial(i);
+        List<ItemStack> matches = filterMaterialInputs(List.of(TinkerIngredients.getItems(part)), material);
+        for (int slot : getMaterialSlots(recipe, part)) {
+          inputs.set(slot, matches);
+        }
+      }
+    }
+    setRecipeStacks(builder, craftingGridHelper, inputs, result, plainResult,
       getWidth(holder), getHeight(holder), materialSlots);
   }
 
@@ -93,17 +112,22 @@ public abstract class MaterialsCraftingExtension<T extends CraftingRecipe & Mate
   public static void setRecipe(IRecipeLayoutBuilder builder, ICraftingGridHelper craftingGridHelper,
                                List<Ingredient> ingredients, List<ItemStack> result, ItemStack plainResult,
                                int width, int height, @Nullable int[] materialSlots) {
-    builder.addInvisibleIngredients(RecipeIngredientRole.OUTPUT).addItemStack(plainResult);
-
     List<List<ItemStack>> inputStacks = ingredients.stream()
       .map(ingredient -> List.of(TinkerIngredients.getItems(ingredient))).toList();
+    setRecipeStacks(builder, craftingGridHelper, inputStacks, result, plainResult, width, height, materialSlots);
+  }
+
+  private static void setRecipeStacks(IRecipeLayoutBuilder builder, ICraftingGridHelper craftingGridHelper,
+                                     List<List<ItemStack>> inputStacks, List<ItemStack> result, ItemStack plainResult,
+                                     int width, int height, @Nullable int[] materialSlots) {
+    builder.addInvisibleIngredients(RecipeIngredientRole.OUTPUT).addItemStack(plainResult);
     if (width <= 0 || height <= 0) {
       width = height = getShapelessSize(inputStacks.size());
       builder.setShapeless();
     }
     List<IRecipeSlotBuilder> inputs = craftingGridHelper.createAndSetInputs(
       builder, VanillaTypes.ITEM_STACK, inputStacks, width, height);
-    IRecipeSlotBuilder output = craftingGridHelper.createAndSetOutputs(builder, result);
+    IRecipeSlotBuilder output = craftingGridHelper.createAndSetOutputs(builder, result).setSlotName("result");
     if (inputs.size() != 9) {
       Mantle.logger.error("Failed to create focus link for material recipe as the layout {} is not 3x3",
         builder.getClass().getName());
@@ -122,5 +146,38 @@ public abstract class MaterialsCraftingExtension<T extends CraftingRecipe & Mate
     if (total > 4) return 3;
     if (total > 1) return 2;
     return 1;
+  }
+
+  static List<ItemStack> filterMaterialInputs(List<ItemStack> available, MaterialVariantId material) {
+    List<ItemStack> matching = available.stream()
+      .filter(stack -> material.matchesVariant(MaterialRecipeCache.getMaterial(stack))).toList();
+    return matching.isEmpty() ? available : matching;
+  }
+
+  @Override
+  public void onDisplayedIngredientsUpdate(RecipeHolder<T> holder, List<IRecipeSlotDrawable> slots, IFocusGroup focuses) {
+    T recipe = holder.value();
+    if (recipe.getPartCount() <= 1) {
+      return;
+    }
+    IRecipeSlotDrawable output = CategoryUtil.findSlot(slots, "result");
+    if (output == null) {
+      return;
+    }
+    int width = getWidth(holder);
+    int height = getHeight(holder);
+    if (width <= 0 || height <= 0) {
+      width = height = getShapelessSize(getInputIngredients(recipe).size());
+    }
+    List<MaterialVariantId> materials = new ArrayList<>();
+    for (Ingredient part : recipe.getParts()) {
+      int index = getMaterialSlots(recipe, part)[0];
+      ItemStack input = slots.get(MantleJEIConstants.getCraftingIndex(index, width, height))
+        .getDisplayedItemStack().orElse(ItemStack.EMPTY);
+      materials.add(MaterialRecipeCache.getMaterial(input));
+    }
+    materials.addAll(recipe.getExtraMaterials());
+    output.createDisplayOverrides().addItemStack(
+      new MaterialIdNBT(materials).updateStack(recipe.assemble(CraftingInput.EMPTY).copy()));
   }
 }

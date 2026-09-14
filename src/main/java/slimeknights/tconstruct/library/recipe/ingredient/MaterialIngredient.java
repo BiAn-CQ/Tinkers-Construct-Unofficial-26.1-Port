@@ -50,7 +50,12 @@ public final class MaterialIngredient implements ICustomIngredient {
 
   private static MaterialIngredient parse(JsonObject json) {
     Ingredient nested = IngredientLoadable.DISALLOW_EMPTY.getIfPresent(json, "match");
-    return new MaterialIngredient(nested, MATERIAL_FIELD.get(json));
+    IJsonPredicate<MaterialVariantId> material = MATERIAL_FIELD.get(json);
+    if (json.has("material_tag")) {
+      IJsonPredicate<MaterialVariantId> tag = MaterialPredicate.tag(slimeknights.tconstruct.library.json.TinkerLoadables.MATERIAL_TAGS.getIfPresent(json, "material_tag"));
+      material = material == MaterialPredicate.ANY ? tag : MaterialPredicate.and(material, tag);
+    }
+    return new MaterialIngredient(nested, material);
   }
 
   private static JsonObject serialize(MaterialIngredient ingredient) {

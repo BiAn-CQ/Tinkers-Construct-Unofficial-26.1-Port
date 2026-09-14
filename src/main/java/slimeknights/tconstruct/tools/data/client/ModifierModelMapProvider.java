@@ -275,6 +275,7 @@ public class ModifierModelMapProvider extends AbstractModifierModelMapProvider {
         ModifierIds.depthStrider, ModifierIds.doubleJump, ModifierIds.featherFalling,
         ModifierIds.longFall, ModifierIds.soulspeed)
       .luminosity(15, "armor/plate/boots/modifiers", null, ModifierIds.lightspeed);
+    tool("plate/boots").basic(ModifierIds.featherFall, "armor/plate/boots/modifiers/tconstruct_feather_falling", null);
     // we include both folders, but limited for small
     tool("plate/shield").banner("armor/plate/shield/banner_small/", "armor/plate/shield/banner_large/");
 
@@ -284,6 +285,7 @@ public class ModifierModelMapProvider extends AbstractModifierModelMapProvider {
     travelers("pants", ArmorSlotType.LEGGINGS);
     travelers("boots", ArmorSlotType.BOOTS);
     travelers("shield", null);
+    tool("travelers/shield").banner("armor/travelers/shield/banner/", null);
     tool("travelers/goggles").customTrim("armor/travelers/goggles", null);
 
     // slimesuit
@@ -351,13 +353,16 @@ public class ModifierModelMapProvider extends AbstractModifierModelMapProvider {
 
   /** Adds dyed textures for travelers gear */
   private void travelers(String name, @Nullable ArmorSlotType type) {
-    String root = "armor/travelers/" + name + "/modifiers/";
+    String root = "armor/travelers/" + name + "/";
     String item = "travelers/" + name;
-    Builder b = tool(item).dyed(root + "dyed");
+    boolean useMaterial = name.equals("goggles") || name.equals("shield");
+    Builder b = tool(item).materialFallbackDyed(1,
+      root + (useMaterial ? "cuirass_tconstruct_wool_white" : "dyed_wool"), root + "dyed", "wool");
     if (type != null) {
       b.trim(type);
     }
-    tool(item + "_broken").dyed(root + "dyed_broken");
+    tool(item + "_broken").materialFallbackDyed(1,
+      root + (useMaterial ? "cuirass_broken_tconstruct_wool_white" : "dyed_wool_broken"), root + "dyed_broken", "wool");
   }
 
   /** Adds dyed textures to a staff */

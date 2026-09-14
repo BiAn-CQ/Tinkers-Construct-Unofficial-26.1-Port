@@ -12,6 +12,7 @@ import slimeknights.tconstruct.library.materials.definition.IMaterial;
 import slimeknights.tconstruct.library.materials.definition.MaterialId;
 import slimeknights.tconstruct.library.materials.definition.MaterialVariantId;
 import slimeknights.tconstruct.library.recipe.TinkerIngredients;
+import slimeknights.tconstruct.library.tools.part.IMaterialItem;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -29,6 +30,13 @@ import java.util.stream.Stream;
 public class MaterialRecipeCache {
   /** Full list of recipes in the cache */
   private static final List<MaterialRecipe> RECIPES = new ArrayList<>();
+  /** Full list of recipes in the cache */
+  private static List<MaterialRecipe> SORTED_RECIPES = null;
+  /** Comparator used to create {@link #SORTED_RECIPES} */
+  private static final Comparator<MaterialRecipe> RECIPE_COMPARATOR = Comparator
+    .comparing(MaterialRecipe::getMaterial)
+    .thenComparing(MaterialRecipe::getValue)
+    .thenComparing(MaterialRecipe::getNeeded);
   /** Lookup from item ID to recipe */
   private static final Map<Item, MaterialRecipe> RECIPE_BY_ITEM = new ConcurrentHashMap<>();
   /** Lookup from material variant ID to recipe */
@@ -48,6 +56,7 @@ public class MaterialRecipeCache {
   /** Listener for clearing the cache */
   private static final DuelSidedListener LISTENER = RecipeCacheInvalidator.addDuelSidedListener(() -> {
     RECIPES.clear();
+    SORTED_RECIPES = null;
     RECIPE_BY_ITEM.clear();
     RECIPES_BY_MATERIAL.clear();
     ITEMS_BY_MATERIAL.clear();
@@ -63,6 +72,7 @@ public class MaterialRecipeCache {
       LISTENER.checkClear();
       // add recipe for item lookup; too early to resolve ingredient
       RECIPES.add(recipe);
+      SORTED_RECIPES = null;
       // mark the variant as known
       MaterialVariantId variant = recipe.getMaterial().getVariant();
       addKnownVariant(variant);
@@ -90,9 +100,28 @@ public class MaterialRecipeCache {
     });
   }
 
-  /** Gets a list of all material recipes */
+  /** Gets the material from the given stack, using {@link IMaterialItem} if present, otherwise falling back to {@link #findRecipe(ItemStack)} */
+  public static MaterialVariantId getMaterial(ItemStack stack) {
+    if (stack.isEmpty()) {
+      return MaterialId.UNKNOWN;
+    }
+    if (stack.getItem() instanceof IMaterialItem materialItem) {
+      return materialItem.getMaterial(stack);
+    }
+    return findRecipe(stack).getMaterial().getVariant();
+  }
+
+  /** Gets a list of all material recipes, including hidden */
   public static Collection<MaterialRecipe> getAllRecipes() {
     return RECIPES;
+  }
+
+  /** Gets a list of all non-hidden material recipes, sorted by tier, sort key, and value. */
+  public static Collection<MaterialRecipe> getSortedRecipes() {
+    if (SORTED_RECIPES == null) {
+      SORTED_RECIPES = RECIPES.stream().sorted(RECIPE_COMPARATOR).toList();
+    }
+    return SORTED_RECIPES;
   }
 
   /** Gets all recipes for the given material variant */

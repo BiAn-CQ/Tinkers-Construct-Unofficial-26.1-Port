@@ -31,12 +31,21 @@ import slimeknights.tconstruct.plugin.jei.util.FluidTooltipCallback;
 
 import javax.annotation.Nullable;
 import java.awt.Color;
-import java.util.Collections;
+import java.util.ArrayList;
+import mezz.jei.api.recipe.IFocus;
+import mezz.jei.api.gui.ingredient.IRecipeSlotDrawable;
+import slimeknights.tconstruct.library.recipe.RecipeSlot;
+import slimeknights.tconstruct.plugin.jei.util.CategoryUtil;
+import slimeknights.tconstruct.plugin.jei.util.RecipeSlotWrapper;
 import java.util.List;
 
 /** Shared base logic for the two casting recipe types */
 public abstract class AbstractCastingCategory implements slimeknights.tconstruct.plugin.jei.TinkersRecipeCategory<IDisplayableCastingRecipe> {
-  private static final String KEY_COOLING_TIME = TConstruct.makeTranslationKey("jei", "time");
+  private static final String RESULT_SLOT = "result";
+  private static final String CAST_SLOT = "cast";
+  private static final String FLUID_SLOT = "fluid";
+  private static final String FAUCET_SLOT = "faucet";
+  private static final String KEY_COOLING_TIME = TConstruct.makeTranslationKey("jei", "casting.time");
   private static final String KEY_CAST_KEPT = TConstruct.makeTranslationKey("jei", "casting.cast_kept");
   private static final String KEY_CAST_CONSUMED = TConstruct.makeTranslationKey("jei", "casting.cast_consumed");
   protected static final Identifier BACKGROUND_LOC = TConstruct.getResource("textures/gui/jei/casting.png");
@@ -69,21 +78,22 @@ public abstract class AbstractCastingCategory implements slimeknights.tconstruct
   @Override
   public void draw(IDisplayableCastingRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphicsExtractor graphics, double mouseX, double mouseY) {
     drawBackground(graphics);
-    cachedArrows.getUnchecked(Math.max(1, recipe.getCoolingTime())).draw(graphics, 58, 18);
+    cachedArrows.getUnchecked(Math.max(5, recipe.getCoolingTime())).draw(graphics, 58, 18);
     block.draw(graphics, 38, 35);
     if (recipe.hasCast()) {
       (recipe.isConsumed() ? castConsumed : castKept).draw(graphics, 63, 39);
     }
 
-    int coolingTime = recipe.getCoolingTime() / 20;
-    String coolingString = I18n.get(KEY_COOLING_TIME, coolingTime);
-    Font fontRenderer = Minecraft.getInstance().font;
-    int x = 72 - fontRenderer.width(coolingString) / 2;
-    graphics.text(fontRenderer, coolingString, x, 2, Color.GRAY.getRGB(), false);
   }
 
   @Override
   public void getTooltip(mezz.jei.api.gui.builder.ITooltipBuilder tooltip, IDisplayableCastingRecipe recipe, IRecipeSlotsView recipeSlotsView, double mouseX, double mouseY) {
+    if (GuiUtil.isHovered((int)mouseX, (int)mouseY, 58, 18, 24, 17)) {
+      FluidStack displayedFluid = recipeSlotsView.findSlotByName(FLUID_SLOT)
+        .flatMap(slot -> slot.getDisplayedIngredient(NeoForgeTypes.FLUID_STACK)).orElse(FluidStack.EMPTY);
+      int time = recipe.isCoolingTimeDynamic() ? recipe.getCoolingTime(displayedFluid) : recipe.getCoolingTime();
+      tooltip.add(Component.translatable(KEY_COOLING_TIME, time / 20));
+    }
     if (recipe.hasCast() && GuiUtil.isHovered((int)mouseX, (int)mouseY, 63, 39, 13, 11)) {
       tooltip.add(Component.translatable(recipe.isConsumed() ? KEY_CAST_CONSUMED : KEY_CAST_KEPT));
     }
@@ -91,38 +101,92 @@ public abstract class AbstractCastingCategory implements slimeknights.tconstruct
 
   @Override
   public void setRecipe(IRecipeLayoutBuilder builder, IDisplayableCastingRecipe recipe, IFocusGroup focuses) {
-    List<ItemStack> outputs = recipe.getOutputs();
-    IRecipeSlotBuilder output = builder.addSlot(RecipeIngredientRole.OUTPUT, 93, 18).addItemStacks(recipe.getOutputs());
+    // fetch focus data
+    IFocus<ItemStack> focus = focuses.getFocuses(VanillaTypes.ITEM_STACK).findFirst().orElse(null);
+    ItemStack focusStack = ItemStack.EMPTY;
+    boolean focusOutput = false;
+    if (focus != null) {
+      focusStack = focus.getTypedValue().getIngredient();
+      focusOutput = focus.getRole() == RecipeIngredientRole.OUTPUT;
+    }
+
+    List<ItemStack> outputs = recipe.getOutputs(focusStack, focusOutput);
+    IRecipeSlotBuilder output = builder.addOutputSlot(93, 18).addItemStacks(outputs).setSlotName(RESULT_SLOT);
+    List<IRecipeSlotBuilder> linked = new ArrayList<>(4);
+    int outputSize = outputs.size();
+    if (outputSize > 1) {
+      linked.add(output);
+    }
+
     // items
-    List<ItemStack> casts = recipe.getCastItems();
+    List<ItemStack> casts = recipe.getCastItems(focusStack, focusOutput);
     if (!casts.isEmpty()) {
-      IRecipeSlotBuilder cast = builder.addSlot(recipe.isConsumed() ? RecipeIngredientRole.INPUT : RecipeIngredientRole.CRAFTING_STATION, 38, 19).addItemStacks(casts);
+      IRecipeSlotBuilder cast = builder.addSlot(recipe.isConsumed() ? RecipeIngredientRole.INPUT : RecipeIngredientRole.CRAFTING_STATION, 38, 19).addItemStacks(casts).setSlotName(CAST_SLOT);
       // if the same size, tie a focus link to the output and cast; means we have material variants on both
-      if (outputs.size() > 1 && casts.size() == outputs.size()) {
-        builder.createFocusLink(output, cast);
+      if (recipe.linkCastToOutput() && !linked.isEmpty() && casts.size() == outputSize) {
+        linked.add(cast);
       }
     }
 
     // fluids
     // tank fluids
     int capacity = FluidValues.METAL_BLOCK;
-    List<FluidStack> inputs = recipe.getFluids();
-    IRecipeSlotBuilder tank = builder.addSlot(RecipeIngredientRole.INPUT, 3, 3)
+    List<FluidStack> inputs = recipe.getFluids(focusStack, focusOutput);
+    IRecipeSlotBuilder tank = builder.addInputSlot(3, 3)
            .addRichTooltipCallback(FluidTooltipCallback.UNITS)
            .setFluidRenderer(capacity, false, 32, 32)
            .setOverlay(tankOverlay, 0, 0)
-           .addIngredients(NeoForgeTypes.FLUID_STACK, inputs);
+           .addIngredients(NeoForgeTypes.FLUID_STACK, inputs)
+      .setSlotName(FLUID_SLOT);
     // pouring fluid
     int h = 11;
     if (!recipe.hasCast()) {
       h += 16;
     }
     IRecipeSlotBuilder faucet = builder.addSlot(RecipeIngredientRole.RENDER_ONLY, 43, 8)
-           .addRichTooltipCallback(FluidTooltipCallback.UNITS)
-           .setFluidRenderer(1, false, 6, h)
-           .addIngredients(NeoForgeTypes.FLUID_STACK, inputs);
+      .addRichTooltipCallback(FluidTooltipCallback.UNITS)
+      .setFluidRenderer(1, false, 6, h)
+      .addIngredients(NeoForgeTypes.FLUID_STACK, inputs)
+      .setSlotName(FAUCET_SLOT);
 
-    builder.createFocusLink(tank, faucet);
+    // if requested, and they are the same size, link output and fluid
+    if (recipe.linkFluidsToOutput() && !linked.isEmpty() && inputs.size() == outputSize) {
+      linked.add(faucet);
+      linked.add(tank);
+    } else if (inputs.size() > 1) {
+      // otherwise, just link two fluid slots together
+      builder.createFocusLink(tank, faucet);
+    }
+    // apply links
+    if (linked.size() > 1) {
+      builder.createFocusLink(linked.toArray(IRecipeSlotBuilder[]::new));
+    }
+  }
+
+  @Override
+  public void onDisplayedIngredientsUpdate(IDisplayableCastingRecipe recipe, List<IRecipeSlotDrawable> recipeSlots, IFocusGroup focuses) {
+    // require the recipe to opt in as it saves a lot of lookups on recipes that don't need this feature
+    if (recipe.isSlotsDynamic()) {
+      // combine both fluids together into a single slot
+      IRecipeSlotDrawable fluid = CategoryUtil.findSlot(recipeSlots, FLUID_SLOT);
+      RecipeSlot<FluidStack> fluidSlot;
+      if (fluid != null) {
+        IRecipeSlotDrawable faucet = CategoryUtil.findSlot(recipeSlots, FAUCET_SLOT);
+        if (faucet != null) {
+          fluidSlot = new RecipeSlotWrapper<>(fluid, NeoForgeTypes.FLUID_STACK, FluidStack.EMPTY, faucet);
+        } else {
+          fluidSlot = new RecipeSlotWrapper<>(fluid, NeoForgeTypes.FLUID_STACK, FluidStack.EMPTY);
+        }
+      } else {
+        fluidSlot = RecipeSlot.EMPTY_FLUID;
+      }
+
+      recipe.onDisplayUpdate(
+        recipe.hasCast() ? RecipeSlotWrapper.createItem(recipeSlots, CAST_SLOT) : RecipeSlot.EMPTY_ITEM,
+        fluidSlot,
+        RecipeSlotWrapper.createItem(recipeSlots, RESULT_SLOT)
+      );
+    }
   }
 
   @Nullable

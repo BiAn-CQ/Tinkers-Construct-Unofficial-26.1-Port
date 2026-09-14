@@ -3409,6 +3409,11 @@
   "advancements.tconstruct.world.piggybackpack.description": "ピギーバックパックで豚を担ぐ",
   "advancements.tconstruct.world.ancient_tools.title": "考古学者",
   "advancements.tconstruct.world.ancient_tools.description": "あらゆる古代の道具を発見する",
+  "fluid_effect.tconstruct.extinguish": "消火する",
+  "material.tconstruct.skyslimeskin": "スライムスキン",
+  "material.tconstruct.skyslimeskin.flavor": "蝶のように舞い、蜂のように刺す。",
+  "material.tconstruct.enderslimeskin": "スライムスキン",
+  "material.tconstruct.enderslimeskin.encyclopedia.armor": "攻撃してきた相手を25%の確率でテレポートさせる",
   "key.category.tconstruct.tconstruct": "Tinkers' Construct",
   "jade.modName.tconstruct": "Tinkers' Construct"
 }

@@ -17,7 +17,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /** Recipe which duplicates the input cast using a fluid */
-public class CastDuplicationRecipe extends ItemCastingRecipe implements IMultiRecipe<DisplayCastingRecipe> {
+public class CastDuplicationRecipe extends ItemCastingRecipe implements IMultiRecipe<IDisplayableCastingRecipe> {
   public static final RecordLoadable<CastDuplicationRecipe> LOADER = RecordLoadable.create(
     LoadableRecipeSerializer.TYPED_SERIALIZER.requiredField(), ContextKey.ID.requiredField(),
     LoadableRecipeSerializer.RECIPE_GROUP,
@@ -41,14 +41,15 @@ public class CastDuplicationRecipe extends ItemCastingRecipe implements IMultiRe
   }
 
   /* JEI */
-  private List<DisplayCastingRecipe> displayRecipes = null;
+  private List<IDisplayableCastingRecipe> displayRecipes = null;
 
   @Override
-  public List<DisplayCastingRecipe> getRecipes(HolderLookup.Provider access) {
+  public List<IDisplayableCastingRecipe> getRecipes(HolderLookup.Provider access) {
     if (displayRecipes == null) {
-      displayRecipes = Arrays.stream(slimeknights.tconstruct.library.recipe.TinkerIngredients.getItems(getCast()))
-        .map(item -> new DisplayCastingRecipe(getId(), getType(), List.of(item), fluid.getFluids(), item, coolingTime, false))
-        .toList();
+      List<ItemStack> casts = List.of(slimeknights.tconstruct.library.recipe.TinkerIngredients.getItems(getCast()));
+      displayRecipes = List.of(DisplayCastingRecipe.type(getType()).id(getId())
+        .casts(casts).results(casts).linkCastToOutput()
+        .fluids(fluid.getFluids()).coolingTime(coolingTime).build());
     }
     return displayRecipes;
   }

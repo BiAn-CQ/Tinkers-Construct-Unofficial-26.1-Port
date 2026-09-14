@@ -5,6 +5,5 @@
       "type": "tconstruct:mob_disguise",
       "entity": "minecraft:wither_skeleton"
     }
-  ],
-  "tooltip_display": "always"
+  ]
 }

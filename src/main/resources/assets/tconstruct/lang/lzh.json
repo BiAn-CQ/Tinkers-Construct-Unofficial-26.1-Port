@@ -3216,5 +3216,10 @@
   "recipe.tconstruct.recycling.no_enchantments": "淬靈者不可收，宜先礪之。",
   "subtitles.tconstruct.spit": "流噴",
   "command.tconstruct.generate.melting_recipes": "既生%s熔方，耗%s秒。/reload令以啟於%s",
-  "jei.tconstruct.tinker_station.too_large": "方過大於斯械。"
+  "jei.tconstruct.tinker_station.too_large": "方過大於斯械。",
+  "fluid_effect.tconstruct.extinguish": "火滅",
+  "material.tconstruct.skyslimeskin": "黏膠皮",
+  "material.tconstruct.skyslimeskin.flavor": "翩若弋蝶，刺若蟄蜂。",
+  "material.tconstruct.enderslimeskin": "黏渡",
+  "material.tconstruct.enderslimeskin.encyclopedia.armor": "一著則增四之一率，任傳送擊者。"
 }

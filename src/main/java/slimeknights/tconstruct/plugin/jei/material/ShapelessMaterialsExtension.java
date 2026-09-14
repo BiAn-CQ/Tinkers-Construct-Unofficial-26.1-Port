@@ -15,4 +15,9 @@ public final class ShapelessMaterialsExtension extends MaterialsCraftingExtensio
   protected List<Ingredient> getInputIngredients(ShapelessMaterialsRecipe recipe) {
     return recipe.getIngredients();
   }
+
+  @Override
+  protected int[] getMaterialSlots(ShapelessMaterialsRecipe recipe, Ingredient part) {
+    return new int[] {recipe.getParts().indexOf(part)};
+  }
 }

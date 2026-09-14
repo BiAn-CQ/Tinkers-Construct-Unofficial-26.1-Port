@@ -2687,6 +2687,7 @@
   "advancements.tconstruct.world.piggybackpack.description": "Attrapez un cochon avec un sac à dos cochon",
   "advancements.tconstruct.world.ancient_tools.title": "Archéologues",
   "advancements.tconstruct.world.ancient_tools.description": "Découvrez tous les types originaux d'outils anciens",
+  "fluid_effect.tconstruct.extinguish": "Éteint le feu",
   "key.category.tconstruct.tconstruct": "Tinkers' Construct",
   "jade.modName.tconstruct": "Tinkers' Construct"
 }

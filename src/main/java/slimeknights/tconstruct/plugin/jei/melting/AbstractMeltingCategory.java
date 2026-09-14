@@ -25,7 +25,7 @@ import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.client.GuiUtil;
 import slimeknights.tconstruct.library.recipe.fuel.MeltingFuel;
 import slimeknights.tconstruct.library.recipe.fuel.MeltingFuelLookup;
-import slimeknights.tconstruct.library.recipe.melting.MeltingRecipe;
+import slimeknights.tconstruct.library.recipe.melting.IDisplayableMeltingRecipe;
 import slimeknights.tconstruct.plugin.jei.util.FluidTooltipCallback;
 
 import java.awt.Color;
@@ -33,12 +33,14 @@ import java.util.Collections;
 import java.util.List;
 
 /** Shared logic between melting and foundry */
-public abstract class AbstractMeltingCategory implements slimeknights.tconstruct.plugin.jei.TinkersRecipeCategory<MeltingRecipe> {
+public abstract class AbstractMeltingCategory implements slimeknights.tconstruct.plugin.jei.TinkersRecipeCategory<IDisplayableMeltingRecipe> {
   protected static final Identifier BACKGROUND_LOC = TConstruct.getResource("textures/gui/jei/melting.png");
   protected static final String KEY_COOLING_TIME = TConstruct.makeTranslationKey("jei", "melting.time");
   protected static final String KEY_TEMPERATURE = TConstruct.makeTranslationKey("jei", "temperature");
   protected static final String KEY_MULTIPLIER = TConstruct.makeTranslationKey("jei", "melting.multiplier");
   protected static final Component TOOLTIP_ORE = Component.translatable(TConstruct.makeTranslationKey("jei", "melting.ore"));
+
+  protected static final String FLUID_SLOT = "fluid";
 
   /** Tooltip for fuel display */
   public static final FluidTooltipCallback FUEL_TOOLTIP = (fluid, slot, tooltip) -> {
@@ -68,7 +70,7 @@ public abstract class AbstractMeltingCategory implements slimeknights.tconstruct
   }
 
   @Override
-  public void draw(MeltingRecipe recipe, IRecipeSlotsView slots, GuiGraphicsExtractor graphics, double mouseX, double mouseY) {
+  public void draw(IDisplayableMeltingRecipe recipe, IRecipeSlotsView slots, GuiGraphicsExtractor graphics, double mouseX, double mouseY) {
     drawBackground(graphics);
     // draw the arrow
     cachedArrows.getUnchecked(recipe.getTime() * 5).draw(graphics, 56, 18);
@@ -85,7 +87,7 @@ public abstract class AbstractMeltingCategory implements slimeknights.tconstruct
   }
 
   @Override
-  public void getTooltip(mezz.jei.api.gui.builder.ITooltipBuilder tooltip, MeltingRecipe recipe, IRecipeSlotsView slots, double mouseXD, double mouseYD) {
+  public void getTooltip(mezz.jei.api.gui.builder.ITooltipBuilder tooltip, IDisplayableMeltingRecipe recipe, IRecipeSlotsView slots, double mouseXD, double mouseYD) {
     int mouseX = (int)mouseXD;
     int mouseY = (int)mouseYD;
     if (recipe.getOreType() != null && GuiUtil.isHovered(mouseX, mouseY, 87, 31, 16, 16)) {
@@ -94,7 +96,7 @@ public abstract class AbstractMeltingCategory implements slimeknights.tconstruct
     }
     // time tooltip
     if (GuiUtil.isHovered(mouseX, mouseY, 56, 18, 24, 17)) {
-      tooltip.add(Component.translatable(KEY_COOLING_TIME, recipe.getTime() / 4));
+      tooltip.add(Component.translatable(KEY_COOLING_TIME, (recipe.isTimeDynamic() ? recipe.getTime(slots.findSlotByName(FLUID_SLOT).flatMap(slot -> slot.getDisplayedIngredient(mezz.jei.api.neoforge.NeoForgeTypes.FLUID_STACK)).orElse(FluidStack.EMPTY)) : recipe.getTime()) / 4));
     }
   }
 
@@ -123,7 +125,7 @@ public abstract class AbstractMeltingCategory implements slimeknights.tconstruct
   }
 
   @Override
-  public Identifier getRegistryName(MeltingRecipe recipe) {
-    return recipe.getId();
+  public Identifier getRegistryName(IDisplayableMeltingRecipe recipe) {
+    return recipe.getRecipeId();
   }
 }

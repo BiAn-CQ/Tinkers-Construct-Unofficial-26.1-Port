@@ -114,6 +114,9 @@ public class TConstruct {
     if (ModList.get().isLoaded("jsonthings")) {
       JsonThingsPlugin.onConstruct();
     }
+    if (ModList.get().isLoaded("dummmmmmy")) {
+      bus.register(new slimeknights.tconstruct.plugin.DummmmmmyPlugin());
+    }
 
     // TODO 26.1: re-enable the remaining optional integrations when their
     // upstream dependencies publish compatible 26.1 APIs.

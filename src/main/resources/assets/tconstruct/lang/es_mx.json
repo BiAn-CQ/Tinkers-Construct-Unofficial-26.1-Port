@@ -3232,6 +3232,11 @@
   "advancements.tconstruct.world.ancient_tools.title": "Arqueólogos",
   "advancements.tconstruct.world.ancient_tools.description": "Descubre todos los tipos originales de herramientas ancestrales",
   "_comentario": "Fundición compartida",
+  "fluid_effect.tconstruct.extinguish": "Extingue el fuego",
+  "material.tconstruct.skyslimeskin": "Piel de slime",
+  "material.tconstruct.skyslimeskin.flavor": "Vuela como mariposa, pica como abeja.",
+  "material.tconstruct.enderslimeskin": "Piel de slime",
+  "material.tconstruct.enderslimeskin.encyclopedia.armor": "Tiene un 25% de probabilidad por pieza de teletransportar aleatoriamente a los atacantes lejos",
   "key.category.tconstruct.tconstruct": "Tinkers' Construct",
   "jade.modName.tconstruct": "Tinkers' Construct"
 }

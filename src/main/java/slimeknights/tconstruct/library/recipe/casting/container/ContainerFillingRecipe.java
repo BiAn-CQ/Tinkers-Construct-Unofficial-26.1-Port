@@ -27,6 +27,8 @@ import slimeknights.mantle.recipe.IMultiRecipe;
 import slimeknights.mantle.recipe.helper.LoadableRecipeSerializer;
 import slimeknights.mantle.recipe.helper.TypeAwareRecipeSerializer;
 import slimeknights.tconstruct.library.recipe.casting.DisplayCastingRecipe;
+import slimeknights.tconstruct.library.recipe.casting.IDisplayableCastingRecipe;
+import slimeknights.tconstruct.common.TinkerTags;
 import slimeknights.tconstruct.library.recipe.casting.ICastingContainer;
 import slimeknights.tconstruct.library.recipe.casting.ICastingRecipe;
 
@@ -37,7 +39,7 @@ import java.util.List;
  * Casting recipe that takes an arbitrary fluid for a given amount and fills a container
  */
 @RequiredArgsConstructor
-public class ContainerFillingRecipe implements ICastingRecipe, IMultiRecipe<DisplayCastingRecipe> {
+public class ContainerFillingRecipe implements ICastingRecipe, IMultiRecipe<IDisplayableCastingRecipe> {
   public static final RecordLoadable<ContainerFillingRecipe> LOADER = RecordLoadable.create(
     LoadableRecipeSerializer.TYPED_SERIALIZER.requiredField(), ContextKey.ID.requiredField(), LoadableRecipeSerializer.RECIPE_GROUP,
     IntLoadable.FROM_ONE.requiredField("fluid_amount", r -> r.fluidAmount),
@@ -140,24 +142,35 @@ public class ContainerFillingRecipe implements ICastingRecipe, IMultiRecipe<Disp
 
   /* Display */
   /** Cache of items to display for this container */
-  private List<DisplayCastingRecipe> displayRecipes = null;
+  private List<IDisplayableCastingRecipe> displayRecipes = null;
 
   @Override
-  public List<DisplayCastingRecipe> getRecipes(HolderLookup.Provider access) {
+  public List<IDisplayableCastingRecipe> getRecipes(HolderLookup.Provider access) {
     if (displayRecipes == null) {
-      List<ItemStack> casts = Collections.singletonList(new ItemStack(container));
-      displayRecipes = BuiltInRegistries.FLUID.stream()
-                                             .filter(fluid -> fluid.getBucket() != Items.AIR && fluid.isSource(fluid.defaultFluidState()))
-                                               .map(fluid -> {
-                                                 FluidStack fluidStack = new FluidStack(fluid, fluidAmount);
-                                                 ItemStack stack = new ItemStack(container);
-                                               ResourceHandler<FluidResource> handler = getFluidHandler(stack);
-                                               if (handler != null) {
-                                                 insertFluid(handler, fluidStack, true);
-                                               }
-                                               return new DisplayCastingRecipe(getId(), getType(), casts, Collections.singletonList(fluidStack), stack, 5, true);
-                                             })
-                                             .toList();
+      List<FluidStack> fluids = BuiltInRegistries.FLUID.stream()
+        .filter(fluid -> {
+          if (fluid.isSource(fluid.defaultFluidState())
+              && !fluid.builtInRegistryHolder().is(TinkerTags.Fluids.HIDE_IN_CREATIVE_TANKS)) {
+            try {
+              var bucket = fluid.getBucket();
+              return bucket != Items.AIR && !bucket.builtInRegistryHolder().is(TinkerTags.Items.HIDDEN_IN_RECIPE_VIEWERS);
+            } catch (Exception ignored) {
+              // Some fluid implementations throw when they do not provide a bucket.
+            }
+          }
+          return false;
+        }).map(fluid -> new FluidStack(fluid, fluidAmount)).toList();
+      List<ItemStack> results = fluids.stream().map(fluid -> {
+        ItemStack stack = new ItemStack(container);
+        ResourceHandler<FluidResource> handler = getFluidHandler(stack);
+        if (handler != null) {
+          insertFluid(handler, fluid, true);
+        }
+        return stack;
+      }).toList();
+      displayRecipes = List.of(DisplayCastingRecipe.type(getType()).id(getId())
+        .cast(new ItemStack(container)).consumed()
+        .fluids(fluids).results(results).linkFluidsToOutput().coolingTime(5).build());
     }
     return displayRecipes;
   }

@@ -222,15 +222,15 @@ public final class TinkerTools extends TinkerModule {
   }
 
   // armor
-  public static final EnumObject<ArmorSlotType,ModifiableArmorItem> travelersGear = ITEMS.registerEnum("travelers", ModifiableArmorMaterial.ARMOR_TYPES, type -> new MultilayerArmorItem(ArmorDefinitions.TRAVELERS, type, itemProperties(UNSTACKABLE_PROPS)));
-  public static final EnumObject<ArmorSlotType,ModifiableArmorItem> plateArmor = ITEMS.registerEnum("plate", ModifiableArmorMaterial.ARMOR_TYPES, type -> new MultilayerArmorItem(ArmorDefinitions.PLATE, type, itemProperties(UNSTACKABLE_PROPS)));
+  public static final EnumObject<ArmorSlotType,ModifiableArmorItem> travelersGear = ITEMS.registerEnum("travelers", ModifiableArmorMaterial.ARMOR_TYPES, type -> new MultilayerArmorItem(ArmorDefinitions.TRAVELERS, type, itemProperties().durability(1)));
+  public static final EnumObject<ArmorSlotType,ModifiableArmorItem> plateArmor = ITEMS.registerEnum("plate", ModifiableArmorMaterial.ARMOR_TYPES, type -> new MultilayerArmorItem(ArmorDefinitions.PLATE, type, itemProperties().durability(1)));
   public static final EnumObject<ArmorSlotType,ModifiableArmorItem> slimesuit = new EnumObject.Builder<ArmorSlotType,ModifiableArmorItem>(ArmorSlotType.class)
-    .put(ArmorSlotType.HELMET, ITEMS.register("slime_helmet", () -> new SlimeskullItem(ArmorDefinitions.SLIMESUIT, SlimeskullItem.MODEL_LOCATION, itemProperties(UNSTACKABLE_PROPS))))
+    .put(ArmorSlotType.HELMET, ITEMS.register("slime_helmet", () -> new SlimeskullItem(ArmorDefinitions.SLIMESUIT, SlimeskullItem.MODEL_LOCATION, itemProperties().durability(1))))
     // TODO 1.21: rename to slime chestplate as we no longer need the migration
-    .put(ArmorSlotType.CHESTPLATE, ITEMS.register("slimy_chestplate", () -> new MultilayerArmorItem(ArmorDefinitions.SLIMESUIT, ArmorSlotType.CHESTPLATE, itemProperties(UNSTACKABLE_PROPS))))
-    .putAll(ITEMS.registerEnum("slime", new ArmorSlotType[] {ArmorSlotType.LEGGINGS, ArmorSlotType.BOOTS}, type -> new MultilayerArmorItem(ArmorDefinitions.SLIMESUIT, type, itemProperties(UNSTACKABLE_PROPS))))
+    .put(ArmorSlotType.CHESTPLATE, ITEMS.register("slimy_chestplate", () -> new MultilayerArmorItem(ArmorDefinitions.SLIMESUIT, ArmorSlotType.CHESTPLATE, itemProperties().durability(1))))
+    .putAll(ITEMS.registerEnum("slime", new ArmorSlotType[] {ArmorSlotType.LEGGINGS, ArmorSlotType.BOOTS}, type -> new MultilayerArmorItem(ArmorDefinitions.SLIMESUIT, type, itemProperties().durability(1))))
     .build();
-  public static final ItemObject<MultilayerArmorItem> slimeWings = ITEMS.register("slime_wings", () -> new MultilayerArmorItem(ArmorDefinitions.SLIMESUIT, ArmorSlotType.CHESTPLATE, itemProperties(UNSTACKABLE_PROPS), ArmorDefinitions.SLIME_WINGS, TinkerTools.slimeWings.getId()));
+  public static final ItemObject<MultilayerArmorItem> slimeWings = ITEMS.register("slime_wings", () -> new MultilayerArmorItem(ArmorDefinitions.SLIMESUIT, ArmorSlotType.CHESTPLATE, itemProperties().durability(1), ArmorDefinitions.SLIME_WINGS, TinkerTools.slimeWings.getId()));
 
   // shields
   public static final ItemObject<ModifiableItem> travelersShield = ITEMS.register("travelers_shield", () -> new ModifiableItem(itemProperties(UNSTACKABLE_PROPS), ArmorDefinitions.TRAVELERS_SHIELD));

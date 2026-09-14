@@ -26,7 +26,7 @@ import slimeknights.tconstruct.library.recipe.FluidValues;
 import slimeknights.tconstruct.library.recipe.fuel.MeltingFuel;
 import slimeknights.tconstruct.library.recipe.fuel.MeltingFuelLookup;
 import slimeknights.tconstruct.library.recipe.melting.IMeltingContainer.OreRateType;
-import slimeknights.tconstruct.library.recipe.melting.MeltingRecipe;
+import slimeknights.tconstruct.library.recipe.melting.IDisplayableMeltingRecipe;
 import slimeknights.tconstruct.plugin.jei.TConstructJEIConstants;
 import slimeknights.tconstruct.smeltery.TinkerSmeltery;
 
@@ -60,7 +60,7 @@ public class MeltingCategory extends AbstractMeltingCategory {
   }
 
   @Override
-  public RecipeType<MeltingRecipe> getRecipeType() {
+  public RecipeType<IDisplayableMeltingRecipe> getRecipeType() {
     return TConstructJEIConstants.MELTING;
   }
 
@@ -70,7 +70,7 @@ public class MeltingCategory extends AbstractMeltingCategory {
   }
 
   @Override
-  public void draw(MeltingRecipe recipe, IRecipeSlotsView slots, GuiGraphicsExtractor graphics, double mouseX, double mouseY) {
+  public void draw(IDisplayableMeltingRecipe recipe, IRecipeSlotsView slots, GuiGraphicsExtractor graphics, double mouseX, double mouseY) {
     super.draw(recipe, slots, graphics, mouseX, mouseY);
 
     // solid fuel slot
@@ -81,9 +81,9 @@ public class MeltingCategory extends AbstractMeltingCategory {
   }
 
   @Override
-  public void setRecipe(IRecipeLayoutBuilder builder, MeltingRecipe recipe, IFocusGroup focuses) {
+  public void setRecipe(IRecipeLayoutBuilder builder, IDisplayableMeltingRecipe recipe, IFocusGroup focuses) {
     // input
-    builder.addSlot(RecipeIngredientRole.INPUT, 24, 18).addIngredients(recipe.getInput());
+    var inputSlot = builder.addSlot(RecipeIngredientRole.INPUT, 24, 18).addItemStacks(recipe.getInputs());
 
     // output
     OreRateType oreType = recipe.getOreType();
@@ -95,11 +95,13 @@ public class MeltingCategory extends AbstractMeltingCategory {
     } else {
       tooltip = MeltingFluidCallback.INSTANCE;
     }
-    builder.addSlot(RecipeIngredientRole.OUTPUT, 96, 4)
+    var outputSlot = builder.addSlot(RecipeIngredientRole.OUTPUT, 96, 4).setSlotName(FLUID_SLOT)
       .addRichTooltipCallback(tooltip)
       .setFluidRenderer(FluidValues.METAL_BLOCK, false, 32, 32)
       .setOverlay(tankOverlay, 0, 0)
-      .addIngredient(NeoForgeTypes.FLUID_STACK, recipe.getOutput());
+      .addIngredients(NeoForgeTypes.FLUID_STACK, recipe.getOutputs());
+
+    if (recipe.getInputs().size() == recipe.getOutputs().size()) builder.createFocusLink(inputSlot, outputSlot);
 
     // show fuels that are valid for this recipe
     int fuelHeight = 32;

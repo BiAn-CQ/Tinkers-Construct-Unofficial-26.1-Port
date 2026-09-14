@@ -106,7 +106,7 @@ public final class MaterialValueIngredient implements ICustomIngredient {
         // access and leave the cache unset instead.
         throw new IllegalStateException("Material value candidates requested before material recipes were loaded");
       }
-      ItemStack[] resolved = MaterialRecipeCache.getAllRecipes().stream()
+      ItemStack[] resolved = MaterialRecipeCache.getSortedRecipes().stream()
         .filter(this::test)
         .flatMap(recipe -> recipe.getIngredient().items().map(holder -> new ItemStack(holder.value())))
         .toArray(ItemStack[]::new);

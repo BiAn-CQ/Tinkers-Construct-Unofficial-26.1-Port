@@ -300,6 +300,11 @@ public class Modifier {
     return true;
   }
 
+  /** Whether to show this modifier in the given tool, station, part, or book context. */
+  public boolean shouldDisplay(slimeknights.tconstruct.library.modifiers.util.ModifierTooltip context) {
+    return context.isNew() || shouldDisplay(context == slimeknights.tconstruct.library.modifiers.util.ModifierTooltip.TINKER_STATION);
+  }
+
 
   /* Hooks */
 

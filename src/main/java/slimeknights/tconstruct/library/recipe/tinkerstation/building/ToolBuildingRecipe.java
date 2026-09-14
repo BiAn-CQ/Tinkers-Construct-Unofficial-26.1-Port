@@ -129,6 +129,10 @@ public class ToolBuildingRecipe implements ITinkerStationRecipe {
     return ingredients;
   }
 
+  public List<MaterialVariantId> getExtraMaterials() {
+    return materials;
+  }
+
   @Override
   public boolean matches(ITinkerStationContainer inv, Level worldIn) {
     if (!inv.getTinkerableStack().isEmpty()) {

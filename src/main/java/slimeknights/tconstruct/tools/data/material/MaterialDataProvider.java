@@ -52,6 +52,9 @@ public class MaterialDataProvider extends AbstractMaterialDataProvider {
     addMaterial(MaterialIds.venombone,   2, ORDER_WEAPON,  true);
     addMaterial(MaterialIds.slimewood,   2, ORDER_SPECIAL, true);
     addMaterial(MaterialIds.slimeskin,   2, ORDER_BINDING, false);
+    addMaterial(MaterialIds.skyslimeskin, 2, ORDER_BINDING, false);
+    addMaterial(MaterialIds.enderslimeskin, 4, ORDER_BINDING, false);
+    addMaterial(MaterialIds.venom, 2, ORDER_REPAIR + 5, false);
     addMaterial(MaterialIds.gold,        2, ORDER_REPAIR, false);
     // tier 2 - nether
     addMaterial(MaterialIds.scorchedStone, 2, ORDER_NETHER, false);

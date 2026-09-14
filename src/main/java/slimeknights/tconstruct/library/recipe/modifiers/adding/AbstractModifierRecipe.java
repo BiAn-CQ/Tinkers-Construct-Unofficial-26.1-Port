@@ -81,6 +81,16 @@ public abstract class AbstractModifierRecipe implements ITinkerStationRecipe, ID
   protected final Ingredient toolRequirement;
   /** Max size of the tool for this modifier. If the tool size is smaller, the stack will reduce by less */
   protected final int maxToolSize;
+
+  @Override
+  public int getMaxToolSize() {
+    return maxToolSize;
+  }
+
+  @Override
+  public boolean isTool(ItemStack check) {
+    return toolRequirement.test(check);
+  }
   /** Modifier this recipe is adding */
   protected final LazyModifier result;
   /** Range of result levels that is valid on the tool */
@@ -165,6 +175,11 @@ public abstract class AbstractModifierRecipe implements ITinkerStationRecipe, ID
       displayResult = new ModifierEntry(result, this.level.min());
     }
     return displayResult;
+  }
+
+  @Override
+  public boolean checkTraitLevel() {
+    return checkTraitLevel;
   }
 
   @Override

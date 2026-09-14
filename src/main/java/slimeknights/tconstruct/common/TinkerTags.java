@@ -925,6 +925,8 @@ public class TinkerTags {
   }
 
   public static class DamageTypes {
+    public static final TagKey<DamageType> RUGGED_TERRAIN = local("rugged/terrain");
+    public static final TagKey<DamageType> RUGGED_ATTACKS = local("rugged/attacks");
     private static void init() {}
     /** Damage types dealt by a melee attack, excluding nearby damage that is not caused by the held tool. */
     public static final TagKey<DamageType> IS_MELEE = local("is_melee");

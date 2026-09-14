@@ -3259,6 +3259,11 @@
   "advancements.tconstruct.world.piggybackpack.description": "Agarra a un cerdo con la mochila caballito",
   "advancements.tconstruct.world.ancient_tools.title": "Arqueología",
   "advancements.tconstruct.world.ancient_tools.description": "Descubre todos los tipos originales de herramientas antiguas",
+  "fluid_effect.tconstruct.extinguish": "Extingue el fuego",
+  "material.tconstruct.skyslimeskin": "Piel slime",
+  "material.tconstruct.skyslimeskin.flavor": "Flota como mariposa, pica como una abeja.",
+  "material.tconstruct.enderslimeskin": "Piel de Slime Ender",
+  "material.tconstruct.enderslimeskin.encyclopedia.armor": "Tiene una probabilidad del 25% de teletransportar aleatoriamente al atacante",
   "key.category.tconstruct.tconstruct": "Tinkers' Construct",
   "jade.modName.tconstruct": "Tinkers' Construct"
 }

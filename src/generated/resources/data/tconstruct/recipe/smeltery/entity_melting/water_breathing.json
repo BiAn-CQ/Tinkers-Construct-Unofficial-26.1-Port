@@ -3,8 +3,8 @@
   "damage": 2,
   "entity": {
     "types": [
-      "minecraft:squid",
-      "minecraft:pufferfish"
+      "minecraft:pufferfish",
+      "minecraft:squid"
     ]
   },
   "result": {

@@ -178,4 +178,24 @@ public class OverslimeModifierRecipe implements ITinkerStationRecipe, IDisplayMo
   public ModifierEntry getDisplayResult() {
     return RESULT;
   }
+
+  @Nullable
+  @Override
+  public Component canApply(slimeknights.tconstruct.library.tools.nbt.IToolStackView tool) {
+    return null;
+  }
+
+  @Override
+  public void applyModifier(ToolStack tool) {
+    ModifierId overslime = TinkerModifiers.overslime.getId();
+    if (tool.getUpgrades().getLevel(overslime) == 0) {
+      tool.addModifier(overslime, 1);
+    }
+    OverslimeModule.INSTANCE.addAmount(tool, restoreAmount);
+  }
+
+  @Override
+  public boolean shouldDisplayValidate() {
+    return false;
+  }
 }

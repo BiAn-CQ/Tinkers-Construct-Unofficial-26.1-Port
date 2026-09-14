@@ -2,9 +2,9 @@
   "type": "tconstruct:severing",
   "entity": {
     "types": [
-      "minecraft:skeleton_horse",
+      "minecraft:skeleton",
       "minecraft:stray",
-      "minecraft:skeleton"
+      "minecraft:skeleton_horse"
     ]
   },
   "looting_bonus": 0.01,

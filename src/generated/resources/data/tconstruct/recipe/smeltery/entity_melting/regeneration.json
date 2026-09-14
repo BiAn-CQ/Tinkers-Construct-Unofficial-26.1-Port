@@ -3,8 +3,8 @@
   "damage": 2,
   "entity": {
     "types": [
-      "minecraft:axolotl",
-      "minecraft:ghast"
+      "minecraft:ghast",
+      "minecraft:axolotl"
     ]
   },
   "result": {

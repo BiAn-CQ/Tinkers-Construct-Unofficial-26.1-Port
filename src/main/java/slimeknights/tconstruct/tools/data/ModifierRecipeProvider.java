@@ -241,7 +241,7 @@ public class ModifierRecipeProvider extends BaseRecipeProvider {
         // sky is tinkers specialty
         case SKY -> amount = 50;
         // ichor is hard to farm
-        case ICHOR -> amount = 100;
+        case ICHOR -> amount = 60;
         // ender is late game, but easier to farm than ichor
         case ENDER -> amount = 80;
         // unhandled -> update
@@ -958,13 +958,15 @@ public class ModifierRecipeProvider extends BaseRecipeProvider {
                          .save(consumer, prefix(ModifierIds.swiftSneak, upgradeFolder));
 
     // upgrade - boots
-    IncrementalModifierRecipeBuilder.modifier(ModifierIds.featherFalling)
-                                    .setTools(TinkerTags.Items.BOOTS)
-                                    .setInput(Items.FEATHER, 1, 25) // 1% per feather
-                                    .setSlots(SlotType.UPGRADE, 1)
-                                    .setMaxLevel(2)
-                                    .saveSalvage(consumer, prefix(ModifierIds.featherFalling, upgradeSalvage))
-                                    .save(consumer, prefix(ModifierIds.featherFalling, upgradeFolder));
+    ModifierRecipeBuilder.modifier(ModifierIds.featherFalling)
+      .setTools(TinkerTags.Items.BOOTS).setSlots(SlotType.UPGRADE, 1)
+      .saveSalvage(consumer, prefix(ModifierIds.featherFalling, upgradeSalvage));
+    MultilevelIncrementalModifierRecipeBuilder.modifier(ModifierIds.featherFall)
+      .setTools(TinkerTags.Items.BOOTS).setInput(Items.FEATHER, 1, 12)
+      .addLevel(SlotType.UPGRADE, 1, 1).addLevel(2)
+      .addLevel(SlotType.UPGRADE, 1, 3).addLevel(4).checkTraitLevel()
+      .saveSalvage(consumer, prefix(ModifierIds.featherFall, upgradeSalvage))
+      .save(consumer, prefix(ModifierIds.featherFall, upgradeFolder));
     ModifierRecipeBuilder.modifier(ModifierIds.longFall)
       .setTools(TinkerTags.Items.BOOTS)
       .addInput(Items.PISTON)
@@ -1906,7 +1908,8 @@ public class ModifierRecipeProvider extends BaseRecipeProvider {
     // cosmetics //
     SimpleRecipeOutput.save(consumer, location(folder + "dyeing"), TinkerModifiers.armorDyeingSerializer.get());
     SimpleRecipeOutput.save(consumer, location(folder + "trim"), TinkerModifiers.armorTrimSerializer.get());
-    SimpleRecipeOutput.save(consumer, location(folder + "banner"), TinkerModifiers.bannerModifierSerializer.get());
+    consumer.accept(net.minecraft.resources.ResourceKey.create(net.minecraft.core.registries.Registries.RECIPE, location(folder + "banner")),
+      new slimeknights.tconstruct.tools.recipe.BannerModifierRecipe(location(folder + "banner"), Ingredient.of(TinkerFluids.slimeBottle.get(SlimeType.SKY))), null);
 
     // slimesuit //
     // basic slime

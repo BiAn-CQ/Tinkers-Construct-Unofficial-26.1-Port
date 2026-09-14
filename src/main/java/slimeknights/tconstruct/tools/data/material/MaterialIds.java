@@ -36,6 +36,9 @@ public final class MaterialIds {
   public static final MaterialId slimewood = id("slimewood");
   public static final MaterialId venombone = id("venombone");
   public static final MaterialId slimeskin = id("slimeskin");
+  public static final MaterialId skyslimeskin = id("skyslimeskin");
+  public static final MaterialId enderslimeskin = id("enderslimeskin");
+  public static final MaterialId venom = id("venom");
   // tier 2 - nether
   public static final MaterialId scorchedStone = id("scorched_stone");
   public static final MaterialId necroticBone = id("necrotic_bone");
@@ -209,8 +212,8 @@ public final class MaterialIds {
   public static final MaterialVariantId bloodshroom        = create(slimewood, "bloodshroom");
   public static final MaterialVariantId enderbark          = create(slimewood, "enderbark");
   // slime vines
-  public static final MaterialVariantId skySlimeskin = create(skyslimeVine, "slimeskin");
-  public static final MaterialVariantId enderSlimeskin = create(enderslimeVine, "slimeskin");
+  public static final MaterialVariantId skySlimeskin = skyslimeskin;
+  public static final MaterialVariantId enderSlimeskin = enderslimeskin;
   // oxidized
   public static final MaterialVariantId oxidizedIron = create(iron, "oxidized");
   public static final MaterialVariantId oxidizedCopper = create(copper, "oxidized");

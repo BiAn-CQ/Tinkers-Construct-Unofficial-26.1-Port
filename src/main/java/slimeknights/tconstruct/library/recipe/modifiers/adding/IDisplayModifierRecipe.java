@@ -7,15 +7,22 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import slimeknights.tconstruct.TConstruct;
+import slimeknights.tconstruct.common.config.Config;
 import slimeknights.tconstruct.library.json.IntRange;
 import slimeknights.tconstruct.library.modifiers.Modifier;
 import slimeknights.tconstruct.library.modifiers.ModifierEntry;
 import slimeknights.tconstruct.library.modifiers.ModifierHooks;
+import slimeknights.tconstruct.library.modifiers.ModifierId;
+import slimeknights.tconstruct.library.modifiers.util.LazyModifier;
+import slimeknights.tconstruct.library.recipe.RecipeResult;
+import slimeknights.tconstruct.library.recipe.tinkerstation.IDisplayTinkerStationRecipe;
 import slimeknights.tconstruct.library.tools.SlotType;
 import slimeknights.tconstruct.library.tools.SlotType.SlotCount;
 import slimeknights.tconstruct.library.tools.context.ToolRebuildContext;
 import slimeknights.tconstruct.library.tools.definition.ToolDefinition;
 import slimeknights.tconstruct.library.tools.item.IModifiableDisplay;
+import slimeknights.tconstruct.library.tools.nbt.IToolStackView;
 import slimeknights.tconstruct.library.tools.nbt.MaterialNBT;
 import slimeknights.tconstruct.library.tools.nbt.ModDataNBT;
 import slimeknights.tconstruct.library.tools.nbt.ModifierNBT;
@@ -30,8 +37,9 @@ import java.util.function.Function;
 import java.util.stream.Stream;
 
 /** Common interface for modifier recipes that can show in JEI */
-public interface IDisplayModifierRecipe extends IModifierRecipe {
+public interface IDisplayModifierRecipe extends IModifierRecipe, IDisplayTinkerStationRecipe {
   /** Gets the ID of this recipe. If this is a generated display recipe, uses the parent recipe ID */
+  @Override
   @Nullable
   default Identifier getRecipeId() {
     return null;
@@ -67,6 +75,11 @@ public interface IDisplayModifierRecipe extends IModifierRecipe {
    */
   default IntRange getLevel() {
     return ModifierEntry.VALID_LEVEL;
+  }
+
+  /** If true, this recipe checks the level from modifiers. If false, it checks upgrade levels. */
+  default boolean checkTraitLevel() {
+    return false;
   }
 
   /**
@@ -105,7 +118,117 @@ public interface IDisplayModifierRecipe extends IModifierRecipe {
   }
 
 
+  /* Focus updates */
+
+  /** Gets the matching entry on the tool. */
+  private ModifierEntry getEntry(IToolStackView tool) {
+    return (checkTraitLevel() ? tool.getModifiers() : tool.getUpgrades()).getEntry(getDisplayResult().getId());
+  }
+
+  @Override
+  default RecipeResult<ItemStack> onFocused(ItemStack focus) {
+    if (Config.CLIENT.showToolInModifiers.get()) {
+      ToolStack tool = ToolStack.from(focus);
+      Component error = canApply(tool);
+      if (error != null) {
+        return RecipeResult.failure(error);
+      }
+
+      ToolStack result = tool.copy();
+      applyModifier(result);
+      if (shouldDisplayValidate()) {
+        error = result.tryValidate();
+        if (error != null) {
+          return RecipeResult.failure(error);
+        }
+      }
+      return RecipeResult.success(result.copyStack(focus));
+    }
+    return RecipeResult.pass();
+  }
+
+  /** If true, validates the focused result with the normal tool validation rules. */
+  default boolean shouldDisplayValidate() {
+    return true;
+  }
+
+  /** Checks if the given tool can receive this modifier. */
+  @Nullable
+  default Component canApply(IToolStackView tool) {
+    ModifierEntry entry = getEntry(tool);
+    int checkLevel = entry.getLevel();
+    boolean checkSlots = false;
+    if (!isIncremental() || entry.getAmount(0) <= 0) {
+      checkLevel += 1;
+      checkSlots = true;
+    }
+    Component error = checkLevel(getDisplayResult().getLazyModifier(), getLevel(), checkLevel, checkTraitLevel());
+    if (error != null) {
+      return error;
+    }
+    return checkSlots ? checkSlots(tool, getSlots()) : null;
+  }
+
+  /** Adds this modifier to the given tool for JEI focus display. */
+  default void applyModifier(ToolStack tool) {
+    ModifierId result = getDisplayResult().getId();
+    if (isIncremental()) {
+      ModifierEntry entry = getEntry(tool);
+      if (entry.intEffectiveLevel() < entry.getLevel()) {
+        int needed = entry.getNeeded();
+        tool.addModifierAmount(result, needed - entry.getAmount(0), needed);
+        return;
+      }
+    }
+    tool.addModifier(result, 1);
+    SlotCount slots = getSlots();
+    if (slots != null) {
+      tool.getPersistentData().addSlots(slots.type(), -slots.count());
+    }
+  }
+
+
   /* Helpers */
+
+  /** Error for when the tool has too few existing levels of this modifier. */
+  String KEY_MIN_LEVEL = TConstruct.makeTranslationKey("recipe", "modifier.min_level");
+  /** Same as {@link #KEY_MIN_LEVEL} for trait levels. */
+  String KEY_MIN_LEVEL_TRAITS = KEY_MIN_LEVEL + ".traits";
+  /** Error for when the tool is at the maximum modifier level. */
+  String KEY_MAX_LEVEL = TConstruct.makeTranslationKey("recipe", "modifier.max_level");
+  /** Same as {@link #KEY_MAX_LEVEL} for trait levels. */
+  String KEY_MAX_LEVEL_TRAITS = KEY_MAX_LEVEL + ".traits";
+  /** Error for when the tool has too few modifier slots. */
+  String KEY_NOT_ENOUGH_SLOTS = TConstruct.makeTranslationKey("recipe", "modifier.not_enough_slots");
+  /** Error for when the tool has too few of a single modifier slot. */
+  String KEY_NOT_ENOUGH_SLOT = TConstruct.makeTranslationKey("recipe", "modifier.not_enough_slot");
+
+  /** Validates the modifier level after applying this recipe. */
+  @Nullable
+  static Component checkLevel(LazyModifier modifier, IntRange levelRange, int resultLevel, boolean checkTraitLevel) {
+    if (resultLevel < levelRange.min()) {
+      return Component.translatable(checkTraitLevel ? KEY_MIN_LEVEL_TRAITS : KEY_MIN_LEVEL, modifier.get().getDisplayName(levelRange.min() - 1));
+    }
+    if (resultLevel > levelRange.max()) {
+      return Component.translatable(checkTraitLevel ? KEY_MAX_LEVEL_TRAITS : KEY_MAX_LEVEL, modifier.get().getDisplayName(), levelRange.max());
+    }
+    return null;
+  }
+
+  /** Validates the slots needed by this modifier. */
+  @Nullable
+  static Component checkSlots(IToolStackView tool, @Nullable SlotCount slots) {
+    if (slots != null) {
+      int count = slots.count();
+      if (tool.getFreeSlots(slots.type()) < count) {
+        if (count == 1) {
+          return Component.translatable(KEY_NOT_ENOUGH_SLOT, slots.type().getDisplayName());
+        }
+        return Component.translatable(KEY_NOT_ENOUGH_SLOTS, count, slots.type().getDisplayName());
+      }
+    }
+    return null;
+  }
 
   /** Maps the stream from tool items to applicable tool stacks */
   Function<Item,ItemStack> MAP_TOOL_FOR_RENDERING = IModifiableDisplay::getDisplayStack;
@@ -164,8 +287,8 @@ public interface IDisplayModifierRecipe extends IModifierRecipe {
       entry.getHook(ModifierHooks.VOLATILE_DATA).addVolatileData(context, entry, volatileData);
     }
     nbt.put(ToolStack.TAG_VOLATILE_MOD_DATA, volatileNBT);
-    ItemStackDataUtil.setTag(output, nbt);
     nbt.put(ToolStack.TAG_PERSISTENT_MOD_DATA, persistentNBT);
+    ItemStackDataUtil.setTag(output, nbt);
 
     return output;
   }

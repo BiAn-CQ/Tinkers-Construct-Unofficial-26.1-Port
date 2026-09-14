@@ -1,13 +1,14 @@
 {
   "type": "tconstruct:crafting_shaped_materials",
   "category": "equipment",
-  "extra_materials": [
-    "tconstruct:leather"
-  ],
   "key": {
     "A": {
-      "neoforge:ingredient_type": "mantle:item_tag",
-      "tag": "c:leathers"
+      "neoforge:ingredient_type": "tconstruct:material_value",
+      "material": {
+        "type": "tconstruct:stat_type",
+        "stat_type": "tconstruct:cuirass"
+      },
+      "value": 1
     },
     "B": {
       "neoforge:ingredient_type": "mantle:item_tag",
@@ -47,7 +48,7 @@
       ]
     }
   },
-  "parts": "C",
+  "parts": "AC",
   "pattern": [
     "A A",
     "BAB",

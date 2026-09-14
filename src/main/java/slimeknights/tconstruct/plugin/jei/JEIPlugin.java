@@ -1,4 +1,5 @@
 package slimeknights.tconstruct.plugin.jei;
+import java.util.stream.Stream;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -72,7 +73,7 @@ import slimeknights.tconstruct.library.recipe.fuel.MeltingFuel;
 import slimeknights.tconstruct.library.recipe.material.ShapedMaterialRecipe;
 import slimeknights.tconstruct.library.recipe.material.ShapedMaterialsRecipe;
 import slimeknights.tconstruct.library.recipe.material.ShapelessMaterialsRecipe;
-import slimeknights.tconstruct.library.recipe.melting.MeltingRecipe;
+import slimeknights.tconstruct.library.recipe.melting.IDisplayableMeltingRecipe;
 import slimeknights.tconstruct.library.recipe.modifiers.ModifierRecipeLookup;
 import slimeknights.tconstruct.library.recipe.modifiers.adding.IDisplayModifierRecipe;
 import slimeknights.tconstruct.library.recipe.modifiers.severing.SeveringRecipe;
@@ -199,6 +200,7 @@ public class JEIPlugin implements IModPlugin {
     registry.addRecipeCategories(new FoundryCategory(guiHelper));
     // tinker station
     registry.addRecipeCategories(new ModifierRecipeCategory(guiHelper));
+    registry.addRecipeCategories(new slimeknights.tconstruct.plugin.jei.modifiers.ToolModificationCategory(guiHelper));
     registry.addRecipeCategories(new SeveringCategory(guiHelper));
     registry.addRecipeCategories(new ToolBuildingCategory(guiHelper));
     // part builder
@@ -241,7 +243,7 @@ public class JEIPlugin implements IModPlugin {
     register.addRecipes(TConstructJEIConstants.CASTING_TABLE, castingTableRecipes);
 
     // melting
-    List<MeltingRecipe> meltingRecipes = TinkerRecipeHelper.getJEIRecipes(access, manager, TinkerRecipeTypes.MELTING.get(), MeltingRecipe.class);
+    List<IDisplayableMeltingRecipe> meltingRecipes = TinkerRecipeHelper.getJEIRecipes(access, manager, TinkerRecipeTypes.MELTING.get(), IDisplayableMeltingRecipe.class);
     register.addRecipes(TConstructJEIConstants.MELTING, meltingRecipes);
     register.addRecipes(TConstructJEIConstants.FOUNDRY, meltingRecipes);
     MeltingFuelHandler.setMeltngFuels(TinkerRecipeHelper.getRecipes(manager, TinkerRecipeTypes.FUEL.get(), MeltingFuel.class));
@@ -279,6 +281,9 @@ public class JEIPlugin implements IModPlugin {
                                                                  return n1.compareTo(n2);
                                                                }).collect(Collectors.toList());
     register.addRecipes(TConstructJEIConstants.MODIFIERS, modifierRecipes);
+    register.addRecipes(TConstructJEIConstants.TOOL_MODIFICATION,
+      TinkerRecipeHelper.getJEIRecipes(access, manager, TinkerRecipeTypes.TINKER_STATION.get(),
+        slimeknights.tconstruct.library.recipe.tinkerstation.IDisplayToolModification.class));
 
     // beheading
     List<SeveringRecipe> severingRecipes = TinkerRecipeHelper.getJEIRecipes(access, manager, TinkerRecipeTypes.SEVERING.get(), SeveringRecipe.class);
@@ -299,6 +304,12 @@ public class JEIPlugin implements IModPlugin {
     // modifier worktable
     List<IModifierWorktableRecipe> modifierWorktableRecipes = TinkerRecipeHelper.getJEIRecipes(access, manager, TinkerRecipeTypes.MODIFIER_WORKTABLE.get(), IModifierWorktableRecipe.class);
     register.addRecipes(TConstructJEIConstants.MODIFIER_WORKTABLE, modifierWorktableRecipes);
+    var ingredientManager = register.getIngredientManager();
+    ingredientManager.registerIngredientListener(new slimeknights.tconstruct.plugin.jei.util.TankHidingIngredientListener(
+      ingredientManager, Stream.concat(
+        Stream.of(TinkerSmeltery.copperCan, TinkerSmeltery.searedLantern, TinkerSmeltery.scorchedLantern),
+        Stream.concat(TinkerSmeltery.searedTank.values().stream(), TinkerSmeltery.scorchedTank.values().stream())
+      ).map(net.minecraft.world.level.ItemLike::asItem).toList()));
     TConstruct.LOG.info("Registered JEI recipe counts: casting_basin={}, casting_table={}, molding={}, modifiers={}, severing={}, tool_building={}, part_builder={}, worktable={}",
       castingBasinRecipes.size(), castingTableRecipes.size(), moldingRecipes.size(), modifierRecipes.size(),
       severingRecipes.size(), toolBuilding.size(), partBuilderRecipes.size(), modifierWorktableRecipes.size());
@@ -333,6 +344,9 @@ public class JEIPlugin implements IModPlugin {
     registry.addRecipeCatalyst(new ItemStack(TinkerTables.craftingStation), RecipeTypes.CRAFTING);
     registry.addRecipeCatalyst(new ItemStack(TinkerTables.partBuilder), TConstructJEIConstants.PART_BUILDER);
     registry.addRecipeCatalyst(new ItemStack(TinkerTables.tinkerStation), TConstructJEIConstants.MODIFIERS, TConstructJEIConstants.TOOL_BUILDING);
+    registry.addRecipeCatalyst(new ItemStack(TinkerTables.tinkerStation), TConstructJEIConstants.TOOL_MODIFICATION);
+    registry.addRecipeCatalyst(new ItemStack(TinkerTables.tinkersAnvil), TConstructJEIConstants.TOOL_MODIFICATION);
+    registry.addRecipeCatalyst(new ItemStack(TinkerTables.scorchedAnvil), TConstructJEIConstants.TOOL_MODIFICATION);
     registry.addRecipeCatalyst(new ItemStack(TinkerTables.tinkersAnvil), TConstructJEIConstants.MODIFIERS, TConstructJEIConstants.TOOL_BUILDING);
     registry.addRecipeCatalyst(new ItemStack(TinkerTables.scorchedAnvil), TConstructJEIConstants.MODIFIERS, TConstructJEIConstants.TOOL_BUILDING);
     registry.addRecipeCatalyst(new ItemStack(TinkerTables.modifierWorktable), TConstructJEIConstants.MODIFIER_WORKTABLE);
@@ -555,9 +569,19 @@ public class JEIPlugin implements IModPlugin {
     // fluid hiding, buckets are hidden via the creative tab logic
     // hide compat that is not present
     List<FluidStack> removeFluids = new ArrayList<>();
+    List<ItemStack> removeBuckets = new ArrayList<>();
+    for (slimeknights.tconstruct.smeltery.data.SmelteryCompat compat : slimeknights.tconstruct.smeltery.data.SmelteryCompat.values()) {
+      if (!compat.isPresent()) {
+        var fluid = compat.getFluid();
+        removeBuckets.add(new ItemStack(fluid));
+        removeFluid(removeFluids, fluid.get());
+      }
+    }
     if (!ModList.get().isLoaded("ceramics")) {
+      removeBuckets.add(new ItemStack(TinkerFluids.moltenPorcelain));
       removeFluid(removeFluids, TinkerFluids.moltenPorcelain.get());
     }
+    if (!removeBuckets.isEmpty()) manager.removeIngredientsAtRuntime(VanillaTypes.ITEM_STACK, removeBuckets);
 
     // add potion fluids for each potion variant if requested
     if (Config.CLIENT.showPotionFluidInJEI.get()) {

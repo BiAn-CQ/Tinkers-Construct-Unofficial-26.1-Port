@@ -27,10 +27,22 @@ import slimeknights.tconstruct.library.tools.stat.ToolStats;
 import slimeknights.tconstruct.tables.TinkerTables;
 
 import java.util.BitSet;
+import net.minecraft.network.chat.Component;
+import slimeknights.mantle.recipe.IMultiRecipe;
+import slimeknights.tconstruct.library.materials.IMaterialRegistry;
+import slimeknights.tconstruct.library.materials.definition.IMaterial;
+import slimeknights.tconstruct.library.materials.definition.MaterialVariant;
+import slimeknights.tconstruct.library.recipe.tinkerstation.IDisplayToolModification;
+import slimeknights.tconstruct.library.tools.helper.ToolBuildHandler;
+import slimeknights.tconstruct.library.tools.nbt.MaterialNBT;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 import java.util.List;
 
 /** Recipe swapping a tool material using another tool as input */
-public class ToolMaterialSwappingRecipe extends MaterialSwappingRecipe {
+public class ToolMaterialSwappingRecipe extends MaterialSwappingRecipe implements IMultiRecipe<IDisplayToolModification> {
   protected static final RecipeResult<LazyToolStack> NO_MODIFIERS = RecipeResult.failure(TConstruct.makeTranslationKey("recipe", "part_swapping.no_modifiers"));
   public static final RecordLoadable<ToolMaterialSwappingRecipe> LOADER = RecordLoadable.create(ContextKey.ID.requiredField(), TOOLS_FIELD, STACK_SIZE_FIELD, EXTRA_REQUIREMENTS_FIELD, ToolMaterialSwappingRecipe::new);
 
@@ -123,5 +135,57 @@ public class ToolMaterialSwappingRecipe extends MaterialSwappingRecipe {
   @Override
   public RecipeSerializer getSerializer() {
     return TinkerTables.toolMaterialSwapping.get();
+  }
+  /* JEI */
+  private List<IDisplayToolModification> multiRecipes;
+
+  @Override
+  public List<IDisplayToolModification> getRecipes(net.minecraft.core.HolderLookup.Provider access) {
+    if (multiRecipes == null) {
+      IMaterialRegistry registry = MaterialRegistry.getInstance();
+      Collection<IMaterial> materials = registry.getVisibleMaterials();
+      multiRecipes = Arrays.stream(slimeknights.tconstruct.library.recipe.TinkerIngredients.getItems(tools)).flatMap(stack -> {
+        ToolStack tool = ToolStack.from(stack);
+        List<MaterialStatsId> stats = ToolMaterialHook.stats(tool.getDefinition());
+        if (stats.size() > MAX_SLOTS) {
+          return Stream.empty();
+        }
+        List<MaterialVariant> renderMaterials = IntStream.range(0, stats.size()).mapToObj(i -> MaterialVariant.of(ToolBuildHandler.getRenderMaterial(i))).toList();
+        ToolStack displayTool = tool.copy();
+        displayTool.setMaterials(MaterialNBT.of(renderMaterials.toArray(MaterialVariant[]::new)));
+        return IntStream.range(0, stats.size()).<IDisplayToolModification>mapToObj(i -> {
+          MaterialStatsId stat = stats.get(i);
+          List<IMaterial> filtered = materials.stream().filter(mat -> registry.getMaterialStats(mat.getIdentifier(), stat).isPresent()).toList();
+          return new DisplayRecipe(i,
+            // one part per material
+            filtered.stream().map(mat -> withMaterial(displayTool.copy(), i, MaterialVariant.of(mat))).toList(),
+            // single tool with the material to swap left blank
+            List.of(withMaterial(tool.copy(), i, renderMaterials.get(i))),
+            // one output per material
+            filtered.stream().map(mat -> withMaterial(tool.copy(), i, MaterialVariant.of(mat))).toList()
+          );
+        });
+      }).toList();
+    }
+    return multiRecipes;
+  }
+
+  private class DisplayRecipe extends MaterialSwappingRecipe.LinkedDisplayRecipe {
+    private static final Component TITLE = TConstruct.makeTranslation("recipe", "tool_material_swapping");
+    private static final Component TOOLTIP = TConstruct.makeTranslation("recipe", "tool_material_swapping.tooltip");
+
+    public DisplayRecipe(int index, List<ItemStack> input, List<ItemStack> toolWithoutModifier, List<ItemStack> toolWithModifier) {
+      super(index, input, toolWithoutModifier, toolWithModifier);
+    }
+
+    @Override
+    public Component getTitle() {
+      return TITLE;
+    }
+
+    @Override
+    public Component getTooltip() {
+      return TOOLTIP;
+    }
   }
 }

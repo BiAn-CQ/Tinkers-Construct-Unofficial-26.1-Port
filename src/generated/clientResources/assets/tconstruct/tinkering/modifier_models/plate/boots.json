@@ -43,6 +43,10 @@
       "type": "tconstruct:basic",
       "texture": "tconstruct:item/tool/armor/plate/boots/modifiers/tconstruct_emerald"
     },
+    "tconstruct:feather_fall": {
+      "type": "tconstruct:basic",
+      "texture": "tconstruct:item/tool/armor/plate/boots/modifiers/tconstruct_feather_falling"
+    },
     "tconstruct:feather_falling": {
       "type": "tconstruct:basic",
       "texture": "tconstruct:item/tool/armor/plate/boots/modifiers/tconstruct_feather_falling"

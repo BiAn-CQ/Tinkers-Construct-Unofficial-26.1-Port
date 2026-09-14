@@ -105,15 +105,17 @@ public enum BannerModule implements ModifierModule, DisplayNameModifierHook, Too
 
   /** Copies the given list of patterns from banner format to the tool's NBT */
   public static void copyPatterns(ModDataNBT data, ModifierId id, DyeColor dye, BannerPatternLayers banner) {
-    int baseColor = Util.getColor(dye);
+    int baseColor = dye == null ? 0 : Util.getColor(dye);
     ListTag patterns = new ListTag();
 
     // add in the base pattern, it only exists on shields and we copy from banners
+    if (dye != null) {
     CompoundTag basePattern = new CompoundTag();
     basePattern.putString(KEY_PATTERN, BannerPatterns.BASE.identifier().toString());
     basePattern.putInt(KEY_DYE, dye.getId());
     basePattern.putInt(KEY_COLOR, baseColor);
     patterns.add(basePattern);
+    }
 
     // need a cache key, but it's just going to get hashed anyway, so store its hash
     int hashCode = baseColor;

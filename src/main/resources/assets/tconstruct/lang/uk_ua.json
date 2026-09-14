@@ -3523,6 +3523,13 @@
   "advancements.tconstruct.world.piggybackpack.description": "Підійміть свиню свиноранцем",
   "advancements.tconstruct.world.ancient_tools.title": "Археологія",
   "advancements.tconstruct.world.ancient_tools.description": "Відкрийте всі оригінальні види стародавніх інструментів",
+  "fluid_effect.tconstruct.extinguish": "Гасить вогонь",
+  "material.tconstruct.skyslimeskin": "Слизошкіра",
+  "material.tconstruct.skyslimeskin.flavor": "Літай як метелик, жаль як бджола.",
+  "material.tconstruct.enderslimeskin": "Слизошкіра",
+  "material.tconstruct.enderslimeskin.encyclopedia.armor": "Додає 25% шансу за частину обладунку випадково телепортувати нападників.",
+  "material.tconstruct.venom.flavor.slime": "Контрзакляття!",
+  "material.tconstruct.venom.encyclopedia.slime": "Надає 10% захисту від магічної шкоди за кожен рівень та зменшує час дії негативних зіллів.",
   "key.category.tconstruct.tconstruct": "Tinkers' Construct",
   "jade.modName.tconstruct": "Tinkers' Construct"
 }

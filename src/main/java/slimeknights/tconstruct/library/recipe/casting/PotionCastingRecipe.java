@@ -132,17 +132,21 @@ public class PotionCastingRecipe implements ICastingRecipe, IMultiRecipe<Display
   @Override
   public List<DisplayCastingRecipe> getRecipes(HolderLookup.Provider access) {
     if (displayRecipes == null) {
-      // create a subrecipe for every potion variant
+      // Keep each potion item aligned with its fluid across all matching fluid variants.
       List<ItemStack> bottles = List.of(slimeknights.tconstruct.library.recipe.TinkerIngredients.getItems(bottle));
-      displayRecipes = BuiltInRegistries.POTION.stream().map(BuiltInRegistries.POTION::wrapAsHolder)
-        .map(potion -> {
+      List<ItemStack> results = new java.util.ArrayList<>();
+      List<FluidStack> fluids = new java.util.ArrayList<>();
+      for (FluidStack input : fluid.getFluids()) {
+        BuiltInRegistries.POTION.stream().map(BuiltInRegistries.POTION::wrapAsHolder).forEach(potion -> {
           ItemStack result = new ItemStack(this.result);
           result.set(DataComponents.POTION_CONTENTS, new PotionContents(potion));
-          return new DisplayCastingRecipe(getId(), getType(), bottles, fluid.getFluids().stream()
-                                                              .map(fluid -> slimeknights.tconstruct.library.utils.FluidStackDataUtil.createPotion(fluid.getFluid(), fluid.getAmount(), potion))
-                                                              .toList(),
-                                          result, coolingTime, true);
-        }).toList();
+          results.add(result);
+          fluids.add(slimeknights.tconstruct.library.utils.FluidStackDataUtil.createPotion(input.getFluid(), input.getAmount(), potion));
+        });
+      }
+      displayRecipes = List.of((DisplayCastingRecipe) DisplayCastingRecipe.type(getType()).id(getId())
+        .casts(bottles).fluids(List.copyOf(fluids)).results(List.copyOf(results))
+        .coolingTime(coolingTime).consumed().linkFluidsToOutput().build());
     }
     return displayRecipes;
   }

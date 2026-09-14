@@ -1,7 +1,8 @@
 package slimeknights.tconstruct.plugin;
 
-import net.mehvahdjukaar.dummmmmmy.Dummmmmmy;
-import net.mehvahdjukaar.dummmmmmy.common.TargetDummyEntity;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.Identifier;
+import net.minecraft.world.entity.LivingEntity;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import slimeknights.tconstruct.TConstruct;
@@ -16,18 +17,21 @@ public class DummmmmmyPlugin {
   public void commonSetup(FMLCommonSetupEvent event) {
     event.enqueueWork(() -> {
       try {
-        Method disableShield = TargetDummyEntity.class.getDeclaredMethod("disableShield");
+        // The optional mod keeps this method private in 26.1.2; resolve it only when loaded.
+        Class<?> targetClass = Class.forName("net.mehvahdjukaar.dummmmmmy.common.TargetDummyEntity");
+        Method disableShield = targetClass.getDeclaredMethod("disableShield");
         disableShield.setAccessible(true);
         ModifierUtil.registerShieldDisabler(entity -> {
-          if (entity instanceof TargetDummyEntity target && target.isBlocking()) {
+          if (targetClass.isInstance(entity) && entity instanceof LivingEntity target && target.isBlocking()) {
             try {
               disableShield.invoke(target);
             } catch (IllegalAccessException | InvocationTargetException e) {
               TConstruct.LOG.error("Failed to disable target dummy shield.", e);
             }
           }
-        }, Dummmmmmy.TARGET_DUMMY.get());
-      } catch (NoSuchMethodException e) {
+        }, BuiltInRegistries.ENTITY_TYPE.getOptional(Identifier.fromNamespaceAndPath("dummmmmmy", "target_dummy"))
+          .orElseThrow(() -> new IllegalStateException("Missing registered target dummy entity type")));
+      } catch (ReflectiveOperationException | RuntimeException e) {
         TConstruct.LOG.error("Failed to locate TargetDummyEntity::disableShield, unable to disable shields.", e);
       }
     });
