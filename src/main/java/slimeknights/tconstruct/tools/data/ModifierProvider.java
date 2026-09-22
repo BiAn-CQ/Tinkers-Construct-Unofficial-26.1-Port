@@ -352,7 +352,8 @@ public class ModifierProvider extends AbstractModifierProvider {
       .addModule(StatBoostModule.add(ToolStats.MINING_SPEED).flat(2))
       .addModule(SetStatModule.set(ToolStats.HARVEST_TIER).value(ToolMaterial.DIAMOND))
       // ranged
-      .addModule(StatBoostModule.add(ToolStats.PROJECTILE_DAMAGE).flat(0.5f));
+      .addModule(StatBoostModule.add(ToolStats.PROJECTILE_DAMAGE).flat(0.5f))
+      .addModule(new VolatileFlagModule(TConstruct.getResource("diamond_armor"), ModifierCondition.ANY_CONTEXT.with(ToolContextPredicate.tag(TinkerTags.Items.WORN_ARMOR))));
     // netherite
     buildModifier(ModifierIds.netherite)
       .levelDisplay(ModifierLevelDisplay.NO_LEVELS)
@@ -367,7 +368,8 @@ public class ModifierProvider extends AbstractModifierProvider {
       .addModule(StatBoostModule.multiplyBase(ToolStats.MINING_SPEED).flat(0.25f))
       .addModule(SetStatModule.set(ToolStats.HARVEST_TIER).value(ToolMaterial.NETHERITE))
       // ranged
-      .addModule(StatBoostModule.multiplyBase(ToolStats.VELOCITY).flat(0.1f));
+      .addModule(StatBoostModule.multiplyBase(ToolStats.VELOCITY).flat(0.1f))
+      .addModule(new VolatileFlagModule(TConstruct.getResource("netherite")));
 
     // general
     buildModifier(ModifierIds.worldbound).addModule(new VolatileFlagModule(IndestructibleItemEntity.INDESTRUCTIBLE_ENTITY)).addModule(new RarityModule(Rarity.UNCOMMON)).levelDisplay(ModifierLevelDisplay.NO_LEVELS);
@@ -1629,6 +1631,12 @@ public class ModifierProvider extends AbstractModifierProvider {
         .variable(VALUE).min()
         .build(),
         ModifierHooks.MODIFY_DAMAGE, ModifierHooks.TOOLTIP);
+
+    buildModifier(new ModifierId("tconstruct:iron_armor")).showInTooltips(slimeknights.tconstruct.library.modifiers.util.ModifierTooltip.ShowInTooltips.NEVER)
+      .addModule(new VolatileFlagModule(TConstruct.getResource("iron_armor")));
+    buildModifier(TinkerModifiers.withered).levelDisplay(ModifierLevelDisplay.SINGLE_LEVEL)
+      .addModule(new EffectImmunityModule(MobEffects.WITHER, LevelingInt.LEVEL))
+      .addModule(MobEffectModule.builder(MobEffects.WITHER).damageSource(DamageSourcePredicate.tag(TinkerTags.DamageTypes.MELEE_PROTECTION)).time(RandomLevelingValue.flat(120)).buildArmorAttack());
 
     // traits - slimeskull
     buildModifier(ModifierIds.mithridatism).addModule(new EffectImmunityModule(MobEffects.POISON)).levelDisplay(ModifierLevelDisplay.NO_LEVELS);

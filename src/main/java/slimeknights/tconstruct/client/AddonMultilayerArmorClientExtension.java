@@ -5,6 +5,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.entity.layers.EquipmentLayerRenderer;
 import net.minecraft.client.resources.model.EquipmentClientInfo;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.Identifier;
@@ -25,6 +26,9 @@ import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import slimeknights.mantle.data.loadable.common.ColorLoadable;
+import slimeknights.tconstruct.library.modifiers.ModifierId;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
@@ -70,10 +74,12 @@ final class AddonMultilayerArmorClientExtension implements TinkerArmorClientExte
                                     int layerIndex, int fallbackColor) {
     LayerDefinition definition = find(layer.textureId());
     if (definition == null) {
-      return fallbackColor;
+      return EquipmentLayerRenderer.getColorForLayer(layer, fallbackColor);
     }
-    int color = definition.select(stack, layer.textureId()).color();
-    return color == -1 ? fallbackColor : color;
+    // -1 is opaque white for an already colored texture. The default dye color
+    // is often 0, which NeoForge treats as "do not render this layer".
+    Selection selection = definition.select(stack, layer.textureId());
+    return selection.texture() == null ? 0 : selection.color();
   }
 
   @Override
@@ -135,18 +141,9 @@ final class AddonMultilayerArmorClientExtension implements TinkerArmorClientExte
         if (!entry.isJsonObject()) {
           continue;
         }
-        JsonObject object = entry.getAsJsonObject();
-        String type = GsonHelper.getAsString(object, "type");
-        Identifier prefix = Identifier.parse(GsonHelper.getAsString(object, "prefix"));
-        String suffix = GsonHelper.getAsString(object, "suffix", "");
-        switch (type) {
-          case "tconstruct:fixed" -> parsed.add(LayerDefinition.fixed(prefix, suffix,
-            GsonHelper.getAsInt(object, "color", -1), GsonHelper.getAsInt(object, "luminosity", 0)));
-          case "tconstruct:material" -> parsed.add(LayerDefinition.material(prefix,
-            GsonHelper.getAsInt(object, "index")));
-          case "tconstruct:persistent_data" -> parsed.add(LayerDefinition.persistent(prefix,
-            Identifier.parse(GsonHelper.getAsString(object, "material_key"))));
-          default -> TConstruct.LOG.debug("Skipping unsupported addon armor layer type {} in {}", type, resource);
+        LayerDefinition definition = parseLayer(entry.getAsJsonObject());
+        if (definition != null) {
+          parsed.add(definition);
         }
       }
       layers = List.copyOf(parsed);
@@ -154,6 +151,56 @@ final class AddonMultilayerArmorClientExtension implements TinkerArmorClientExte
       TConstruct.LOG.error("Failed to load addon armor model {}", resource, exception);
       layers = List.of();
     }
+  }
+
+  @Nullable
+  private static LayerDefinition parseLayer(JsonObject object) {
+    String type = GsonHelper.getAsString(object, "type");
+    if ("tconstruct:first_present".equals(type)) {
+      List<LayerDefinition> options = new ArrayList<>();
+      for (JsonElement option : GsonHelper.getAsJsonArray(object, "options")) {
+        if (option.isJsonObject()) {
+          LayerDefinition parsed = parseLayer(option.getAsJsonObject());
+          if (parsed != null) {
+            options.add(parsed);
+          }
+        }
+      }
+      return options.isEmpty() ? null : LayerDefinition.firstPresent(options);
+    }
+    if ("tconstruct:material_has_fallback".equals(type)) {
+      LayerDefinition apply = parseLayer(GsonHelper.getAsJsonObject(object, "apply"));
+      JsonElement fallback = object.get("fallback");
+      Set<String> names = new java.util.HashSet<>();
+      if (fallback.isJsonArray()) {
+        fallback.getAsJsonArray().forEach(value -> names.add(value.getAsString()));
+      } else {
+        names.add(fallback.getAsString());
+      }
+      return apply == null ? null : new LayerDefinition(Kind.MATERIAL_FALLBACK, apply.prefix, apply.suffix,
+        GsonHelper.getAsInt(object, "index"), null, -1, 0, List.of(apply), null, Set.copyOf(names));
+    }
+    // Unknown layer types need not have a prefix.
+    if (!List.of("tconstruct:fixed", "tconstruct:material", "tconstruct:persistent_data", "tconstruct:dyed").contains(type)) {
+      TConstruct.LOG.debug("Skipping unsupported addon armor layer type {}", type);
+      return null;
+    }
+    Identifier prefix = Identifier.parse(GsonHelper.getAsString(object, "prefix"));
+    String suffix = GsonHelper.getAsString(object, "suffix", "");
+    return switch (type) {
+      case "tconstruct:fixed" -> LayerDefinition.fixed(prefix, suffix,
+        object.has("color") ? ColorLoadable.ALPHA.getIfPresent(object, "color") : -1,
+        GsonHelper.getAsInt(object, "luminosity", 0),
+        object.has("modifier") ? Identifier.parse(GsonHelper.getAsString(object, "modifier")) : null);
+      case "tconstruct:material" -> LayerDefinition.material(prefix, GsonHelper.getAsInt(object, "index"));
+      case "tconstruct:persistent_data" -> LayerDefinition.persistent(prefix,
+        Identifier.parse(GsonHelper.getAsString(object, "material_key")));
+      case "tconstruct:dyed" -> new LayerDefinition(Kind.DYED, prefix, suffix, -1,
+        Identifier.parse(GsonHelper.getAsString(object, "modifier", "tconstruct:dyed")), -1,
+        GsonHelper.getAsInt(object, "luminosity", 0), List.of(),
+        object.has("default_color") ? ColorLoadable.NO_ALPHA.getIfPresent(object, "default_color") : null, Set.of());
+      default -> null;
+    };
   }
 
   private static Identifier toTexturePath(Identifier logical) {
@@ -189,27 +236,38 @@ final class AddonMultilayerArmorClientExtension implements TinkerArmorClientExte
     return new Selection(exists(base) ? base : null, -1, 0);
   }
 
-  private enum Kind { FIXED, MATERIAL, PERSISTENT }
+  private enum Kind { FIXED, MATERIAL, PERSISTENT, DYED, FIRST_PRESENT, MATERIAL_FALLBACK }
 
   private record LayerDefinition(Kind kind, Identifier prefix, String suffix, int index,
-                                 @Nullable Identifier key, int color, int luminosity) {
-    static LayerDefinition fixed(Identifier prefix, String suffix, int color, int luminosity) {
-      return new LayerDefinition(Kind.FIXED, prefix, suffix, -1, null, color, luminosity);
+                                 @Nullable Identifier key, int color, int luminosity, List<LayerDefinition> options, @Nullable Integer defaultColor, Set<String> fallbacks) {
+    static LayerDefinition fixed(Identifier prefix, String suffix, int color, int luminosity, @Nullable Identifier modifier) {
+      return new LayerDefinition(Kind.FIXED, prefix, suffix, -1, modifier, color, luminosity, List.of(), null, Set.of());
     }
 
     static LayerDefinition material(Identifier prefix, int index) {
-      return new LayerDefinition(Kind.MATERIAL, prefix, "", index, null, -1, 0);
+      return new LayerDefinition(Kind.MATERIAL, prefix, "", index, null, -1, 0, List.of(), null, Set.of());
     }
 
     static LayerDefinition persistent(Identifier prefix, Identifier key) {
-      return new LayerDefinition(Kind.PERSISTENT, prefix, "", -1, key, -1, 0);
+      return new LayerDefinition(Kind.PERSISTENT, prefix, "", -1, key, -1, 0, List.of(), null, Set.of());
+    }
+
+    static LayerDefinition firstPresent(List<LayerDefinition> options) {
+      LayerDefinition first = options.getFirst();
+      return new LayerDefinition(Kind.FIRST_PRESENT, first.prefix, first.suffix, -1, null, -1, 0, List.copyOf(options), null, Set.of());
     }
 
     boolean matches(Identifier logical) {
+      if ((kind == Kind.FIRST_PRESENT || kind == Kind.MATERIAL_FALLBACK)) {
+        return options.stream().anyMatch(option -> option.matches(logical));
+      }
       return logical.getNamespace().equals(prefix.getNamespace()) && matchesPath(logical.getPath());
     }
 
     boolean matchesPath(String path) {
+      if ((kind == Kind.FIRST_PRESENT || kind == Kind.MATERIAL_FALLBACK)) {
+        return options.stream().anyMatch(option -> option.matchesPath(path));
+      }
       String prefixPath = prefix.getPath();
       return path.equals(prefixPath + "armor" + suffix)
         || path.equals(prefixPath + "leggings" + suffix)
@@ -218,11 +276,50 @@ final class AddonMultilayerArmorClientExtension implements TinkerArmorClientExte
 
     Selection select(ItemStack stack, Identifier base) {
       return switch (kind) {
-        case FIXED -> new Selection(exists(base) ? base : null, color, luminosity);
+        case FIXED -> key == null || ModifierUtil.getModifierLevel(stack, new ModifierId(key)) > 0
+          ? new Selection(exists(base) ? base : null, color, luminosity) : new Selection(null, -1, 0);
         case MATERIAL -> materialSelection(stack, base, materialAt(stack, index));
         case PERSISTENT -> materialSelection(stack, base,
           MaterialVariantId.tryParse(ModifierUtil.getPersistentString(stack, key)));
+        case DYED -> {
+          var persistent = ToolStack.from(stack).getPersistentData();
+          yield (defaultColor != null || ModifierUtil.getModifierLevel(stack, new ModifierId(key)) > 0) && exists(base)
+            ? new Selection(base, 0xFF000000 | persistent.getIntOr(key, defaultColor == null ? -1 : defaultColor), luminosity)
+            : new Selection(null, -1, 0);
+        }
+        case MATERIAL_FALLBACK -> {
+          MaterialVariantId material = materialAt(stack, index);
+          LayerDefinition apply = options.getFirst();
+          yield material != null && MaterialRenderInfoLoader.INSTANCE.hasFallback(material, fallbacks)
+            ? apply.select(stack, apply.baseFor(textureType(base))) : new Selection(null, -1, 0);
+        }
+        case FIRST_PRESENT -> {
+          Selection selected = new Selection(null, -1, 0);
+          for (LayerDefinition option : options) {
+            selected = option.select(stack, option.baseFor(textureType(base)));
+            if (selected.texture() != null) {
+              break;
+            }
+          }
+          yield selected;
+        }
       };
+    }
+
+    private Identifier baseFor(String textureType) {
+      return prefix.withSuffix(textureType + suffix);
+    }
+
+    private String textureType(Identifier base) {
+      if (kind == Kind.FIRST_PRESENT || kind == Kind.MATERIAL_FALLBACK) {
+        for (LayerDefinition option : options) {
+          if (option.matches(base)) return option.textureType(base);
+        }
+      }
+      for (String type : List.of("armor", "leggings", "wings")) {
+        if (base.equals(baseFor(type))) return type;
+      }
+      throw new IllegalArgumentException("Unmatched armor layer " + base);
     }
 
     @Nullable

@@ -3,7 +3,7 @@
   "cast": "minecraft:creeper_head",
   "cast_purpose": "consumed_offset",
   "extra_materials": [
-    "tconstruct:glass"
+    "tconstruct:gunpowder"
   ],
   "fluid_swapping": false,
   "item_cost": 5,

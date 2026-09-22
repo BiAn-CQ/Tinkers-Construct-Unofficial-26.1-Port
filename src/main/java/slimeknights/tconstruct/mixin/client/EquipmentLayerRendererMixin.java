@@ -20,7 +20,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import slimeknights.tconstruct.client.TConstructArmorClientExtensions;
+import slimeknights.tconstruct.client.TinkerArmorClientExtension;
 import slimeknights.tconstruct.client.SlimeskullRenderer;
 
 import javax.annotation.Nullable;
@@ -59,7 +59,7 @@ public abstract class EquipmentLayerRendererMixin {
     int startingOrder,
     CallbackInfo callback
   ) {
-    if (!(IClientItemExtensions.of(stack) instanceof TConstructArmorClientExtensions extension)) {
+    if (!(IClientItemExtensions.of(stack) instanceof TinkerArmorClientExtension extension)) {
       return;
     }
 

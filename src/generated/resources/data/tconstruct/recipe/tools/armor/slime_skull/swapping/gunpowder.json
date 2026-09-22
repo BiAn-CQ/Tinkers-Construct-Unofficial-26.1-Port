@@ -4,7 +4,7 @@
   "ingredient": {
     "ingredient": "minecraft:creeper_head"
   },
-  "material": "tconstruct:glass",
+  "material": "tconstruct:gunpowder",
   "max_stack_size": 16,
   "repair_value": 6,
   "tools": {

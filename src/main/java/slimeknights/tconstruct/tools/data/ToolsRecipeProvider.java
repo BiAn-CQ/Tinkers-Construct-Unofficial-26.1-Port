@@ -284,7 +284,7 @@ public class ToolsRecipeProvider extends BaseRecipeProvider implements IMaterial
       .save(consumer, location(plateFolder + "boots_swapping"));
 
     // slimeskull
-    slimeskull(consumer, MaterialIds.glass,       Items.CREEPER_HEAD, armorFolder);
+    slimeskull(consumer, MaterialIds.gunpowder,   Items.CREEPER_HEAD, armorFolder);
     slimeskull(consumer, MaterialIds.dragonScale, Items.DRAGON_HEAD,  armorFolder);
     slimeskull(consumer, MaterialIds.enderPearl, TinkerWorld.heads.get(TinkerHeadType.ENDERMAN), armorFolder);
     slimeskull(consumer, MaterialIds.blaze,      TinkerWorld.heads.get(TinkerHeadType.BLAZE),    armorFolder);
