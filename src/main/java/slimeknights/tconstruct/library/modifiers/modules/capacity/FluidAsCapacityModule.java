@@ -25,11 +25,16 @@ public record FluidAsCapacityModule(ToolTankHelper helper, Fluid fluid) implemen
 
   public FluidAsCapacityModule(Fluid fluid) { this(ToolTankHelper.TANK_HELPER, fluid); }
   @Override public RecordLoadable<FluidAsCapacityModule> getLoader() { return LOADER; }
-  @Override public List<ModuleHook<?>> getDefaultHooks() { return DEFAULT_HOOKS; }
 
-  @Override public int getAmount(IToolStackView tool) {
-    FluidStack stored = helper.getFluid(tool);
-    return !stored.isEmpty() && stored.getFluid() == fluid ? stored.getAmount() : 0;
+  @Override
+  public List<ModuleHook<?>> getDefaultHooks() {
+    return DEFAULT_HOOKS;
+  }
+
+  @Override
+  public int getAmount(IToolStackView tool) {
+    FluidStack fluid = helper.getFluid(tool);
+    return !fluid.isEmpty() && fluid.getFluid() == this.fluid ? fluid.getAmount() : 0;
   }
 
   @Override public int getCapacity(IToolStackView tool, ModifierEntry entry) {
@@ -37,12 +42,33 @@ public record FluidAsCapacityModule(ToolTankHelper helper, Fluid fluid) implemen
     return stored.isEmpty() || stored.getFluid() == fluid ? helper.getCapacity(tool) : 0;
   }
 
-  @Override public void setAmount(IToolStackView tool, ModifierEntry entry, int amount) {
-    FluidStack stored = helper.getFluid(tool);
-    if (stored.isEmpty()) {
-      if (amount > 0) helper.setFluid(tool, new FluidStack(fluid, amount));
-    } else if (stored.getFluid() == fluid) {
-      helper.setFluid(tool, stored.copyWithAmount(amount));
+  @Override
+  public void setAmount(IToolStackView tool, ModifierEntry entry, int amount) {
+    // don't allow setting amount if another fluid is present
+    FluidStack fluid = helper.getFluid(tool);
+    if (fluid.isEmpty() || fluid.getFluid() == this.fluid) {
+      helper.setFluid(tool, amount == 0 ? FluidStack.EMPTY : new FluidStack(this.fluid, amount));
+    }
+  }
+
+  @Override
+  public void addAmount(IToolStackView tool, ModifierEntry modifier, int amount) {
+    if (amount == 0) return;
+    // don't allow setting amount if another fluid is present
+    FluidStack fluid = helper.getFluid(tool);
+    if (fluid.isEmpty() || fluid.getFluid() == this.fluid) {
+      helper.setFluid(tool, new FluidStack(this.fluid, fluid.getAmount() + amount));
+    }
+  }
+
+  @Override
+  public void removeAmount(IToolStackView tool, ModifierEntry modifier, int amount) {
+    if (amount == 0) return;
+    // don't allow setting amount if another fluid is present
+    FluidStack fluid = helper.getFluid(tool);
+    if (fluid.isEmpty() || fluid.getFluid() == this.fluid) {
+      int newAmount = fluid.getAmount() - amount;
+      helper.setFluid(tool, newAmount == 0 ? FluidStack.EMPTY : new FluidStack(this.fluid, newAmount));
     }
   }
 }

@@ -3,14 +3,14 @@
   "damage": 2,
   "entity": {
     "types": [
-      "minecraft:dolphin",
-      "minecraft:llama",
-      "minecraft:horse",
-      "minecraft:fox",
-      "minecraft:mule",
-      "minecraft:donkey",
       "minecraft:trader_llama",
-      "minecraft:ocelot"
+      "minecraft:llama",
+      "minecraft:ocelot",
+      "minecraft:dolphin",
+      "minecraft:mule",
+      "minecraft:horse",
+      "minecraft:donkey",
+      "minecraft:fox"
     ]
   },
   "result": {

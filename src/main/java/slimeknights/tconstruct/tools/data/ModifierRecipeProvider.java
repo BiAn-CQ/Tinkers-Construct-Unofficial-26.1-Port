@@ -1,5 +1,6 @@
 package slimeknights.tconstruct.tools.data;
 
+import net.minecraft.core.HolderLookup;
 import slimeknights.tconstruct.library.recipe.TinkerIngredients;
 import slimeknights.tconstruct.library.recipe.FluidTinkerIngredients;
 import slimeknights.tconstruct.library.recipe.MaterialTinkerIngredients;
@@ -151,9 +152,10 @@ public class ModifierRecipeProvider extends BaseRecipeProvider {
                             .save(consumer, prefix(TinkerModifiers.silkyCloth, folder));
 
     // modifier repair
-    // pig iron - from bacon, only in the tinker station
-    ModifierRepairRecipeBuilder.repair(ModifierIds.tasty, TinkerIngredients.of(TinkerCommons.bacon), 25)
-                               .save(consumer, prefix(ModifierIds.tasty.location(), folder));
+    // pig iron - from bacon
+    ModifierRepairRecipeBuilder.repair(ModifierIds.tasty, slimeknights.tconstruct.library.recipe.TinkerIngredients.of(TinkerCommons.bacon), 25)
+      .buildCraftingTable(consumer, wrap(ModifierIds.tasty.location(), folder, "_crafting_table"))
+      .save(consumer, prefix(ModifierIds.tasty.location(), folder));
   }
 
   @SuppressWarnings("removal")
@@ -1909,7 +1911,7 @@ public class ModifierRecipeProvider extends BaseRecipeProvider {
     SimpleRecipeOutput.save(consumer, location(folder + "dyeing"), TinkerModifiers.armorDyeingSerializer.get());
     SimpleRecipeOutput.save(consumer, location(folder + "trim"), TinkerModifiers.armorTrimSerializer.get());
     consumer.accept(net.minecraft.resources.ResourceKey.create(net.minecraft.core.registries.Registries.RECIPE, location(folder + "banner")),
-      new slimeknights.tconstruct.tools.recipe.BannerModifierRecipe(location(folder + "banner"), Ingredient.of(TinkerFluids.slimeBottle.get(SlimeType.SKY))), null);
+      new slimeknights.tconstruct.tools.recipe.BannerModifierRecipe(location(folder + "banner"), slimeknights.tconstruct.library.recipe.TinkerIngredients.of(TinkerFluids.slimeBottle.get(SlimeType.SKY))), null);
 
     // slimesuit //
     // basic slime

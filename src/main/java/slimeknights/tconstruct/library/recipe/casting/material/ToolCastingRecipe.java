@@ -27,11 +27,11 @@ import slimeknights.tconstruct.library.json.predicate.material.MaterialPredicate
 import slimeknights.tconstruct.library.materials.definition.MaterialVariant;
 import slimeknights.tconstruct.library.materials.definition.MaterialVariantId;
 import slimeknights.tconstruct.library.materials.stats.MaterialStatsId;
-import slimeknights.tconstruct.library.recipe.RecipeSlot;
 import slimeknights.tconstruct.library.recipe.casting.CastingRecipeLookup;
 import slimeknights.tconstruct.library.recipe.casting.ICastingContainer;
 import slimeknights.tconstruct.library.recipe.casting.IDisplayableCastingRecipe;
 import slimeknights.tconstruct.library.recipe.casting.material.DisplayMaterialCastingRecipe.CompositeFluid;
+import slimeknights.tconstruct.library.recipe.display.RecipeSlot;
 import slimeknights.tconstruct.library.recipe.tinkerstation.building.MaterialSwappingRecipe;
 import slimeknights.tconstruct.library.tools.definition.module.material.ToolMaterialHook;
 import slimeknights.tconstruct.library.tools.helper.ToolBuildHandler;
@@ -188,6 +188,26 @@ public class ToolCastingRecipe extends PartSwapCastingRecipe implements IMultiRe
 
   /* JEI display */
 
+  /** Checks if the given stack matches the extra materials */
+  private boolean matchesExtraMaterials(ItemStack stack) {
+    MaterialIdNBT materials = MaterialIdNBT.from(stack);
+    int index = 0;
+    // if consumed offset, the first extra material is at index 0
+    if (castPurpose == CastPurpose.CONSUMED_OFFSET) {
+      if (!this.extraMaterials.get(0).sameId(materials.getMaterial(0))) {
+        return false;
+      }
+      index = 1;
+    }
+    for (; index < extraMaterials.size(); index++) {
+      // this method is only called if we have 1 material
+      if (!this.extraMaterials.get(index).sameId(materials.getMaterial(index + 1))) {
+        return false;
+      }
+    }
+    return true;
+  }
+
   @Override
   public List<IDisplayableCastingRecipe> getRecipes(HolderLookup.Provider access) {
     if (multiRecipes == null) {
@@ -217,7 +237,7 @@ public class ToolCastingRecipe extends PartSwapCastingRecipe implements IMultiRe
           List<ItemStack> casts = slimeknights.tconstruct.library.recipe.TinkerIngredients.getItemList(getCast());
           if (castPurpose == CastPurpose.FIRST_MATERIAL || castPurpose == CastPurpose.SECOND_MATERIAL
             || castPurpose == CastPurpose.MAYBE_MATERIAL && requirements.size() > 1) {
-            displayRecipes.add(new DisplayRecipe(fluidIndex, requirement, casts, castSwap.getFluids(), maxCoolingTime));
+            displayRecipes.add(new DisplayRecipe(fluidIndex, casts, castSwap.getFluids(), maxCoolingTime));
           } else {
             // standard display recipe, animates 1 material
             List<ItemStack> tools;
@@ -235,6 +255,7 @@ public class ToolCastingRecipe extends PartSwapCastingRecipe implements IMultiRe
               .casts(casts).consumed(isConsumed())
               .fluids(castSwap.getFluids()).results(tools)
               .coolingTime(maxCoolingTime).materialCasting(false)
+              .isVisible((focus, output) -> !output || matchesExtraMaterials(focus))
               .build());
           }
           // want the cast swap to be second
@@ -307,7 +328,7 @@ public class ToolCastingRecipe extends PartSwapCastingRecipe implements IMultiRe
     /** Material item representing the cast, used when a tool is the output focus. */
     private final IMaterialItem castItem;
 
-    private DisplayRecipe(int fluidIndex, MaterialStatsId statType, List<ItemStack> castItems, List<FluidStack> fluids, int coolingTime) {
+    private DisplayRecipe(int fluidIndex, List<ItemStack> castItems, List<FluidStack> fluids, int coolingTime) {
       this.castItems = castItems;
       this.fluids = fluids;
       this.outputs = List.of(IModifiableDisplay.getDisplayStack(result.asItem()));
@@ -351,7 +372,7 @@ public class ToolCastingRecipe extends PartSwapCastingRecipe implements IMultiRe
     @Override
     public List<ItemStack> getCastItems(ItemStack focus, boolean focusOutput) {
       if (focusOutput && !focus.isEmpty()) {
-        MaterialVariantId castMaterial = MaterialIdNBT.from(focus).getMaterial(castIndex);
+        MaterialVariantId castMaterial = MaterialIdNBT.getMaterial(focus, castIndex);
         if (castItem != null && castItem.canUseMaterial(castMaterial.getId())) {
           return List.of(castItem.withMaterialForDisplay(castMaterial));
         }
@@ -362,7 +383,7 @@ public class ToolCastingRecipe extends PartSwapCastingRecipe implements IMultiRe
     @Override
     public List<FluidStack> getFluids(ItemStack focus, boolean focusOutput) {
       if (focusOutput && !focus.isEmpty()) {
-        MaterialVariantId material = MaterialIdNBT.from(focus).getMaterial(fluidIndex);
+        MaterialVariantId material = MaterialIdNBT.getMaterial(focus, fluidIndex);
         if (materials.matches(material) && castItem != null && castItem.canUseMaterial(material.getId())) {
           List<FluidStack> fluids = MaterialCastingLookup.getCastingFluids(material).stream()
             .flatMap(recipe -> recipe.getFluids().stream().map(ToolCastingRecipe.this::resizeFluid))
@@ -384,6 +405,29 @@ public class ToolCastingRecipe extends PartSwapCastingRecipe implements IMultiRe
     public void onDisplayUpdate(RecipeSlot<ItemStack> cast, RecipeSlot<FluidStack> fluid, RecipeSlot<ItemStack> output) {
       // set the output based on the current cast and the current fluid, however the recipe would regularly do that
       output.set(assemble(cast.get(), MaterialCastingLookup.getCastingFluid(fluid.get().getFluid()).getOutput()));
+    }
+
+
+    /* Filtered */
+
+    @Override
+    public boolean isFiltered() {
+      return !extraMaterials.isEmpty();
+    }
+
+    @Override
+    public boolean isVisibleFromItem(ItemStack focus, boolean output) {
+      if (!output) {
+        return false;
+      }
+      MaterialIdNBT materials = MaterialIdNBT.from(focus);
+      for (int i = 0; i < extraMaterials.size(); i++) {
+        // we always have 2 materials before extra materials in this recipe
+        if (!extraMaterials.get(i).sameId(materials.getMaterial(i + 2))) {
+          return false;
+        }
+      }
+      return true;
     }
 
     /** @deprecated use {@link #getOutputs()} */

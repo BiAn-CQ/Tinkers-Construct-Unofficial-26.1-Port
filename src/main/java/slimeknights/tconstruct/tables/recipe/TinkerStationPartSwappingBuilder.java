@@ -60,7 +60,7 @@ public class TinkerStationPartSwappingBuilder extends AbstractRecipeBuilder<Tink
   @Override
   public void save(RecipeOutput consumer, Identifier id) {
     if (fromTool) {
-      saveRecipe(consumer, id, new ToolMaterialSwappingRecipe(id, tools, maxStackSize, extraRequirements), null);
+      saveRecipe(consumer, id, new ToolMaterialSwappingRecipe(id, tools, extraRequirements), null);
     } else {
       saveRecipe(consumer, id, new TinkerStationPartSwapping(id, tools, maxStackSize, extraRequirements), null);
     }

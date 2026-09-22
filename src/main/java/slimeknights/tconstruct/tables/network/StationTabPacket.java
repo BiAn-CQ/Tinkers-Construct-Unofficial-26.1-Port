@@ -42,10 +42,14 @@ public class StationTabPacket implements IThreadsafePacket {
       }
       BlockState state = world.getBlockState(pos);
       if (state.getBlock() instanceof ITabbedBlock) {
+        // Close only the server menu. A client close packet briefly grabs the mouse
+        // before the replacement screen opens, which recenters the cursor.
+        sender.doCloseContainer();
         ((ITabbedBlock) state.getBlock()).openGui(sender, world, pos);
       } else {
         MenuProvider provider = state.getMenuProvider(world, pos);
         if (provider != null) {
+          sender.doCloseContainer();
           sender.openMenu(provider, buffer -> buffer.writeBlockPos(pos));
         }
       }

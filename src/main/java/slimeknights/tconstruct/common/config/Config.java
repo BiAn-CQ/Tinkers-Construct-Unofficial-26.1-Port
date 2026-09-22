@@ -68,6 +68,7 @@ public class Config {
     public final BooleanValue forceIntegrationMaterials;
     public final BooleanValue disableSideInventoryWhitelist;
     public final BooleanValue quickApplyToolModifiersSurvival;
+    public final BooleanValue debugLogResourceValues;
     public final EnumValue<LogInvalidToolStack> logInvalidToolStack;
     public enum LogInvalidToolStack { STACKTRACE, WARNING, IGNORED }
 
@@ -220,6 +221,9 @@ public class Config {
         .comment("If true, modifier crystals and creative slots can be applied to tools in the inventory on right click for operators in survival. If false, this only works for players in creative mode.",
                  "This option makes testing of tools and modifiers easier, but may cause misleading assumptions about how these items will function for non-operators.")
         .define("quickApplyToolModifiersSurvival", false);
+      this.debugLogResourceValues = builder
+        .comment("If true, the values of data pack and resource pack registries such as materials will be dumped to the debug log. If false, the info is still accessible using the in game commands.")
+        .define("debugLogResourceValues", false);
       this.logInvalidToolStack = builder
         .comment("If STACKTRACE, logs the stacktrace whenever a tool stack is created from a non-modifiable item. If WARNING (default), logs a shorter but more efficient error. If IGNORE, disables logging (useful for modpacks/players *after* they reported the issue). The stacktrace helps debug which mod is causing it, but is rather expensive on the chance they are doing it a lot.")
         .defineEnum("logInvalidToolStack", LogInvalidToolStack.WARNING);
@@ -334,7 +338,7 @@ public class Config {
 
         this.showToolInModifiers = builder
           .comment("[Experimental] If true, modifier recipe lookup from a specific tool will show your tool in JEI. If false, a generic display tool will be shown.")
-          .define("showToolInModifiers", false);
+          .define("showToolInModifiers", true);
       }
       builder.pop(); // jei
 

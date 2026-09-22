@@ -105,12 +105,17 @@ public enum SlotIngredientRenderer implements IIngredientRenderer<SlotCount> {
 
   @Override
   public void render(GuiGraphicsExtractor graphics, @Nullable SlotCount slots) {
+    render(graphics, slots, 0, 0);
+  }
+
+  @Override
+  public void render(GuiGraphicsExtractor graphics, @Nullable SlotCount slots, int posX, int posY) {
     if (this != INGREDIENT && slots != null && slots.count() > 0) {
       String text = Integer.toString(slots.count());
       Font fontRenderer = Minecraft.getInstance().font;
-      graphics.text(fontRenderer, text, 9 - fontRenderer.width(text), 5, Color.GRAY.getRGB(), false);
+      graphics.text(fontRenderer, text, posX + 9 - fontRenderer.width(text), posY + 5, Color.GRAY.getRGB(), false);
     }
-    graphics.blitSprite(RenderPipelines.GUI_TEXTURED, SLOT_SPRITES.computeIfAbsent(SlotCount.type(slots), SLOT_LOOKUP), this == INGREDIENT ? 0 : 8, 0, 16, 16);
+    graphics.blitSprite(RenderPipelines.GUI_TEXTURED, SLOT_SPRITES.computeIfAbsent(SlotCount.type(slots), SLOT_LOOKUP), this == INGREDIENT ? posX : posX + 8, posY, 16, 16);
   }
 
   /** Appends the ID in advanced tooltip */

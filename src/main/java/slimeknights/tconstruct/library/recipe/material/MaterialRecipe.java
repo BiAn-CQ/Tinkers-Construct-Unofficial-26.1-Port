@@ -25,12 +25,11 @@ import slimeknights.tconstruct.tables.TinkerTables;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Recipe to get the material from an ingredient
  */
-public class MaterialRecipe implements ICustomOutputRecipe<ISingleStackContainer>, IMaterialValue {
+public class MaterialRecipe implements ICustomOutputRecipe<ISingleStackContainer>, IMaterialValue, IDisplayMaterialRecipe {
   /** Empty material instance for the cache */
   @SuppressWarnings("removal")
   public static final MaterialRecipe EMPTY = new MaterialRecipe(Identifier.parse("missingno"), "", TinkerIngredients.EMPTY, 0, 0, IMaterial.UNKNOWN_ID, ItemOutput.EMPTY);
@@ -109,6 +108,7 @@ public class MaterialRecipe implements ICustomOutputRecipe<ISingleStackContainer
 
   @Override
   public ItemStack getLeftover() {
+    // TODO: would be nice to not copy for the recipe display
     return this.leftover.get().copy();
   }
 
@@ -127,12 +127,13 @@ public class MaterialRecipe implements ICustomOutputRecipe<ISingleStackContainer
   private List<ItemStack> displayItems = null;
 
   /** Gets a list of stacks for display in the recipe */
+  @Override
   public List<ItemStack> getDisplayItems() {
     if (displayItems == null) {
       if (needed > 1) {
         displayItems = Arrays.stream(slimeknights.tconstruct.library.recipe.TinkerIngredients.getItems(ingredient))
                              .map(stack -> slimeknights.tconstruct.library.utils.ItemStackDataUtil.copyStackWithSize(stack, needed))
-                             .collect(Collectors.toList());
+                             .collect(java.util.stream.Collectors.toList());
       } else {
         displayItems = Arrays.asList(slimeknights.tconstruct.library.recipe.TinkerIngredients.getItems(ingredient));
       }
@@ -148,5 +149,13 @@ public class MaterialRecipe implements ICustomOutputRecipe<ISingleStackContainer
   public float scaleRepair(float amount) {
     // not cached as it may vary per stat type
     return this.getValue() * amount / INGOTS_PER_REPAIR / this.getNeeded();
+  }
+
+
+  /* JEI */
+
+  @Override
+  public Identifier getRecipeId() {
+    return getId();
   }
 }

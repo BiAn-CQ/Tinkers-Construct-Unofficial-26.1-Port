@@ -17,14 +17,15 @@ import slimeknights.mantle.recipe.IMultiRecipe;
 import slimeknights.mantle.recipe.helper.ItemOutput;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.TinkerTags;
-import slimeknights.tconstruct.library.materials.definition.MaterialVariant;
 import slimeknights.tconstruct.library.recipe.partbuilder.DisplayPartRecipe;
+import slimeknights.tconstruct.library.recipe.partbuilder.IDisplayPartBuilderRecipe;
 import slimeknights.tconstruct.library.recipe.partbuilder.IPartBuilderContainer;
 import slimeknights.tconstruct.library.recipe.partbuilder.IPartBuilderRecipe;
 import slimeknights.tconstruct.library.recipe.partbuilder.Pattern;
 import slimeknights.tconstruct.library.tools.helper.ModifierUtil;
 import slimeknights.tconstruct.tables.TinkerTables;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -32,8 +33,7 @@ import java.util.stream.Stream;
 
 
 /** Recipe for recycling a vanilla tool or a tinkers tool with no materials in the part builder */
-public class PartBuilderRecycle implements IPartBuilderRecipe, IMultiRecipe<DisplayPartRecipe> {
-  private static final List<Component> NO_MODIFIERS = List.of(TConstruct.makeTranslation("recipe", "tool_recycling.no_modifiers").withStyle(ChatFormatting.RED));
+public class PartBuilderRecycle implements IPartBuilderRecipe, IMultiRecipe<IDisplayPartBuilderRecipe> {
   /** Title for the screen */
   private static final Component RECYCLING = TConstruct.makeTranslation("recipe", "recycling");
   /** General instructions for recycling */
@@ -168,7 +168,7 @@ public class PartBuilderRecycle implements IPartBuilderRecipe, IMultiRecipe<Disp
     }
     if (stack.is(TinkerTags.Items.MODIFIABLE)) {
       if (ModifierUtil.hasUpgrades(stack)) {
-        return NO_MODIFIERS;
+        return List.of(TConstruct.makeTranslation("recipe", "tool_recycling.no_modifiers").withStyle(ChatFormatting.RED));
       }
     } else if (stack.isEnchanted()) {
       return NO_ENCHANTMENTS;
@@ -178,15 +178,19 @@ public class PartBuilderRecycle implements IPartBuilderRecipe, IMultiRecipe<Disp
 
 
   /* JEI */
-  private List<DisplayPartRecipe> displayRecipes;
+  private List<IDisplayPartBuilderRecipe> displayRecipes;
 
   @Override
-  public List<DisplayPartRecipe> getRecipes(HolderLookup.Provider access) {
+  public List<IDisplayPartBuilderRecipe> getRecipes(HolderLookup.Provider access) {
     if (displayRecipes == null) {
       List<ItemStack> patternItems = List.of(slimeknights.tconstruct.library.recipe.TinkerIngredients.getItems(pattern));
-      List<ItemStack> toolItems = List.of(slimeknights.tconstruct.library.recipe.TinkerIngredients.getItems(tool));
-      displayRecipes = results.entrySet().stream()
-        .map(entry -> new DisplayPartRecipe(id, MaterialVariant.UNKNOWN, entry.getKey(), patternItems, 0, toolItems, List.of(entry.getValue().get()))).toList();
+      displayRecipes = Arrays.stream(slimeknights.tconstruct.library.recipe.TinkerIngredients.getItems(tool)).map(tool -> DisplayPartRecipe.id(id)
+        .title(RECYCLING).tooltip(INSTRUCTIONS)
+        .patterns(results.keySet().stream().toList())
+        .patternItems(patternItems)
+        .materialItem(tool)
+        .results(results.values().stream().map(ItemOutput::get).toList())
+        .build()).toList();
     }
     return displayRecipes;
   }

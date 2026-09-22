@@ -27,6 +27,8 @@ import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.client.GuiUtil;
 import slimeknights.tconstruct.library.recipe.FluidValues;
 import slimeknights.tconstruct.library.recipe.casting.IDisplayableCastingRecipe;
+import slimeknights.tconstruct.library.recipe.display.RecipeSlot;
+import slimeknights.tconstruct.plugin.jei.util.CategoryUtil;
 import slimeknights.tconstruct.plugin.jei.util.FluidTooltipCallback;
 
 import javax.annotation.Nullable;
@@ -34,8 +36,7 @@ import java.awt.Color;
 import java.util.ArrayList;
 import mezz.jei.api.recipe.IFocus;
 import mezz.jei.api.gui.ingredient.IRecipeSlotDrawable;
-import slimeknights.tconstruct.library.recipe.RecipeSlot;
-import slimeknights.tconstruct.plugin.jei.util.CategoryUtil;
+import slimeknights.tconstruct.library.recipe.display.RecipeSlot;
 import slimeknights.tconstruct.plugin.jei.util.RecipeSlotWrapper;
 import java.util.List;
 
@@ -102,7 +103,7 @@ public abstract class AbstractCastingCategory implements slimeknights.tconstruct
   @Override
   public void setRecipe(IRecipeLayoutBuilder builder, IDisplayableCastingRecipe recipe, IFocusGroup focuses) {
     // fetch focus data
-    IFocus<ItemStack> focus = focuses.getFocuses(VanillaTypes.ITEM_STACK).findFirst().orElse(null);
+    IFocus<ItemStack> focus = focuses.getItemStackFocuses().findFirst().orElse(null);
     ItemStack focusStack = ItemStack.EMPTY;
     boolean focusOutput = false;
     if (focus != null) {

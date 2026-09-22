@@ -213,7 +213,7 @@ public class GreyToSpriteTransformer implements IRecolorSpriteTransformer {
     /** Adds a color to the palette in ABGR format */
     public Builder addABGR(int grey, int color) {
       checkGrey(grey);
-      builder.add(new SpriteMapping(grey, color, null));
+      builder.add(new SpriteMapping(grey, Util.translateColorBGR(color), null));
       return this;
     }
 
@@ -226,7 +226,7 @@ public class GreyToSpriteTransformer implements IRecolorSpriteTransformer {
     /** Adds a texture to the palette */
     public Builder addTexture(int grey, Identifier texture, int tint) {
       checkGrey(grey);
-      builder.add(new SpriteMapping(grey, Util.translateColorBGR(tint), texture));
+      builder.add(new SpriteMapping(grey, tint, texture));
       return this;
     }
 

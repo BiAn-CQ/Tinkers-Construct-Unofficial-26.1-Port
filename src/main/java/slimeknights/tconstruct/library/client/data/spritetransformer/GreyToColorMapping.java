@@ -34,7 +34,7 @@ import static net.minecraft.util.ARGB.color;
 import static net.minecraft.util.ARGB.green;
 import static net.minecraft.util.ARGB.red;
 
-/** Color mcom.mojang.blaze3d.platform.NativeImager each value */
+/** Maps greyscale values to colors in the native ARGB format. */
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 public class GreyToColorMapping implements IColorMapping {
   public static final Identifier NAME = TConstruct.getResource("grey_to_color");
@@ -85,7 +85,7 @@ public class GreyToColorMapping implements IColorMapping {
   }
 
   static JsonElement serializeColor(int color) {
-    return ColorLoadable.ALPHA.serialize(Util.translateColorBGR(color));
+    return ColorLoadable.ALPHA.serialize(color);
   }
 
   protected JsonElement serializePalette() {
@@ -210,14 +210,14 @@ public class GreyToColorMapping implements IColorMapping {
     /** Adds a color to the palette in ABGR format */
     public Builder addABGR(int grey, int color) {
       checkGrey(grey);
-      builder.add(new ColorMapping(grey, color));
+      builder.add(new ColorMapping(grey, Util.translateColorBGR(color)));
       return this;
     }
 
     /** Adds a color to the palette in ARGB format */
     public Builder addARGB(int grey, int color) {
       checkGrey(grey);
-      builder.add(new ColorMapping(grey, Util.translateColorBGR(color)));
+      builder.add(new ColorMapping(grey, color));
       return this;
     }
 
@@ -264,7 +264,7 @@ public class GreyToColorMapping implements IColorMapping {
     int red   = interpolate(red(colorBefore),   red(colorAfter),   diff, divisor);
     int green = interpolate(green(colorBefore), green(colorAfter), diff, divisor);
     int blue  = interpolate(blue(colorBefore),  blue(colorAfter),  diff, divisor);
-    return color(alpha, blue, green, red);
+    return color(alpha, red, green, blue);
   }
 
   /** Gets the largest grey value for the given color */
@@ -281,11 +281,11 @@ public class GreyToColorMapping implements IColorMapping {
     // grey is based on largest, so scale down as needed
     // if any of RGB are lower than the max, scale it down
     int red = red(original);
-    if (red   < grey) newColor = (newColor & 0xFFFFFF00) | (((newColor & 0x000000FF) * red   / grey) & 0x000000FF);
+    if (red   < grey) newColor = (newColor & 0xFF00FFFF) | ((red(newColor) * red / grey) << 16);
     int green = green(original);
     if (green < grey) newColor = (newColor & 0xFFFF00FF) | (((newColor & 0x0000FF00) * green / grey) & 0x0000FF00);
     int blue = blue(original);
-    if (blue  < grey) newColor = (newColor & 0xFF00FFFF) | (((newColor & 0x00FF0000) * blue  / grey) & 0x00FF0000);
+    if (blue  < grey) newColor = (newColor & 0xFFFFFF00) | (blue(newColor) * blue / grey);
 
     // final color
     return newColor;

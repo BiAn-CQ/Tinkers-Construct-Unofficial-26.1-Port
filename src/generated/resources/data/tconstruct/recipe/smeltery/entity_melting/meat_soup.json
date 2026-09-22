@@ -4,16 +4,16 @@
   "entity": {
     "types": [
       "minecraft:sheep",
-      "minecraft:cod",
-      "minecraft:tropical_fish",
-      "minecraft:goat",
-      "minecraft:hoglin",
-      "minecraft:cow",
-      "minecraft:mooshroom",
-      "minecraft:salmon",
       "minecraft:rabbit",
-      "minecraft:pig",
-      "minecraft:chicken"
+      "minecraft:chicken",
+      "minecraft:hoglin",
+      "minecraft:mooshroom",
+      "minecraft:cow",
+      "minecraft:tropical_fish",
+      "minecraft:cod",
+      "minecraft:salmon",
+      "minecraft:goat",
+      "minecraft:pig"
     ]
   },
   "result": {

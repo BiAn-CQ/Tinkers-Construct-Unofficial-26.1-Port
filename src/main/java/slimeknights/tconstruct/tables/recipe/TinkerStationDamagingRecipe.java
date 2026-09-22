@@ -19,14 +19,13 @@ import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.common.TinkerTags;
 import slimeknights.tconstruct.library.recipe.RecipeResult;
 import slimeknights.tconstruct.library.recipe.modifiers.adding.IncrementalModifierRecipe;
-import slimeknights.tconstruct.library.recipe.tinkerstation.IDisplayToolModification;
+import slimeknights.tconstruct.library.recipe.tinkerstation.IDisplayToolTinkering;
 import slimeknights.tconstruct.library.recipe.tinkerstation.IMutableTinkerStationContainer;
 import slimeknights.tconstruct.library.recipe.tinkerstation.ITinkerStationContainer;
 import slimeknights.tconstruct.library.recipe.tinkerstation.ITinkerStationRecipe;
 import slimeknights.tconstruct.library.tools.helper.ToolDamageUtil;
 import slimeknights.tconstruct.library.tools.item.IModifiableDisplay;
 import slimeknights.tconstruct.library.tools.nbt.LazyToolStack;
-import slimeknights.tconstruct.library.tools.helper.ToolDamageUtil;
 import slimeknights.tconstruct.library.tools.nbt.StatsNBT;
 import slimeknights.tconstruct.library.tools.nbt.ToolStack;
 import slimeknights.tconstruct.library.tools.stat.ToolStats;
@@ -35,7 +34,7 @@ import slimeknights.tconstruct.tables.TinkerTables;
 import java.util.List;
 
 /** Recipe for damaging a tool in the tinker station. */
-public class TinkerStationDamagingRecipe implements ITinkerStationRecipe, IDisplayToolModification {
+public class TinkerStationDamagingRecipe implements ITinkerStationRecipe, IDisplayToolTinkering {
   public static final RecordLoadable<TinkerStationDamagingRecipe> LOADER = RecordLoadable.create(
     ContextKey.ID.requiredField(),
     IngredientLoadable.DISALLOW_EMPTY.requiredField("ingredient", r -> r.ingredient),
@@ -131,6 +130,11 @@ public class TinkerStationDamagingRecipe implements ITinkerStationRecipe, IDispl
   }
 
   @Override
+  public int getMaxToolSize() {
+    return 1;
+  }
+
+  @Override
   public int getInputCount() {
     return 1;
   }
@@ -171,5 +175,17 @@ public class TinkerStationDamagingRecipe implements ITinkerStationRecipe, IDispl
         }).toList();
     }
     return toolWithModifier;
+  }
+
+  @Override
+  public boolean isTool(ItemStack check) {
+    return check.is(TinkerTags.Items.DURABILITY);
+  }
+
+  @Override
+  public RecipeResult<ItemStack> onFocused(ItemStack focus) {
+    ToolStack tool = ToolStack.copyFrom(focus);
+    ToolDamageUtil.directDamage(tool, damageAmount, null, focus);
+    return RecipeResult.success(tool.copyStack(focus));
   }
 }

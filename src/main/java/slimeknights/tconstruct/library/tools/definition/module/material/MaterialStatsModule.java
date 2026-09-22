@@ -1,7 +1,9 @@
 package slimeknights.tconstruct.library.tools.definition.module.material;
 
+import slimeknights.tconstruct.library.tools.definition.ArmorSlotType;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableList;
+import slimeknights.tconstruct.library.materials.definition.MaterialVariant;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +30,8 @@ import slimeknights.tconstruct.library.tools.definition.module.ToolModule;
 import slimeknights.tconstruct.library.tools.definition.module.build.ToolStatsHook;
 import slimeknights.tconstruct.library.tools.definition.module.build.ToolTraitHook;
 import slimeknights.tconstruct.library.tools.helper.ModifierBuilder;
+import slimeknights.tconstruct.library.tools.helper.ToolBuildHandler;
+import slimeknights.tconstruct.library.tools.item.IModifiable;
 import slimeknights.tconstruct.library.tools.nbt.IToolContext;
 import slimeknights.tconstruct.library.tools.nbt.IToolStackView;
 import slimeknights.tconstruct.library.tools.nbt.MaterialNBT;
@@ -104,12 +108,24 @@ public class MaterialStatsModule implements ToolStatsHook, ToolTraitHook, ToolMa
 
   @Override
   public boolean isRepairMaterial(IToolStackView tool, MaterialId material) {
+    MaterialNBT toolMaterials = tool.getMaterials();
     for (int part : getRepairIndices()) {
-      if (tool.getMaterial(part).matches(material)) {
+      if (toolMaterials.get(part).matches(material)) {
         return true;
       }
     }
     return false;
+  }
+
+  @Override
+  public void addRepairMaterials(IToolStackView tool, Set<MaterialId> materials) {
+    MaterialNBT toolMaterials = tool.getMaterials();
+    for (int part : getRepairIndices()) {
+      MaterialVariant material = toolMaterials.get(part);
+      if (!material.isUnknown() && !material.matches(ToolBuildHandler.RENDER_MATERIAL)) {
+        materials.add(material.getId());
+      }
+    }
   }
 
   @Override

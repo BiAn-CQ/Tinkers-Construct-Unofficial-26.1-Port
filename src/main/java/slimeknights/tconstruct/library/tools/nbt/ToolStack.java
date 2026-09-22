@@ -333,7 +333,6 @@ public class ToolStack implements IToolStackView {
       throw new IllegalArgumentException("Wrong item in stack");
     }
     // set the raw tag to avoid going through verifyTagAfterLoad and rebuilding stats again
-    // TODO: is there any reason we copy NBT here? might be worth never copying
     if (copyNBT) {
       ItemStackDataUtil.setTag(stack, nbt.copy());
     } else {
@@ -357,7 +356,7 @@ public class ToolStack implements IToolStackView {
 
   /** Creates a stack a copy of the given stack with size no greater than the passed amount */
   public ItemStack copyStack(ItemStack stack, int size) {
-    return updateStack(slimeknights.tconstruct.library.utils.ItemStackDataUtil.copyStackWithSize(stack, size), false);
+    return updateStack(stack.copyWithCount(size), false);
   }
 
   /**

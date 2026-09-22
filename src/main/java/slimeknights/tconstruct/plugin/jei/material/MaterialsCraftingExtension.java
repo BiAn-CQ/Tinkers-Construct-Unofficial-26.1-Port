@@ -22,6 +22,8 @@ import net.minecraft.world.item.crafting.display.SlotDisplay;
 import slimeknights.mantle.Mantle;
 import slimeknights.mantle.plugin.jei.MantleJEIConstants;
 import slimeknights.tconstruct.library.recipe.TinkerIngredients;
+import slimeknights.mantle.client.SafeClientAccess;
+import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.recipe.material.MaterialRecipeCache;
 import slimeknights.tconstruct.library.recipe.material.MaterialsCraftingTableRecipe;
 import slimeknights.tconstruct.library.tools.helper.ToolBuildHandler;
@@ -122,7 +124,7 @@ public abstract class MaterialsCraftingExtension<T extends CraftingRecipe & Mate
                                      int width, int height, @Nullable int[] materialSlots) {
     builder.addInvisibleIngredients(RecipeIngredientRole.OUTPUT).addItemStack(plainResult);
     if (width <= 0 || height <= 0) {
-      width = height = getShapelessSize(inputStacks.size());
+      width = height = CategoryUtil.getShapelessSize(inputStacks.size());
       builder.setShapeless();
     }
     List<IRecipeSlotBuilder> inputs = craftingGridHelper.createAndSetInputs(
@@ -140,12 +142,6 @@ public abstract class MaterialsCraftingExtension<T extends CraftingRecipe & Mate
           .mapToObj(i -> inputs.get(MantleJEIConstants.getCraftingIndex(i, finalWidth, finalHeight)))
       ).toArray(IRecipeSlotBuilder[]::new));
     }
-  }
-
-  private static int getShapelessSize(int total) {
-    if (total > 4) return 3;
-    if (total > 1) return 2;
-    return 1;
   }
 
   static List<ItemStack> filterMaterialInputs(List<ItemStack> available, MaterialVariantId material) {
@@ -167,7 +163,7 @@ public abstract class MaterialsCraftingExtension<T extends CraftingRecipe & Mate
     int width = getWidth(holder);
     int height = getHeight(holder);
     if (width <= 0 || height <= 0) {
-      width = height = getShapelessSize(getInputIngredients(recipe).size());
+      width = height = CategoryUtil.getShapelessSize(getInputIngredients(recipe).size());
     }
     List<MaterialVariantId> materials = new ArrayList<>();
     for (Ingredient part : recipe.getParts()) {

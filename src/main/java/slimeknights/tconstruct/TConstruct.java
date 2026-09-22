@@ -134,6 +134,8 @@ public class TConstruct {
    */
   private static void syncRecipeContent(OnDatapackSyncEvent event) {
     event.sendRecipes(TinkerRecipeTypes.getAllTypes());
+    // Dynamic JEI repair displays also read custom recipes in the vanilla crafting type.
+    event.sendRecipes(net.minecraft.world.item.crafting.RecipeType.CRAFTING);
   }
 
   /* Utils */

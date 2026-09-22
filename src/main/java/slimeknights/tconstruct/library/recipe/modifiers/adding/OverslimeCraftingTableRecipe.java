@@ -2,6 +2,7 @@ package slimeknights.tconstruct.library.recipe.modifiers.adding;
 
 import slimeknights.tconstruct.library.recipe.TinkerIngredients;
 
+import lombok.Getter;
 import net.minecraft.core.NonNullList;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.crafting.CraftingInput;
@@ -24,6 +25,7 @@ import javax.annotation.Nullable;
 import java.util.function.Predicate;
 
 /** Recipe for applying overslime in the crafting table */
+@Getter
 public class OverslimeCraftingTableRecipe extends CustomRecipe {
   public static final RecordLoadable<OverslimeCraftingTableRecipe> LOADER = RecordLoadable.create(
     ContextKey.ID.requiredField(),

@@ -14,14 +14,23 @@ import slimeknights.tconstruct.library.materials.definition.MaterialId;
 
 import java.util.function.Consumer;
 
+/** Builder for {@link ItemPartRecipe} */
+@Accessors(chain = true)
 @RequiredArgsConstructor(staticName = "item")
 public class ItemPartRecipeBuilder extends AbstractRecipeBuilder<ItemPartRecipeBuilder> {
-  private final Identifier pattern;
+  private final Pattern pattern;
   private final ItemOutput result;
-  @Setter @Accessors(chain = true)
+  @Setter
   private Ingredient patternItem = IPartBuilderRecipe.DEFAULT_PATTERNS;
   private MaterialId materialId = MaterialId.UNKNOWN;
   private int cost = 0;
+  @Setter
+  private Identifier titleKey = null;
+
+  /** Creates a builder for the given pattern ID */
+  public static ItemPartRecipeBuilder item(Identifier pattern, ItemOutput result) {
+    return item(new Pattern(pattern), result);
+  }
 
   /** Sets the material Id and cost */
   public ItemPartRecipeBuilder material(MaterialId material, int cost) {
@@ -38,6 +47,6 @@ public class ItemPartRecipeBuilder extends AbstractRecipeBuilder<ItemPartRecipeB
   @Override
   public void save(RecipeOutput consumer, Identifier id) {
     var advancementId = buildOptionalAdvancement(id, "parts");
-    saveRecipe(consumer, id, new ItemPartRecipe(id, materialId, new Pattern(pattern), patternItem, cost, result), advancementId);
+    saveRecipe(consumer, id, new ItemPartRecipe(id, materialId, pattern, patternItem, cost, result, titleKey), advancementId);
   }
 }

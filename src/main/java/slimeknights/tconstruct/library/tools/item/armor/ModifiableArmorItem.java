@@ -1,5 +1,6 @@
 package slimeknights.tconstruct.library.tools.item.armor;
 
+import slimeknights.tconstruct.library.tools.definition.ArmorSlotType;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import lombok.Getter;
@@ -400,9 +401,9 @@ public class ModifiableArmorItem extends Item implements IModifiableDisplay {
   }
 
   public boolean elytraFlightTick(ItemStack stack, LivingEntity entity, int flightTicks) {
-    if (getEquipmentSlot() == EquipmentSlot.CHEST) {
+    if (armorSlotType == ArmorSlotType.CHESTPLATE) {
       ToolStack tool = ToolStack.from(stack);
-      if (!tool.isBroken()) {
+      if (!tool.isBroken() && tool.getVolatileData().getBoolean(ELYTRA)) {
         // if any modifier says stop flying, stop flying
         for (ModifierEntry entry : tool.getModifierList()) {
           if (entry.getHook(ModifierHooks.ELYTRA_FLIGHT).elytraFlightTick(tool, entry, entity, flightTicks)) {

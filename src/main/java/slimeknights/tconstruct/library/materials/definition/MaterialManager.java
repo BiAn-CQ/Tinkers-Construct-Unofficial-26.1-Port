@@ -22,6 +22,7 @@ import slimeknights.tconstruct.library.exception.TinkerJSONException;
 import slimeknights.tconstruct.library.json.JsonRedirect;
 import slimeknights.tconstruct.library.materials.json.MaterialJson;
 import slimeknights.tconstruct.library.utils.GenericTagUtil;
+import slimeknights.tconstruct.library.utils.JsonUtils;
 import slimeknights.tconstruct.library.utils.Util;
 import slimeknights.tconstruct.library.utils.TinkerJsonResourceReloadListener;
 import slimeknights.mantle.util.JsonHelper;
@@ -218,9 +219,11 @@ public class MaterialManager extends TinkerJsonResourceReloadListener {
     }
     this.redirects = redirects;
     onMaterialUpdate();
-    
-    log.debug("Loaded materials: {}", Util.toIndentedStringList(materials.keySet().stream().sorted().toList()));
-    log.debug("Loaded redirects: {}", Util.toIndentedStringList(redirects.keySet().stream().sorted().toList()));
+
+    if (log.isDebugEnabled() && JsonUtils.debugLogResourceValues()) {
+      log.debug("Loaded materials: {}", Util.toIndentedStringList(materials.keySet().stream().sorted().toList()));
+      log.debug("Loaded redirects: {}", Util.toIndentedStringList(redirects.entrySet().stream().sorted(Entry.comparingByKey()).toList()));
+    }
     long timeStep = System.nanoTime();
     log.info("Loaded {} materials in {} ms", materials.size(), (timeStep - time) / 1000000f);
 
@@ -254,7 +257,6 @@ public class MaterialManager extends TinkerJsonResourceReloadListener {
           ICondition redirectCondition = redirect.getCondition();
           if (redirectCondition == null || redirectCondition.test(conditionContext)) {
             MaterialId redirectTarget = new MaterialId(redirect.getId());
-            log.debug("Redirecting material {} to {}", materialId, redirectTarget);
             redirects.put(new MaterialId(materialId), redirectTarget);
             return null;
           }

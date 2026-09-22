@@ -558,6 +558,14 @@ public class TinkerStationScreen extends ToolTableScreen<TinkerStationBlockEntit
   }
 
   @Override
+  public boolean keyReleased(KeyEvent event) {
+    if (needsDisplayUpdate(event.key())) {
+      updateDisplay();
+    }
+    return super.keyReleased(event);
+  }
+
+  @Override
   protected void extractSlot(GuiGraphicsExtractor graphics, Slot slotIn, int mouseX, int mouseY) {
     // don't draw dormant slots with no item
     Slot logicalSlot = logicalSlot(slotIn);

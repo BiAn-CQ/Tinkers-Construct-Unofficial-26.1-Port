@@ -1,6 +1,7 @@
 package slimeknights.tconstruct.library.json.variable.entity;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LightLayer;
@@ -16,9 +17,10 @@ import javax.annotation.Nullable;
 public record EntityLightVariable(@Nullable LightLayer lightLayer) implements EntityVariable {
   public static final RecordLoadable<EntityLightVariable> LOADER = RecordLoadable.create(TinkerLoadables.LIGHT_LAYER.nullableField("light_layer", EntityLightVariable::lightLayer), EntityLightVariable::new);
 
-  /** Gets the skylight level, adjust for time of day */
+  /** Gets the skylight level, adjust for time of day. Clientside logic is based on {@link Level#updateSkyBrightness()} */
   private static int getSkyLight(Level level, BlockPos pos) {
-    return level.getBrightness(LightLayer.SKY, pos) - level.getSkyDarken();
+    int light = level.getBrightness(LightLayer.SKY, pos);
+    return light - level.getSkyDarken();
   }
 
   /** Gets the light level, adjusting skylight as needed */

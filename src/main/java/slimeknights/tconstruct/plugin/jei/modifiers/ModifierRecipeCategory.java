@@ -48,7 +48,6 @@ public class ModifierRecipeCategory extends AbstractTinkerStationCategory<IDispl
       return SlotIngredientRenderer.INPUT.getHeight();
     }
 
-    @SuppressWarnings("DataFlowIssue")
     @Override
     public void draw(GuiGraphicsExtractor graphics, int xOffset, int yOffset) {
       graphics.pose().pushMatrix();

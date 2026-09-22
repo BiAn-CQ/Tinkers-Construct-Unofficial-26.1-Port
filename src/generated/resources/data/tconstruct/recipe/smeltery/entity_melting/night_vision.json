@@ -3,8 +3,8 @@
   "damage": 2,
   "entity": {
     "types": [
-      "minecraft:glow_squid",
-      "minecraft:bat"
+      "minecraft:bat",
+      "minecraft:glow_squid"
     ]
   },
   "result": {

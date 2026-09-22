@@ -1,6 +1,7 @@
 package slimeknights.tconstruct.plugin.jei;
 
 import lombok.Getter;
+import mezz.jei.api.gui.ingredient.IRecipeSlotDrawable;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.builder.IRecipeSlotBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
@@ -19,6 +20,13 @@ import slimeknights.tconstruct.library.client.GuiUtil;
 import slimeknights.tconstruct.library.recipe.tinkerstation.building.ToolBuildingRecipe;
 import slimeknights.tconstruct.library.tools.item.IModifiableDisplay;
 import slimeknights.tconstruct.library.tools.layout.LayoutSlot;
+import slimeknights.tconstruct.library.materials.definition.MaterialVariantId;
+import slimeknights.tconstruct.library.modifiers.hook.build.CraftCountModifierHook;
+import slimeknights.tconstruct.library.tools.nbt.MaterialIdNBT;
+import slimeknights.tconstruct.library.tools.nbt.ToolStack;
+import slimeknights.tconstruct.library.tools.part.IMaterialItem;
+import slimeknights.tconstruct.library.tools.part.IToolPart;
+import slimeknights.tconstruct.plugin.jei.util.CategoryUtil;
 import slimeknights.tconstruct.tools.TinkerTools;
 
 import javax.annotation.Nonnull;
@@ -57,15 +65,27 @@ public class ToolBuildingCategory implements TinkersRecipeCategory<ToolBuildingR
 
   @Override
   public void setRecipe(IRecipeLayoutBuilder builder, ToolBuildingRecipe recipe, IFocusGroup focuses) {
-    List<List<ItemStack>> partsAndExtras = Stream.concat(recipe.getAllToolParts().stream(),
-      recipe.getExtraRequirements().stream().map(ingredient -> Arrays.asList(slimeknights.tconstruct.library.recipe.TinkerIngredients.getItems(ingredient)))).collect(java.util.stream.Collectors.toList());
-    int partCount = recipe.getAllToolParts().size();
-    ItemStack focus = slimeknights.tconstruct.plugin.jei.util.CategoryUtil.getResultItemFocus(focuses);
-    if (!focus.isEmpty()) {
-      var materials = slimeknights.tconstruct.library.tools.nbt.MaterialIdNBT.from(focus);
-      var parts = recipe.getToolParts();
-      for (int i = 0; i < partCount; i++) {
-        partsAndExtras.set(i, List.of(parts.get(i).withMaterial(materials.getMaterial(i))));
+    List<List<ItemStack>> toolParts = recipe.getAllToolParts();
+    List<List<ItemStack>> partsAndExtras = Stream.concat(
+      toolParts.stream(),
+      recipe.getExtraRequirements().stream().map(ingredient -> Arrays.asList(slimeknights.tconstruct.library.recipe.TinkerIngredients.getItems(ingredient)))
+    ).collect(java.util.stream.Collectors.toList()); // using collectors.toList to ensure we can mutate the list
+
+    // if we have parts, and there is a focus, use that to override the materials on the parts
+    int partCount = toolParts.size();
+    if (partCount > 0) {
+      ItemStack focus = CategoryUtil.getResultItemFocus(focuses);
+      // if we have an output focus, set the input slots to match
+      if (!focus.isEmpty()) {
+        List<IToolPart> parts = recipe.getToolParts();
+        MaterialIdNBT materials = MaterialIdNBT.from(focus);
+        for (int i = 0; i < partCount; i++) {
+          IMaterialItem part = parts.get(i);
+          MaterialVariantId material = materials.getMaterial(i);
+          if (part.canUseMaterial(material.getId())) {
+            partsAndExtras.set(i, List.of(part.withMaterialForDisplay(material)));
+          }
+        }
       }
     }
     List<LayoutSlot> layoutSlots = recipe.getLayoutSlots();
@@ -105,6 +125,29 @@ public class ToolBuildingCategory implements TinkersRecipeCategory<ToolBuildingR
   }
 
   @Override
+  public void onDisplayedIngredientsUpdate(ToolBuildingRecipe recipe, List<IRecipeSlotDrawable> recipeSlots, IFocusGroup focuses) {
+    // no input slots means we may be using a focus link instead, either way no work to do
+    IRecipeSlotDrawable resultSlot = CategoryUtil.findSlot(recipeSlots, RESULT_SLOT);
+    List<IRecipeSlotDrawable> inputSlots = CategoryUtil.filterSlots(recipeSlots, PART_SLOT_PREFIX);
+    if (resultSlot != null && !inputSlots.isEmpty()) {
+      List<IToolPart> parts = recipe.getToolParts();
+      List<MaterialVariantId> variants = new ArrayList<>(parts.size());
+      for (int i = 0; i < parts.size(); i++) {
+        variants.add(parts.get(i).getMaterial(inputSlots.get(i).getDisplayedItemStack().orElse(ItemStack.EMPTY)));
+      }
+      variants.addAll(recipe.getExtraMaterials());
+      ItemStack stack = new MaterialIdNBT(variants).updateStack(new ItemStack(recipe.getOutput()));
+      if (stack.getMaxStackSize() > 1) {
+        ToolStack tool = ToolStack.from(stack);
+        tool.rebuildStats();
+        stack.setCount(CraftCountModifierHook.maxStackSize(tool, recipe.shrinkToolSlotBy()));
+      }
+
+      resultSlot.createDisplayOverrides().addItemStack(CraftCountModifierHook.copyMaterials(new MaterialIdNBT(variants), recipe.getOutput(), recipe.getOutputCount()));
+    }
+  }
+
+  @Override
   public void draw(ToolBuildingRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphicsExtractor graphics, double mouseX, double mouseY) {
     drawBackground(graphics);
     // The station preview is intentionally rendered larger than a normal JEI item slot.
@@ -136,20 +179,6 @@ public class ToolBuildingCategory implements TinkersRecipeCategory<ToolBuildingR
     }
   }
 
-  @Override
-  public void onDisplayedIngredientsUpdate(ToolBuildingRecipe recipe, List<mezz.jei.api.gui.ingredient.IRecipeSlotDrawable> slots, IFocusGroup focuses) {
-    var output = slimeknights.tconstruct.plugin.jei.util.CategoryUtil.findSlot(slots, RESULT_SLOT);
-    var inputs = slimeknights.tconstruct.plugin.jei.util.CategoryUtil.filterSlots(slots, PART_SLOT_PREFIX);
-    if (output == null || inputs.isEmpty()) return;
-    var parts = recipe.getToolParts();
-    List<slimeknights.tconstruct.library.materials.definition.MaterialVariantId> variants = new ArrayList<>();
-    for (int i = 0; i < parts.size(); i++) {
-      variants.add(parts.get(i).getMaterial(inputs.get(i).getDisplayedItemStack().orElse(ItemStack.EMPTY)));
-    }
-    variants.addAll(recipe.getExtraMaterials());
-    output.createDisplayOverrides().addItemStack(new slimeknights.tconstruct.library.tools.nbt.MaterialIdNBT(variants)
-      .updateStack(new ItemStack(recipe.getOutput())));
-  }
 
   @Override
   public void getTooltip(mezz.jei.api.gui.builder.ITooltipBuilder tooltip, ToolBuildingRecipe recipe, IRecipeSlotsView recipeSlotsView, double mouseX, double mouseY) {

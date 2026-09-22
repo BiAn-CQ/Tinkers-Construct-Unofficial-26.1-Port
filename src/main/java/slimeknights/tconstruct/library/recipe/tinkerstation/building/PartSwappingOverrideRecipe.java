@@ -22,6 +22,7 @@ import slimeknights.tconstruct.library.recipe.casting.material.MaterialCastingLo
 import slimeknights.tconstruct.library.recipe.modifiers.adding.ModifierRecipe;
 import slimeknights.tconstruct.library.recipe.tinkerstation.IMutableTinkerStationContainer;
 import slimeknights.tconstruct.library.recipe.tinkerstation.ITinkerStationContainer;
+import slimeknights.tconstruct.library.recipe.tinkerstation.IDisplayToolTinkering;
 import slimeknights.tconstruct.library.tools.definition.module.material.ToolMaterialHook;
 import slimeknights.tconstruct.library.tools.item.IModifiable;
 import slimeknights.tconstruct.library.tools.nbt.LazyToolStack;
@@ -33,7 +34,6 @@ import slimeknights.mantle.recipe.IMultiRecipe;
 import slimeknights.tconstruct.library.materials.IMaterialRegistry;
 import slimeknights.tconstruct.library.materials.definition.IMaterial;
 import slimeknights.tconstruct.library.materials.definition.MaterialVariant;
-import slimeknights.tconstruct.library.recipe.tinkerstation.IDisplayToolModification;
 import slimeknights.tconstruct.library.tools.helper.ToolBuildHandler;
 import slimeknights.tconstruct.library.tools.nbt.ToolStack;
 import java.util.Arrays;
@@ -41,7 +41,7 @@ import java.util.stream.Stream;
 import java.util.List;
 
 /** Recipe for swapping a single material on a tool given a specific tool part. Notably allows swapping a part into a tool on an index other than the first. */
-public class PartSwappingOverrideRecipe extends MaterialSwappingRecipe implements slimeknights.mantle.recipe.IMultiRecipe<IDisplayToolModification> {
+public class PartSwappingOverrideRecipe extends MaterialSwappingRecipe implements slimeknights.mantle.recipe.IMultiRecipe<IDisplayToolTinkering> {
   public static final RecordLoadable<PartSwappingOverrideRecipe> LOADER = RecordLoadable.create(
     ContextKey.ID.requiredField(), TOOLS_FIELD, STACK_SIZE_FIELD,
     TinkerLoadables.TOOL_PART_ITEM.requiredField("part", r -> r.part),
@@ -147,10 +147,10 @@ public class PartSwappingOverrideRecipe extends MaterialSwappingRecipe implement
     return TinkerTables.fixedMaterialSwapping.get();
   }
   /* JEI */
-  private List<IDisplayToolModification> multiRecipes;
+  private List<IDisplayToolTinkering> multiRecipes;
 
   @Override
-  public List<IDisplayToolModification> getRecipes(net.minecraft.core.HolderLookup.Provider access) {
+  public List<IDisplayToolTinkering> getRecipes(HolderLookup.Provider access) {
     if (multiRecipes == null) {
       IMaterialRegistry registry = MaterialRegistry.getInstance();
       MaterialStatsId statType = part.getStatType();
@@ -163,14 +163,20 @@ public class PartSwappingOverrideRecipe extends MaterialSwappingRecipe implement
         if (ToolMaterialHook.stats(tool.getDefinition()).size() > MAX_SLOTS) {
           return Stream.empty();
         }
-        return Arrays.stream(indices).filter(VALID_SLOT).<IDisplayToolModification>mapToObj(i -> new LinkedDisplayRecipe(i,
-          // one part per material
-          materials.stream().map(mat -> part.withMaterialForDisplay(mat.getIdentifier())).toList(),
-          // single tool with the material to swap left blank
-          List.of(withMaterial(tool.copy(), i, MaterialVariant.of(ToolBuildHandler.getRenderMaterial(i)))),
-          // one output per material
-          materials.stream().map(mat -> withMaterial(tool.copy(), i, MaterialVariant.of(mat))).toList()
-        ));
+        List<MaterialVariant> variants = materials.stream().map(MaterialVariant::of).toList();
+        return Arrays.stream(indices).filter(VALID_SLOT).<IDisplayToolTinkering>mapToObj(i -> {
+          ToolStack copy = tool.copy();
+          return new PartDisplayRecipe(i,
+            // one part per material
+            materials.stream().map(mat -> part.withMaterialForDisplay(mat.getIdentifier())).toList(),
+            // single tool with the material to swap left blank
+            List.of(withMaterial(copy, i, MaterialVariant.of(ToolBuildHandler.getRenderMaterial(0))).copy()),
+            // one output per material
+            materials.stream().map(mat -> withMaterial(copy, i, MaterialVariant.of(mat)).copy()).toList(),
+            // part info
+            variants, part
+          );
+        });
       }).toList();
     }
     return multiRecipes;

@@ -349,6 +349,8 @@ public class TinkerTags {
 
     /** Containers that can be used in the duct */
     public static final TagKey<Item> DUCT_CONTAINERS = local("duct_containers");
+    /** Example fuel items to show in JEI categories */
+    public static final TagKey<Item> FUEL_EXAMPLES = local("fuel_examples");
 
 
     /** Items that are seeds for kama harvest */
@@ -394,7 +396,8 @@ public class TinkerTags {
 
     /** Modifiable items that contain multiple parts. TODO 1.21: rename to modifiable/parts? */
     public static final TagKey<Item> MULTIPART_TOOL = local("modifiable/multipart");
-    /** Modifiable items that contain exactly 1 tool part, special cased in JEI */
+    /** @deprecated use {@link #MULTIPART_TOOL} or use {@link slimeknights.tconstruct.library.recipe.display.FilteredItemRecipe}. If you need filtered support on a recipe type it's not provided, request it on GitHub. */
+    @Deprecated
     public static final TagKey<Item> SINGLEPART_TOOL = local("modifiable/multipart/single");
     /** Modifiable items that can have range increased */
     public static final TagKey<Item> AOE = local("modifiable/aoe");
@@ -917,6 +920,9 @@ public class TinkerTags {
     // slimeskull
     /** Materials that are a slimeskull. Mostly used for a sort order in books rather than having gameplay function. */
     public static final TagKey<IMaterial> SLIMESKULL = local("slimeskull");
+
+    // JEI
+    public static final TagKey<IMaterial> HIDDEN_FROM_RECIPE_VIEWERS = hiddenFromRecipeViewers(MaterialManager.REGISTRY_KEY);
 
     @SuppressWarnings("SameParameterValue")  // may want more tags later
     private static TagKey<IMaterial> local(String name) {

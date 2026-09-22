@@ -70,10 +70,10 @@ public abstract class AbstractMaterialRenderInfoProvider extends GenericDataProv
       MaterialSpriteInfo spriteInfo = materialSprites.getMaterialInfo(texture);
       if (spriteInfo != null) {
         builder.fallbacks(spriteInfo.getFallbacks());
-        // colors are in AABBGGRR format, we want AARRGGBB, so swap red and blue
+        // NativeImage and sprite transformers use ARGB on this platform.
         int color = spriteInfo.getTransformer().getFallbackColor();
         if (color != 0xFFFFFFFF) {
-          builder.color((color & 0x00FF00) | ((color >> 16) & 0x0000FF) | ((color << 16) & 0xFF0000));
+          builder.color(color);
         }
         builder.generator(spriteInfo);
       }

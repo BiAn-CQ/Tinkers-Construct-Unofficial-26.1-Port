@@ -5,13 +5,13 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import slimeknights.tconstruct.library.recipe.RecipeResult;
-import slimeknights.tconstruct.library.recipe.RecipeSlot;
-import slimeknights.tconstruct.library.recipe.RecipeSlots;
+import slimeknights.tconstruct.library.recipe.display.RecipeSlot;
+import slimeknights.tconstruct.library.recipe.display.RecipeSlots;
 
 import javax.annotation.Nullable;
 import java.util.List;
 
-/** Common interface between {@link IDisplayToolModification} and {@link slimeknights.tconstruct.library.recipe.modifiers.adding.IDisplayModifierRecipe} */
+/** Common interface between {@link IDisplayToolTinkering} and {@link slimeknights.tconstruct.library.recipe.modifiers.adding.IDisplayModifierRecipe} */
 public interface IDisplayTinkerStationRecipe {
   /** Return from {@link #linkToOutput()} to indicate no slots are linked. Will attempt to link the inputs instead. */
   int[] NO_LINKS = new int[0];
@@ -39,13 +39,47 @@ public interface IDisplayTinkerStationRecipe {
    */
   List<ItemStack> getDisplayItems(int slot);
 
+  /**
+   * Gets an ingredients to display in JEI.
+   * @param  slot        Slot index to display
+   * @param  focus       Current focus
+   * @param focusOutput  If true, the focus is from an output. If false, its from an input or tool.
+   * @return  Display item list, or {@link List#of()} if an invalid index.
+   */
+  default List<ItemStack> getDisplayItems(int slot, ItemStack focus, boolean focusOutput) {
+    return getDisplayItems(slot);
+  }
+
   /** Gets the result tool before applying this recipe. */
   List<ItemStack> getToolWithoutModifier();
+
+  /**
+   * Gets the result tool before applying this recipe.
+   * This method notably allows making the input change with respect to a tool on the output focus.
+   * @param  focus       Current focus
+   * @param focusOutput  If true, the focus is from an output. If false, its from an input or tool.
+   * @return  Tools without the recipe.
+   */
+  default List<ItemStack> getToolWithoutModifier(ItemStack focus, boolean focusOutput) {
+    return getToolWithoutModifier();
+  }
 
   /** Gets the result tool after applying this recipe. */
   List<ItemStack> getToolWithModifier();
 
-  /** Checks if the passed item is a valid tool for this recipe */
+  /**
+   * Gets the result tool before applying this recipe.
+   * This method notably makes the tool able to return a list with respond to a focus instead of just a single tool.
+   * IF the goal is to make the focus tool the input and a direct change to it the output, see {@link #onFocused(ItemStack)}, which also supports returning empty for an error state.
+   * @param  focus       Current focus
+   * @param focusOutput  If true, the focus is from an output. If false, its from an input or tool.
+   * @return  Tools with the recipe.
+   */
+  default List<ItemStack> getToolWithModifier(ItemStack focus, boolean focusOutput) {
+    return getToolWithModifier();
+  }
+
+  /** Checks if the passed item is a valid tool for this recipe. Used to determine whether to call {@link #onFocused} on input focus. */
   default boolean isTool(ItemStack check) {
     Item item = check.getItem();
     for (ItemStack stack : getToolWithoutModifier()) {
@@ -69,8 +103,15 @@ public interface IDisplayTinkerStationRecipe {
     return ITinkerStationRecipe.DEFAULT_TOOL_STACK_SIZE;
   }
 
+  /** Gets the maximum stack size for the given stack. */
+  default int getMaxToolSize(ItemStack stack) {
+    return Math.min(stack.getMaxStackSize(), getMaxToolSize());
+  }
+
   /**
    * Creates a result for this recipe given the passed focus.
+   * If you wish to return a list instead of a single tool, or wish to make the input respond to an output focus,
+   * see {@link #getToolWithoutModifier(ItemStack, boolean)} and {@link #getToolWithModifier(ItemStack, boolean)}.
    * @param  focus  Input tool focus. Called if it passes {@link #isTool(ItemStack)}.
    * @return {@link RecipeResult#pass()} to use the default {@link #getToolWithoutModifier()} and {@link #getToolWithModifier()}, filtered by the focus.
    *         {@link RecipeResult#success(Object)} to override the result with the returned stack. Stack size will be handled automatically using {@link #getMaxToolSize()}.
