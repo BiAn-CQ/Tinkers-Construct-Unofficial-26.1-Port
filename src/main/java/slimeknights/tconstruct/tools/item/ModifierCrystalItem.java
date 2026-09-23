@@ -87,6 +87,12 @@ public class ModifierCrystalItem extends Item {
     return null;
   }
 
+  @Override
+  @Nullable
+  public String getCreatorModId(net.minecraft.core.HolderLookup.Provider registries, ItemStack stack) {
+    return getCreatorModId(stack);
+  }
+
   /** @see slimeknights.tconstruct.shared.command.subcommand.ModifiersCommand */
   @Override
   public boolean overrideStackedOnOther(ItemStack stack, Slot slot, ClickAction action, Player player) {

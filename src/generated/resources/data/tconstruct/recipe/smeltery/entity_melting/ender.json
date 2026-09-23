@@ -2,11 +2,7 @@
   "type": "tconstruct:entity_melting",
   "damage": 2,
   "entity": {
-    "types": [
-      "minecraft:endermite",
-      "minecraft:ender_dragon",
-      "minecraft:enderman"
-    ]
+    "tag": "tconstruct:meltable/ender"
   },
   "result": {
     "amount": 25,

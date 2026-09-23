@@ -11,6 +11,7 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.level.Level;
 import slimeknights.tconstruct.TConstruct;
+import slimeknights.tconstruct.common.TinkerTags;
 import slimeknights.tconstruct.library.client.materials.MaterialTooltipCache;
 import slimeknights.tconstruct.library.materials.MaterialRegistry;
 import slimeknights.tconstruct.library.materials.definition.IMaterial;
@@ -54,6 +55,11 @@ public class MaterialItem extends Item implements IMaterialItem {
   @Override
   public MaterialVariantId getMaterial(ItemStack stack) {
     return getMaterialId(ItemStackDataUtil.getTag(stack));
+  }
+
+  @Override
+  public boolean isFoil(ItemStack stack) {
+    return MaterialRegistry.getInstance().isInTag(getMaterial(stack).getId(), TinkerTags.Materials.SHINY);
   }
 
   @Nullable
@@ -139,6 +145,11 @@ public class MaterialItem extends Item implements IMaterialItem {
   @Nullable
   public String getCreatorModId(ItemStack stack) {
     return getCreatorModId(this, stack);
+  }
+
+  @Override
+  public String getCreatorModId(net.minecraft.core.HolderLookup.Provider registries, ItemStack stack) {
+    return getCreatorModId(stack);
   }
 
 

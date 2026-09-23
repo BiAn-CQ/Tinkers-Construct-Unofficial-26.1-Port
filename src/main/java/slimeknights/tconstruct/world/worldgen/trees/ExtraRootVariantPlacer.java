@@ -36,7 +36,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.BiConsumer;
 import java.util.function.Predicate;
-import java.util.stream.StreamSupport;
 
 /** Extension of {@link MangroveRootPlacer} to allow more root variants */
 public class ExtraRootVariantPlacer extends MangroveRootPlacer {
@@ -147,7 +146,13 @@ public class ExtraRootVariantPlacer extends MangroveRootPlacer {
     @SuppressWarnings("deprecation")
     @CanIgnoreReturnValue
     public Builder canGrowThroughTag(TagKey<Block> tag) {
-      return canGrowThrough(HolderSet.direct(StreamSupport.stream(BuiltInRegistries.BLOCK.getTagOrEmpty(tag).spliterator(), false).toList()));
+      return canGrowThroughTag(BuiltInRegistries.BLOCK, tag);
+    }
+
+    /** Keeps a named tag reference when generating worldgen data before tags are bound. */
+    @CanIgnoreReturnValue
+    public Builder canGrowThroughTag(net.minecraft.core.HolderGetter<Block> blocks, TagKey<Block> tag) {
+      return canGrowThrough(blocks.getOrThrow(tag));
     }
 
     /** Builds the final placer */

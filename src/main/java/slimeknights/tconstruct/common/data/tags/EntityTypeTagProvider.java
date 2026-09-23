@@ -36,6 +36,19 @@ public class EntityTypeTagProvider extends EntityTypeTagsProvider {
     this.tag(TinkerTags.EntityTypes.SLIMES)
         .add(EntityType.SLIME, TinkerWorld.skySlimeEntity.get(), TinkerWorld.enderSlimeEntity.get(), TinkerWorld.terracubeEntity.get());
     this.tag(TinkerTags.EntityTypes.CREEPERS).add(EntityType.CREEPER);
+    this.tag(TinkerTags.EntityTypes.SPIDERS).add(EntityType.SPIDER, EntityType.CAVE_SPIDER);
+    this.tag(TinkerTags.EntityTypes.GUARDIANS).add(EntityType.GUARDIAN, EntityType.ELDER_GUARDIAN);
+    this.tag(TinkerTags.EntityTypes.SILVERFISH).add(EntityType.SILVERFISH);
+    this.tag(TinkerTags.EntityTypes.BLAZES).add(EntityType.BLAZE);
+    this.tag(TinkerTags.EntityTypes.GHASTS).add(EntityType.GHAST);
+    this.tag(TinkerTags.EntityTypes.PHANTOMS).add(EntityType.PHANTOM);
+    this.tag(TinkerTags.EntityTypes.SHULKERS).add(EntityType.SHULKER);
+    this.tag(TinkerTags.EntityTypes.AXOLOTLS).add(EntityType.AXOLOTL);
+    this.tag(TinkerTags.EntityTypes.BEES).add(EntityType.BEE);
+    this.tag(TinkerTags.EntityTypes.FROGS).add(EntityType.FROG);
+    this.tag(TinkerTags.EntityTypes.SQUIDS).add(EntityType.SQUID);
+    this.tag(TinkerTags.EntityTypes.STRIDERS).add(EntityType.STRIDER);
+    this.tag(TinkerTags.EntityTypes.TURTLES).add(EntityType.TURTLE);
     this.tag(TinkerTags.EntityTypes.VILLAGERS).add(EntityType.VILLAGER, EntityType.WANDERING_TRADER, EntityType.ZOMBIE_VILLAGER);
     this.tag(TinkerTags.EntityTypes.ILLAGERS).add(EntityType.EVOKER, EntityType.ILLUSIONER, EntityType.PILLAGER, EntityType.VINDICATOR, EntityType.WITCH);
     this.tag(TinkerTags.EntityTypes.PIGLINS).add(EntityType.PIGLIN, EntityType.PIGLIN_BRUTE, EntityType.ZOMBIFIED_PIGLIN);
@@ -70,7 +83,21 @@ public class EntityTypeTagProvider extends EntityTypeTagsProvider {
 
     // melting
     this.tag(TinkerTags.EntityTypes.MELTING_SHOW).add(EntityType.IRON_GOLEM, EntityType.SNOW_GOLEM, EntityType.VILLAGER, EntityType.PLAYER);
-    this.tag(TinkerTags.EntityTypes.MELTING_HIDE).add(EntityType.GIANT);
+    this.tag(TinkerTags.EntityTypes.MELTING_HIDE).add(EntityType.GIANT)
+      .addTag(TinkerTags.EntityTypes.MELTING_BLACKLIST)
+      .add(TagEntry.optionalTag(TinkerTags.HIDDEN_FROM_RECIPE_VIEWERS));
+    this.tag(TinkerTags.EntityTypes.MELTING_BLACKLIST);
+
+    this.tag(TinkerTags.EntityTypes.MELTABLE_FARM_ANIMALS).add(
+      EntityType.CHICKEN, EntityType.RABBIT, EntityType.COW, EntityType.MOOSHROOM,
+      EntityType.PIG, EntityType.HOGLIN, EntityType.SHEEP, EntityType.GOAT,
+      EntityType.COD, EntityType.SALMON, EntityType.TROPICAL_FISH);
+    this.tag(TinkerTags.EntityTypes.MELTABLE_ZOMBIE).add(EntityType.ZOMBIE, EntityType.HUSK, EntityType.ZOMBIE_HORSE);
+    this.tag(TinkerTags.EntityTypes.MELTABLE_DROWNED).add(EntityType.DROWNED);
+    this.tag(TinkerTags.EntityTypes.MELTABLE_SKELETON).addTag(EntityTypeTags.SKELETONS).add(EntityType.SKELETON_HORSE);
+    this.tag(TinkerTags.EntityTypes.MELTABLE_ENDER).add(EntityType.ENDERMAN, EntityType.ENDERMITE, EntityType.ENDER_DRAGON);
+    this.tag(TinkerTags.EntityTypes.MELTABLE_SLIME).add(EntityType.SLIME);
+    this.tag(TinkerTags.EntityTypes.MELTABLE_MAGMA).add(EntityType.MAGMA_CUBE);
 
     // collecting - TODO 1.21: remove legacy tags
     this.tag(COLLECTABLES).add(

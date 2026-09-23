@@ -166,7 +166,7 @@ public class ToolFluidCapability extends FluidModifierHookIterator<ModifierEntry
       return 0;
     }
     int exchanged = itemAccess.exchange(ItemResource.of(updatedStack), itemCount, transaction);
-    return exchanged == itemCount ? insertedPerItem * itemCount : 0;
+    return insertedPerItem * exchanged;
   }
 
   @Override
@@ -194,7 +194,7 @@ public class ToolFluidCapability extends FluidModifierHookIterator<ModifierEntry
       return 0;
     }
     int exchanged = itemAccess.exchange(ItemResource.of(updatedStack), itemCount, transaction);
-    return exchanged == itemCount ? extracted.getAmount() * itemCount : 0;
+    return extracted.getAmount() * exchanged;
   }
 
   /** Adds the tanks from the fluid modifier to the tool */

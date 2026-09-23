@@ -147,6 +147,12 @@ public class ModifiableArmorItem extends Item implements IModifiableDisplay {
   }
 
   @Override
+  public boolean isGazeDisguise(ItemStack stack, Player player, @Nullable LivingEntity entity) {
+    return (entity == null || entity instanceof EnderMan)
+      && isEnderMask(stack, player, (EnderMan)entity);
+  }
+
+  @Override
   public boolean canPerformAction(ItemInstance stack, ItemAbility toolAction) {
     return stack instanceof ItemStack itemStack && ModifierUtil.canPerformAction(ToolStack.from(itemStack), toolAction);
   }

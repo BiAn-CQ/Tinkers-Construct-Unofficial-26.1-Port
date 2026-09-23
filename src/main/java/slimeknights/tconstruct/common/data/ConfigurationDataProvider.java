@@ -28,9 +28,11 @@ import java.util.concurrent.CompletableFuture;
 /** Data generator for someone-off JSON files used for command configuration */
 public class ConfigurationDataProvider extends GenericDataProvider {
   private static final Identifier MELTING_CONFIGURATION = TConstruct.getResource("command/generate_melting_recipes.json");
+  private final java.nio.file.Path dataRoot;
   private final Map<Identifier, JsonObject> configuration = new LinkedHashMap<>();
   public ConfigurationDataProvider(PackOutput output) {
-    super(output, Target.DATA_PACK, "");
+    super(output, Target.DATA_PACK, "command");
+    this.dataRoot = output.getOutputFolder(Target.DATA_PACK);
   }
 
   @Override
@@ -97,7 +99,8 @@ public class ConfigurationDataProvider extends GenericDataProvider {
     recipeType(removeNetheriteSmithing, RecipeType.SMITHING);
 
     // save all JSON
-    return allOf(configuration.entrySet().stream().map(entry -> saveJson(output, entry.getKey(), entry.getValue())));
+    return allOf(configuration.entrySet().stream().map(entry -> net.minecraft.data.DataProvider.saveStable(output, entry.getValue(),
+      dataRoot.resolve(entry.getKey().getNamespace()).resolve(entry.getKey().getPath() + ".json"))));
   }
 
   @Override

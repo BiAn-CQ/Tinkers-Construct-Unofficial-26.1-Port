@@ -723,7 +723,9 @@ public class ModifierProvider extends AbstractModifierProvider {
     // armor
     buildModifier(TinkerModifiers.golden).addModule(new VolatileFlagModule(ModifiableArmorItem.PIGLIN_NEUTRAL)).levelDisplay(ModifierLevelDisplay.NO_LEVELS);
     buildModifier(ModifierIds.wings).addModule(new VolatileFlagModule(ModifiableArmorItem.ELYTRA)).levelDisplay(ModifierLevelDisplay.NO_LEVELS);
-    buildModifier(ModifierIds.knockbackResistance).addModule(StatBoostModule.add(ToolStats.KNOCKBACK_RESISTANCE).eachLevel(0.1f));
+    buildModifier(ModifierIds.knockbackResistance).levelDisplay(ModifierLevelDisplay.SINGLE_LEVEL)
+      .addModule(StatBoostModule.add(ToolStats.KNOCKBACK_RESISTANCE).eachLevel(0.1f))
+      .addModule(new MaterialVariantColorModule(MaterialIds.wool));
     buildModifier(ModifierIds.ricochet).addModule(AttributeModule.builder(TinkerAttributes.KNOCKBACK_MULTIPLIER.getDelegate(), Operation.ADD_MULTIPLIED_BASE).eachLevel(0.2f));
 
     // defense
@@ -1152,13 +1154,10 @@ public class ModifierProvider extends AbstractModifierProvider {
       .levelDisplay(ModifierLevelDisplay.NO_LEVELS)
       // harvest: +6 is a bit better than haste
       .addModule(StatBoostModule.add(ToolStats.MINING_SPEED).flat(6))
-      // armor: +15% knockback resistance, making it stronger than anvil
-      .addModule(StatBoostModule.add(ToolStats.KNOCKBACK_RESISTANCE).flat(0.10f))
       // ranged: +10% drawspeed is on par with netherite, hard to get elsewhere
       .addModule(StatBoostModule.add(ToolStats.DRAW_SPEED).flat(0.15f))
-      // downside: don't take it off, damage more for armor
-      .addModule(new DamageOnUnequipModule(1, ModifierCondition.ANY_TOOL.with(ToolStackPredicate.tag(TinkerTags.Items.WORN_ARMOR).inverted())))
-      .addModule(new DamageOnUnequipModule(2, ModifierCondition.ANY_TOOL.with(ToolStackPredicate.tag(TinkerTags.Items.WORN_ARMOR))));
+      // Unequipping costs one damage for both tools and armor.
+      .addModule(new DamageOnUnequipModule(1));
     buildModifier(ModifierIds.entwined)
       .levelDisplay(ModifierLevelDisplay.SINGLE_LEVEL)
       // boots: +10% movement speed
@@ -1679,10 +1678,8 @@ public class ModifierProvider extends AbstractModifierProvider {
       .addModule(new EffectImmunityModule(MobEffects.WITHER, LevelingInt.LEVEL))
       .addModule(MobEffectModule.builder(MobEffects.WITHER).damageSource(DamageSourcePredicate.tag(TinkerTags.DamageTypes.MELEE_PROTECTION)).time(RandomLevelingValue.flat(120)).buildArmorAttack());
     buildModifier(ModifierIds.fireborn).levelDisplay(ModifierLevelDisplay.SINGLE_LEVEL)
-      // immune to being on fire specifically
-      .addModule(new BlockDamageSourceModule(new DamageTypePredicate(DamageTypes.ON_FIRE), ModifierCondition.ANY_TOOL))
-      // all attacks now cause fire. Bit niche
-      .addModule(new FieryArmorAttackModule(LevelingInt.eachLevel(5), DamageSourcePredicate.ANY));
+      .addModule(EnchantmentModule.builder(enchantment(Enchantments.FIRE_PROTECTION)).lootingLevel(LevelingInt.flat(7)).protection())
+      .addModule(new EffectImmunityModule(TinkerEffects.conductive.getDelegate(), LevelingInt.LEVEL));
     traitTwoPlusOne(ModifierIds.consecratedSkull, ModifierIds.consecrated);
     traitTwoPlusOne(ModifierIds.respirationSkull, ModifierIds.respiration);
     traitTwoPlusOne(ModifierIds.vitalProtectionSkull, ModifierIds.vitalProtection);

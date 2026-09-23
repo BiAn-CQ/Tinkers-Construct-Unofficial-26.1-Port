@@ -2,19 +2,7 @@
   "type": "tconstruct:entity_melting",
   "damage": 2,
   "entity": {
-    "types": [
-      "minecraft:sheep",
-      "minecraft:rabbit",
-      "minecraft:chicken",
-      "minecraft:hoglin",
-      "minecraft:mooshroom",
-      "minecraft:cow",
-      "minecraft:tropical_fish",
-      "minecraft:cod",
-      "minecraft:salmon",
-      "minecraft:goat",
-      "minecraft:pig"
-    ]
+    "tag": "tconstruct:meltable/farm_animals"
   },
   "result": {
     "amount": 50,

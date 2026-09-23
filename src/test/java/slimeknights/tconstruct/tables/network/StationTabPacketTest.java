@@ -3,34 +3,54 @@ package slimeknights.tconstruct.tables.network;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.block.Blocks;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
+import org.apache.commons.lang3.tuple.Pair;
 import org.junit.jupiter.api.Test;
-import slimeknights.tconstruct.tables.block.ITabbedBlock;
+import slimeknights.tconstruct.tables.menu.TabbedContainerMenu;
+import slimeknights.tconstruct.test.BaseMcTest;
+
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
-class StationTabPacketTest {
-  @Test void changingTabClosesServerMenuWithoutClosingClientScreen() {
-    var player = mock(ServerPlayer.class);
-    var world = mock(ServerLevel.class);
-    var menu = mock(AbstractContainerMenu.class);
+class StationTabPacketTest extends BaseMcTest {
+  @Test
+  void unloadedTabDoesNotDeleteCursorStack() {
+    ServerPlayer player = mock(ServerPlayer.class);
+    ServerLevel level = mock(ServerLevel.class);
+    when(player.level()).thenReturn(level);
+    var menu = spy(new TabbedContainerMenu<>(null, 0, null, null));
+    doReturn(true).when(menu).stillValid(player);
+    BlockPos pos = new BlockPos(1, 2, 3);
+    menu.stationBlocks.add(Pair.of(pos, Blocks.STONE.defaultBlockState()));
+    ItemStack held = new ItemStack(Items.DIAMOND, 3);
+    menu.setCarried(held);
     player.containerMenu = menu;
-    when(menu.getCarried()).thenReturn(ItemStack.EMPTY);
-    when(player.level()).thenReturn(world);
-    when(world.hasChunkAt(BlockPos.ZERO)).thenReturn(true);
-    var state = mock(BlockState.class);
-    var block = mock(Block.class, withSettings().extraInterfaces(ITabbedBlock.class));
-    when(world.getBlockState(BlockPos.ZERO)).thenReturn(state);
-    when(state.getBlock()).thenReturn(block);
-    var context = mock(IPayloadContext.class);
+    IPayloadContext context = mock(IPayloadContext.class);
     when(context.player()).thenReturn(player);
-    new StationTabPacket(BlockPos.ZERO).handleThreadsafe(context);
-    var order = inOrder(player, block);
-    order.verify(player).doCloseContainer();
-    order.verify((ITabbedBlock)block).openGui(player, world, BlockPos.ZERO);
-    verify(player, never()).closeContainer();
+
+    new StationTabPacket(pos).handleThreadsafe(context);
+
+    assertThat(menu.getCarried()).isSameAs(held);
+    verify(player, never()).doCloseContainer();
+  }
+
+  @Test
+  void positionOutsideCurrentTabsIsRejectedBeforeWorldLookup() {
+    ServerPlayer player = mock(ServerPlayer.class);
+    ServerLevel level = mock(ServerLevel.class);
+    when(player.level()).thenReturn(level);
+    var menu = spy(new TabbedContainerMenu<>(null, 0, null, null));
+    doReturn(true).when(menu).stillValid(player);
+    player.containerMenu = menu;
+    IPayloadContext context = mock(IPayloadContext.class);
+    when(context.player()).thenReturn(player);
+
+    new StationTabPacket(new BlockPos(1000, 64, 1000)).handleThreadsafe(context);
+
+    verify(level, never()).getBlockState(any());
+    verify(player, never()).doCloseContainer();
   }
 }

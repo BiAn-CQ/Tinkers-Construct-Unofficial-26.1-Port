@@ -253,6 +253,7 @@ public class ToolStack implements IToolStackView {
     this.multipliers = null;
     this.volatileModData = null;
     this.persistentModData = null;
+    this.restrictedNBT = null;
   }
 
   /** Updates the tool stack instance to match the given item stack */
@@ -364,6 +365,7 @@ public class ToolStack implements IToolStackView {
    * @return  Tool NBT without access to internal tags
    */
   public RestrictedCompoundTag getRestrictedNBT() {
+    ensureFresh();
     if (restrictedNBT == null) {
       restrictedNBT = new RestrictedCompoundTag(nbt, RESTRICTED_TAGS, this::syncStack);
     }

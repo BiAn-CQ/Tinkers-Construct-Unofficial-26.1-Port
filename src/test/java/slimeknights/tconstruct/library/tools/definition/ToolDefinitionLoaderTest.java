@@ -86,8 +86,10 @@ class ToolDefinitionLoaderTest extends BaseMcTest {
     assertThat(stats.multipliers().get(ToolStats.MINING_SPEED)).isEqualTo(0.5f);
     // slots
     VolatileDataToolHook volatileHook = data.getHook(ToolHooks.VOLATILE_DATA);
-    assertThat(volatileHook).isInstanceOf(ToolSlotsModule.class);
-    Map<SlotType,Integer> slots = ((ToolSlotsModule) volatileHook).slots();
+    ToolSlotsModule slotModule = volatileHook instanceof ToolSlotsModule direct ? direct
+      : ((VolatileDataToolHook.AllMerger) volatileHook).modules().stream()
+        .filter(ToolSlotsModule.class::isInstance).map(ToolSlotsModule.class::cast).findFirst().orElseThrow();
+    Map<SlotType,Integer> slots = slotModule.slots();
     assertThat(slots).hasSize(3);
     assertThat(slots).containsEntry(SlotType.UPGRADE, 3);
     assertThat(slots).containsEntry(SlotType.DEFENSE, 2);

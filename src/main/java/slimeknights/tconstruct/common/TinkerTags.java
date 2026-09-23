@@ -655,8 +655,21 @@ public class TinkerTags {
 
     // mob classes
     public static final TagKey<EntityType<?>> SLIMES = common("slimes");
-    /** Entities in this tag take more damage from bane of sssss */
+    /** Entities in this tag take more damage from bane of sssss and melt into glass. */
     public static final TagKey<EntityType<?>> CREEPERS = common("creepers");
+    public static final TagKey<EntityType<?>> SPIDERS = common("spiders");
+    public static final TagKey<EntityType<?>> GUARDIANS = common("guardians");
+    public static final TagKey<EntityType<?>> SILVERFISH = common("silverfish");
+    public static final TagKey<EntityType<?>> BLAZES = common("blazes");
+    public static final TagKey<EntityType<?>> GHASTS = common("ghasts");
+    public static final TagKey<EntityType<?>> PHANTOMS = common("phantoms");
+    public static final TagKey<EntityType<?>> SHULKERS = common("shulkers");
+    public static final TagKey<EntityType<?>> AXOLOTLS = common("axolotls");
+    public static final TagKey<EntityType<?>> BEES = common("bees");
+    public static final TagKey<EntityType<?>> FROGS = common("frogs");
+    public static final TagKey<EntityType<?>> SQUIDS = common("squids");
+    public static final TagKey<EntityType<?>> STRIDERS = common("striders");
+    public static final TagKey<EntityType<?>> TURTLES = common("turtles");
     public static final TagKey<EntityType<?>> VILLAGERS = common("villagers");
     public static final TagKey<EntityType<?>> ILLAGERS = common("illagers");
     /** Entities in this tag may spawn with battle signs */
@@ -699,8 +712,17 @@ public class TinkerTags {
     // melting
     /** Entities in this tag are forced to show in JEI even if not living */
     public static final TagKey<EntityType<?>> MELTING_SHOW = local("melting/show_in_default");
-    /** Entities in this tag are hidden from JEI and blacklisted from melting in the smeltery */
+    /** Entities in this tag cannot be melted in the smeltery. */
+    public static final TagKey<EntityType<?>> MELTING_BLACKLIST = local("melting/blacklist");
+    /** Entities in this tag are hidden from the default JEI melting recipe. */
     public static final TagKey<EntityType<?>> MELTING_HIDE = local("melting/hide_in_default");
+    public static final TagKey<EntityType<?>> MELTABLE_FARM_ANIMALS = local("meltable/farm_animals");
+    public static final TagKey<EntityType<?>> MELTABLE_ZOMBIE = local("meltable/zombie");
+    public static final TagKey<EntityType<?>> MELTABLE_DROWNED = local("meltable/drowned");
+    public static final TagKey<EntityType<?>> MELTABLE_SKELETON = local("meltable/skeleton");
+    public static final TagKey<EntityType<?>> MELTABLE_ENDER = local("meltable/ender");
+    public static final TagKey<EntityType<?>> MELTABLE_SLIME = local("meltable/slime");
+    public static final TagKey<EntityType<?>> MELTABLE_MAGMA = local("meltable/magma");
 
     // collecting
     /** Things that can be collected using {@link net.minecraft.world.entity.Entity#playerTouch(Player)} using a fishing rod. */
@@ -875,6 +897,8 @@ public class TinkerTags {
 
   public static class Materials {
     private static void init() {}
+    /** Materials rendered with an enchanted glint. */
+    public static final TagKey<IMaterial> SHINY = local("shiny");
     /** Materials available in nether. */
     public static final TagKey<IMaterial> NETHER = local("nether");
     /** Materials that cannot be obtained without going to the nether. */

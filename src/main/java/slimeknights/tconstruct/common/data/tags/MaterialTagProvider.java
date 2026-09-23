@@ -14,6 +14,8 @@ public class MaterialTagProvider extends AbstractMaterialTagProvider {
 
   @Override
   protected void addTags() {
+    // Allow addons to opt materials into an enchanted glint.
+    tag(TinkerTags.Materials.SHINY);
     tag(TinkerTags.Materials.EXCLUDE_FROM_LOOT)
       // ancient hide is deprecated, don't add it to new tools
       .add(MaterialIds.ancientHide)

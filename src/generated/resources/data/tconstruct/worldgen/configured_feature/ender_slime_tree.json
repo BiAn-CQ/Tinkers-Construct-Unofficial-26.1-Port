@@ -87,7 +87,7 @@
     "root_placer": {
       "type": "tconstruct:extra_root_variants",
       "mangrove_root_placement": {
-        "can_grow_through": [],
+        "can_grow_through": "#tconstruct:enderbark/roots_can_grow_through",
         "max_root_length": 15,
         "max_root_width": 8,
         "muddy_roots_in": [

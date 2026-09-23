@@ -143,8 +143,10 @@ class UpdateToolDefinitionDataPacketTest extends BaseMcTest {
 
     // slots
     VolatileDataToolHook volatileHook = parsed.getHook(ToolHooks.VOLATILE_DATA);
-    assertThat(volatileHook).isInstanceOf(ToolSlotsModule.class);
-    Map<SlotType,Integer> slots = ((ToolSlotsModule) volatileHook).slots();
+    assertThat(volatileHook).isInstanceOf(VolatileDataToolHook.AllMerger.class);
+    ToolSlotsModule slotModule = ((VolatileDataToolHook.AllMerger) volatileHook).modules().stream()
+      .filter(ToolSlotsModule.class::isInstance).map(ToolSlotsModule.class::cast).findFirst().orElseThrow();
+    Map<SlotType,Integer> slots = slotModule.slots();
     assertThat(slots).hasSize(2);
     assertThat(slots).containsEntry(SlotType.UPGRADE, 5);
     assertThat(slots).containsEntry(SlotType.ABILITY, 8);

@@ -195,7 +195,7 @@ public class WorldgenProvider {
                                           ExtraRootVariantPlacer.builder()
                                                                 .trunkOffset(UniformInt.of(1, 3))
                                                                 .rootBlock(TinkerWorld.enderbarkRoots.get())
-                                                                .canGrowThroughTag(TinkerTags.Blocks.ENDERBARK_ROOTS_CAN_GROW_THROUGH)
+                                                                .canGrowThroughTag(context.lookup(Registries.BLOCK), TinkerTags.Blocks.ENDERBARK_ROOTS_CAN_GROW_THROUGH)
                                                                 .slimyRoots(TinkerWorld.slimyEnderbarkRoots)
                                                                 .buildOptional(),
                                           new TwoLayersFeatureSize(2, 0, 2), TreeConfiguration.PLACE_BELOW_OVERWORLD_TRUNKS)
@@ -210,7 +210,7 @@ public class WorldgenProvider {
                                           ExtraRootVariantPlacer.builder()
                                                                 .trunkOffset(UniformInt.of(3, 7))
                                                                 .rootBlock(TinkerWorld.enderbarkRoots.get())
-                                                                .canGrowThroughTag(TinkerTags.Blocks.ENDERBARK_ROOTS_CAN_GROW_THROUGH)
+                                                                .canGrowThroughTag(context.lookup(Registries.BLOCK), TinkerTags.Blocks.ENDERBARK_ROOTS_CAN_GROW_THROUGH)
                                                                 .slimyRoots(TinkerWorld.slimyEnderbarkRoots)
                                                                 .buildOptional(),
                                           new TwoLayersFeatureSize(3, 0, 2), TreeConfiguration.PLACE_BELOW_OVERWORLD_TRUNKS)

@@ -17,7 +17,7 @@ public interface ToolContextPredicate extends IJsonPredicate<IToolContext> {
   /** Predicate that matches all tools */
   ToolContextPredicate ANY = simple(tool -> true);
   /** Predicate that matches no tools */
-  ToolContextPredicate NONE = simple(tool -> true);
+  ToolContextPredicate NONE = simple(tool -> false);
   /** Loader for tool predicates */
   FallbackPredicateRegistry<IToolContext,Item> LOADER = new FallbackPredicateRegistry<>("Tool Context Predicate", ANY, NONE, ItemPredicate.LOADER, IToolContext::getItem, "item");
 

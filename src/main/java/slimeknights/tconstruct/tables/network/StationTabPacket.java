@@ -13,6 +13,7 @@ import net.neoforged.neoforge.network.handling.IPayloadContext;
 import slimeknights.mantle.network.packet.IThreadsafePacket;
 import slimeknights.tconstruct.common.network.TinkerNetwork;
 import slimeknights.tconstruct.tables.block.ITabbedBlock;
+import slimeknights.tconstruct.tables.menu.TabbedContainerMenu;
 
 @RequiredArgsConstructor
 public class StationTabPacket implements IThreadsafePacket {
@@ -30,28 +31,27 @@ public class StationTabPacket implements IThreadsafePacket {
   @Override
   public void handleThreadsafe(IPayloadContext context) {
     if (context.player() instanceof ServerPlayer sender) {
-      ItemStack heldStack = sender.containerMenu.getCarried();
-      if (!heldStack.isEmpty()) {
-        // set it to empty, so it's doesn't get dropped
-        sender.containerMenu.setCarried(ItemStack.EMPTY);
-      }
-
       Level world = sender.level();
       if (!world.hasChunkAt(pos)) {
         return;
       }
       BlockState state = world.getBlockState(pos);
-      if (state.getBlock() instanceof ITabbedBlock) {
+      // Only allow tabs advertised by the currently open tabbed menu. Besides preventing
+      // arbitrary menu opening, this keeps an invalid client packet from consuming its cursor stack.
+      if (!(sender.containerMenu instanceof TabbedContainerMenu<?> menu)
+          || menu.stationBlocks.stream().noneMatch(pair -> pair.getLeft().equals(pos))
+          || !(state.getBlock() instanceof ITabbedBlock tabbed)) {
+        return;
+      }
+      ItemStack heldStack = sender.containerMenu.getCarried();
+      if (!heldStack.isEmpty()) {
+        sender.containerMenu.setCarried(ItemStack.EMPTY);
+      }
+      {
         // Close only the server menu. A client close packet briefly grabs the mouse
         // before the replacement screen opens, which recenters the cursor.
         sender.doCloseContainer();
-        ((ITabbedBlock) state.getBlock()).openGui(sender, world, pos);
-      } else {
-        MenuProvider provider = state.getMenuProvider(world, pos);
-        if (provider != null) {
-          sender.doCloseContainer();
-          sender.openMenu(provider, buffer -> buffer.writeBlockPos(pos));
-        }
+        tabbed.openGui(sender, world, pos);
       }
 
       if (!heldStack.isEmpty()) {
