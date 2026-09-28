@@ -126,6 +126,13 @@ public final class TConstructClientCompat {
     NativeTinkerItemModel.registerSmallModelContext(TinkerItemDisplays.CASTING_BASIN);
     NativeTinkerItemModel.registerSmallModelContext(TinkerItemDisplays.CASTING_TABLE);
     FluidTextureManager.registerTintSource(TinkerFluids.potion.get().getFluidType(), POTION_TINT);
+    // Preserve the upstream world-fluid layer for both source and flowing variants.
+    for (var fluid : List.of(TinkerFluids.honey, TinkerFluids.earthSlime, TinkerFluids.skySlime,
+        TinkerFluids.enderSlime, TinkerFluids.moltenDiamond, TinkerFluids.moltenEmerald,
+        TinkerFluids.moltenGlass, TinkerFluids.liquidSoul, TinkerFluids.moltenSoulsteel,
+        TinkerFluids.moltenAmethyst)) {
+      FluidTextureManager.registerTranslucent(fluid.getStill().getFluidType());
+    }
     // Register book page types and transformers before the first resource
     // reload.  Lazy initialization from the item use path is too late for
     // cached book data and can leave a valid book screen with empty pages.

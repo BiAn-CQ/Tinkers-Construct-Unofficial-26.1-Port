@@ -186,7 +186,7 @@ public class MeltingModule implements IMeltingContainer, ContainerData {
       return last.value();
     }
     // if that fails, try to find a new recipe
-    Optional<RecipeHolder<IMeltingRecipe>> newRecipe = slimeknights.tconstruct.library.utils.TinkerRecipeHelper.getRecipeManager(world).getRecipeFor(TinkerRecipeTypes.MELTING.get(), this, world);
+    Optional<RecipeHolder<IMeltingRecipe>> newRecipe = slimeknights.tconstruct.library.utils.TinkerRecipeHelper.getRecipeFor(slimeknights.tconstruct.library.utils.TinkerRecipeHelper.getRecipeManager(world), TinkerRecipeTypes.MELTING.get(), this, world);
     if (newRecipe.isPresent()) {
       lastRecipe = newRecipe.get();
       return lastRecipe.value();

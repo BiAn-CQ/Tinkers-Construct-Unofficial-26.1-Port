@@ -12,8 +12,10 @@ import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
+import net.minecraft.util.ARGB;
 import net.minecraft.world.item.ItemStack;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.library.client.GuiUtil;
@@ -46,8 +48,7 @@ public class ToolBuildingCategory implements TinkersRecipeCategory<ToolBuildingR
   private final IDrawable icon;
   @Getter
   private final IDrawable background;
-  private final IDrawable anvil, slotBg, slotBorder;
-  private final IDrawable itemCover;
+  private final IDrawable anvil, slotBorder;
   private static final int WIDTH = 134;
   private static final int HEIGHT = 66;
   private static final int ITEM_SIZE = 16;
@@ -57,10 +58,8 @@ public class ToolBuildingCategory implements TinkersRecipeCategory<ToolBuildingR
   public ToolBuildingCategory(IGuiHelper guiHelper) {
     this.icon = guiHelper.createDrawableItemStack(TinkerTools.pickaxe.get().getRenderTool());
     this.background = guiHelper.createDrawable(BACKGROUND_LOC, 122, 77, WIDTH, HEIGHT);
-    this.slotBg = guiHelper.createDrawable(BACKGROUND_LOC, 144, 59, SLOT_SIZE, SLOT_SIZE);
     this.slotBorder = guiHelper.createDrawable(BACKGROUND_LOC, 162, 59, SLOT_SIZE, SLOT_SIZE);
     this.anvil = guiHelper.createDrawable(BACKGROUND_LOC, 128, 61, ITEM_SIZE, ITEM_SIZE);
-    this.itemCover = guiHelper.createDrawable(BACKGROUND_LOC, 122, 77, 70, 60);
   }
 
   @Override
@@ -161,13 +160,15 @@ public class ToolBuildingCategory implements TinkersRecipeCategory<ToolBuildingR
     graphics.item(outputStack, 0, 0);
     renderPose.popMatrix();
 
-    // Overlay the item with the cover texture. The 26.1 extractor owns render state,
-    // so the texture's alpha is used instead of the removed RenderSystem color calls.
-    itemCover.draw(graphics, 5, 6);
+    // Fade the enlarged tool into the background. Alpha must be submitted with each
+    // blit: the cover and slot textures relied on shader color alpha before 26.1.
+    graphics.blit(RenderPipelines.GUI_TEXTURED, BACKGROUND_LOC, 5, 6, 122, 77, 70, 60, 256, 256, ARGB.white(0.82f));
 
     for (LayoutSlot layoutSlot : recipe.getLayoutSlots()) {
       // need to offset by 1 because the inventory slot icons are 18x18
-      this.slotBg.draw(graphics, layoutSlot.getX() + X_OFFSET - 1, layoutSlot.getY() + Y_OFFSET - 1);
+      graphics.blit(RenderPipelines.GUI_TEXTURED, BACKGROUND_LOC,
+                    layoutSlot.getX() + X_OFFSET - 1, layoutSlot.getY() + Y_OFFSET - 1,
+                    144, 59, SLOT_SIZE, SLOT_SIZE, 256, 256, ARGB.white(0.28f));
     }
     for (LayoutSlot layoutSlot : recipe.getLayoutSlots()) {
       // need to offset by 1 because the inventory slot icons are 18x18

@@ -82,7 +82,7 @@ public class PartBuilderContainerWrapper implements IPartBuilderContainer {
       } else {
         Level world = getWorld();
         var manager = slimeknights.tconstruct.library.utils.TinkerRecipeHelper.getRecipeManager(world);
-        this.material = manager.getRecipeFor(TinkerRecipeTypes.MATERIAL.get(), this, world)
+        this.material = slimeknights.tconstruct.library.utils.TinkerRecipeHelper.getRecipeFor(manager, TinkerRecipeTypes.MATERIAL.get(), this, world)
           .map(holder -> holder.value()).orElse(null);
       }
     }

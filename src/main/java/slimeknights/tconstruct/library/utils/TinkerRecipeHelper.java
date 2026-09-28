@@ -19,9 +19,8 @@ import java.util.stream.Stream;
 
 /**
  * Compatibility access for recipe data after 26.1 removed Level.getRecipeManager().
- * Server levels retain the authoritative manager; client-only callers receive
- * an empty manager backed by the current registry access until they migrate to
- * the 26.1 recipe-display/client recipe protocol.
+ * Server levels retain the authoritative manager; client queries use the
+ * custom recipe subset received through NeoForge's recipe synchronization.
  */
 public final class TinkerRecipeHelper {
   /**
@@ -72,7 +71,7 @@ public final class TinkerRecipeHelper {
   }
 
   public static <I extends RecipeInput, T extends Recipe<I>> List<RecipeHolder<T>> getRecipesFor(RecipeManager manager, RecipeType<T> type, I input, Level level) {
-    return values(manager).stream()
+    return (level.isClientSide() ? values(manager) : manager.getRecipes()).stream()
       .filter(holder -> holder.value().getType() == type)
       .filter(holder -> ((Recipe<I>) holder.value()).matches(input, level))
       .map(holder -> (RecipeHolder<T>) holder)
@@ -90,7 +89,8 @@ public final class TinkerRecipeHelper {
    */
   public static <I extends RecipeInput, T extends Recipe<I>> Optional<RecipeHolder<T>> getRecipeFor(
     RecipeManager manager, RecipeType<T> type, I input, Level level) {
-    return getRecipesFor(manager, type, input, level).stream().findFirst();
+    return level.isClientSide() ? getRecipesFor(manager, type, input, level).stream().findFirst()
+      : manager.getRecipeFor(type, input, level);
   }
 
   /**

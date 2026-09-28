@@ -8,7 +8,6 @@ import net.minecraft.world.level.Level;
 import slimeknights.mantle.recipe.container.ISingleStackContainer;
 import slimeknights.tconstruct.library.recipe.TinkerRecipeTypes;
 import slimeknights.tconstruct.library.recipe.material.MaterialRecipe;
-import slimeknights.tconstruct.library.recipe.material.MaterialRecipeCache;
 import slimeknights.tconstruct.library.recipe.tinkerstation.IMutableTinkerStationContainer;
 import slimeknights.tconstruct.library.tools.nbt.LazyToolStack;
 import slimeknights.tconstruct.library.tools.nbt.ToolStack;
@@ -64,17 +63,12 @@ public class TinkerStationContainerWrapper implements IMutableTinkerStationConta
       return lastMaterialRecipe.value();
     }
     // try to find a new recipe
-    Optional<RecipeHolder<MaterialRecipe>> newRecipe = slimeknights.tconstruct.library.utils.TinkerRecipeHelper.getRecipeManager(world).getRecipeFor(TinkerRecipeTypes.MATERIAL.get(), inv, world);
+    Optional<RecipeHolder<MaterialRecipe>> newRecipe = slimeknights.tconstruct.library.utils.TinkerRecipeHelper.getRecipeFor(slimeknights.tconstruct.library.utils.TinkerRecipeHelper.getRecipeManager(world), TinkerRecipeTypes.MATERIAL.get(), inv, world);
     if (newRecipe.isPresent()) {
       lastMaterialRecipe = newRecipe.get();
       return lastMaterialRecipe.value();
     }
-    // 26.1 clients and some server recipe managers expose synchronized recipe
-    // values without indexing custom material recipes in RecipeManager#getRecipeFor.
-    // The material cache is authoritative and uses the same ingredient predicate.
-    return MaterialRecipeCache.getAllRecipes().stream()
-      .filter(recipe -> recipe.matches(inv, world))
-      .findFirst().orElse(null);
+    return null;
   }
 
   /**
