@@ -1,5 +1,6 @@
 {
   "values": [
+    "minecraft:netherite_spear",
     "minecraft:netherite_shovel",
     {
       "id": "tools_complement:netherite_knife",

@@ -711,7 +711,15 @@ public class ItemTagProvider extends IntrinsicHolderTagsProvider<Item> {
     // ores
     Function<String,Identifier> ie = path -> Identifier.fromNamespaceAndPath("immersiveengineering", path);
     String tf = "twilightforest";
-    moltenTools(TinkerFluids.moltenCopper).add(1, Items.BRUSH).toolTags().toolsComplement();
+    moltenTools(TinkerFluids.moltenCopper)
+      .add(1, Items.BRUSH, Items.COPPER_SHOVEL, Items.COPPER_SPEAR)
+      .add(2, Items.COPPER_SWORD, Items.COPPER_HOE)
+      .add(3, Items.COPPER_PICKAXE, Items.COPPER_AXE)
+      .toolTags().toolsComplement();
+    MAKE_TAG.apply(commonResource("armors/helmets/copper")).add(Items.COPPER_HELMET);
+    MAKE_TAG.apply(commonResource("armors/chestplates/copper")).add(Items.COPPER_CHESTPLATE);
+    MAKE_TAG.apply(commonResource("armors/leggings/copper")).add(Items.COPPER_LEGGINGS);
+    MAKE_TAG.apply(commonResource("armors/boots/copper")).add(Items.COPPER_BOOTS);
     moltenTools(TinkerFluids.moltenIron).minecraft()
       .add(1, Items.FLINT_AND_STEEL, Items.SHIELD).fdKnife()
       .add(2, Items.SHEARS)

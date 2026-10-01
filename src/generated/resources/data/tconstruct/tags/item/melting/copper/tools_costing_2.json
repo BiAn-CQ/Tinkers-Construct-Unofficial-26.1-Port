@@ -1,5 +1,7 @@
 {
   "values": [
+    "minecraft:copper_sword",
+    "minecraft:copper_hoe",
     {
       "id": "#c:tools/swords/copper",
       "required": false

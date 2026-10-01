@@ -6,5 +6,8 @@
       "id": "minecraft:cobblestone"
     }
   },
-  "tool": "minecraft:stone_shovel"
+  "tool": [
+    "minecraft:stone_shovel",
+    "minecraft:stone_spear"
+  ]
 }

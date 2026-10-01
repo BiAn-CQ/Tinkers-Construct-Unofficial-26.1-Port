@@ -1,5 +1,7 @@
 {
   "values": [
+    "minecraft:copper_pickaxe",
+    "minecraft:copper_axe",
     {
       "id": "#c:tools/pickaxes/copper",
       "required": false

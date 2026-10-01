@@ -347,7 +347,7 @@ public class TableRecipeProvider extends BaseRecipeProvider {
     PartBuilderRecycleBuilder.tool(Items.STONE_SWORD, Items.STONE_HOE)
       .result(block, Items.COBBLESTONE, 2)
       .save(consumer, location(folder + "stone_sword"));
-    PartBuilderRecycleBuilder.tool(Items.STONE_SHOVEL)
+    PartBuilderRecycleBuilder.tool(Items.STONE_SHOVEL, Items.STONE_SPEAR)
       .result(block, Items.COBBLESTONE, 1)
       .save(consumer, location(folder + "stone_shovel"));
     // while you can melt it, flint and steel is literally just two items with nothing connecting them, so let the part builder recycle them

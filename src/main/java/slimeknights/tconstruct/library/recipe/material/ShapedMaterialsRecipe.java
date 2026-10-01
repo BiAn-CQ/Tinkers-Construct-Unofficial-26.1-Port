@@ -47,29 +47,42 @@ public class ShapedMaterialsRecipe extends ShapedRecipe implements MaterialsCraf
     (json, ops) -> ShapedMaterialsRecipe.deserialize(json, ops),
     ShapedMaterialsRecipe::serialize,
     (buffer, recipe) -> {
-      ShapedRecipe.STREAM_CODEC.encode(buffer, recipe.asVanilla());
+      buffer.writeVarInt(recipe.getWidth());
+      buffer.writeVarInt(recipe.getHeight());
+      buffer.writeUtf(recipe.group());
+      buffer.writeEnum(recipe.category());
+      ItemStackTemplate.STREAM_CODEC.encode(buffer, recipe.resultTemplate());
+      buffer.writeBoolean(recipe.showNotification());
       Serializer.MATERIAL_FIELD.encode(buffer, recipe);
       writeParts(buffer, recipe);
     },
     buffer -> {
-      ShapedRecipe recipe = ShapedRecipe.STREAM_CODEC.decode(buffer);
+      int width = buffer.readVarInt();
+      int height = buffer.readVarInt();
+      String group = buffer.readUtf();
+      CraftingBookCategory category = buffer.readEnum(CraftingBookCategory.class);
+      ItemStackTemplate result = ItemStackTemplate.STREAM_CODEC.decode(buffer);
+      boolean showNotification = buffer.readBoolean();
       List<MaterialVariantId> extraMaterials = Serializer.MATERIAL_FIELD.decode(buffer);
       int size = buffer.readVarInt();
       List<Ingredient> distinct = new ArrayList<>(size);
       for (int i = 0; i < size; i++) {
         distinct.add(Ingredient.CONTENTS_STREAM_CODEC.decode(buffer));
       }
-      List<Ingredient> inputs = recipe.pattern.ingredients().stream().map(optional -> optional.orElse(TinkerIngredients.EMPTY)).toList();
-      // The native recipe stream already carries the input pattern. Use the compact part list only.
+      // Decode the grid and material parts from the same custom ingredient table,
+      // preserving the shared references used by material-aware JEI slots.
+      List<Optional<Ingredient>> inputs = new ArrayList<>(width * height);
+      for (int i = 0; i < width * height; i++) {
+        int index = buffer.readByte();
+        inputs.add(index == -1 ? Optional.empty() : Optional.of(distinct.get(index)));
+      }
       int partSize = buffer.readVarInt();
       List<Ingredient> parts = new ArrayList<>(partSize);
       for (int i = 0; i < partSize; i++) {
         parts.add(LogicHelper.getOrDefault(distinct, buffer.readByte(), TinkerIngredients.EMPTY));
       }
-      if (distinct.size() == inputs.stream().distinct().count()) {
-        // no-op; the native pattern remains authoritative
-      }
-      return new ShapedMaterialsRecipe(recipe, List.copyOf(parts), extraMaterials);
+      ShapedRecipePattern pattern = new ShapedRecipePattern(width, height, inputs, Optional.empty());
+      return new ShapedMaterialsRecipe(null, group, category, pattern, result, showNotification, List.copyOf(parts), extraMaterials);
     });
 
   /** List of tool parts to search for in the final recipe */
@@ -109,9 +122,8 @@ public class ShapedMaterialsRecipe extends ShapedRecipe implements MaterialsCraf
       Optional.empty());
   }
 
-  private ShapedRecipe asVanilla() {
-    return new ShapedRecipe(new Recipe.CommonInfo(showNotification()), new CraftingRecipe.CraftingBookInfo(category(), group()),
-      pattern, ItemStackTemplate.fromNonEmptyStack(super.assemble(CraftingInput.EMPTY)));
+  private ItemStackTemplate resultTemplate() {
+    return ItemStackTemplate.fromNonEmptyStack(super.assemble(CraftingInput.EMPTY));
   }
 
   /** Shaped inputs with empty slots represented by {@link TinkerIngredients#EMPTY}. */
@@ -276,6 +288,9 @@ public class ShapedMaterialsRecipe extends ShapedRecipe implements MaterialsCraf
       List<Ingredient> distinct = inputs.stream().distinct().toList();
       buffer.writeVarInt(distinct.size());
       for (Ingredient ingredient : distinct) Ingredient.CONTENTS_STREAM_CODEC.encode(buffer, ingredient);
+      for (Optional<Ingredient> input : recipe.pattern.ingredients()) {
+        buffer.writeByte(input.map(distinct::indexOf).orElse(-1));
+      }
       buffer.writeVarInt(recipe.parts.size());
       for (Ingredient ingredient : recipe.parts) buffer.writeByte(distinct.indexOf(ingredient));
     }

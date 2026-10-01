@@ -1,3 +1,7 @@
 {
-  "parent": "tconstruct:block/clear_glass/red/block"
+  "parent": "tconstruct:block/template/tinted_cube_all",
+  "render_type": "minecraft:translucent",
+  "textures": {
+    "all": "tconstruct:block/clear_stained_glass"
+  }
 }

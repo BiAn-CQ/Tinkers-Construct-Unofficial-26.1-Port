@@ -109,7 +109,7 @@ public class CostTagAppender {
     Identifier prefix = Identifier.parse(metal);
     // we use costs 1 and 3 for compat with tools complement
     // cost 2 isn't needed for any compat for vanilla, but we wish for a combined tag for non-vanilla so we do it for simplicity
-    add(1, false, prefix, "shovel");
+    add(1, false, prefix, "shovel", "spear");
     add(2, false, prefix, "sword", "hoe");
     add(3, false, prefix, "pickaxe", "axe");
     // need cost 7 for paxels, rest of armor we do directly

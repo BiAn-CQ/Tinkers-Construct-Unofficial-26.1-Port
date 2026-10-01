@@ -1,6 +1,12 @@
 {
     "model": {
         "type": "minecraft:model",
-        "model": "tconstruct:item/green_clear_stained_glass"
+        "model": "tconstruct:item/green_clear_stained_glass",
+        "tints": [
+            {
+                "type": "minecraft:constant",
+                "value": 6717235
+            }
+        ]
     }
 }

@@ -4,18 +4,17 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import net.minecraft.advancements.Advancement;
 import net.minecraft.advancements.AdvancementHolder;
+import com.mojang.serialization.JsonOps;
+import net.minecraft.core.RegistryAccess;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.recipes.RecipeOutput;
-import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.resources.RegistryOps;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.ShapedRecipe;
 import net.minecraft.world.item.crafting.ShapelessRecipe;
 import net.neoforged.neoforge.common.conditions.ICondition;
-import net.neoforged.neoforge.common.crafting.CompoundIngredient;
 import slimeknights.tconstruct.library.materials.definition.MaterialVariantId;
-import slimeknights.tconstruct.library.recipe.ingredient.MaterialIngredient;
-import slimeknights.tconstruct.library.recipe.ingredient.MaterialValueIngredient;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -24,7 +23,7 @@ import java.util.List;
 /** Converts vanilla crafting builder results into material-aware recipes. */
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class MaterialsConsumerBuilder {
-  private final int shapedPartCount;
+  private final String shapedParts;
   private final int shapelessPartCount;
   private final List<MaterialVariantId> materials = new ArrayList<>();
 
@@ -32,14 +31,14 @@ public class MaterialsConsumerBuilder {
     if (parts.isEmpty()) {
       throw new IllegalArgumentException("Parts may not be empty");
     }
-    return new MaterialsConsumerBuilder(parts.length(), 0);
+    return new MaterialsConsumerBuilder(parts, 0);
   }
 
   public static MaterialsConsumerBuilder shapeless(int parts) {
     if (parts <= 0) {
       throw new IllegalArgumentException("Parts must be greater than 0");
     }
-    return new MaterialsConsumerBuilder(0, parts);
+    return new MaterialsConsumerBuilder("", parts);
   }
 
   public MaterialsConsumerBuilder material(MaterialVariantId material) {
@@ -77,26 +76,14 @@ public class MaterialsConsumerBuilder {
           if (!(recipe instanceof ShapedRecipe shaped)) {
             throw new IllegalArgumentException("Material recipe requires a shaped recipe, got " + recipe.getClass().getName());
           }
-          List<Ingredient> parts = shaped.getIngredients().stream().flatMap(java.util.Optional::stream)
-            .filter(MaterialsConsumerBuilder::containsMaterialIngredient).distinct().toList();
-          if (parts.size() != shapedPartCount) {
-            throw new IllegalStateException("Expected " + shapedPartCount + " material part ingredients in " + id + ", found " + parts.size());
-          }
-          converted = new ShapedMaterialsRecipe(shaped, parts, extraMaterials);
+          var ops = RegistryOps.create(JsonOps.INSTANCE, RegistryAccess.fromRegistryOfRegistries(BuiltInRegistries.REGISTRY));
+          var json = ShapedRecipe.MAP_CODEC.codec().encodeStart(ops, shaped).getOrThrow().getAsJsonObject();
+          json.addProperty("parts", shapedParts);
+          json.add("extra_materials", ShapedMaterialsRecipe.Serializer.EXTRA_MATERIALS.serialize(extraMaterials));
+          converted = ShapedMaterialsRecipe.SERIALIZER.codec().codec().parse(ops, json).getOrThrow();
         }
         output.accept(id, converted, advancement, conditions);
       }
     };
-  }
-
-  private static boolean containsMaterialIngredient(Ingredient ingredient) {
-    if (!ingredient.isCustom()) {
-      return false;
-    }
-    Object custom = ingredient.getCustomIngredient();
-    if (custom instanceof MaterialIngredient || custom instanceof MaterialValueIngredient) {
-      return true;
-    }
-    return custom instanceof CompoundIngredient compound && compound.children().stream().anyMatch(MaterialsConsumerBuilder::containsMaterialIngredient);
   }
 }

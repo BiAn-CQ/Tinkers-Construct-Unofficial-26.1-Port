@@ -83,6 +83,7 @@ import slimeknights.tconstruct.tools.entity.ModifiableArrow;
 import slimeknights.tconstruct.tools.entity.ThrownTool;
 import slimeknights.tconstruct.tools.client.ToolContainerScreen;
 import slimeknights.tconstruct.shared.TinkerCommons;
+import slimeknights.tconstruct.shared.block.ClearStainedGlassBlock.GlassColor;
 import slimeknights.tconstruct.shared.client.FluidParticle;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.core.component.DataComponents;
@@ -238,6 +239,12 @@ public final class TConstructClientCompat {
 
   @SubscribeEvent
   static void registerBlockTints(RegisterColorHandlersEvent.BlockTintSources event) {
+    // Connected glass quads carry their own static color, but terrain particles
+    // read tint source zero separately from the baked face colors.
+    for (GlassColor color : GlassColor.values()) {
+      event.register(List.of(state -> 0xFF000000 | color.getColor()),
+        TinkerCommons.clearStainedGlass.get(color), TinkerCommons.clearStainedGlassPane.get(color));
+    }
     event.register(List.of(new BlockTintSource() {
       @Override
       public int color(BlockState state) {

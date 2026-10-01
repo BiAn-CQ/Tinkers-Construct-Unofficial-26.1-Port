@@ -1,5 +1,7 @@
 {
   "values": [
+    "minecraft:copper_shovel",
+    "minecraft:copper_spear",
     "minecraft:brush",
     {
       "id": "#c:tools/shovels/copper",

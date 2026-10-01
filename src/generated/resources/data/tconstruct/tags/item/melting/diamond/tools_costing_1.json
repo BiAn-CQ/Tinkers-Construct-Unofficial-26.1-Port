@@ -1,5 +1,6 @@
 {
   "values": [
+    "minecraft:diamond_spear",
     "minecraft:diamond_shovel",
     {
       "id": "tools_complement:diamond_knife",
