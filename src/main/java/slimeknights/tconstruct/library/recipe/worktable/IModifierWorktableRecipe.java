@@ -54,6 +54,10 @@ public interface IModifierWorktableRecipe extends ICommonRecipe<ITinkerableConta
    */
   RecipeResult<LazyToolStack> getResult(ITinkerableContainer inv, ModifierEntry modifier);
 
+  default RecipeResult<LazyToolStack> getResult(ITinkerableContainer inv, ModifierEntry modifier, Level level) {
+    return getResult(inv, modifier);
+  }
+
   default int shrinkToolSlotBy(LazyToolStack result) {
     return result.getSize();
   }

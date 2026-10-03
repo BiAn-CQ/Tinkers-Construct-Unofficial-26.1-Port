@@ -68,6 +68,7 @@ public class AlloyerScreen extends AbstractContainerScreen<AlloyerContainerMenu>
 
   @Override
   public void extractBackground(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTicks) {
+    super.extractBackground(graphics, mouseX, mouseY, partialTicks);
     GuiUtil.drawBackground(graphics, this, BACKGROUND);
 
     // fluids

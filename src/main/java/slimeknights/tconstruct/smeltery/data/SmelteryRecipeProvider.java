@@ -1626,6 +1626,14 @@ public class SmelteryRecipeProvider extends BaseRecipeProvider implements ISmelt
     // unique melting
     MeltingRecipeBuilder.melting(TinkerIngredients.of(Items.IRON_HORSE_ARMOR), TinkerFluids.moltenIron, FluidValues.INGOT * 7)
                         .save(consumer, location(metalFolder + "iron/horse_armor"));
+    MeltingRecipeBuilder.melting(TinkerIngredients.of(Items.IRON_NAUTILUS_ARMOR), TinkerFluids.moltenIron, FluidValues.INGOT * 7)
+                        .save(consumer, location(metalFolder + "iron/nautilus_armor"));
+    MeltingRecipeBuilder.melting(TinkerIngredients.of(Items.SADDLE), TinkerFluids.moltenIron, FluidValues.INGOT)
+                        .save(consumer, location(metalFolder + "iron/saddle"));
+    MeltingRecipeBuilder.melting(TinkerIngredients.of(Items.COPPER_HORSE_ARMOR), TinkerFluids.moltenCopper, FluidValues.INGOT * 7)
+                        .save(consumer, location(metalFolder + "copper/horse_armor"));
+    MeltingRecipeBuilder.melting(TinkerIngredients.of(Items.COPPER_NAUTILUS_ARMOR), TinkerFluids.moltenCopper, FluidValues.INGOT * 7)
+                        .save(consumer, location(metalFolder + "copper/nautilus_armor"));
     // chainmail armor to steel
     // working off the assumption that some mods out there decided to craft chainmail for an ingots worth of material at minimum, possibly a bit more if they used chains (which is nonsensical)
     final int chainIron = FluidValues.NUGGET * 6;
@@ -1671,6 +1679,8 @@ public class SmelteryRecipeProvider extends BaseRecipeProvider implements ISmelt
     // unique melting
     MeltingRecipeBuilder.melting(TinkerIngredients.of(Items.GOLDEN_HORSE_ARMOR), TinkerFluids.moltenGold, FluidValues.INGOT * 7)
                         .save(consumer, location(metalFolder + "gold/horse_armor"));
+    MeltingRecipeBuilder.melting(TinkerIngredients.of(Items.GOLDEN_NAUTILUS_ARMOR), TinkerFluids.moltenGold, FluidValues.INGOT * 7)
+                        .save(consumer, location(metalFolder + "gold/nautilus_armor"));
     MeltingRecipeBuilder.melting(TinkerIngredients.of(Items.ENCHANTED_GOLDEN_APPLE), TinkerFluids.moltenGold, FluidValues.METAL_BLOCK * 8)
                         .save(consumer, location(metalFolder + "gold/enchanted_apple"));
     // we directly add the recipe for nether gold ore instead of doing a sparse gold ore as we want to change the byproduct
@@ -1730,8 +1740,16 @@ public class SmelteryRecipeProvider extends BaseRecipeProvider implements ISmelt
     // unique melting
     MeltingRecipeBuilder.melting(TinkerIngredients.of(Items.DIAMOND_HORSE_ARMOR), TinkerFluids.moltenDiamond, FluidValues.GEM * 7)
                         .save(consumer, location(folder + "diamond/horse_armor"));
+    MeltingRecipeBuilder.melting(TinkerIngredients.of(Items.DIAMOND_NAUTILUS_ARMOR), TinkerFluids.moltenDiamond, FluidValues.GEM * 7)
+                        .save(consumer, location(folder + "diamond/nautilus_armor"));
 
     // netherite
+    MeltingRecipeBuilder.melting(TinkerIngredients.of(Items.NETHERITE_HORSE_ARMOR), TinkerFluids.moltenNetherite, FluidValues.INGOT)
+                        .addByproduct(TinkerFluids.moltenDiamond.result(FluidValues.GEM * 7))
+                        .save(consumer, location(metalFolder + "netherite/horse_armor"));
+    MeltingRecipeBuilder.melting(TinkerIngredients.of(Items.NETHERITE_NAUTILUS_ARMOR), TinkerFluids.moltenNetherite, FluidValues.INGOT)
+                        .addByproduct(TinkerFluids.moltenDiamond.result(FluidValues.GEM * 7))
+                        .save(consumer, location(metalFolder + "netherite/nautilus_armor"));
     MeltingRecipeBuilder.melting(TinkerIngredients.of(Blocks.LODESTONE), TinkerFluids.moltenIron, FluidValues.INGOT)
       .save(consumer, location(metalFolder + "iron/lodestone"));
     // armor

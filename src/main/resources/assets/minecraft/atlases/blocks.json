@@ -1,5 +1,6 @@
 {
   "sources": [
+    { "type": "tconstruct:opaque_block" },
     {
       "type": "minecraft:directory",
       "prefix": "fluid/",

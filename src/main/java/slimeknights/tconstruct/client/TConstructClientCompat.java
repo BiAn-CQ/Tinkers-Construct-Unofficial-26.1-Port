@@ -320,6 +320,7 @@ public final class TConstructClientCompat {
   @SubscribeEvent
   static void registerSpriteSourceTypes(RegisterSpriteSourcesEvent event) {
     ShieldBannerModifierSpriteSource.register(event);
+    event.register(TConstruct.getResource("opaque_block"), slimeknights.tconstruct.client.model.OpaqueBlockSpriteSource.CODEC);
   }
 
 }

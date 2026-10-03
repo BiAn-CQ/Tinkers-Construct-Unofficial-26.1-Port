@@ -86,7 +86,7 @@ public class ModifierWorktableBlockEntity extends RetexturedTableBlockEntity imp
 
         // last recipe must be nonnull for list to be non-empty
         assert lastRecipe != null;
-        RecipeResult<LazyToolStack> recipeResult = lastRecipe.value().getResult(inventoryWrapper, entry);
+        RecipeResult<LazyToolStack> recipeResult = lastRecipe.value().getResult(inventoryWrapper, entry, level);
         if (recipeResult.isSuccess()) {
           result = recipeResult.getResult();
           currentMessage = Component.empty();

@@ -3,7 +3,8 @@ package slimeknights.tconstruct.tables.client.inventory;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.gui.screens.inventory.InventoryScreen;
+import org.joml.Quaternionf;
+import org.joml.Vector3f;
 import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.core.RegistryAccess;
@@ -108,20 +109,22 @@ public abstract class ToolTableScreen<T extends BlockEntity, C extends TabbedCon
    */
   protected void renderArmorStand(GuiGraphicsExtractor graphics) {
     if (this.armorStandPreview != null) {
-      // 26.1's followsMouse helper interprets its third value as pitch.  The
-      // old port passed armorStandAngle there, which made the preview rotate
-      // around the wrong axis and could leave the held tool in an invalid
-      // render pose.  Use the angle-aware helper and convert the station's
-      // radian drag angle to its 20-degree yaw unit.
-      InventoryScreen.renderEntityInInventoryFollowsAngle(graphics,
-        // The 26.1 helper clips to this rectangle.  The previous 32px-high
-        // box was inherited from the old center-point API and clipped the
-        // armor stand to its lower half, leaving a detached-looking preview
-        // near the bottom of the table.
-        this.armorStandX - 20, this.armorStandY - 60, this.armorStandX + 20, this.armorStandY,
-        this.armorStandScale, 0.0F, this.armorStandAngle / (float) (Math.PI / 9.0), -1.25F, this.armorStandPreview);
-
       graphics.blit(RenderPipelines.GUI_TEXTURED, ICON_TEXTURE, armorStandX - 16, armorStandY - 16, 0, 184, 32, 32, 256, 256);
+      graphics.nextStratum();
+
+      var renderer = this.minecraft.getEntityRenderDispatcher().getRenderer(this.armorStandPreview);
+      var state = renderer.createRenderState(this.armorStandPreview, 1.0F);
+      state.shadowPieces.clear();
+      state.outlineColor = 0;
+      Quaternionf rotation = new Quaternionf().rotationXYZ((float) Math.toRadians(25), 0, (float) Math.PI)
+        .rotateY(this.armorStandAngle);
+      int halfWidth = this.armorStandScale + 15;
+      int halfHeight = this.armorStandScale * 3 / 2;
+      int centerY = this.armorStandY - this.armorStandScale;
+      graphics.entity(state, this.armorStandScale, new Vector3f(0, 1, 0), rotation, null,
+        this.armorStandX - halfWidth, centerY - halfHeight,
+        this.armorStandX + halfWidth, centerY + halfHeight);
+      graphics.nextStratum();
     }
   }
 

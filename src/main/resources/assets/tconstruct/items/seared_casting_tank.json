@@ -12,6 +12,7 @@
             10.92,
             15.92
         ],
-        "increments": 256
+        "increments": 256,
+        "gui_model": "tconstruct:block/smeltery/tank/casting_tank_gui"
     }
 }

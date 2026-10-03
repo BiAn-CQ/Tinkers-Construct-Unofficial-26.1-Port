@@ -12,6 +12,7 @@
             15.92,
             15.92
         ],
-        "increments": 256
+        "increments": 256,
+        "gui_model": "tconstruct:block/template/tank_knob_gui"
     }
 }

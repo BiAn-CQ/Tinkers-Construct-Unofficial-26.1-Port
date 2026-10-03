@@ -12,6 +12,7 @@
             14.92,
             14.92
         ],
-        "increments": 160
+        "increments": 160,
+        "gui_model": "tconstruct:block/end_fluid_cannon/base_gui"
     }
 }

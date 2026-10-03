@@ -1,0 +1,16 @@
+{
+  "type": "tconstruct:melting",
+  "byproducts": [
+    {
+      "amount": 700,
+      "id": "tconstruct:molten_diamond"
+    }
+  ],
+  "ingredient": "minecraft:netherite_nautilus_armor",
+  "result": {
+    "amount": 90,
+    "tag": "c:molten_netherite"
+  },
+  "temperature": 1250,
+  "time": 74
+}

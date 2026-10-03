@@ -120,6 +120,7 @@ public class ToolContainerScreen extends AbstractContainerScreen<ToolContainerMe
 
   @Override
   public void extractBackground(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTicks) {
+    super.extractBackground(graphics, mouseX, mouseY, partialTicks);
     this.renderBg(graphics, partialTicks, mouseX, mouseY);
   }
 

@@ -657,6 +657,9 @@ public final class NativeTinkerItemModel implements ItemModel {
                                               MaterialVariantId material) {
     if (textureBlock != null && textureBlock != Blocks.AIR) {
       List<Material> materials = MaterialBlockTextureHelper.getMaterials(textureBlock);
+      ModelBaker baker = context.blockModelBaker();
+      materials = materials.stream().map(texture -> MaterialBlockTextureHelper.opaque(texture,
+        value -> baker.materials().get(value, baker.getModel(definition.model())).sprite())).toList();
       if (materials.size() > 1) {
         return new CompositeModel(materials.stream()
           .map(texture -> bakeMaterialBlockLayer(context, transformation, definition, texture, IMaterial.UNKNOWN_ID))
@@ -1013,9 +1016,10 @@ public final class NativeTinkerItemModel implements ItemModel {
   }
 
   /** Native item model corresponding to the old {@code tconstruct:tank} geometry loader. */
-  public record TankUnbaked(Identifier model, Vector3fc fluidFrom, Vector3fc fluidTo, int increments) implements ItemModel.Unbaked {
+  public record TankUnbaked(Identifier model, Optional<Identifier> guiModel, Vector3fc fluidFrom, Vector3fc fluidTo, int increments) implements ItemModel.Unbaked {
     public static final MapCodec<TankUnbaked> MAP_CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
       Identifier.CODEC.fieldOf("model").forGetter(TankUnbaked::model),
+      Identifier.CODEC.optionalFieldOf("gui_model").forGetter(TankUnbaked::guiModel),
       ExtraCodecs.VECTOR3F.fieldOf("fluid_from").forGetter(TankUnbaked::fluidFrom),
       ExtraCodecs.VECTOR3F.fieldOf("fluid_to").forGetter(TankUnbaked::fluidTo),
       Codec.intRange(1, Integer.MAX_VALUE).fieldOf("increments").forGetter(TankUnbaked::increments)
@@ -1024,6 +1028,7 @@ public final class NativeTinkerItemModel implements ItemModel {
     @Override
     public void resolveDependencies(Resolver resolver) {
       resolver.markDependency(model);
+      guiModel.ifPresent(resolver::markDependency);
     }
 
     @Override
@@ -1080,6 +1085,7 @@ public final class NativeTinkerItemModel implements ItemModel {
     private final ItemModel.BakingContext context;
     private final Matrix4fc transformation;
     private final Map<FluidKey,ItemModel> cache = new ConcurrentHashMap<>();
+    private final Map<FluidKey,ItemModel> guiCache = new ConcurrentHashMap<>();
 
     private DynamicTankModel(TankUnbaked definition, ItemModel.BakingContext context, Matrix4fc transformation) {
       this.definition = definition;
@@ -1101,7 +1107,8 @@ public final class NativeTinkerItemModel implements ItemModel {
         int amount = Mth.clamp(fluid.getAmount() * definition.increments() / capacity, 1, definition.increments());
         key = new FluidKey(fluid.copy(), amount);
       }
-      cache.computeIfAbsent(key, value -> bakeTank(context, transformation, definition, value))
+      boolean gui = displayContext == ItemDisplayContext.GUI && definition.guiModel().isPresent();
+      (gui ? guiCache : cache).computeIfAbsent(key, value -> bakeTank(context, transformation, definition, value, gui))
         .update(output, stack, resolver, displayContext, level, owner, seed);
     }
   }
@@ -1154,12 +1161,13 @@ public final class NativeTinkerItemModel implements ItemModel {
 
   /** Bakes the base block mesh and, when present, the fluid cuboid for an item stack. */
   private static ItemModel bakeTank(ItemModel.BakingContext context, Matrix4fc transformation,
-                                    TankUnbaked definition, FluidKey key) {
+                                    TankUnbaked definition, FluidKey key, boolean gui) {
     ModelBaker baker = context.blockModelBaker();
     ResolvedModel resolved = baker.getModel(definition.model());
     TextureSlots textures = resolved.getTopTextureSlots();
     QuadCollection.Builder quads = new QuadCollection.Builder();
-    quads.addAll(resolved.bakeTopGeometry(textures, baker, BlockModelRotation.IDENTITY));
+    ResolvedModel geometry = gui ? baker.getModel(definition.guiModel().orElseThrow()) : resolved;
+    quads.addAll(geometry.bakeTopGeometry(textures, baker, BlockModelRotation.IDENTITY));
 
     Material.Baked particle = resolved.resolveParticleMaterial(textures, baker);
     if (!key.fluid().isEmpty()) {
@@ -1169,7 +1177,7 @@ public final class NativeTinkerItemModel implements ItemModel {
       int color = fluidModel.fluidTintSource() == null
                   ? FluidTextureManager.getColor(fluid.getFluid().getFluidType())
                   : fluidModel.fluidTintSource().colorAsStack(fluid);
-      int luminosity = fluid.getFluid().getFluidType().getLightLevel(fluid);
+      int luminosity = gui ? 0 : fluid.getFluid().getFluidType().getLightLevel(fluid);
 
       Vector3f from = new Vector3f(definition.fluidFrom());
       Vector3f to = new Vector3f(definition.fluidTo());

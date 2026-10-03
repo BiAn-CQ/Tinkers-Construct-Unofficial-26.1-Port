@@ -12,6 +12,7 @@
             6,
             10.95
         ],
-        "increments": 10
+        "increments": 10,
+        "gui_model": "tconstruct:block/template/lantern_gui"
     }
 }

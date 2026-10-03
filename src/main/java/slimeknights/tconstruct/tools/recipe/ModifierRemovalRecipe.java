@@ -1,6 +1,8 @@
 package slimeknights.tconstruct.tools.recipe;
 
 import slimeknights.tconstruct.library.recipe.TinkerIngredients;
+import slimeknights.tconstruct.library.recipe.TinkerRecipeTypes;
+import slimeknights.tconstruct.library.utils.TinkerRecipeHelper;
 
 import lombok.Getter;
 import net.minecraft.network.chat.Component;
@@ -115,13 +117,29 @@ public class ModifierRemovalRecipe extends AbstractWorktableRecipe {
 
   @Override
   public RecipeResult<LazyToolStack> getResult(ITinkerableContainer inv, ModifierEntry entry) {
+    return getResult(inv, entry, null);
+  }
+
+  @Override
+  public RecipeResult<LazyToolStack> getResult(ITinkerableContainer inv, ModifierEntry entry, @Nullable Level level) {
     ToolStack original = inv.getTinkerable();
 
     // salvage
     ToolStack tool = original.copy();
     ModifierId modifierId = entry.getId();
     ItemStack originalStack = inv.getTinkerableStack();
-    ModifierSalvage salvage = ModifierRecipeLookup.getSalvage(originalStack, tool, modifierId, entry.getLevel());
+    ModifierSalvage salvage;
+    if (level == null) {
+      salvage = ModifierRecipeLookup.getSalvage(originalStack, tool, modifierId, entry.getLevel());
+    } else {
+      var manager = TinkerRecipeHelper.getRecipeManager(level);
+      var recipes = level.isClientSide()
+        ? TinkerRecipeHelper.getAllRecipesFor(manager, TinkerRecipeTypes.DATA.get()) : manager.getRecipes();
+      salvage = recipes.stream().map(holder -> holder.value())
+        .filter(ModifierSalvage.class::isInstance).map(ModifierSalvage.class::cast)
+        .filter(recipe -> recipe.getModifier().equals(modifierId) && recipe.matches(originalStack, tool, entry.getLevel()))
+        .findFirst().orElse(null);
+    }
 
     // restore the slots
     if (salvage != null) {

@@ -12,6 +12,7 @@
             15.92,
             15.92
         ],
-        "increments": 128
+        "increments": 128,
+        "gui_model": "tconstruct:block/foundry/controller/alloyer_gui"
     }
 }

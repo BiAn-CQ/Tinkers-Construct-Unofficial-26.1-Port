@@ -42,6 +42,7 @@ public class MelterScreen extends AbstractContainerScreen<MelterContainerMenu> i
 
   @Override
   public void extractBackground(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTicks) {
+    super.extractBackground(graphics, mouseX, mouseY, partialTicks);
     GuiUtil.drawBackground(graphics, this, BACKGROUND);
 
     // fuel

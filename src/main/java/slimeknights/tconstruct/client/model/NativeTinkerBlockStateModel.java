@@ -784,6 +784,8 @@ public final class NativeTinkerBlockStateModel {
         return List.of(fallback);
       }
       List<Material> materials = MaterialBlockTextureHelper.getMaterials(texture);
+      materials = materials.stream().map(textureMaterial -> MaterialBlockTextureHelper.opaque(textureMaterial,
+        value -> baker.materials().get(value, resolved).sprite())).toList();
       blockParticleSprites.put(texture, baker.materials().get(materials.getFirst(), resolved).sprite());
       List<BlockStateModelPart> parts = new ArrayList<>(materials.size());
       for (Material material : materials) {
