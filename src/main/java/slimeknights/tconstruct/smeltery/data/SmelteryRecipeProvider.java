@@ -1715,8 +1715,64 @@ public class SmelteryRecipeProvider extends BaseRecipeProvider implements ISmelt
                                    Blocks.WAXED_CUT_COPPER_SLAB, Blocks.WAXED_EXPOSED_CUT_COPPER_SLAB, Blocks.WAXED_WEATHERED_CUT_COPPER_SLAB, Blocks.WAXED_OXIDIZED_CUT_COPPER_SLAB),
                                  TinkerFluids.moltenCopper, FluidValues.NUGGET * 10)
                         .save(consumer, location(metalFolder + "copper/cut_slab"));
-    MeltingRecipeBuilder.melting(TinkerIngredients.of(Blocks.LIGHTNING_ROD), TinkerFluids.moltenCopper, FluidValues.INGOT * 3)
+    MeltingRecipeBuilder.melting(TinkerIngredients.of(
+      Blocks.CHISELED_COPPER, Blocks.EXPOSED_CHISELED_COPPER, Blocks.WEATHERED_CHISELED_COPPER, Blocks.OXIDIZED_CHISELED_COPPER,
+      Blocks.WAXED_CHISELED_COPPER, Blocks.WAXED_EXPOSED_CHISELED_COPPER, Blocks.WAXED_WEATHERED_CHISELED_COPPER, Blocks.WAXED_OXIDIZED_CHISELED_COPPER),
+                                 TinkerFluids.moltenCopper, 200)
+                        .save(consumer, location(metalFolder + "copper/chiseled"));
+    MeltingRecipeBuilder.melting(TinkerIngredients.of(
+      Blocks.COPPER_GRATE, Blocks.EXPOSED_COPPER_GRATE, Blocks.WEATHERED_COPPER_GRATE, Blocks.OXIDIZED_COPPER_GRATE,
+      Blocks.WAXED_COPPER_GRATE, Blocks.WAXED_EXPOSED_COPPER_GRATE, Blocks.WAXED_WEATHERED_COPPER_GRATE, Blocks.WAXED_OXIDIZED_COPPER_GRATE),
+                                 TinkerFluids.moltenCopper, 200)
+                        .save(consumer, location(metalFolder + "copper/grate"));
+    MeltingRecipeBuilder.melting(TinkerIngredients.of(
+      Blocks.COPPER_BULB, Blocks.EXPOSED_COPPER_BULB, Blocks.WEATHERED_COPPER_BULB, Blocks.OXIDIZED_COPPER_BULB,
+      Blocks.WAXED_COPPER_BULB, Blocks.WAXED_EXPOSED_COPPER_BULB, Blocks.WAXED_WEATHERED_COPPER_BULB, Blocks.WAXED_OXIDIZED_COPPER_BULB),
+                                 TinkerFluids.moltenCopper, 600)
+                        .save(consumer, location(metalFolder + "copper/bulb"));
+    MeltingRecipeBuilder.melting(TinkerIngredients.of(
+      Blocks.COPPER_DOOR, Blocks.EXPOSED_COPPER_DOOR, Blocks.WEATHERED_COPPER_DOOR, Blocks.OXIDIZED_COPPER_DOOR,
+      Blocks.WAXED_COPPER_DOOR, Blocks.WAXED_EXPOSED_COPPER_DOOR, Blocks.WAXED_WEATHERED_COPPER_DOOR, Blocks.WAXED_OXIDIZED_COPPER_DOOR),
+                                 TinkerFluids.moltenCopper, 180)
+                        .save(consumer, location(metalFolder + "copper/door"));
+    MeltingRecipeBuilder.melting(TinkerIngredients.of(
+      Blocks.COPPER_TRAPDOOR, Blocks.EXPOSED_COPPER_TRAPDOOR, Blocks.WEATHERED_COPPER_TRAPDOOR, Blocks.OXIDIZED_COPPER_TRAPDOOR,
+      Blocks.WAXED_COPPER_TRAPDOOR, Blocks.WAXED_EXPOSED_COPPER_TRAPDOOR, Blocks.WAXED_WEATHERED_COPPER_TRAPDOOR, Blocks.WAXED_OXIDIZED_COPPER_TRAPDOOR),
+                                 TinkerFluids.moltenCopper, 360)
+                        .save(consumer, location(metalFolder + "copper/trapdoor"));
+    MeltingRecipeBuilder.melting(TinkerIngredients.of(
+      Blocks.COPPER_CHEST, Blocks.EXPOSED_COPPER_CHEST, Blocks.WEATHERED_COPPER_CHEST, Blocks.OXIDIZED_COPPER_CHEST,
+      Blocks.WAXED_COPPER_CHEST, Blocks.WAXED_EXPOSED_COPPER_CHEST, Blocks.WAXED_WEATHERED_COPPER_CHEST, Blocks.WAXED_OXIDIZED_COPPER_CHEST),
+                                 TinkerFluids.moltenCopper, 720)
+                        .save(consumer, location(metalFolder + "copper/chest"));
+    MeltingRecipeBuilder.melting(TinkerIngredients.of(
+      Blocks.COPPER_BARS.unaffected(), Blocks.COPPER_BARS.exposed(), Blocks.COPPER_BARS.weathered(), Blocks.COPPER_BARS.oxidized(),
+      Blocks.COPPER_BARS.waxed(), Blocks.COPPER_BARS.waxedExposed(), Blocks.COPPER_BARS.waxedWeathered(), Blocks.COPPER_BARS.waxedOxidized()),
+                                 TinkerFluids.moltenCopper, 30)
+                        .save(consumer, location(metalFolder + "copper/bars"));
+    MeltingRecipeBuilder.melting(TinkerIngredients.of(
+      Blocks.COPPER_CHAIN.unaffected(), Blocks.COPPER_CHAIN.exposed(), Blocks.COPPER_CHAIN.weathered(), Blocks.COPPER_CHAIN.oxidized(),
+      Blocks.COPPER_CHAIN.waxed(), Blocks.COPPER_CHAIN.waxedExposed(), Blocks.COPPER_CHAIN.waxedWeathered(), Blocks.COPPER_CHAIN.waxedOxidized()),
+                                 TinkerFluids.moltenCopper, 110)
+                        .save(consumer, location(metalFolder + "copper/chain"));
+    MeltingRecipeBuilder.melting(TinkerIngredients.of(
+      Blocks.COPPER_LANTERN.unaffected(), Blocks.COPPER_LANTERN.exposed(), Blocks.COPPER_LANTERN.weathered(), Blocks.COPPER_LANTERN.oxidized(),
+      Blocks.COPPER_LANTERN.waxed(), Blocks.COPPER_LANTERN.waxedExposed(), Blocks.COPPER_LANTERN.waxedWeathered(), Blocks.COPPER_LANTERN.waxedOxidized()),
+                                 TinkerFluids.moltenCopper, 80)
+                        .save(consumer, location(metalFolder + "copper/lantern"));
+    MeltingRecipeBuilder.melting(TinkerIngredients.of(
+      Blocks.LIGHTNING_ROD, Blocks.EXPOSED_LIGHTNING_ROD, Blocks.WEATHERED_LIGHTNING_ROD, Blocks.OXIDIZED_LIGHTNING_ROD,
+      Blocks.WAXED_LIGHTNING_ROD, Blocks.WAXED_EXPOSED_LIGHTNING_ROD, Blocks.WAXED_WEATHERED_LIGHTNING_ROD, Blocks.WAXED_OXIDIZED_LIGHTNING_ROD),
+                                 TinkerFluids.moltenCopper, 270)
                         .save(consumer, location(metalFolder + "copper/lightning_rod"));
+    MeltingRecipeBuilder.melting(TinkerIngredients.of(Blocks.COPPER_TORCH), TinkerFluids.moltenCopper, 2)
+                        .save(consumer, location(metalFolder + "copper/torch"));
+    // Spawning a golem from nine ingots also creates an eight-ingot copper chest.
+    MeltingRecipeBuilder.melting(TinkerIngredients.of(
+      Blocks.COPPER_GOLEM_STATUE, Blocks.EXPOSED_COPPER_GOLEM_STATUE, Blocks.WEATHERED_COPPER_GOLEM_STATUE, Blocks.OXIDIZED_COPPER_GOLEM_STATUE,
+      Blocks.WAXED_COPPER_GOLEM_STATUE, Blocks.WAXED_EXPOSED_COPPER_GOLEM_STATUE, Blocks.WAXED_WEATHERED_COPPER_GOLEM_STATUE, Blocks.WAXED_OXIDIZED_COPPER_GOLEM_STATUE),
+                                 TinkerFluids.moltenCopper, FluidValues.INGOT)
+                        .save(consumer, location(metalFolder + "copper/golem_statue"));
     MeltingRecipeBuilder.melting(TinkerIngredients.of(TinkerTags.Items.COPPER_PLATFORMS), TinkerFluids.moltenCopper, FluidValues.NUGGET * 10)
                         .save(consumer, location(metalFolder + "copper/platform"));
 

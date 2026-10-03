@@ -1167,7 +1167,8 @@ public final class NativeTinkerItemModel implements ItemModel {
     TextureSlots textures = resolved.getTopTextureSlots();
     QuadCollection.Builder quads = new QuadCollection.Builder();
     ResolvedModel geometry = gui ? baker.getModel(definition.guiModel().orElseThrow()) : resolved;
-    quads.addAll(geometry.bakeTopGeometry(textures, baker, BlockModelRotation.IDENTITY));
+    // ResolvedModel caches by transform only; this template is shared by differently textured tanks.
+    quads.addAll(geometry.getTopGeometry().bake(textures, baker, BlockModelRotation.IDENTITY, geometry, geometry.getTopAdditionalProperties()));
 
     Material.Baked particle = resolved.resolveParticleMaterial(textures, baker);
     if (!key.fluid().isEmpty()) {

@@ -17,6 +17,8 @@ import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.component.BlocksAttacks;
 import net.minecraft.world.item.ItemUseAnimation;
 import net.minecraft.world.item.component.Weapon;
 import net.minecraft.world.level.Level;
@@ -312,6 +314,28 @@ public final class ModifierUtil {
    */
   public static void updateShieldDisableComponent(ItemStack stack) {
     updateShieldDisableComponent(stack, canPerformAction(ToolStack.from(stack), TinkerToolActions.SHIELD_DISABLE));
+  }
+
+  public static void updateShieldBlockingComponent(ItemStack stack) {
+    ToolStack tool = ToolStack.from(stack);
+    ModifierEntry active = GeneralInteractionModifierHook.getActiveModifier(tool);
+    boolean blocking = !tool.isBroken() && canPerformAction(tool, TinkerToolActions.SHIELD_BLOCK)
+      && active.getHook(ModifierHooks.GENERAL_INTERACT).getUseAction(tool, active) == ItemUseAnimation.BLOCK;
+    updateShieldBlockingComponent(stack, blocking, Items.SHIELD.components().get(DataComponents.BLOCKS_ATTACKS));
+  }
+
+  static void updateShieldBlockingComponent(ItemStack stack, boolean blocking, @Nullable BlocksAttacks vanilla) {
+    if (blocking && vanilla != null) {
+      // The shield event applies Tinkers' angle, block amount, and durability cost.
+      BlocksAttacks component = new BlocksAttacks(vanilla.blockDelaySeconds(), vanilla.disableCooldownScale(),
+        List.of(new BlocksAttacks.DamageReduction(180, java.util.Optional.empty(), 0, 1)),
+        new BlocksAttacks.ItemDamageFunction(0, 0, 0), vanilla.bypassedBy(), vanilla.blockSound(), vanilla.disableSound());
+      if (!component.equals(stack.get(DataComponents.BLOCKS_ATTACKS))) {
+        stack.set(DataComponents.BLOCKS_ATTACKS, component);
+      }
+    } else {
+      stack.remove(DataComponents.BLOCKS_ATTACKS);
+    }
   }
 
   /** Component-only implementation split out for regression tests. */

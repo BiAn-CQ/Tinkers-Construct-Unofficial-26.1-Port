@@ -42,4 +42,34 @@ class ModifierUtilComponentTest extends CoreTestBootstrap {
 
     assertThat(stack.get(DataComponents.WEAPON)).isEqualTo(custom);
   }
+  @Test
+  void blockingComponentEnablesNativeBlockingAndClearsOnRelease() {
+    var base = new net.minecraft.world.item.component.BlocksAttacks(0.25f, 1,
+      java.util.List.of(new net.minecraft.world.item.component.BlocksAttacks.DamageReduction(90, java.util.Optional.empty(), 0, 1)),
+      new net.minecraft.world.item.component.BlocksAttacks.ItemDamageFunction(3, 1, 1),
+      java.util.Optional.empty(), java.util.Optional.empty(), java.util.Optional.empty());
+    ItemStack stack = new ItemStack(Items.STICK);
+    ModifierUtil.updateShieldBlockingComponent(stack, true, base);
+    var component = stack.get(DataComponents.BLOCKS_ATTACKS);
+    assertThat(component).isNotNull();
+    assertThat(component.blockDelayTicks()).isEqualTo(5);
+    assertThat(component.itemDamage().apply(20)).isZero();
+    var user = org.mockito.Mockito.mock(net.minecraft.world.entity.LivingEntity.class);
+    org.mockito.Mockito.when(user.isUsingItem()).thenReturn(true);
+    org.mockito.Mockito.doCallRealMethod().when(user).getItemBlockingWith();
+    // Vanilla reads these fields directly when deciding whether an item blocks.
+    try {
+      var useItem = net.minecraft.world.entity.LivingEntity.class.getDeclaredField("useItem");
+      var remaining = net.minecraft.world.entity.LivingEntity.class.getDeclaredField("useItemRemaining");
+      useItem.setAccessible(true);
+      remaining.setAccessible(true);
+      useItem.set(user, stack);
+      remaining.setInt(user, -5);
+      assertThat(user.getItemBlockingWith()).isSameAs(stack);
+      ModifierUtil.updateShieldBlockingComponent(stack, false, base);
+      assertThat(user.getItemBlockingWith()).isNull();
+    } catch (ReflectiveOperationException exception) {
+      throw new AssertionError(exception);
+    }
+  }
 }

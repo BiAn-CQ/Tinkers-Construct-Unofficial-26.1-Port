@@ -7,8 +7,8 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
@@ -110,6 +110,36 @@ public record SlingKnockbackModule(LevelingValue forceMultiplier, float drawtime
     return InteractionResult.PASS;
   }
 
+  @javax.annotation.Nullable
+  static EntityHitResult findTarget(List<Entity> entities, Vec3 start, Vec3 end) {
+    EntityHitResult nearest = null;
+    double distance = Double.MAX_VALUE;
+    boolean exactMatch = false;
+    Vec3 direction = end.subtract(start);
+    for (Entity entity : entities) {
+      AABB bounds = entity.getBoundingBox();
+      Vec3 exact = bounds.contains(start) ? start : bounds.clip(start, end).orElse(null);
+      boolean exactHit = exact != null;
+      if (!exactHit && (exactMatch || bounds.getCenter().subtract(start).dot(direction) <= 0)) {
+        continue;
+      }
+      AABB expanded = bounds.inflate(1);
+      Vec3 location = exactHit ? exact : expanded.contains(start) ? start : expanded.clip(start, end).orElse(null);
+      if (location != null) {
+        double candidateDistance = start.distanceToSqr(location);
+        if (!exactHit && candidateDistance == 0) {
+          candidateDistance = start.distanceToSqr(bounds.getCenter());
+        }
+        if ((exactHit && !exactMatch) || candidateDistance < distance) {
+          nearest = new EntityHitResult(entity, location);
+          distance = candidateDistance;
+          exactMatch = exactHit;
+        }
+      }
+    }
+    return nearest;
+  }
+
   @Override
   public void sling(IToolStackView tool, ModifierEntry modifier, LivingEntity entity, int chargeTime, ModifierEntry activeModifier) {
     Level level = entity.level();
@@ -119,17 +149,17 @@ public record SlingKnockbackModule(LevelingValue forceMultiplier, float drawtime
         Vec3 start = player.getEyePosition(1F);
         Vec3 look = player.getLookAngle();
         Vec3 direction = start.add(look.x * RANGE, look.y * RANGE, look.z * RANGE);
-        AABB bb = player.getBoundingBox().expandTowards(look.x * RANGE, look.y * RANGE, look.z * RANGE).expandTowards(1, 1, 1);
+        AABB bb = player.getBoundingBox().expandTowards(look.x * RANGE, look.y * RANGE, look.z * RANGE).inflate(1);
 
-        EntityHitResult hit = ProjectileUtil.getEntityHitResult(level, player, start, direction, bb, e -> e instanceof LivingEntity, 1.0F);
+        EntityHitResult hit = findTarget(level.getEntities(player, bb, e -> e instanceof LivingEntity living && e.isAlive() && !e.isSpectator() && this.target.matches(living)), start, direction);
         if (hit != null) {
           LivingEntity target = (LivingEntity)hit.getEntity();
           if (this.target.matches(target)) {
-            double targetDist = start.distanceToSqr(target.getEyePosition(1F));
+            double targetDist = start.distanceToSqr(hit.getLocation());
 
             // cancel if there's a block in the way
             BlockHitResult mop = ModifiableItem.blockRayTrace(level, player, ClipContext.Fluid.NONE);
-            if (mop.getType() != HitResult.Type.BLOCK || targetDist < mop.getBlockPos().distToCenterSqr(start)) {
+            if (mop.getType() != HitResult.Type.BLOCK || targetDist < start.distanceToSqr(mop.getLocation())) {
               // melee tools also do damage as a treat
               boolean didBonk = false;
               if (damageMultiplier > 0 && ToolAttackUtil.isAttackable(entity, target) && EntityInteractionModifierHook.isMelee(tool)) {

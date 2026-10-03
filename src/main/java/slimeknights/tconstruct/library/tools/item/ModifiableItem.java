@@ -164,6 +164,7 @@ public class ModifiableItem extends Item implements IModifiableDisplay {
   @Override
   public void updateDynamicComponents(ItemStack stack) {
     ModifierUtil.updateShieldDisableComponent(stack);
+    ModifierUtil.updateShieldBlockingComponent(stack);
   }
 
   @Override

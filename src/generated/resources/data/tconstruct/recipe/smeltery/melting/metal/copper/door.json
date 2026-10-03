@@ -1,0 +1,22 @@
+{
+  "type": "tconstruct:melting",
+  "ingredient": {
+    "neoforge:ingredient_type": "mantle:or",
+    "ingredients": [
+      "minecraft:copper_door",
+      "minecraft:exposed_copper_door",
+      "minecraft:weathered_copper_door",
+      "minecraft:oxidized_copper_door",
+      "minecraft:waxed_copper_door",
+      "minecraft:waxed_exposed_copper_door",
+      "minecraft:waxed_weathered_copper_door",
+      "minecraft:waxed_oxidized_copper_door"
+    ]
+  },
+  "result": {
+    "amount": 180,
+    "tag": "c:molten_copper"
+  },
+  "temperature": 500,
+  "time": 71
+}

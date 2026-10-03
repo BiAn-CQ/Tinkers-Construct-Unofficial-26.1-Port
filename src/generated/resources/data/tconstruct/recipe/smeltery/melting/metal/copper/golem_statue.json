@@ -1,0 +1,22 @@
+{
+  "type": "tconstruct:melting",
+  "ingredient": {
+    "neoforge:ingredient_type": "mantle:or",
+    "ingredients": [
+      "minecraft:copper_golem_statue",
+      "minecraft:exposed_copper_golem_statue",
+      "minecraft:weathered_copper_golem_statue",
+      "minecraft:oxidized_copper_golem_statue",
+      "minecraft:waxed_copper_golem_statue",
+      "minecraft:waxed_exposed_copper_golem_statue",
+      "minecraft:waxed_weathered_copper_golem_statue",
+      "minecraft:waxed_oxidized_copper_golem_statue"
+    ]
+  },
+  "result": {
+    "amount": 90,
+    "tag": "c:molten_copper"
+  },
+  "temperature": 500,
+  "time": 50
+}

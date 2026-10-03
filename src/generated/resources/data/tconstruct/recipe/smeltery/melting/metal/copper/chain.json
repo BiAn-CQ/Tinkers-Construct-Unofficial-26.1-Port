@@ -1,0 +1,22 @@
+{
+  "type": "tconstruct:melting",
+  "ingredient": {
+    "neoforge:ingredient_type": "mantle:or",
+    "ingredients": [
+      "minecraft:copper_chain",
+      "minecraft:exposed_copper_chain",
+      "minecraft:weathered_copper_chain",
+      "minecraft:oxidized_copper_chain",
+      "minecraft:waxed_copper_chain",
+      "minecraft:waxed_exposed_copper_chain",
+      "minecraft:waxed_weathered_copper_chain",
+      "minecraft:waxed_oxidized_copper_chain"
+    ]
+  },
+  "result": {
+    "amount": 110,
+    "tag": "c:molten_copper"
+  },
+  "temperature": 500,
+  "time": 55
+}

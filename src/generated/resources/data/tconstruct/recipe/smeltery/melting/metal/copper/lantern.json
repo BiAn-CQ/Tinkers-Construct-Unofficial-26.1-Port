@@ -1,0 +1,22 @@
+{
+  "type": "tconstruct:melting",
+  "ingredient": {
+    "neoforge:ingredient_type": "mantle:or",
+    "ingredients": [
+      "minecraft:copper_lantern",
+      "minecraft:exposed_copper_lantern",
+      "minecraft:weathered_copper_lantern",
+      "minecraft:oxidized_copper_lantern",
+      "minecraft:waxed_copper_lantern",
+      "minecraft:waxed_exposed_copper_lantern",
+      "minecraft:waxed_weathered_copper_lantern",
+      "minecraft:waxed_oxidized_copper_lantern"
+    ]
+  },
+  "result": {
+    "amount": 80,
+    "tag": "c:molten_copper"
+  },
+  "temperature": 500,
+  "time": 47
+}

@@ -155,6 +155,7 @@ public abstract class ModifiableLauncherItem extends ProjectileWeaponItem implem
   @Override
   public void updateDynamicComponents(ItemStack stack) {
     ModifierUtil.updateShieldDisableComponent(stack);
+    ModifierUtil.updateShieldBlockingComponent(stack);
   }
 
   @Override
