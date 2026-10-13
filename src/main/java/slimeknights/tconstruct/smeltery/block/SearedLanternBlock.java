@@ -3,7 +3,6 @@ package slimeknights.tconstruct.smeltery.block;
 import lombok.Getter;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -17,8 +16,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition.Builder;
 import net.minecraft.world.phys.HitResult;
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.fluids.SimpleFluidContent;
-import slimeknights.tconstruct.common.TinkerModule;
 import slimeknights.tconstruct.library.utils.NBTTags;
 import slimeknights.tconstruct.smeltery.block.component.SearedTankBlock;
 import slimeknights.tconstruct.smeltery.block.entity.ITankBlockEntity;
@@ -59,14 +56,6 @@ public class SearedLanternBlock extends LanternBlock implements ITankBlock, Enti
       return SearedTankBlock.setLightLevel(state, context);
     }
     return null;
-  }
-
-  @Override
-  public void setPlacedBy(Level world, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {
-    SimpleFluidContent fluid = stack.get(TinkerModule.FLUID_STACK_COMPONENT.get());
-    if (fluid != null && world.getBlockEntity(pos) instanceof TankBlockEntity tank) {
-      tank.setTankFluid(fluid.copy());
-    }
   }
 
   @SuppressWarnings("deprecation")

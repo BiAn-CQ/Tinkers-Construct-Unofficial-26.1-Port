@@ -7,7 +7,6 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -24,9 +23,7 @@ import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.fluids.SimpleFluidContent;
 import slimeknights.mantle.fluid.FluidTransferHelper;
-import slimeknights.tconstruct.common.TinkerModule;
 import slimeknights.tconstruct.library.recipe.FluidValues;
 import slimeknights.tconstruct.library.utils.NBTTags;
 import slimeknights.tconstruct.smeltery.block.entity.ITankBlockEntity;
@@ -102,15 +99,6 @@ public class SearedTankBlock extends SearedBlock implements ITankBlock, EntityBl
   @Override
   public BlockState getStateForPlacement(BlockPlaceContext context) {
     return setLightLevel(this.defaultBlockState(), context);
-  }
-
-  @Override
-  public void setPlacedBy(Level world, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {
-    SimpleFluidContent fluid = stack.get(TinkerModule.FLUID_STACK_COMPONENT.get());
-    if (fluid != null && world.getBlockEntity(pos) instanceof TankBlockEntity tank) {
-      tank.setTankFluid(fluid.copy());
-    }
-    super.setPlacedBy(world, pos, state, placer, stack);
   }
 
   @Deprecated

@@ -3,6 +3,8 @@ package slimeknights.tconstruct.smeltery.block.entity.component;
 import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.component.DataComponentGetter;
+import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -13,11 +15,13 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.model.data.ModelData;
 import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.SimpleFluidContent;
 import net.neoforged.neoforge.fluids.FluidType;
 import net.neoforged.neoforge.transfer.ResourceHandler;
 import net.neoforged.neoforge.transfer.fluid.FluidResource;
 import net.neoforged.neoforge.transfer.fluid.FluidUtil;
 import slimeknights.tconstruct.common.multiblock.IMasterLogic;
+import slimeknights.tconstruct.common.TinkerModule;
 import slimeknights.tconstruct.library.client.model.ModelProperties;
 import slimeknights.tconstruct.library.fluid.FluidTankAnimated;
 import slimeknights.tconstruct.library.utils.NBTTags;
@@ -129,6 +133,22 @@ public class TankBlockEntity extends SmelteryComponentBlockEntity implements ITa
   /*
    * NBT
    */
+
+  @Override
+  protected void applyImplicitComponents(DataComponentGetter components) {
+    super.applyImplicitComponents(components);
+    SimpleFluidContent fluid = components.get(TinkerModule.FLUID_STACK_COMPONENT.get());
+    if (fluid != null) {
+      setTankFluid(fluid.copy());
+    }
+  }
+
+  @Override
+  protected void collectImplicitComponents(DataComponentMap.Builder components) {
+    super.collectImplicitComponents(components);
+    components.set(TinkerModule.FLUID_STACK_COMPONENT.get(),
+      tank.isEmpty() ? null : SimpleFluidContent.copyOf(tank.getFluid()));
+  }
 
   /** Loads fluid directly from the tank item's data component. */
   public void setTankFluid(FluidStack fluid) {

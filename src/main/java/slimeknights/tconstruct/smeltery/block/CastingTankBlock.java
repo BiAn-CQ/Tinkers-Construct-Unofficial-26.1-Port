@@ -7,7 +7,6 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -26,9 +25,7 @@ import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.fluids.SimpleFluidContent;
 import slimeknights.mantle.block.InventoryBlock;
-import slimeknights.tconstruct.common.TinkerModule;
 import slimeknights.tconstruct.library.utils.NBTTags;
 import slimeknights.tconstruct.smeltery.block.component.SearedTankBlock;
 import slimeknights.tconstruct.smeltery.block.entity.CastingTankBlockEntity;
@@ -102,16 +99,6 @@ public class CastingTankBlock extends InventoryBlock implements ITankBlock, Enti
       return true;
     }
     return false;
-  }
-
-  @Override
-  public void setPlacedBy(Level worldIn, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {
-    SimpleFluidContent fluid = stack.get(TinkerModule.FLUID_STACK_COMPONENT.get());
-    if (fluid != null && worldIn.getBlockEntity(pos) instanceof CastingTankBlockEntity tank) {
-      tank.setTankFluid(fluid.copy());
-    }
-
-    super.setPlacedBy(worldIn, pos, state, placer, stack);
   }
 
   /* Redstone interaction */
