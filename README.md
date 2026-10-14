@@ -26,15 +26,6 @@ Linux/macOS：
 ./gradlew clean test build
 ./gradlew runGameTestServer
 ```
-
-## 文档
-
-本次上游同步的范围、26.1 适配和验证结果见
-[2026-10-13 同步记录](docs/upstream-sync-2026-10-13.md)。
-
-有关附属模组开发和数据包的文档，请参阅
-[SlimeKnights 文档站](https://slimeknights.github.io/docs/)。
-
 ## 上游与问题反馈
 
 本项目基于 [SlimeKnights/TinkersConstruct](https://github.com/SlimeKnights/TinkersConstruct)和[zhuchuovo/TinkersConstruct-1.21.1](https://github.com/zhuchuovo/TinkersConstruct-1.21.1)
