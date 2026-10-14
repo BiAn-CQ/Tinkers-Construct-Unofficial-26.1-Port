@@ -6,8 +6,11 @@
       "id": "minecraft:cobblestone"
     }
   },
-  "tool": [
-    "minecraft:stone_shovel",
-    "minecraft:stone_spear"
-  ]
+  "tool": {
+    "neoforge:ingredient_type": "mantle:or",
+    "ingredients": [
+      "minecraft:stone_shovel",
+      "minecraft:stone_spear"
+    ]
+  }
 }

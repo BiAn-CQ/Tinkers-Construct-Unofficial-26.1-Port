@@ -134,6 +134,7 @@ public class ModifierIds {
   public static final ModifierId shulking = id("shulking");
   public static final ModifierId dragonborn = id("dragonborn");
   public static final ModifierId dragonfall = id("dragonfall");
+  public static final ModifierId dreambound = id("dreambound");
   public static final ModifierId wings = id("wings");
   public static final ModifierId knockbackResistance = id("knockback_resistance");
   public static final ModifierId cobalamin = id("cobalamin");
@@ -254,6 +255,7 @@ public class ModifierIds {
   public static final ModifierId restore = id("restore");
   public static final ModifierId rebuff = id("rebuff");
   public static final ModifierId forming = id("forming");
+  public static final ModifierId nightmareProtection = id("nightmare_protection");
   // traits - tier 2 compat
   public static final ModifierId deciduous = id("deciduous");
   public static final ModifierId barkskin = id("barkskin");

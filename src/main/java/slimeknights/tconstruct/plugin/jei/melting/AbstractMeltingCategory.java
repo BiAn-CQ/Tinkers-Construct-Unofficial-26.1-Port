@@ -79,7 +79,11 @@ public abstract class AbstractMeltingCategory implements slimeknights.tconstruct
     }
 
     // temperature
-    int temperature = recipe.getTemperature();
+    int temperature = recipe.isTemperatureDynamic()
+      ? recipe.getTemperature(slots.findSlotByName(FLUID_SLOT)
+          .flatMap(slot -> slot.getDisplayedIngredient(mezz.jei.api.neoforge.NeoForgeTypes.FLUID_STACK))
+          .orElse(FluidStack.EMPTY))
+      : recipe.getTemperature();
     Font fontRenderer = Minecraft.getInstance().font;
     String tempString = I18n.get(KEY_TEMPERATURE, temperature);
     int x = 56 - fontRenderer.width(tempString) / 2;

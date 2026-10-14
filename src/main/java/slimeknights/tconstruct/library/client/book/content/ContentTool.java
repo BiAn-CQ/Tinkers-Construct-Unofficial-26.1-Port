@@ -15,6 +15,7 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.CraftingRecipe;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.ItemLike;
+import net.minecraft.world.level.Level;
 import net.minecraft.locale.Language;
 import net.minecraft.world.item.crafting.ShapedRecipe;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -47,8 +48,8 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class ContentTool extends PageContent {
@@ -154,19 +155,16 @@ public class ContentTool extends PageContent {
     // determine the recipe to display
     if (this.parts == null || slotPos == null) {
       IModifiableDisplay tool = getTool();
-      List<IToolPart> required = ToolPartsHook.parts(tool.getToolDefinition());
+      Level level = Minecraft.getInstance().level;
 
       // get the stacks for the first crafting table recipe, prefer this option over parts as it may not be craftable with said parts
-      CraftingRecipe recipe = Optional.ofNullable(Minecraft.getInstance().level)
-                                                 .flatMap(world -> {
-                                                   return slimeknights.tconstruct.library.utils.TinkerRecipeHelper.getAllRecipesFor(slimeknights.tconstruct.library.utils.TinkerRecipeHelper.getRecipeManager(world),RecipeType.CRAFTING).stream()
-                                                         .map(holder -> holder.value())
-                                                         .filter(r -> !r.display().isEmpty()
-                                                           && r.display().getFirst().result().resolveForStacks(ContextMap.EMPTY).stream()
-                                                              .anyMatch(stack -> stack.getItem() == tool.asItem()))
-                                                        .findFirst();
-                                                 })
-                                                 .orElse(null);
+      CraftingRecipe recipe = level == null ? null
+        : slimeknights.tconstruct.library.utils.TinkerRecipeHelper.getAllRecipesFor(slimeknights.tconstruct.library.utils.TinkerRecipeHelper.getRecipeManager(level), RecipeType.CRAFTING).stream()
+          .map(holder -> holder.value())
+          .filter(r -> !r.display().isEmpty()
+            && r.display().getFirst().result().resolveForStacks(ContextMap.EMPTY).stream()
+              .anyMatch(stack -> stack.getItem() == tool.asItem()))
+          .findFirst().orElse(null);
       if (recipe != null) {
         // if we have a shaped recipe, display slots in order
         if (recipe instanceof ShapedRecipe shaped) {
@@ -185,19 +183,21 @@ public class ContentTool extends PageContent {
             .collect(Collectors.toList());
         }
       } else {
+        ToolBuildingRecipe toolBuilding = level == null ? null
+          : slimeknights.tconstruct.library.utils.TinkerRecipeHelper.getAllRecipesFor(slimeknights.tconstruct.library.utils.TinkerRecipeHelper.getRecipeManager(level), TinkerRecipeTypes.TINKER_STATION.get()).stream()
+            .map(holder -> holder.value())
+            .filter(r -> r instanceof ToolBuildingRecipe toolRecipe && toolRecipe.getOutput() == tool)
+            .map(r -> (ToolBuildingRecipe)r)
+            .max(Comparator.comparing(r -> r.getToolParts().size())).orElse(null);
         ImmutableList.Builder<ItemStackList> partBuilder = ImmutableList.builder();
-        for (int i = 0; i < required.size(); i++) {
-          partBuilder.add(ItemStackList.of(ToolBuildHandler.getDisplayPart(required.get(i), i)));
+        List<IToolPart> toolParts = toolBuilding != null ? toolBuilding.getToolParts() : ToolPartsHook.parts(tool.getToolDefinition());
+        for (int i = 0; i < toolParts.size(); i++) {
+          partBuilder.add(ItemStackList.of(ToolBuildHandler.getDisplayPart(toolParts.get(i), i)));
         }
-        // fetch the tool building recipe for extra ingredients
-        List<Ingredient> extraRequirements = Optional.ofNullable(Minecraft.getInstance().level)
-                                                      .flatMap(world -> slimeknights.tconstruct.library.utils.TinkerRecipeHelper.getAllRecipesFor(slimeknights.tconstruct.library.utils.TinkerRecipeHelper.getRecipeManager(world),TinkerRecipeTypes.TINKER_STATION.get()).stream()
-                                                                             .map(holder -> holder.value())
-                                                                             .filter(r -> r instanceof ToolBuildingRecipe toolRecipe && toolRecipe.getOutput() == tool)
-                                                                             .map(r -> ((ToolBuildingRecipe)r).getExtraRequirements())
-                                                                            .findFirst()).orElse(List.of());
-        for (Ingredient ingredient : extraRequirements) {
-          partBuilder.add(ItemStackList.of(slimeknights.tconstruct.library.recipe.TinkerIngredients.getItems(ingredient)));
+        if (toolBuilding != null) {
+          for (Ingredient ingredient : toolBuilding.getExtraRequirements()) {
+            partBuilder.add(ItemStackList.of(slimeknights.tconstruct.library.recipe.TinkerIngredients.getItems(ingredient)));
+          }
         }
         this.parts = partBuilder.build();
       }

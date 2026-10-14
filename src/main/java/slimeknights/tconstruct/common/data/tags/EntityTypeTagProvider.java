@@ -99,6 +99,12 @@ public class EntityTypeTagProvider extends EntityTypeTagsProvider {
     this.tag(TinkerTags.EntityTypes.MELTABLE_SLIME).add(EntityType.SLIME);
     this.tag(TinkerTags.EntityTypes.MELTABLE_MAGMA).add(EntityType.MAGMA_CUBE);
 
+    this.tag(TinkerTags.EntityTypes.SPAWNS_WITH_WAR_PICK).add(EntityType.ZOMBIE_VILLAGER, EntityType.VINDICATOR);
+    this.tag(TinkerTags.EntityTypes.SPAWNS_WITH_MELTING_PAN).add(EntityType.ZOMBIE, EntityType.ZOMBIE_VILLAGER, EntityType.HUSK);
+    this.tag(TinkerTags.EntityTypes.SPAWNS_WITH_SWASHER_DROWNED).add(EntityType.DROWNED);
+    this.tag(TinkerTags.EntityTypes.SPAWNS_WITH_SWASHER_WITHER_SKELETON).add(EntityType.WITHER_SKELETON);
+    this.tag(TinkerTags.EntityTypes.SPAWNS_WITH_BATTLE_SIGN).addTag(TinkerTags.EntityTypes.PIGLINS);
+
     // collecting - TODO 1.21: remove legacy tags
     this.tag(COLLECTABLES).add(
         EntityType.ITEM, TinkerTools.indestructibleItem.get(),

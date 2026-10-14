@@ -434,10 +434,10 @@ public class ToolEvents {
     }
 
     // when damaging ender dragons, may drop scales - must be player caused explosion, end crystals and TNT are examples
-    if (amount > 0 && Config.COMMON.dropDragonScales.get() && entity.getType() == EntityType.ENDER_DRAGON && event.getNewDamage() > 0
+    if (amount >= 2 && Config.COMMON.dropDragonScales.get() && entity.getType() == EntityType.ENDER_DRAGON
         && source.is(DamageTypeTags.IS_EXPLOSION) && source.getEntity() != null && source.getEntity().getType() == EntityType.PLAYER) {
-      // drops 1 - 8 scales
-      ModifierUtil.dropItem(entity, new ItemStack(TinkerModifiers.dragonScale, 1 + entity.level().getRandom().nextInt(8)));
+      // Drop up to one scale per heart lost, capped at five.
+      ModifierUtil.dropItem(entity, new ItemStack(TinkerModifiers.dragonScale, 1 + entity.level().getRandom().nextInt(Math.min(5, (int)(amount / 2)))));
     }
   }
 

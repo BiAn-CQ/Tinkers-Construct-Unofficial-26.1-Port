@@ -8,7 +8,7 @@ Tinkers' Construct 的 Minecraft 26.1 / NeoForge 非官方移植版，依赖
 - Minecraft `26.1.2`
 - NeoForge `26.1.2.95` 或更高的 26.1.2 兼容版本
 - Java `25`
-- Mantle `1.12.1` 或更高版本
+- Mantle `1.12.11` 或更高版本
 - JEI `29.21.0` 或更高版本（可选）
 
 ## 构建与测试
@@ -28,6 +28,9 @@ Linux/macOS：
 ```
 
 ## 文档
+
+本次上游同步的范围、26.1 适配和验证结果见
+[2026-10-13 同步记录](docs/upstream-sync-2026-10-13.md)。
 
 有关附属模组开发和数据包的文档，请参阅
 [SlimeKnights 文档站](https://slimeknights.github.io/docs/)。

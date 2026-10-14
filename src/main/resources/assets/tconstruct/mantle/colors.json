@@ -247,6 +247,7 @@
     "flamestance":   "#C53439",
     "entangled":     "#14B485",
     "war_charge":    "#A1A1A1",
+    "overslime_friend": "#71DC85",
 
     "__traits_melee__": null,
     "airborne":     "#00F4DA",
@@ -321,6 +322,7 @@
     "recurrent_protection": "#60496b",
     "stalwart":             "#C4D6AE",
     "skyfall":              "#00F4DA",
+    "nightmare_protection": "#C3B9A1",
     "forming":              "#AFB9D6",
     "vital_protection":     "#999483",
     "frostshield":          "#AAFFFF",
@@ -339,6 +341,7 @@
     "shell_gut":     "#D4CCC3",
     "shulker_box":   "#8F648F",
     "dragonfall":    "#474747",
+    "dreambound":    "#C3B9A1",
     "cobalamin":     "#2376DD",
     "loyal":         "#C4D6AE",
     "snow_boots":    "#C65C35",

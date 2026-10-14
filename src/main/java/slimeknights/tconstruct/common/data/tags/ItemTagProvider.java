@@ -401,15 +401,15 @@ public class ItemTagProvider extends IntrinsicHolderTagsProvider<Item> {
     // armor
     addArmorTags(TinkerTools.travelersGear, MULTIPART_TOOL, DURABILITY, BONUS_SLOTS, DYEABLE, TRIM, UNRECYCLABLE, ItemTags.FREEZE_IMMUNE_WEARABLES);
     addArmorTags(TinkerTools.plateArmor,    MULTIPART_TOOL, DURABILITY, BONUS_SLOTS, DYEABLE, TRIM);
-    addArmorTags(TinkerTools.slimesuit,     DURABILITY, BONUS_SLOTS, DYEABLE, TRIM);
+    addArmorTags(TinkerTools.slimesuit,     DURABILITY, BONUS_SLOTS, DYEABLE, TRIM, UNRECYCLABLE);
     var multipart = tag(MULTIPART_TOOL);
     for (ArmorSlotType type : ArmorSlotType.values()) {
       if (type != ArmorSlotType.HELMET) {
         multipart.add(TinkerTools.slimesuit.get(type));
       }
     }
-    addToolTags(TinkerTools.slimeWings, DURABILITY, BONUS_SLOTS, DYEABLE, TRIM, MULTIPART_TOOL, CHESTPLATES, ItemTags.CHEST_ARMOR);
-    addToolTags(TinkerTools.slimesuit.get(ArmorSlotType.HELMET), MULTIPART_TOOL, SWAPPABLE_SKULLS, UNRECYCLABLE);
+    addToolTags(TinkerTools.slimeWings, DURABILITY, BONUS_SLOTS, DYEABLE, TRIM, UNRECYCLABLE, MULTIPART_TOOL, CHESTPLATES, ItemTags.CHEST_ARMOR);
+    addToolTags(TinkerTools.slimesuit.get(ArmorSlotType.HELMET), MULTIPART_TOOL, SWAPPABLE_SKULLS);
 
     // shields
     addToolTags(TinkerTools.travelersShield, DURABILITY, BONUS_SLOTS, SHIELDS, INTERACTABLE_LEFT, Tags.Items.TOOLS_SHIELD, MULTIPART_TOOL, UNRECYCLABLE, DYEABLE, BANNER);
@@ -560,7 +560,7 @@ public class ItemTagProvider extends IntrinsicHolderTagsProvider<Item> {
 
     // part builder
     this.tag(TinkerTags.Items.DEFAULT_PATTERNS).add(TinkerTables.pattern.get());
-    this.tag(TinkerTags.Items.REUSABLE_PATTERNS).addTag(TinkerTags.Items.GOLD_CASTS);
+    this.tag(TinkerTags.Items.REUSABLE_PATTERNS).addTag(TinkerTags.Items.GOLD_CASTS).add(Items.ELYTRA);
     this.tag(TinkerTags.Items.PATTERNS)
         .addTags(TinkerTags.Items.DEFAULT_PATTERNS, TinkerTags.Items.REUSABLE_PATTERNS, TinkerTags.Items.SAND_CASTS, TinkerTags.Items.RED_SAND_CASTS)
         .add(Items.SAND, Items.RED_SAND, TinkerFluids.venomBottle.get());

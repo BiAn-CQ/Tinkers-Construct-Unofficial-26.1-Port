@@ -2,6 +2,7 @@ package slimeknights.tconstruct.library.tools.part;
 
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ItemLike;
 import slimeknights.tconstruct.library.materials.IMaterialUser;
 import slimeknights.tconstruct.library.materials.MaterialRegistry;
@@ -119,4 +120,27 @@ public interface IMaterialItem extends ItemLike, IMaterialUser {
     }
     return stack;
   }
+
+  /** Material item placeholder for tool materials that have no recyclable part. */
+  IMaterialItem EMPTY = new IMaterialItem() {
+    @Override
+    public Item asItem() {
+      return Items.AIR;
+    }
+
+    @Override
+    public MaterialVariantId getMaterial(ItemStack stack) {
+      return MaterialId.UNKNOWN;
+    }
+
+    @Override
+    public boolean canUseMaterial(MaterialId material) {
+      return false;
+    }
+
+    @Override
+    public boolean canUseMaterial(IMaterial material) {
+      return false;
+    }
+  };
 }

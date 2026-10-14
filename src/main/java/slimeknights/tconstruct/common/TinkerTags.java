@@ -724,6 +724,13 @@ public class TinkerTags {
     public static final TagKey<EntityType<?>> MELTABLE_SLIME = local("meltable/slime");
     public static final TagKey<EntityType<?>> MELTABLE_MAGMA = local("meltable/magma");
 
+    /** Entities that can spawn holding ancient tools. */
+    public static final TagKey<EntityType<?>> SPAWNS_WITH_WAR_PICK = local("spawns_with/war_pick");
+    public static final TagKey<EntityType<?>> SPAWNS_WITH_MELTING_PAN = local("spawns_with/melting_pan");
+    public static final TagKey<EntityType<?>> SPAWNS_WITH_SWASHER_DROWNED = local("spawns_with/swasher/drowned");
+    public static final TagKey<EntityType<?>> SPAWNS_WITH_SWASHER_WITHER_SKELETON = local("spawns_with/swasher/wither_skeleton");
+    public static final TagKey<EntityType<?>> SPAWNS_WITH_BATTLE_SIGN = local("spawns_with/battle_sign");
+
     // collecting
     /** Things that can be collected using {@link net.minecraft.world.entity.Entity#playerTouch(Player)} using a fishing rod. */
     public static final TagKey<EntityType<?>> COLLECTABLES = local("collectables");

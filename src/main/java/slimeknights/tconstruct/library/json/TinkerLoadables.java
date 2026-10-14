@@ -17,10 +17,12 @@ import net.minecraft.world.entity.ai.attributes.AttributeModifier.Operation;
 import slimeknights.tconstruct.library.tools.definition.ArmorSlotType;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Instrument;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.ToolMaterial;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.level.LightLayer;
+import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.storage.loot.entries.LootPoolEntryContainer;
 import slimeknights.tconstruct.library.utils.TierRegistry;
 import slimeknights.mantle.client.TooltipKey;
@@ -129,6 +131,12 @@ public class TinkerLoadables {
 
   /* Mapped items */
   public static final StringLoadable<IMaterialItem> MATERIAL_ITEM = instance(Loadables.ITEM, IMaterialItem.class, "Expected item to be instance of IMaterialItem");
+  /** Material item that maps air to {@link IMaterialItem#EMPTY} */
+  public static final StringLoadable<IMaterialItem> OPTIONAL_MATERIAL_ITEM = Loadables.ITEM.comapFlatMap((item, error) -> {
+    if (item == Items.AIR) return IMaterialItem.EMPTY;
+    if (item instanceof IMaterialItem material) return material;
+    throw error.create("Expected item to be instance of IMaterialItem");
+  }, ItemLike::asItem);
   public static final StringLoadable<IModifiable> MODIFIABLE_ITEM = instance(Loadables.ITEM, IModifiable.class, "Expected item to be instance of IModifiable");
   public static final StringLoadable<IToolPart> TOOL_PART_ITEM = instance(Loadables.ITEM, IToolPart.class, "Expected item to be instance of IToolPart");
   public static final StringLoadable<SimpleParticleType> SIMPLE_PARTICLE = instance(Loadables.PARTICLE_TYPE, SimpleParticleType.class, "Expected particle type to be instance of SimpleParticleType");

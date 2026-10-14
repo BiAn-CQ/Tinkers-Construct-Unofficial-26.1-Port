@@ -746,13 +746,13 @@ public class ModifierProvider extends AbstractModifierProvider {
       .addModule(ProtectionModule.builder().sources(DamageSourcePredicate.CAN_PROTECT, DamageSourcePredicate.tag(TinkerTags.DamageTypes.PROJECTILE_PROTECTION)).eachLevel(2f));
     buildModifier(ModifierIds.fireProtection)
       .addModule(EnchantmentModule.builder(enchantment(Enchantments.FIRE_PROTECTION)).protection())
-      .addModule(ProtectionModule.builder().sources(DamageSourcePredicate.CAN_PROTECT, DamageSourcePredicate.tag(TinkerTags.DamageTypes.FIRE_PROTECTION)).eachLevel(2.5f));
+      .addModule(ProtectionModule.builder().sources(DamageSourcePredicate.CAN_PROTECT, DamageSourcePredicate.tag(TinkerTags.DamageTypes.FIRE_PROTECTION)).eachLevel(3f));
     buildModifier(ModifierIds.blastProtection)
       .addModule(EnchantmentModule.builder(enchantment(Enchantments.BLAST_PROTECTION)).protection())
-      .addModule(ProtectionModule.builder().sources(DamageSourcePredicate.CAN_PROTECT, DamageSourcePredicate.tag(TinkerTags.DamageTypes.BLAST_PROTECTION)).eachLevel(2.5f));
+      .addModule(ProtectionModule.builder().sources(DamageSourcePredicate.CAN_PROTECT, DamageSourcePredicate.tag(TinkerTags.DamageTypes.BLAST_PROTECTION)).eachLevel(3f));
     buildModifier(ModifierIds.magicProtection)
       .addModule(MaxArmorAttributeModule.builder(TinkerAttributes.BAD_EFFECT_DURATION.value(), Operation.ADD_MULTIPLIED_BASE).heldTag(TinkerTags.Items.HELD).eachLevel(-0.05f))
-      .addModule(ProtectionModule.builder().sources(DamageSourcePredicate.CAN_PROTECT, DamageSourcePredicate.tag(TinkerTags.DamageTypes.MAGIC_PROTECTION)).eachLevel(2.5f));
+      .addModule(ProtectionModule.builder().sources(DamageSourcePredicate.CAN_PROTECT, DamageSourcePredicate.tag(TinkerTags.DamageTypes.MAGIC_PROTECTION)).eachLevel(3f));
     buildModifier(ModifierIds.turtleShell)
       .addModule(MaxArmorAttributeModule.builder(NeoForgeMod.SWIM_SPEED, Operation.ADD_MULTIPLIED_TOTAL).heldTag(TinkerTags.Items.HELD).eachLevel(0.1f))
       .addModule(ProtectionModule.builder()
@@ -769,12 +769,25 @@ public class ModifierProvider extends AbstractModifierProvider {
       .addModule(new EffectImmunityModule(MobEffects.HUNGER, new LevelingInt(1, 1)))
       .addModule(new EffectImmunityModule(MobEffects.NAUSEA, LevelingInt.LEVEL));
     traitTwoPlusOne(ModifierIds.thornsShell, ModifierIds.thorns);
+    buildModifier(ModifierIds.nightmareProtection).levelDisplay(ModifierLevelDisplay.SINGLE_LEVEL)
+      .addModule(ProtectionModule.builder()
+        .formula()
+        .constant(10)
+        .customVariable("light", new EntityProtectionVariable(new EntityLightVariable(null), EntityProtectionVariable.WhichEntity.TARGET, 0))
+        .subtract().nonNegative()
+        .constant(0.125f).multiply()
+        .variable(LEVEL).multiply()
+        .variable(VALUE).add()
+        .build());
     buildModifier(ModifierIds.shulking)
       .addModule(MaxArmorAttributeModule.builder(TinkerAttributes.CROUCH_DAMAGE_MULTIPLIER.value(), Operation.ADD_MULTIPLIED_BASE).heldTag(TinkerTags.Items.HELD).eachLevel(-0.1f))
       .addModule(ProtectionModule.builder().entity(LivingEntityPredicate.CROUCHING).eachLevel(2.5f));
     buildModifier(ModifierIds.dragonborn)
       .addModule(MaxArmorAttributeModule.builder(TinkerAttributes.CRITICAL_DAMAGE.value(), Operation.ADD_VALUE).heldTag(TinkerTags.Items.HELD).tooltipStyle(TooltipStyle.PERCENT).eachLevel(0.05f))
       .addModule(ProtectionModule.builder().entity(TinkerPredicate.AIRBORNE).eachLevel(2.0f));
+    buildModifier(ModifierIds.dreambound).levelDisplay(ModifierLevelDisplay.SINGLE_LEVEL)
+      .addModule(AttributeModule.builder(TinkerAttributes.JUMP_COUNT.value(), Operation.ADD_VALUE).flat(1))
+      .addModule(AttributeModule.builder(Attributes.GRAVITY, Operation.ADD_MULTIPLIED_TOTAL).exactLevel(1).tooltipStyle(TooltipStyle.PERCENT).flat(0.15f));
     buildModifier(ModifierIds.dragonfall).levelDisplay(ModifierLevelDisplay.SINGLE_LEVEL)
       .addModule(AttributeModule.builder(TinkerAttributes.CRITICAL_DAMAGE.getDelegate(), Operation.ADD_VALUE).tooltipStyle(TooltipStyle.PERCENT).eachLevel(0.1f))
       .addModule(AttributeModule.builder(TinkerAttributes.SAFE_FALL_DISTANCE.getDelegate(), Operation.ADD_VALUE).eachLevel(2));
@@ -959,7 +972,7 @@ public class ModifierProvider extends AbstractModifierProvider {
       .addModule(new SmeltingModule(RecipeType.SMELTING, 10, InventoryModule.builder().pattern(pattern("fire")).slotsPerLevel(1)));
 
     // internal
-    buildModifier(ModifierIds.overslimeFriend).showInTooltips(slimeknights.tconstruct.library.modifiers.util.ModifierTooltip.ShowInTooltips.ADVANCED);
+    buildModifier(ModifierIds.overslimeFriend).showInTooltips(slimeknights.tconstruct.library.modifiers.util.ModifierTooltip.ShowInTooltips.ADVANCED).levelDisplay(ModifierLevelDisplay.NO_LEVELS);
     buildModifier(ModifierIds.snowBoots).addModule(new VolatileFlagModule(ModifiableArmorItem.SNOW_BOOTS)).levelDisplay(ModifierLevelDisplay.NO_LEVELS);
     buildModifier(TinkerModifiers.edible).priority(40).tooltipDisplay(TooltipDisplay.NEVER)
       .addModule(EdibleModule.INSTANCE)

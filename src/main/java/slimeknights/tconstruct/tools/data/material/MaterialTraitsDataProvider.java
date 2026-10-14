@@ -88,6 +88,7 @@ public class MaterialTraitsDataProvider extends AbstractMaterialTraitDataProvide
     addDefaultTraits(MaterialIds.twistingVine, ModifierIds.entangled);
     addTraits(MaterialIds.twistingVine, ARMOR, ModifierIds.entwined);
     addDefaultTraits(MaterialIds.turtle, ModifierIds.turtleShell);
+    addDefaultTraits(MaterialIds.phantom, ModifierIds.nightmareProtection);
     // tier 2 - ammo
     addTraits(MaterialIds.amethyst, AMMO, ModifierIds.crystalbound);
     addTraits(MaterialIds.prismarine, AMMO, ModifierIds.finsAmmo, ModifierIds.lureRod);
@@ -239,7 +240,7 @@ public class MaterialTraitsDataProvider extends AbstractMaterialTraitDataProvide
     // shells
     addTraits(MaterialIds.turtle, shell, ModifierIds.turtlesGrace);
     addTraits(MaterialIds.nautilus, shell, ModifierIds.shellGut);
-    addTraits(MaterialIds.phantom, shell, ModifierIds.skyfall);
+    addTraits(MaterialIds.phantom, shell, ModifierIds.dreambound);
     addTraits(MaterialIds.prismarine, shell, ModifierIds.thornsShell);
     addTraits(MaterialIds.shulker, shell, ModifierIds.shulkerBox);
     addTraits(MaterialIds.dragonScale, shell, ModifierIds.dragonfall);

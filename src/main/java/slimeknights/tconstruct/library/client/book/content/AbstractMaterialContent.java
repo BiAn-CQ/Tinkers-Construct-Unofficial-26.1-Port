@@ -43,10 +43,9 @@ import slimeknights.tconstruct.library.materials.stats.MaterialStatsId;
 import slimeknights.tconstruct.library.modifiers.Modifier;
 import slimeknights.tconstruct.library.modifiers.ModifierEntry;
 import slimeknights.tconstruct.library.modifiers.util.ModifierTooltip;
-import slimeknights.tconstruct.library.recipe.TinkerRecipeTypes;
 import slimeknights.tconstruct.library.recipe.casting.material.MaterialCastingLookup;
 import slimeknights.tconstruct.library.recipe.casting.material.MaterialFluidRecipe;
-import slimeknights.tconstruct.library.recipe.material.MaterialRecipe;
+import slimeknights.tconstruct.library.recipe.material.MaterialRecipeCache;
 import slimeknights.tconstruct.library.tools.definition.module.material.ToolMaterialHook;
 import slimeknights.tconstruct.library.tools.helper.ToolBuildHandler;
 import slimeknights.tconstruct.library.tools.helper.TooltipUtil;
@@ -63,7 +62,6 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map.Entry;
@@ -169,12 +167,11 @@ public abstract class AbstractMaterialContent extends PageContent {
       }
       // simply combine all items from all recipes
       MaterialVariantId material = getMaterialVariant();
-      repairStacks = slimeknights.tconstruct.library.utils.TinkerRecipeHelper.getUIRecipes(slimeknights.tconstruct.library.utils.TinkerRecipeHelper.getRecipeManager(world), TinkerRecipeTypes.MATERIAL.get(), MaterialRecipe.class, recipe -> material.matchesVariant(recipe.getMaterial()))
+      // Keep a count of one for each ingredient shown on the material page.
+      repairStacks = MaterialRecipeCache.getRecipes(material)
         .stream()
-        // prefer 1 value 1 needed (ingots), then 1 value with higher needed (nuggets), then higher value (blocks)
-        .sorted(Comparator.comparing(MaterialRecipe::getValue).thenComparing(MaterialRecipe::getNeeded))
         .flatMap(recipe -> Arrays.stream(slimeknights.tconstruct.library.recipe.TinkerIngredients.getItems(recipe.getIngredient())))
-        .collect(Collectors.toList());
+        .toList();
       // no repair items? use the fallbacks
       if (repairStacks.isEmpty()) {
         // use the fallback stacks
@@ -184,9 +181,9 @@ public abstract class AbstractMaterialContent extends PageContent {
 
         // no matching fallback? just use a repair kit
         if (repairStacks.isEmpty()) {
-          TConstruct.LOG.debug("Material with id " + material + " has no representation items associated with it, using repair kit");
+          TConstruct.LOG.debug("Material with id {} has no representation items associated with it, using repair kit", material);
           // bypass the valid check, because we need to show something
-          repairStacks = Collections.singletonList(TinkerToolParts.repairKit.get().withMaterialForDisplay(material));
+          repairStacks = List.of(TinkerToolParts.repairKit.get().withMaterialForDisplay(material));
         }
       }
     }

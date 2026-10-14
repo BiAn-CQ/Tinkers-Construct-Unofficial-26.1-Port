@@ -57,6 +57,11 @@ public class Pattern extends ResourceId {
   }
 
 
+  /** Checks if this pattern matches the given item, typically a tool part. */
+  public boolean matches(ItemLike item) {
+    return this.equals(Loadables.ITEM.getKey(item.asItem()));
+  }
+
   /** {@return Pattern ID, or null if invalid} */
   @Nullable
   public static Pattern tryParse(String string) {

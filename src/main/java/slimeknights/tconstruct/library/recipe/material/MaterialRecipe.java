@@ -151,6 +151,12 @@ public class MaterialRecipe implements ICustomOutputRecipe<ISingleStackContainer
     return this.getValue() * amount / INGOTS_PER_REPAIR / this.getNeeded();
   }
 
+  /** Checks that all materials in this recipe are known */
+  @Override
+  public boolean isVisible() {
+    return !material.isUnknown() && !material.get().isHidden();
+  }
+
 
   /* JEI */
 
