@@ -79,7 +79,7 @@ public class TinkerLoadables {
         ResourceKey<Enchantment> enchantmentKey = ResourceKey.create(Registries.ENCHANTMENT, Identifier.parse(name));
         return access.lookupOrThrow(Registries.ENCHANTMENT).getOrThrow(enchantmentKey);
       }
-      Enchantment enchantment = Loadables.ENCHANTMENT.parseString(name, key, context);
+      Enchantment enchantment = Loadables.ENCHANTMENT_VALUE.parseString(name, key, context);
       Registry<Enchantment> registry = RegistryHelper.getRegistry(Registries.ENCHANTMENT);
       if (registry == null) {
         throw new IllegalStateException("Enchantment registry is not available");

@@ -36,7 +36,8 @@ public abstract class AbstractMultilevelModifierRecipeBuilder<T extends Abstract
 
   /** Gets the casted builder */
   @SuppressWarnings("unchecked")
-  private T self() {
+  @Override
+  protected T self() {
     return (T) this;
   }
 

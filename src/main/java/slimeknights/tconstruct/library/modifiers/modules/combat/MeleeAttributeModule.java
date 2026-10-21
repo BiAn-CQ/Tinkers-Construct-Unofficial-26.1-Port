@@ -48,7 +48,7 @@ public record MeleeAttributeModule(String unique, Attribute attribute, UUID uuid
   private static final List<ModuleHook<?>> DEFAULT_HOOKS = HookProvider.<MeleeAttributeModule>defaultHooks(ModifierHooks.MELEE_HIT);
   public static final RecordLoadable<MeleeAttributeModule> LOADER = RecordLoadable.create(
     new AttributeUniqueField<>(MeleeAttributeModule::unique),
-    Loadables.ATTRIBUTE.requiredField("attribute", MeleeAttributeModule::attribute),
+    Loadables.ATTRIBUTE_VALUE.requiredField("attribute", MeleeAttributeModule::attribute),
     TinkerLoadables.OPERATION.requiredField("operation", MeleeAttributeModule::operation),
     LevelingValue.LOADABLE.directField(MeleeAttributeModule::amount),
     LivingEntityPredicate.LOADER.defaultField("target", MeleeAttributeModule::target),

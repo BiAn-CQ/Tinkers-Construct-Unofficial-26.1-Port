@@ -11,7 +11,7 @@ import java.util.function.Supplier;
 
 /** Variable that fetches an attribute value */
 public record AttributeEntityVariable(Attribute attribute) implements EntityVariable {
-  public static final RecordLoadable<AttributeEntityVariable> LOADER = RecordLoadable.create(Loadables.ATTRIBUTE.requiredField("attribute", AttributeEntityVariable::attribute), AttributeEntityVariable::new);
+  public static final RecordLoadable<AttributeEntityVariable> LOADER = RecordLoadable.create(Loadables.ATTRIBUTE_VALUE.requiredField("attribute", AttributeEntityVariable::attribute), AttributeEntityVariable::new);
 
   public AttributeEntityVariable(Supplier<Attribute> attribute) {
     this(attribute.get());

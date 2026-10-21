@@ -223,7 +223,7 @@ public interface MobEffectModule extends ModifierModule, ConditionalModule<ITool
   /** Represents a mob effect applied via a modifier. Meant to be nested inside a modifier module. */
   record ModifierMobEffect(MobEffect effect, RandomLevelingValue level, RandomLevelingValue time, IJsonPredicate<LivingEntity> target, @Nullable List<Item> curativeItems) {
     public static final RecordLoadable<ModifierMobEffect> LOADER = RecordLoadable.create(
-      Loadables.MOB_EFFECT.requiredField("effect", ModifierMobEffect::effect),
+      Loadables.MOB_EFFECT_VALUE.requiredField("effect", ModifierMobEffect::effect),
       RandomLevelingValue.LOADABLE.requiredField("level", ModifierMobEffect::level),
       RandomLevelingValue.LOADABLE.requiredField("time", ModifierMobEffect::time),
       LivingEntityPredicate.LOADER.defaultField("target", ModifierMobEffect::target),

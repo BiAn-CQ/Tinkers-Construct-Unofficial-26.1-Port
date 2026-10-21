@@ -8,7 +8,7 @@ Tinkers' Construct 的 Minecraft 26.1 / NeoForge 非官方移植版，依赖
 - Minecraft `26.1.2`
 - NeoForge `26.1.2.95` 或更高的 26.1.2 兼容版本
 - Java `25`
-- Mantle `1.12.11` 或更高版本
+- Mantle `1.12.12` 或更高版本
 - JEI `29.21.0` 或更高版本（可选）
 
 ## 构建与测试

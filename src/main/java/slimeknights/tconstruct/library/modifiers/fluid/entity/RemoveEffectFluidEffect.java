@@ -17,7 +17,7 @@ import slimeknights.tconstruct.library.modifiers.fluid.FluidEffectContext.Entity
 
 /** Spilling effect to remove a specific effect */
 public record RemoveEffectFluidEffect(MobEffect effect) implements FluidEffect<FluidEffectContext.Entity> {
-  public static final RecordLoadable<RemoveEffectFluidEffect> LOADER = RecordLoadable.create(Loadables.MOB_EFFECT.requiredField("effect", e -> e.effect), RemoveEffectFluidEffect::new);
+  public static final RecordLoadable<RemoveEffectFluidEffect> LOADER = RecordLoadable.create(Loadables.MOB_EFFECT_VALUE.requiredField("effect", e -> e.effect), RemoveEffectFluidEffect::new);
 
   public RemoveEffectFluidEffect(Holder<MobEffect> effect) {
     this(effect.value());

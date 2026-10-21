@@ -30,7 +30,7 @@ public class GeneratorPartTextureJsonGenerator extends GenericDataProvider {
   /** GSON adapter for material info deserializing */
   public static final Gson GSON = (new GsonBuilder())
     .registerTypeAdapter(Identifier.class, IdentifierSerializer.resourceLocation(TConstruct.MOD_ID))
-    .registerTypeAdapter(MaterialStatsId.class, new ResourceLocationSerializer<>(MaterialStatsId::new, TConstruct.MOD_ID))
+    .registerTypeAdapter(MaterialStatsId.class, new ResourceLocationSerializer<>((String name) -> new MaterialStatsId(name), TConstruct.MOD_ID))
     .setPrettyPrinting()
     .disableHtmlEscaping()
     .create();

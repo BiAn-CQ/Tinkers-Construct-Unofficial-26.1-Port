@@ -46,7 +46,7 @@ public record LightspeedAttributeModule(String unique, UUID uuid, Attribute attr
   private static final List<ModuleHook<?>> DEFAULT_HOOKS = HookProvider.<LightspeedAttributeModule>defaultHooks(ModifierHooks.BOOT_WALK, ModifierHooks.EQUIPMENT_CHANGE, ModifierHooks.TOOLTIP);
   public static final RecordLoadable<LightspeedAttributeModule> LOADER = RecordLoadable.create(
     new AttributeUniqueField<>(LightspeedAttributeModule::unique),
-    Loadables.ATTRIBUTE.requiredField("attribute", LightspeedAttributeModule::attribute),
+    Loadables.ATTRIBUTE_VALUE.requiredField("attribute", LightspeedAttributeModule::attribute),
     TinkerLoadables.OPERATION.requiredField("operation", LightspeedAttributeModule::operation),
     TinkerLoadables.LIGHT_LAYER.nullableField("light_layer", LightspeedAttributeModule::lightLayer),
     IntLoadable.range(0, 14).requiredField("min_light", LightspeedAttributeModule::minLight),

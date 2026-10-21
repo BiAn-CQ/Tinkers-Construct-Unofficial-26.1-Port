@@ -27,7 +27,7 @@ public record EdibleRemoveEffectModule(MobEffect effect, IJsonPredicate<LivingEn
   implements ModifierModule, EdibleEffectHook, ConditionalModule<IToolStackView> {
   private static final List<ModuleHook<?>> DEFAULT_HOOKS = HookProvider.<EdibleRemoveEffectModule>defaultHooks(ModifierHooks.EDIBLE_EFFECT);
   public static final RecordLoadable<EdibleRemoveEffectModule> LOADER = RecordLoadable.create(
-    Loadables.MOB_EFFECT.requiredField("effect", EdibleRemoveEffectModule::effect), LivingEntityPredicate.LOADER.defaultField("holder", EdibleRemoveEffectModule::holder),
+    Loadables.MOB_EFFECT_VALUE.requiredField("effect", EdibleRemoveEffectModule::effect), LivingEntityPredicate.LOADER.defaultField("holder", EdibleRemoveEffectModule::holder),
     ModifierCondition.TOOL_FIELD, EdibleRemoveEffectModule::new);
   public EdibleRemoveEffectModule(MobEffect effect) { this(effect, LivingEntityPredicate.ANY, ModifierCondition.ANY_TOOL); }
   @Override public RecordLoadable<EdibleRemoveEffectModule> getLoader() { return LOADER; }

@@ -32,8 +32,8 @@ public class CastItemObject extends ItemObject<Item> {
   public CastItemObject(Identifier name, Item gold, Item sand, Item redSand) {
     super(BuiltInRegistries.ITEM, gold);
     this.name = name;
-    this.sand = getHolder(BuiltInRegistries.ITEM, sand);
-    this.redSand = getHolder(BuiltInRegistries.ITEM, redSand);
+    this.sand = slimeknights.mantle.util.RegistryHelper.getHolder(BuiltInRegistries.ITEM, sand);
+    this.redSand = slimeknights.mantle.util.RegistryHelper.getHolder(BuiltInRegistries.ITEM, redSand);
     this.singleUseTag = makeTag("single_use");
     this.multiUseTag = makeTag("multi_use");
   }

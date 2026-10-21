@@ -39,7 +39,7 @@ public final class FlexBlockTypes {
       Identifier effectName = Loadables.RESOURCE_LOCATION.getIfPresent(data, "effect");
       int effectLevel = GsonHelper.getAsInt(data, "effect_level", 1);
       return (properties, builder) -> {
-        Lazy<MobEffect> effect = Lazy.of(() -> Loadables.MOB_EFFECT.fromKey(effectName, "effect"));
+        Lazy<MobEffect> effect = Lazy.of(() -> Loadables.MOB_EFFECT_VALUE.fromKey(effectName, "effect"));
         return new FlexMobEffectLiquidBlock(
           properties.liquid(), builder,
           flowingFluid(Objects.requireNonNullElse(fluidName, builder.getRegistryName())),

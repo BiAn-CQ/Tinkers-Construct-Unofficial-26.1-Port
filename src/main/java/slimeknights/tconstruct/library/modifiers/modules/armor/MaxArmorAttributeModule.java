@@ -48,7 +48,7 @@ import java.util.function.Supplier;
 public record MaxArmorAttributeModule(String unique, Attribute attribute, Operation operation, LevelingValue amount, UUID uuid, ComputableDataKey<ModifierMaxLevel> maxLevel, boolean allowBroken, @Nullable TagKey<Item> heldTag, TooltipStyle tooltipStyle, ModifierCondition<IToolStackView> condition) implements EquipmentChangeModifierHook, ModifierModule, MaxArmorLevelModule, TooltipModifierHook {
   public static final RecordLoadable<MaxArmorAttributeModule> LOADER = RecordLoadable.create(
     new AttributeUniqueField<>(MaxArmorAttributeModule::unique),
-    Loadables.ATTRIBUTE.requiredField("attribute", MaxArmorAttributeModule::attribute),
+    Loadables.ATTRIBUTE_VALUE.requiredField("attribute", MaxArmorAttributeModule::attribute),
     TinkerLoadables.OPERATION.requiredField("operation", MaxArmorAttributeModule::operation),
     LevelingValue.LOADABLE.directField(MaxArmorAttributeModule::amount),
     BooleanLoadable.INSTANCE.defaultField("allow_broken", false, MaxArmorAttributeModule::allowBroken),

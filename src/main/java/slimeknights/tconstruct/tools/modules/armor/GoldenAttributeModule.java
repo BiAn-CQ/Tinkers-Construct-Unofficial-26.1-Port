@@ -57,7 +57,7 @@ public record GoldenAttributeModule(String unique, TinkerDataKey<TotalGold> data
   public static final RecordLoadable<GoldenAttributeModule> LOADER = RecordLoadable.create(
     new AttributeUniqueField<>(GoldenAttributeModule::unique),
     ContextKey.ID.mappedField((id, error) -> TinkerDataKey.<TotalGold>of(id.withSuffix("_key"))),
-    Loadables.ATTRIBUTE.requiredField("attribute", GoldenAttributeModule::attribute),
+    Loadables.ATTRIBUTE_VALUE.requiredField("attribute", GoldenAttributeModule::attribute),
     TinkerLoadables.OPERATION.requiredField("operation", GoldenAttributeModule::operation),
     LevelingValue.LOADABLE.directField(GoldenAttributeModule::amount),
     ModifierCondition.TOOL_FIELD,

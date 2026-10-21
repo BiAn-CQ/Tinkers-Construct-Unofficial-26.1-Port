@@ -34,7 +34,7 @@ public record EffectImmunityModule(MobEffect effect, LevelingInt maxLevel, Modif
   public static final ComputableDataKey<Multiset<MobEffect>> EFFECT_IMMUNITY = TConstruct.createKey("effect_immunity", HashMultiset::create);
   private static final LevelingInt ANY_LEVEL = LevelingInt.flat(255);
   public static final RecordLoadable<EffectImmunityModule> LOADER = RecordLoadable.create(
-    Loadables.MOB_EFFECT.requiredField("effect", EffectImmunityModule::effect),
+    Loadables.MOB_EFFECT_VALUE.requiredField("effect", EffectImmunityModule::effect),
     LevelingInt.LOADABLE.defaultField("max_level", ANY_LEVEL, false, EffectImmunityModule::maxLevel),
     ModifierCondition.TOOL_FIELD,
     EffectImmunityModule::new);

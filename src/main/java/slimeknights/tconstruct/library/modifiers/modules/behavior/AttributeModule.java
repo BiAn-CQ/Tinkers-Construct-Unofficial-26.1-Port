@@ -63,7 +63,7 @@ public record AttributeModule(String unique, Attribute attribute, Operation oper
   /** Loader for the module */
   public static final RecordLoadable<AttributeModule> LOADER = RecordLoadable.create(
     new AttributeUniqueField<>(AttributeModule::unique),
-    Loadables.ATTRIBUTE.requiredField("attribute", AttributeModule::attribute),
+    Loadables.ATTRIBUTE_VALUE.requiredField("attribute", AttributeModule::attribute),
     TinkerLoadables.OPERATION.requiredField("operation", AttributeModule::operation),
     VARIABLE_LOADER.directField(AttributeModule::formula),
     TinkerLoadables.EQUIPMENT_SLOT_SET.requiredField("slots", m -> uuidsToSlots(m.slotUUIDs)),

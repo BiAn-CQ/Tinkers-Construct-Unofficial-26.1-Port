@@ -22,7 +22,7 @@ import java.util.List;
 public record ClearEffectOnUnequipModule(MobEffect effect, ModifierCondition<IToolStackView> condition) implements ModifierModule, EquipmentChangeModifierHook, ConditionalModule<IToolStackView> {
   private static final List<ModuleHook<?>> DEFAULT_HOOKS = HookProvider.<ClearEffectOnUnequipModule>defaultHooks(ModifierHooks.EQUIPMENT_CHANGE);
   public static final RecordLoadable<ClearEffectOnUnequipModule> LOADER = RecordLoadable.create(
-    Loadables.MOB_EFFECT.requiredField("effect", ClearEffectOnUnequipModule::effect),
+    Loadables.MOB_EFFECT_VALUE.requiredField("effect", ClearEffectOnUnequipModule::effect),
     ModifierCondition.TOOL_FIELD,
     ClearEffectOnUnequipModule::new);
 
