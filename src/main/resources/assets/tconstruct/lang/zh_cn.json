@@ -2939,7 +2939,6 @@
   "armor_stat.tconstruct.knockback": "击退",
   "attribute.name.tconstruct.player.use_item_speed": "使用时移速",
   "attribute.name.tconstruct.player.critical_damage": "暴击伤害",
-  "attribute.name.tconstruct.player.mining_speed_multiplier": "挖掘速度",
   "attribute.name.tconstruct.player.experience_multiplier": "阅历",
   "attribute.name.tconstruct.player.jump_count": "跳跃",
   "attribute.name.tconstruct.generic.protection_cap": "保护加成上限",

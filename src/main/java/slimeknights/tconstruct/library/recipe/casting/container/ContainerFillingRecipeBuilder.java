@@ -6,13 +6,14 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.ItemLike;
 import slimeknights.mantle.recipe.data.AbstractRecipeBuilder;
-import slimeknights.mantle.recipe.helper.TypeAwareRecipeSerializer;
 import slimeknights.tconstruct.smeltery.TinkerSmeltery;
 
 import javax.annotation.Nullable;
 import java.util.function.Consumer;
+import slimeknights.tconstruct.library.recipe.TinkerRecipeTypes;
 
 /**
  * Builder for a container filling recipe. Takes an arbitrary fluid for a specific amount to fill a native fluid resource handler.
@@ -22,7 +23,8 @@ import java.util.function.Consumer;
 public class ContainerFillingRecipeBuilder extends AbstractRecipeBuilder<ContainerFillingRecipeBuilder> {
   private final Identifier result;
   private final int fluidAmount;
-  private final TypeAwareRecipeSerializer<? extends ContainerFillingRecipe> recipeSerializer;
+  private final RecipeType<?> recipeType;
+  private final RecipeSerializer<? extends ContainerFillingRecipe> recipeSerializer;
 
   /**
    * Creates a new builder instance using the given result, amount, and serializer
@@ -31,8 +33,8 @@ public class ContainerFillingRecipeBuilder extends AbstractRecipeBuilder<Contain
    * @param recipeSerializer  Serializer
    * @return  Builder instance
    */
-  public static ContainerFillingRecipeBuilder castingRecipe(ItemLike result, int fluidAmount, TypeAwareRecipeSerializer<? extends ContainerFillingRecipe> recipeSerializer) {
-    return new ContainerFillingRecipeBuilder(BuiltInRegistries.ITEM.getKey(result.asItem()), fluidAmount, recipeSerializer);
+  public static ContainerFillingRecipeBuilder castingRecipe(ItemLike result, int fluidAmount, RecipeType<?> recipeType, RecipeSerializer<? extends ContainerFillingRecipe> recipeSerializer) {
+    return new ContainerFillingRecipeBuilder(BuiltInRegistries.ITEM.getKey(result.asItem()), fluidAmount, recipeType, recipeSerializer);
   }
 
   /**
@@ -42,7 +44,7 @@ public class ContainerFillingRecipeBuilder extends AbstractRecipeBuilder<Contain
    * @return  Builder instance
    */
   public static ContainerFillingRecipeBuilder basinRecipe(Identifier result, int fluidAmount) {
-    return castingRecipe(result, fluidAmount, slimeknights.mantle.recipe.helper.LoadableRecipeSerializer.typeAware(TinkerSmeltery.basinFillingRecipeSerializer.get()));
+    return castingRecipe(result, fluidAmount, TinkerRecipeTypes.CASTING_BASIN.get(), TinkerSmeltery.basinFillingRecipeSerializer.get());
   }
 
   /**
@@ -52,7 +54,7 @@ public class ContainerFillingRecipeBuilder extends AbstractRecipeBuilder<Contain
    * @return  Builder instance
    */
   public static ContainerFillingRecipeBuilder basinRecipe(ItemLike result, int fluidAmount) {
-    return castingRecipe(result, fluidAmount, slimeknights.mantle.recipe.helper.LoadableRecipeSerializer.typeAware(TinkerSmeltery.basinFillingRecipeSerializer.get()));
+    return castingRecipe(result, fluidAmount, TinkerRecipeTypes.CASTING_BASIN.get(), TinkerSmeltery.basinFillingRecipeSerializer.get());
   }
 
   /**
@@ -62,7 +64,7 @@ public class ContainerFillingRecipeBuilder extends AbstractRecipeBuilder<Contain
    * @return  Builder instance
    */
   public static ContainerFillingRecipeBuilder tableRecipe(Identifier result, int fluidAmount) {
-    return castingRecipe(result, fluidAmount, slimeknights.mantle.recipe.helper.LoadableRecipeSerializer.typeAware(TinkerSmeltery.tableFillingRecipeSerializer.get()));
+    return castingRecipe(result, fluidAmount, TinkerRecipeTypes.CASTING_TABLE.get(), TinkerSmeltery.tableFillingRecipeSerializer.get());
   }
 
   /**
@@ -72,7 +74,7 @@ public class ContainerFillingRecipeBuilder extends AbstractRecipeBuilder<Contain
    * @return  Builder instance
    */
   public static ContainerFillingRecipeBuilder tableRecipe(ItemLike result, int fluidAmount) {
-    return castingRecipe(result, fluidAmount, slimeknights.mantle.recipe.helper.LoadableRecipeSerializer.typeAware(TinkerSmeltery.tableFillingRecipeSerializer.get()));
+    return castingRecipe(result, fluidAmount, TinkerRecipeTypes.CASTING_TABLE.get(), TinkerSmeltery.tableFillingRecipeSerializer.get());
   }
 
   @Override
@@ -84,6 +86,6 @@ public class ContainerFillingRecipeBuilder extends AbstractRecipeBuilder<Contain
   public void save(RecipeOutput consumerIn, Identifier id) {
     var advancementId = this.buildOptionalAdvancement(id, "casting");
     saveRecipe(consumerIn, id, new ContainerFillingRecipe(
-      recipeSerializer, id, group, fluidAmount, BuiltInRegistries.ITEM.getValue(result)), advancementId);
+      recipeType, recipeSerializer, id, group, fluidAmount, BuiltInRegistries.ITEM.getValue(result)), advancementId);
   }
 }

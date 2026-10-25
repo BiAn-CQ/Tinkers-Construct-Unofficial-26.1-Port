@@ -21,6 +21,7 @@ import slimeknights.tconstruct.library.tools.nbt.IToolStackView;
 import slimeknights.mantle.util.RegistryHelper;
 
 import javax.annotation.Nullable;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 
 /** Context for {@link BreakSpeedModifierHook} */
 public sealed interface BreakSpeedContext {
@@ -60,7 +61,9 @@ public sealed interface BreakSpeedContext {
    * @return  Mining speed modifier
    */
   static float getMiningModifier(LivingEntity entity) {
-    float modifier = 1.0f;
+    // Vanilla applies this attribute before the break-speed event; additive boosts must scale with it too.
+    var breakSpeed = entity.getAttribute(Attributes.BLOCK_BREAK_SPEED);
+    float modifier = breakSpeed == null ? 1.0f : (float)breakSpeed.getValue();
     // haste effect
     if (MobEffectUtil.hasDigSpeed(entity)) {
       modifier *= 1.0F + (MobEffectUtil.getDigSpeedAmplification(entity) + 1) * 0.2f;

@@ -18,12 +18,11 @@ import slimeknights.mantle.data.loadable.record.RecordLoadable;
 import slimeknights.mantle.recipe.ICommonRecipe;
 import slimeknights.mantle.recipe.helper.ItemOutput;
 import slimeknights.mantle.recipe.helper.LoadableRecipeSerializer;
-import slimeknights.mantle.recipe.helper.TypeAwareRecipeSerializer;
 
 /** Recipe to combine two items on the top of a casting table, changing the first */
 public class MoldingRecipe implements ICommonRecipe<IMoldingContainer> {
   public static final RecordLoadable<MoldingRecipe> LOADER = RecordLoadable.create(
-    LoadableRecipeSerializer.TYPED_SERIALIZER.requiredField(),
+    LoadableRecipeSerializer.TYPE.requiredField(), LoadableRecipeSerializer.SERIALIZER.requiredField(),
     ContextKey.ID.requiredField(),
     IngredientLoadable.DISALLOW_EMPTY.requiredField("material", MoldingRecipe::getMaterial),
     IngredientLoadable.ALLOW_EMPTY.defaultField("pattern", TinkerIngredients.EMPTY, MoldingRecipe::getPattern),
@@ -53,9 +52,9 @@ public class MoldingRecipe implements ICommonRecipe<IMoldingContainer> {
     return pattern;
   }
 
-  public MoldingRecipe(TypeAwareRecipeSerializer serializer, Identifier id, Ingredient material, Ingredient pattern, boolean patternConsumed, ItemOutput recipeOutput) {
-    this.type = serializer.getType();
-    this.serializer = serializer.serializer();
+  public MoldingRecipe(RecipeType type, RecipeSerializer serializer, Identifier id, Ingredient material, Ingredient pattern, boolean patternConsumed, ItemOutput recipeOutput) {
+    this.type = type;
+    this.serializer = serializer;
     this.id = id;
     this.material = material;
     this.pattern = pattern;

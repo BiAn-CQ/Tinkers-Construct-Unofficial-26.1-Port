@@ -2450,7 +2450,6 @@
   "armor_stat.tconstruct.crouch_damage": "Dano Agachado",
   "attribute.name.tconstruct.player.use_item_speed": "Velocidade de Uso de Item",
   "attribute.name.tconstruct.player.critical_damage": "Dano Crítico",
-  "attribute.name.tconstruct.player.mining_speed_multiplier": "Velocidade de Mineração",
   "attribute.name.tconstruct.player.experience_multiplier": "Experiência",
   "attribute.name.tconstruct.player.jump_count": "Pulos",
   "attribute.name.tconstruct.generic.protection_cap": "Proteção Máxima",

@@ -1,6 +1,7 @@
 package slimeknights.tconstruct.library.recipe.molding;
 
 import slimeknights.tconstruct.library.recipe.TinkerIngredients;
+import slimeknights.tconstruct.library.recipe.TinkerRecipeTypes;
 
 
 import com.google.gson.JsonObject;
@@ -12,10 +13,10 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.ItemLike;
 import slimeknights.mantle.recipe.data.AbstractRecipeBuilder;
 import slimeknights.mantle.recipe.helper.ItemOutput;
-import slimeknights.mantle.recipe.helper.TypeAwareRecipeSerializer;
 import slimeknights.tconstruct.smeltery.TinkerSmeltery;
 
 import javax.annotation.Nullable;
@@ -25,7 +26,8 @@ import java.util.function.Consumer;
 @RequiredArgsConstructor(staticName = "molding")
 public class MoldingRecipeBuilder extends AbstractRecipeBuilder<MoldingRecipeBuilder> {
   private final ItemOutput output;
-  private final TypeAwareRecipeSerializer<MoldingRecipe> serializer;
+  private final RecipeType<?> recipeType;
+  private final RecipeSerializer<MoldingRecipe> serializer;
   private Ingredient material = TinkerIngredients.EMPTY;
   private Ingredient pattern = TinkerIngredients.EMPTY;
   private boolean patternConsumed = false;
@@ -36,7 +38,7 @@ public class MoldingRecipeBuilder extends AbstractRecipeBuilder<MoldingRecipeBui
    * @return  Recipe
    */
   public static MoldingRecipeBuilder moldingTable(ItemLike item) {
-    return molding(ItemOutput.fromItem(item), slimeknights.mantle.recipe.helper.LoadableRecipeSerializer.typeAware(TinkerSmeltery.moldingTableSerializer.get()));
+    return molding(ItemOutput.fromItem(item), TinkerRecipeTypes.MOLDING_TABLE.get(), TinkerSmeltery.moldingTableSerializer.get());
   }
 
   /**
@@ -45,7 +47,7 @@ public class MoldingRecipeBuilder extends AbstractRecipeBuilder<MoldingRecipeBui
    * @return  Recipe
    */
   public static MoldingRecipeBuilder moldingBasin(ItemLike item) {
-    return molding(ItemOutput.fromItem(item), slimeknights.mantle.recipe.helper.LoadableRecipeSerializer.typeAware(TinkerSmeltery.moldingBasinSerializer.get()));
+    return molding(ItemOutput.fromItem(item), TinkerRecipeTypes.MOLDING_BASIN.get(), TinkerSmeltery.moldingBasinSerializer.get());
   }
 
   /* Inputs */
@@ -97,7 +99,7 @@ public class MoldingRecipeBuilder extends AbstractRecipeBuilder<MoldingRecipeBui
       throw new IllegalStateException("Missing material for molding recipe");
     }
     var advancementId = buildOptionalAdvancement(id, "molding");
-    saveRecipe(consumer, id, new MoldingRecipe(serializer, id, material, pattern, patternConsumed, output), advancementId);
+    saveRecipe(consumer, id, new MoldingRecipe(recipeType, serializer, id, material, pattern, patternConsumed, output), advancementId);
   }
 
 }

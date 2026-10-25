@@ -9,13 +9,13 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.material.Fluid;
 import net.neoforged.neoforge.fluids.FluidStack;
 import slimeknights.mantle.data.loadable.field.ContextKey;
 import slimeknights.mantle.data.loadable.record.RecordLoadable;
 import slimeknights.mantle.data.predicate.IJsonPredicate;
 import slimeknights.mantle.recipe.helper.LoadableRecipeSerializer;
-import slimeknights.mantle.recipe.helper.TypeAwareRecipeSerializer;
 import slimeknights.tconstruct.library.json.predicate.material.MaterialPredicate;
 import slimeknights.tconstruct.library.materials.definition.MaterialVariant;
 import slimeknights.tconstruct.library.materials.definition.MaterialVariantId;
@@ -39,7 +39,7 @@ import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
  */
 public class CompositeCastingRecipe extends MaterialCastingRecipe {
   public static final RecordLoadable<CompositeCastingRecipe> LOADER = RecordLoadable.create(
-    LoadableRecipeSerializer.TYPED_SERIALIZER.requiredField(), ContextKey.ID.requiredField(),
+    LoadableRecipeSerializer.TYPE.requiredField(), LoadableRecipeSerializer.SERIALIZER.requiredField(), ContextKey.ID.requiredField(),
     LoadableRecipeSerializer.RECIPE_GROUP, ITEM_COST_FIELD, RESULT_FIELD, MATERIALS_FIELD,
     MaterialStatsId.PARSER.nullableField("casting_stat_conflict", r -> r.castingStatConflict),
     CompositeCastingRecipe::new);
@@ -47,15 +47,15 @@ public class CompositeCastingRecipe extends MaterialCastingRecipe {
   @Nullable
   private final MaterialStatsId castingStatConflict;
 
-  public CompositeCastingRecipe(TypeAwareRecipeSerializer serializer, Identifier id, String group, int itemCost, IMaterialItem result, IJsonPredicate<MaterialVariantId> materials, @Nullable MaterialStatsId castingStatConflict) {
-    super(serializer, id, group, TinkerIngredients.of(result), itemCost, result, materials, true, false);
+  public CompositeCastingRecipe(RecipeType type, RecipeSerializer serializer, Identifier id, String group, int itemCost, IMaterialItem result, IJsonPredicate<MaterialVariantId> materials, @Nullable MaterialStatsId castingStatConflict) {
+    super(type, serializer, id, group, TinkerIngredients.of(result), itemCost, result, materials, true, false);
     this.castingStatConflict = castingStatConflict;
   }
 
-  /** @deprecated use {@link #CompositeCastingRecipe(TypeAwareRecipeSerializer, Identifier, String, int, IMaterialItem, IJsonPredicate, MaterialStatsId)} */
+  /** @deprecated use {@link #CompositeCastingRecipe(RecipeType, RecipeSerializer, Identifier, String, int, IMaterialItem, IJsonPredicate, MaterialStatsId)} */
   @Deprecated(forRemoval = true)
-  public CompositeCastingRecipe(TypeAwareRecipeSerializer serializer, Identifier id, String group, IMaterialItem result, int itemCost, @Nullable MaterialStatsId castingStatConflict) {
-    this(serializer, id, group, itemCost, result, MaterialPredicate.ANY, castingStatConflict);
+  public CompositeCastingRecipe(RecipeType type, RecipeSerializer serializer, Identifier id, String group, IMaterialItem result, int itemCost, @Nullable MaterialStatsId castingStatConflict) {
+    this(type, serializer, id, group, itemCost, result, MaterialPredicate.ANY, castingStatConflict);
   }
 
   @Override

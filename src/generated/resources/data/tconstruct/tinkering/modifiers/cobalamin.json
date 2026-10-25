@@ -37,7 +37,7 @@
     },
     {
       "type": "tconstruct:attribute",
-      "attribute": "tconstruct:player.mining_speed_multiplier",
+      "attribute": "minecraft:block_break_speed",
       "each_level": 0.15,
       "operation": "add_multiplied_total",
       "slots": [

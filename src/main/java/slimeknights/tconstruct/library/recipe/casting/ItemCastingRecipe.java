@@ -8,6 +8,7 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.fluids.FluidStack;
 import slimeknights.mantle.data.loadable.field.ContextKey;
@@ -16,7 +17,6 @@ import slimeknights.mantle.data.loadable.primitive.IntLoadable;
 import slimeknights.mantle.data.loadable.record.RecordLoadable;
 import slimeknights.mantle.recipe.helper.ItemOutput;
 import slimeknights.mantle.recipe.helper.LoadableRecipeSerializer;
-import slimeknights.mantle.recipe.helper.TypeAwareRecipeSerializer;
 import slimeknights.mantle.recipe.ingredient.FluidIngredient;
 
 import java.util.Arrays;
@@ -31,20 +31,20 @@ public class ItemCastingRecipe extends AbstractCastingRecipe implements IDisplay
   protected static final LoadableField<Integer,ItemCastingRecipe> COOLING_TIME_FIELD = IntLoadable.FROM_ONE.requiredField("cooling_time", ItemCastingRecipe::getCoolingTime);
   /** Loader instance */
   public static final RecordLoadable<ItemCastingRecipe> LOADER = RecordLoadable.create(
-    LoadableRecipeSerializer.TYPED_SERIALIZER.requiredField(), ContextKey.ID.requiredField(),
+    LoadableRecipeSerializer.TYPE.requiredField(), LoadableRecipeSerializer.SERIALIZER.requiredField(), ContextKey.ID.requiredField(),
     LoadableRecipeSerializer.RECIPE_GROUP, CAST_FIELD, FLUID_FIELD, RESULT_FIELD, COOLING_TIME_FIELD, CAST_CONSUMED_FIELD, SWITCH_SLOTS_FIELD,
     ItemCastingRecipe::new);
 
-  private final TypeAwareRecipeSerializer serializer;
+  private final RecipeSerializer serializer;
   protected final FluidIngredient fluid;
   protected final ItemOutput result;
   protected final int coolingTime;
-  public RecipeSerializer getSerializer() { return serializer.serializer(); }
+  public RecipeSerializer getSerializer() { return serializer; }
   public FluidIngredient getFluid() { return fluid; }
   public ItemOutput getResult() { return result; }
   public int getCoolingTime() { return coolingTime; }
-  public ItemCastingRecipe(TypeAwareRecipeSerializer serializer, Identifier id, String group, Ingredient cast, FluidIngredient fluid, ItemOutput result, int coolingTime, boolean consumed, boolean switchSlots) {
-    super(serializer.getType(), id, group, cast, consumed, switchSlots);
+  public ItemCastingRecipe(RecipeType type, RecipeSerializer serializer, Identifier id, String group, Ingredient cast, FluidIngredient fluid, ItemOutput result, int coolingTime, boolean consumed, boolean switchSlots) {
+    super(type, id, group, cast, consumed, switchSlots);
     this.serializer = serializer;
     this.fluid = fluid;
     this.result = result;

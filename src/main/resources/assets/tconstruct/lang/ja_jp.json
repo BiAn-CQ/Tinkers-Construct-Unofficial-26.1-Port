@@ -3060,7 +3060,6 @@
   "armor_stat.tconstruct.knockback": "ノックバック",
   "attribute.name.tconstruct.player.use_item_speed": "使用速度",
   "attribute.name.tconstruct.player.critical_damage": "クリティカルダメージ",
-  "attribute.name.tconstruct.player.mining_speed_multiplier": "採掘速度",
   "attribute.name.tconstruct.player.experience_multiplier": "経験値倍率",
   "attribute.name.tconstruct.player.jump_count": "ジャンプ回数",
   "attribute.name.tconstruct.generic.protection_cap": "最大防御力",

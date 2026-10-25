@@ -25,7 +25,6 @@ import slimeknights.mantle.data.loadable.primitive.IntLoadable;
 import slimeknights.mantle.data.loadable.record.RecordLoadable;
 import slimeknights.mantle.recipe.IMultiRecipe;
 import slimeknights.mantle.recipe.helper.LoadableRecipeSerializer;
-import slimeknights.mantle.recipe.helper.TypeAwareRecipeSerializer;
 import slimeknights.tconstruct.library.recipe.casting.DisplayCastingRecipe;
 import slimeknights.tconstruct.library.recipe.casting.IDisplayableCastingRecipe;
 import slimeknights.tconstruct.common.TinkerTags;
@@ -41,13 +40,15 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ContainerFillingRecipe implements ICastingRecipe, IMultiRecipe<IDisplayableCastingRecipe> {
   public static final RecordLoadable<ContainerFillingRecipe> LOADER = RecordLoadable.create(
-    LoadableRecipeSerializer.TYPED_SERIALIZER.requiredField(), ContextKey.ID.requiredField(), LoadableRecipeSerializer.RECIPE_GROUP,
+    LoadableRecipeSerializer.TYPE.requiredField(), LoadableRecipeSerializer.SERIALIZER.requiredField(), ContextKey.ID.requiredField(), LoadableRecipeSerializer.RECIPE_GROUP,
     IntLoadable.FROM_ONE.requiredField("fluid_amount", r -> r.fluidAmount),
     Loadables.ITEM.requiredField("container", r -> r.container),
     ContainerFillingRecipe::new);
 
   @Getter
-  private final TypeAwareRecipeSerializer serializer;
+  private final RecipeType type;
+  @Getter
+  private final RecipeSerializer serializer;
   @Getter
   private final Identifier id;
   @Getter
@@ -57,7 +58,7 @@ public class ContainerFillingRecipe implements ICastingRecipe, IMultiRecipe<IDis
 
   @Override
   public RecipeSerializer getSerializer() {
-    return serializer.serializer();
+    return serializer;
   }
 
   public Identifier getId() {
@@ -66,7 +67,7 @@ public class ContainerFillingRecipe implements ICastingRecipe, IMultiRecipe<IDis
 
   @Override
   public RecipeType getType() {
-    return serializer.getType();
+    return type;
   }
 
   private static ResourceHandler<FluidResource> getFluidHandler(ItemStack stack) {

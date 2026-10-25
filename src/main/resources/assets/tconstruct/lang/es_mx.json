@@ -2886,7 +2886,6 @@
   "armor_stat.tconstruct.knockback": "Empuje",
   "attribute.name.tconstruct.player.use_item_speed": "Vel. Uso Objeto",
   "attribute.name.tconstruct.player.critical_damage": "Daño Crítico",
-  "attribute.name.tconstruct.player.mining_speed_multiplier": "Vel. Minería",
   "attribute.name.tconstruct.player.experience_multiplier": "Experiencia",
   "attribute.name.tconstruct.player.jump_count": "Saltos",
   "attribute.name.tconstruct.generic.protection_cap": "Máx. Protección",

@@ -4,13 +4,14 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.RecipeType;
 import slimeknights.mantle.data.loadable.common.IngredientLoadable;
 import slimeknights.mantle.data.loadable.field.ContextKey;
 import slimeknights.mantle.data.loadable.record.RecordLoadable;
 import slimeknights.mantle.recipe.IMultiRecipe;
 import slimeknights.mantle.recipe.helper.ItemOutput;
 import slimeknights.mantle.recipe.helper.LoadableRecipeSerializer;
-import slimeknights.mantle.recipe.helper.TypeAwareRecipeSerializer;
 import slimeknights.mantle.recipe.ingredient.FluidIngredient;
 
 import java.util.Arrays;
@@ -19,14 +20,14 @@ import java.util.List;
 /** Recipe which duplicates the input cast using a fluid */
 public class CastDuplicationRecipe extends ItemCastingRecipe implements IMultiRecipe<IDisplayableCastingRecipe> {
   public static final RecordLoadable<CastDuplicationRecipe> LOADER = RecordLoadable.create(
-    LoadableRecipeSerializer.TYPED_SERIALIZER.requiredField(), ContextKey.ID.requiredField(),
+    LoadableRecipeSerializer.TYPE.requiredField(), LoadableRecipeSerializer.SERIALIZER.requiredField(), ContextKey.ID.requiredField(),
     LoadableRecipeSerializer.RECIPE_GROUP,
     IngredientLoadable.DISALLOW_EMPTY.requiredField("cast", CastDuplicationRecipe::getCast),
     FLUID_FIELD, COOLING_TIME_FIELD,
     CastDuplicationRecipe::new);
 
-  public CastDuplicationRecipe(TypeAwareRecipeSerializer serializer, Identifier id, String group, Ingredient cast, FluidIngredient fluid, int coolingTime) {
-    super(serializer, id, group, cast, fluid, ItemOutput.EMPTY, coolingTime, false, false);
+  public CastDuplicationRecipe(RecipeType type, RecipeSerializer serializer, Identifier id, String group, Ingredient cast, FluidIngredient fluid, int coolingTime) {
+    super(type, serializer, id, group, cast, fluid, ItemOutput.EMPTY, coolingTime, false, false);
   }
 
   @Override

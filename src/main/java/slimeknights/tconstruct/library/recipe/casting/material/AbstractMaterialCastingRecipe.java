@@ -4,11 +4,11 @@ import lombok.Getter;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.RecipeType;
 import net.neoforged.neoforge.fluids.FluidStack;
 import slimeknights.mantle.data.loadable.field.LoadableField;
 import slimeknights.mantle.data.loadable.primitive.IntLoadable;
 import slimeknights.mantle.data.predicate.IJsonPredicate;
-import slimeknights.mantle.recipe.helper.TypeAwareRecipeSerializer;
 import slimeknights.tconstruct.library.json.predicate.material.MaterialPredicate;
 import slimeknights.tconstruct.library.materials.definition.MaterialVariantId;
 import slimeknights.tconstruct.library.recipe.casting.AbstractCastingRecipe;
@@ -30,17 +30,17 @@ public abstract class AbstractMaterialCastingRecipe extends AbstractCastingRecip
   protected final int itemCost;
   protected final IJsonPredicate<MaterialVariantId> materials;
 
-  public AbstractMaterialCastingRecipe(TypeAwareRecipeSerializer serializer, Identifier id, String group, Ingredient cast, int itemCost, boolean consumed, boolean switchSlots, IJsonPredicate<MaterialVariantId> materials) {
-    super(serializer.getType(), id, group, cast, consumed, switchSlots);
-    this.serializer = serializer.serializer();
+  public AbstractMaterialCastingRecipe(RecipeType type, RecipeSerializer serializer, Identifier id, String group, Ingredient cast, int itemCost, boolean consumed, boolean switchSlots, IJsonPredicate<MaterialVariantId> materials) {
+    super(type, id, group, cast, consumed, switchSlots);
+    this.serializer = serializer;
     this.itemCost = itemCost;
     this.materials = materials;
   }
 
-  /** @deprecated use {@link #AbstractMaterialCastingRecipe(TypeAwareRecipeSerializer, Identifier, String, Ingredient, int, boolean, boolean, IJsonPredicate)} */
+  /** @deprecated use {@link #AbstractMaterialCastingRecipe(RecipeType, RecipeSerializer, Identifier, String, Ingredient, int, boolean, boolean, IJsonPredicate)} */
   @Deprecated(forRemoval = true)
-  public AbstractMaterialCastingRecipe(TypeAwareRecipeSerializer serializer, Identifier id, String group, Ingredient cast, int itemCost, boolean consumed, boolean switchSlots) {
-    this(serializer, id, group, cast, itemCost, consumed, switchSlots, MaterialPredicate.ANY);
+  public AbstractMaterialCastingRecipe(RecipeType type, RecipeSerializer serializer, Identifier id, String group, Ingredient cast, int itemCost, boolean consumed, boolean switchSlots) {
+    this(type, serializer, id, group, cast, itemCost, consumed, switchSlots, MaterialPredicate.ANY);
   }
 
   /** Gets the material fluid recipe for the given recipe */

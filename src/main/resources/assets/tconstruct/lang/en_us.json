@@ -3185,7 +3185,6 @@
   "armor_stat.tconstruct.knockback": "Knockback",
   "attribute.name.tconstruct.player.use_item_speed": "Use Item Speed",
   "attribute.name.tconstruct.player.critical_damage": "Critical Damage",
-  "attribute.name.tconstruct.player.mining_speed_multiplier": "Mining Speed",
   "attribute.name.tconstruct.player.experience_multiplier": "Experience",
   "attribute.name.tconstruct.player.jump_count": "Jumps",
   "attribute.name.tconstruct.generic.protection_cap": "Max Protection",

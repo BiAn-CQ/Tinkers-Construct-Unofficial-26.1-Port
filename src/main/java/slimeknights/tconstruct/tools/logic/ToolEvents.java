@@ -127,12 +127,6 @@ public class ToolEvents {
         }
       }
     }
-
-    // next, add in armor haste
-    double armorMultiplier = player.getAttributeValue(TinkerAttributes.MINING_SPEED_MULTIPLIER);
-    if (armorMultiplier >= 0) {
-      event.setNewSpeed((float) (event.getNewSpeed() * armorMultiplier));
-    }
   }
 
   @SubscribeEvent

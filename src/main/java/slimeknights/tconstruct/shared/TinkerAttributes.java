@@ -45,8 +45,6 @@ public class TinkerAttributes {
   // stat multipliers
   /** Multiplier for knockback this entity takes. Similar to {@link net.minecraft.world.entity.ai.attributes.Attributes#KNOCKBACK_RESISTANCE} but can be used to increase knockback */
   public static final DeferredHolder<Attribute, Attribute> KNOCKBACK_MULTIPLIER = ATTRIBUTES.registerMultiplier("generic.knockback_multiplier", true);
-  /** Player modifier data key for mining speed multiplier as an additive percentage boost on mining speed. Used for armor haste. */
-  public static final DeferredHolder<Attribute, Attribute> MINING_SPEED_MULTIPLIER = ATTRIBUTES.registerMultiplier("player.mining_speed_multiplier", true);
   /** Attribute for experience from all sources */
   public static final DeferredHolder<Attribute, Attribute> EXPERIENCE_MULTIPLIER = ATTRIBUTES.registerMultiplier("player.experience_multiplier", false);
   /** Percentage boost to damage while crouching, used by {@link slimeknights.tconstruct.tools.data.ModifierIds#shulking} */
@@ -63,7 +61,6 @@ public class TinkerAttributes {
     // player attributes
     event.add(EntityType.PLAYER, USE_ITEM_SPEED);
     event.add(EntityType.PLAYER, CRITICAL_DAMAGE);
-    event.add(EntityType.PLAYER, MINING_SPEED_MULTIPLIER);
     event.add(EntityType.PLAYER, EXPERIENCE_MULTIPLIER);
     event.add(EntityType.PLAYER, JUMP_COUNT);
     // general attributes

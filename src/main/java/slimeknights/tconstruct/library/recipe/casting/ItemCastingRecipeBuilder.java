@@ -2,6 +2,7 @@ package slimeknights.tconstruct.library.recipe.casting;
 
 import slimeknights.tconstruct.library.recipe.TinkerIngredients;
 import slimeknights.tconstruct.library.recipe.FluidTinkerIngredients;
+import slimeknights.tconstruct.library.recipe.TinkerRecipeTypes;
 
 
 import lombok.RequiredArgsConstructor;
@@ -13,12 +14,13 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.material.Fluid;
 import net.neoforged.neoforge.fluids.FluidStack;
 import slimeknights.mantle.recipe.data.AbstractRecipeBuilder;
 import slimeknights.mantle.recipe.helper.ItemOutput;
-import slimeknights.mantle.recipe.helper.TypeAwareRecipeSerializer;
 import slimeknights.mantle.recipe.ingredient.FluidIngredient;
 import slimeknights.mantle.registration.object.FluidObject;
 import slimeknights.tconstruct.smeltery.TinkerSmeltery;
@@ -34,7 +36,8 @@ import static slimeknights.tconstruct.library.recipe.melting.IMeltingRecipe.getT
 @RequiredArgsConstructor(staticName = "castingRecipe")
 public class ItemCastingRecipeBuilder extends AbstractRecipeBuilder<ItemCastingRecipeBuilder> {
   private final ItemOutput result;
-  private final TypeAwareRecipeSerializer<? extends ItemCastingRecipe> recipeSerializer;
+  private final RecipeType<?> recipeType;
+  private final RecipeSerializer<? extends ItemCastingRecipe> recipeSerializer;
   private Ingredient cast = TinkerIngredients.EMPTY;
   private FluidIngredient fluid = FluidTinkerIngredients.EMPTY;
   @Setter @Accessors(chain = true)
@@ -53,7 +56,7 @@ public class ItemCastingRecipeBuilder extends AbstractRecipeBuilder<ItemCastingR
    * @return  Builder instance
    */
   public static ItemCastingRecipeBuilder basinRecipe(ItemOutput result) {
-    return castingRecipe(result, slimeknights.mantle.recipe.helper.LoadableRecipeSerializer.typeAware(TinkerSmeltery.basinRecipeSerializer.get()));
+    return castingRecipe(result, TinkerRecipeTypes.CASTING_BASIN.get(), TinkerSmeltery.basinRecipeSerializer.get());
   }
 
   /**
@@ -62,7 +65,7 @@ public class ItemCastingRecipeBuilder extends AbstractRecipeBuilder<ItemCastingR
    * @return  Builder instance
    */
   public static ItemCastingRecipeBuilder retexturedBasinRecipe(ItemOutput result) {
-    return castingRecipe(result, slimeknights.mantle.recipe.helper.LoadableRecipeSerializer.typeAware(TinkerSmeltery.retexturedBasinRecipeSerializer.get()));
+    return castingRecipe(result, TinkerRecipeTypes.CASTING_BASIN.get(), TinkerSmeltery.retexturedBasinRecipeSerializer.get());
   }
 
   /**
@@ -88,7 +91,7 @@ public class ItemCastingRecipeBuilder extends AbstractRecipeBuilder<ItemCastingR
    * @return  Builder instance
    */
   public static ItemCastingRecipeBuilder basinDuplication() {
-    return castingRecipe(ItemOutput.EMPTY, slimeknights.mantle.recipe.helper.LoadableRecipeSerializer.typeAware(TinkerSmeltery.basinDuplicationRecipeSerializer.get()));
+    return castingRecipe(ItemOutput.EMPTY, TinkerRecipeTypes.CASTING_BASIN.get(), TinkerSmeltery.basinDuplicationRecipeSerializer.get());
   }
 
   /**
@@ -97,7 +100,7 @@ public class ItemCastingRecipeBuilder extends AbstractRecipeBuilder<ItemCastingR
    * @return  Builder instance
    */
   public static ItemCastingRecipeBuilder tableRecipe(ItemOutput resultIn) {
-    return castingRecipe(resultIn, slimeknights.mantle.recipe.helper.LoadableRecipeSerializer.typeAware(TinkerSmeltery.tableRecipeSerializer.get()));
+    return castingRecipe(resultIn, TinkerRecipeTypes.CASTING_TABLE.get(), TinkerSmeltery.tableRecipeSerializer.get());
   }
 
   /**
@@ -106,7 +109,7 @@ public class ItemCastingRecipeBuilder extends AbstractRecipeBuilder<ItemCastingR
    * @return  Builder instance
    */
   public static ItemCastingRecipeBuilder retexturedTableRecipe(ItemOutput resultIn) {
-    return castingRecipe(resultIn, slimeknights.mantle.recipe.helper.LoadableRecipeSerializer.typeAware(TinkerSmeltery.retexturedTableRecipeSerializer.get()));
+    return castingRecipe(resultIn, TinkerRecipeTypes.CASTING_TABLE.get(), TinkerSmeltery.retexturedTableRecipeSerializer.get());
   }
 
   /**
@@ -132,7 +135,7 @@ public class ItemCastingRecipeBuilder extends AbstractRecipeBuilder<ItemCastingR
    * @return  Builder instance
    */
   public static ItemCastingRecipeBuilder tableDuplication() {
-    return castingRecipe(ItemOutput.EMPTY, slimeknights.mantle.recipe.helper.LoadableRecipeSerializer.typeAware(TinkerSmeltery.tableDuplicationRecipeSerializer.get()));
+    return castingRecipe(ItemOutput.EMPTY, TinkerRecipeTypes.CASTING_TABLE.get(), TinkerSmeltery.tableDuplicationRecipeSerializer.get());
   }
 
 
@@ -268,11 +271,11 @@ public class ItemCastingRecipeBuilder extends AbstractRecipeBuilder<ItemCastingR
       if (consumed) {
         throw new IllegalStateException("Cannot consume cast on a duplication recipe");
       }
-      saveRecipe(consumer, id, new CastDuplicationRecipe(recipeSerializer, id, group, cast, fluid, coolingTime), advancementId);
+      saveRecipe(consumer, id, new CastDuplicationRecipe(recipeType, recipeSerializer, id, group, cast, fluid, coolingTime), advancementId);
     } else {
       // yeah, retextured recipes have their own constructor, does not matter as long as we pass the right serializer in
       // you can use this for your custom recipe extensions too if you don't change the JSON :)
-      saveRecipe(consumer, id, new ItemCastingRecipe(recipeSerializer, id, group, cast, fluid, result, coolingTime, consumed && cast != TinkerIngredients.EMPTY, switchSlots), advancementId);
+      saveRecipe(consumer, id, new ItemCastingRecipe(recipeType, recipeSerializer, id, group, cast, fluid, result, coolingTime, consumed && cast != TinkerIngredients.EMPTY, switchSlots), advancementId);
     }
   }
 }

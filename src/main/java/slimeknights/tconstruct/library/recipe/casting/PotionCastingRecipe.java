@@ -26,7 +26,6 @@ import slimeknights.mantle.data.loadable.primitive.IntLoadable;
 import slimeknights.mantle.data.loadable.record.RecordLoadable;
 import slimeknights.mantle.recipe.IMultiRecipe;
 import slimeknights.mantle.recipe.helper.LoadableRecipeSerializer;
-import slimeknights.mantle.recipe.helper.TypeAwareRecipeSerializer;
 import slimeknights.mantle.recipe.ingredient.FluidIngredient;
 import slimeknights.tconstruct.fluids.fluids.PotionFluidType;
 
@@ -39,7 +38,7 @@ public class PotionCastingRecipe implements ICastingRecipe, IMultiRecipe<Display
   protected static final LoadableField<FluidIngredient, PotionCastingRecipe> FLUID_FIELD = FluidIngredient.LOADABLE.requiredField("fluid", r -> r.fluid);
   protected static final LoadableField<Integer, PotionCastingRecipe> COOLING_TIME_FIELD = IntLoadable.FROM_ONE.defaultField("cooling_time", 5, r -> r.coolingTime);
   public static final RecordLoadable<PotionCastingRecipe> LOADER = RecordLoadable.create(
-    LoadableRecipeSerializer.TYPED_SERIALIZER.requiredField(), ContextKey.ID.requiredField(), LoadableRecipeSerializer.RECIPE_GROUP,
+    LoadableRecipeSerializer.TYPE.requiredField(), LoadableRecipeSerializer.SERIALIZER.requiredField(), ContextKey.ID.requiredField(), LoadableRecipeSerializer.RECIPE_GROUP,
     IngredientLoadable.DISALLOW_EMPTY.requiredField("bottle", r -> r.bottle),
     FLUID_FIELD,
     Loadables.ITEM.requiredField("result", r -> r.result),
@@ -47,7 +46,9 @@ public class PotionCastingRecipe implements ICastingRecipe, IMultiRecipe<Display
     PotionCastingRecipe::new);
 
   @Getter
-  protected final TypeAwareRecipeSerializer serializer;
+  protected final RecipeType type;
+  @Getter
+  protected final RecipeSerializer serializer;
   @Getter
   protected final Identifier id;
   @Getter
@@ -67,10 +68,11 @@ public class PotionCastingRecipe implements ICastingRecipe, IMultiRecipe<Display
 
   @Override
   public RecipeSerializer getSerializer() {
-    return serializer.serializer();
+    return serializer;
   }
 
-  public PotionCastingRecipe(TypeAwareRecipeSerializer serializer, Identifier id, String group, Ingredient bottle, FluidIngredient fluid, Item result, int coolingTime) {
+  public PotionCastingRecipe(RecipeType type, RecipeSerializer serializer, Identifier id, String group, Ingredient bottle, FluidIngredient fluid, Item result, int coolingTime) {
+    this.type = type;
     this.serializer = serializer;
     this.id = id;
     this.group = group;
@@ -83,7 +85,7 @@ public class PotionCastingRecipe implements ICastingRecipe, IMultiRecipe<Display
 
   @Override
   public RecipeType getType() {
-    return serializer.getType();
+    return type;
   }
 
   @Override

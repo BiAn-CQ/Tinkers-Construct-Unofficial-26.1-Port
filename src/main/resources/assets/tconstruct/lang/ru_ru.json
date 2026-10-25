@@ -3074,7 +3074,6 @@
   "armor_stat.tconstruct.knockback": "Отдача",
   "attribute.name.tconstruct.player.use_item_speed": "Скорость использования предмета",
   "attribute.name.tconstruct.player.critical_damage": "Критический урон",
-  "attribute.name.tconstruct.player.mining_speed_multiplier": "Скорость добычи",
   "attribute.name.tconstruct.player.experience_multiplier": "Опыт",
   "attribute.name.tconstruct.player.jump_count": "Количество прыжков",
   "attribute.name.tconstruct.generic.protection_cap": "Макс. защита",

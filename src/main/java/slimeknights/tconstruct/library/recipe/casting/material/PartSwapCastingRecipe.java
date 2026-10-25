@@ -8,6 +8,8 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.Fluid;
 import net.neoforged.neoforge.fluids.FluidStack;
@@ -18,7 +20,6 @@ import slimeknights.mantle.data.loadable.record.RecordLoadable;
 import slimeknights.mantle.data.predicate.IJsonPredicate;
 import slimeknights.mantle.recipe.IMultiRecipe;
 import slimeknights.mantle.recipe.helper.LoadableRecipeSerializer;
-import slimeknights.mantle.recipe.helper.TypeAwareRecipeSerializer;
 import slimeknights.tconstruct.library.json.predicate.material.MaterialPredicate;
 import slimeknights.tconstruct.library.materials.MaterialRegistry;
 import slimeknights.tconstruct.library.materials.definition.MaterialVariant;
@@ -63,7 +64,7 @@ import java.util.stream.Stream;
  */
 public class PartSwapCastingRecipe extends AbstractMaterialCastingRecipe implements IMultiRecipe<IDisplayableCastingRecipe> {
   public static final RecordLoadable<PartSwapCastingRecipe> LOADER = RecordLoadable.create(
-    LoadableRecipeSerializer.TYPED_SERIALIZER.requiredField(),
+    LoadableRecipeSerializer.TYPE.requiredField(), LoadableRecipeSerializer.SERIALIZER.requiredField(),
     ContextKey.ID.requiredField(), LoadableRecipeSerializer.RECIPE_GROUP,
     IngredientLoadable.ALLOW_EMPTY.requiredField("tools", AbstractCastingRecipe::getCast),
     ITEM_COST_FIELD,
@@ -76,15 +77,15 @@ public class PartSwapCastingRecipe extends AbstractMaterialCastingRecipe impleme
   @Nullable
   private MaterialFluidRecipe cachedPartSwapping = null;
 
-  protected PartSwapCastingRecipe(TypeAwareRecipeSerializer serializer, Identifier id, String group, Ingredient cast, int itemCost, int index, IJsonPredicate<MaterialVariantId> materials) {
-    super(serializer, id, group, cast, itemCost, true, false, materials);
+  protected PartSwapCastingRecipe(RecipeType type, RecipeSerializer serializer, Identifier id, String group, Ingredient cast, int itemCost, int index, IJsonPredicate<MaterialVariantId> materials) {
+    super(type, serializer, id, group, cast, itemCost, true, false, materials);
     this.index = index;
   }
 
-  /** @deprecated use {@link #PartSwapCastingRecipe(TypeAwareRecipeSerializer, Identifier, String, Ingredient, int, int, IJsonPredicate)} */
+  /** @deprecated use {@link #PartSwapCastingRecipe(RecipeType, RecipeSerializer, Identifier, String, Ingredient, int, int, IJsonPredicate)} */
   @Deprecated(forRemoval = true)
-  protected PartSwapCastingRecipe(TypeAwareRecipeSerializer serializer, Identifier id, String group, Ingredient cast, int itemCost, int index) {
-    this(serializer, id, group, cast, itemCost, index, MaterialPredicate.ANY);
+  protected PartSwapCastingRecipe(RecipeType type, RecipeSerializer serializer, Identifier id, String group, Ingredient cast, int itemCost, int index) {
+    this(type, serializer, id, group, cast, itemCost, index, MaterialPredicate.ANY);
   }
 
   /** Maps negative indices to the end of the parts list */

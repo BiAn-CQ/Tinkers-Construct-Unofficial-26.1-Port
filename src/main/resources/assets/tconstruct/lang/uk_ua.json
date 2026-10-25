@@ -3168,7 +3168,6 @@
   "armor_stat.tconstruct.knockback": "Відкидання",
   "attribute.name.tconstruct.player.use_item_speed": "Швидкости користання предмета",
   "attribute.name.tconstruct.player.critical_damage": "Критичної шкоди",
-  "attribute.name.tconstruct.player.mining_speed_multiplier": "Гвидкости добування",
   "attribute.name.tconstruct.player.experience_multiplier": "Досвіду",
   "attribute.name.tconstruct.player.jump_count": "Стрибків",
   "attribute.name.tconstruct.generic.protection_cap": "Максимального захисту",

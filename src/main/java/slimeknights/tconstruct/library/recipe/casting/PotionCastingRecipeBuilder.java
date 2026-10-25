@@ -2,6 +2,7 @@ package slimeknights.tconstruct.library.recipe.casting;
 
 import slimeknights.tconstruct.library.recipe.FluidTinkerIngredients;
 import slimeknights.tconstruct.library.recipe.TinkerIngredients;
+import slimeknights.tconstruct.library.recipe.TinkerRecipeTypes;
 
 
 import lombok.AccessLevel;
@@ -15,17 +16,17 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.material.Fluid;
 import slimeknights.mantle.recipe.data.AbstractRecipeBuilder;
-import slimeknights.mantle.recipe.helper.TypeAwareRecipeSerializer;
 import slimeknights.mantle.recipe.ingredient.FluidIngredient;
 import slimeknights.tconstruct.library.modifiers.ModifierId;
 import slimeknights.tconstruct.smeltery.TinkerSmeltery;
 
 import javax.annotation.Nullable;
 import java.util.function.Consumer;
-
 /**
  * Builder for a potion bottle filling recipe. Takes a fluid and optional cast to create an item that copies the fluid NBT
  */
@@ -35,7 +36,8 @@ public class PotionCastingRecipeBuilder extends AbstractRecipeBuilder<PotionCast
   private final Item result;
   @Nullable
   private final ModifierId modifier;
-  private final TypeAwareRecipeSerializer<? extends PotionCastingRecipe> recipeSerializer;
+  private final RecipeType<?> recipeType;
+  private final RecipeSerializer<? extends PotionCastingRecipe> recipeSerializer;
   private final boolean clearing;
   private Ingredient bottle = TinkerIngredients.EMPTY;
   private FluidIngredient fluid = FluidTinkerIngredients.EMPTY;
@@ -45,8 +47,8 @@ public class PotionCastingRecipeBuilder extends AbstractRecipeBuilder<PotionCast
   /* Bottle filling */
 
   /** Creates a new casting recipe for a bottle */
-  public static PotionCastingRecipeBuilder castingRecipe(ItemLike result, TypeAwareRecipeSerializer<PotionCastingRecipe> serializer) {
-    return new PotionCastingRecipeBuilder(result.asItem(), null, serializer, false);
+  public static PotionCastingRecipeBuilder castingRecipe(ItemLike result, RecipeType<?> recipeType, RecipeSerializer<PotionCastingRecipe> serializer) {
+    return new PotionCastingRecipeBuilder(result.asItem(), null, recipeType, serializer, false);
   }
 
   /**
@@ -55,7 +57,7 @@ public class PotionCastingRecipeBuilder extends AbstractRecipeBuilder<PotionCast
    * @return  Builder instance
    */
   public static PotionCastingRecipeBuilder basinRecipe(ItemLike result) {
-    return castingRecipe(result, slimeknights.mantle.recipe.helper.LoadableRecipeSerializer.typeAware(TinkerSmeltery.basinPotionRecipeSerializer.get()));
+    return castingRecipe(result, TinkerRecipeTypes.CASTING_BASIN.get(), TinkerSmeltery.basinPotionRecipeSerializer.get());
   }
 
   /**
@@ -64,19 +66,19 @@ public class PotionCastingRecipeBuilder extends AbstractRecipeBuilder<PotionCast
    * @return  Builder instance
    */
   public static PotionCastingRecipeBuilder tableRecipe(ItemLike result) {
-    return castingRecipe(result, slimeknights.mantle.recipe.helper.LoadableRecipeSerializer.typeAware(TinkerSmeltery.tablePotionRecipeSerializer.get()));
+    return castingRecipe(result, TinkerRecipeTypes.CASTING_TABLE.get(), TinkerSmeltery.tablePotionRecipeSerializer.get());
   }
 
 
   /* Modifier casting */
 
   /** Creates a new casting recipe for a bottle */
-  public static PotionCastingRecipeBuilder tippingRecipe(ModifierId modifier, TypeAwareRecipeSerializer<? extends PotionCastingRecipe> serializer) {
-    return new PotionCastingRecipeBuilder(Items.AIR, modifier, serializer, false);
+  public static PotionCastingRecipeBuilder tippingRecipe(ModifierId modifier, RecipeType<?> recipeType, RecipeSerializer<? extends PotionCastingRecipe> serializer) {
+    return new PotionCastingRecipeBuilder(Items.AIR, modifier, recipeType, serializer, false);
   }
 
-  private static PotionCastingRecipeBuilder clearingRecipe(ModifierId modifier, TypeAwareRecipeSerializer<TipClearingCastingRecipe> serializer) {
-    return new PotionCastingRecipeBuilder(Items.AIR, modifier, serializer, true);
+  private static PotionCastingRecipeBuilder clearingRecipe(ModifierId modifier, RecipeType<?> recipeType, RecipeSerializer<TipClearingCastingRecipe> serializer) {
+    return new PotionCastingRecipeBuilder(Items.AIR, modifier, recipeType, serializer, true);
   }
 
   /**
@@ -85,7 +87,7 @@ public class PotionCastingRecipeBuilder extends AbstractRecipeBuilder<PotionCast
    * @return  Builder instance
    */
   public static PotionCastingRecipeBuilder basinTipping(ModifierId modifier) {
-    return tippingRecipe(modifier, slimeknights.mantle.recipe.helper.LoadableRecipeSerializer.typeAware(TinkerSmeltery.basinTippingRecipeSerializer.get()));
+    return tippingRecipe(modifier, TinkerRecipeTypes.CASTING_BASIN.get(), TinkerSmeltery.basinTippingRecipeSerializer.get());
   }
 
   /**
@@ -94,7 +96,7 @@ public class PotionCastingRecipeBuilder extends AbstractRecipeBuilder<PotionCast
    * @return  Builder instance
    */
   public static PotionCastingRecipeBuilder tableTipping(ModifierId modifier) {
-    return tippingRecipe(modifier, slimeknights.mantle.recipe.helper.LoadableRecipeSerializer.typeAware(TinkerSmeltery.tableTippingRecipeSerializer.get()));
+    return tippingRecipe(modifier, TinkerRecipeTypes.CASTING_TABLE.get(), TinkerSmeltery.tableTippingRecipeSerializer.get());
   }
 
   /**
@@ -103,7 +105,7 @@ public class PotionCastingRecipeBuilder extends AbstractRecipeBuilder<PotionCast
    * @return  Builder instance
    */
   public static PotionCastingRecipeBuilder basinClearing(ModifierId modifier) {
-    return clearingRecipe(modifier, slimeknights.mantle.recipe.helper.LoadableRecipeSerializer.typeAware(TinkerSmeltery.basinTipClearingRecipeSerializer.get()));
+    return clearingRecipe(modifier, TinkerRecipeTypes.CASTING_BASIN.get(), TinkerSmeltery.basinTipClearingRecipeSerializer.get());
   }
 
   /**
@@ -112,7 +114,7 @@ public class PotionCastingRecipeBuilder extends AbstractRecipeBuilder<PotionCast
    * @return  Builder instance
    */
   public static PotionCastingRecipeBuilder tableClearing(ModifierId modifier) {
-    return clearingRecipe(modifier, slimeknights.mantle.recipe.helper.LoadableRecipeSerializer.typeAware(TinkerSmeltery.tableTipClearingRecipeSerializer.get()));
+    return clearingRecipe(modifier, TinkerRecipeTypes.CASTING_TABLE.get(), TinkerSmeltery.tableTipClearingRecipeSerializer.get());
   }
 
 
@@ -189,11 +191,11 @@ public class PotionCastingRecipeBuilder extends AbstractRecipeBuilder<PotionCast
     var advancementId = this.buildOptionalAdvancement(id, "casting");
     if (modifier != null) {
       PotionCastingRecipe recipe = clearing
-        ? new TipClearingCastingRecipe(recipeSerializer, id, group, bottle, fluid, coolingTime, modifier)
-        : new TippingCastingRecipe(recipeSerializer, id, group, bottle, fluid, coolingTime, modifier);
+        ? new TipClearingCastingRecipe(recipeType, recipeSerializer, id, group, bottle, fluid, coolingTime, modifier)
+        : new TippingCastingRecipe(recipeType, recipeSerializer, id, group, bottle, fluid, coolingTime, modifier);
       saveRecipe(consumer, id, recipe, advancementId);
     } else {
-      saveRecipe(consumer, id, new PotionCastingRecipe(recipeSerializer, id, group, bottle, fluid, result, coolingTime), advancementId);
+      saveRecipe(consumer, id, new PotionCastingRecipe(recipeType, recipeSerializer, id, group, bottle, fluid, result, coolingTime), advancementId);
     }
   }
 }

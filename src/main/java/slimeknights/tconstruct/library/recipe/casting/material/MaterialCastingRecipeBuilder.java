@@ -13,14 +13,16 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.ItemLike;
 import slimeknights.mantle.data.predicate.IJsonPredicate;
 import slimeknights.mantle.recipe.data.AbstractRecipeBuilder;
-import slimeknights.mantle.recipe.helper.TypeAwareRecipeSerializer;
 import slimeknights.tconstruct.library.json.predicate.material.MaterialPredicate;
 import slimeknights.tconstruct.library.materials.definition.MaterialVariantId;
 import slimeknights.tconstruct.library.recipe.casting.material.ToolCastingRecipe.CastPurpose;
 import slimeknights.tconstruct.library.recipe.ingredient.MaterialIngredient;
+import slimeknights.tconstruct.library.recipe.TinkerRecipeTypes;
 import slimeknights.tconstruct.library.tools.item.IModifiable;
 import slimeknights.tconstruct.library.tools.part.IMaterialItem;
 import slimeknights.tconstruct.smeltery.TinkerSmeltery;
@@ -39,7 +41,8 @@ public class MaterialCastingRecipeBuilder extends AbstractRecipeBuilder<Material
   private final IMaterialItem result;
   @Nullable
   private final IModifiable resultTool;
-  private final TypeAwareRecipeSerializer<? extends AbstractMaterialCastingRecipe> recipeSerializer;
+  private final RecipeType<?> recipeType;
+  private final RecipeSerializer<? extends AbstractMaterialCastingRecipe> recipeSerializer;
   private Ingredient cast = TinkerIngredients.EMPTY;
   @Setter
   private int itemCost = 0;
@@ -63,7 +66,7 @@ public class MaterialCastingRecipeBuilder extends AbstractRecipeBuilder<Material
    * @return  Builder instance
    */
   public static MaterialCastingRecipeBuilder basinRecipe(IMaterialItem result) {
-    return castingRecipe(result, null, slimeknights.mantle.recipe.helper.LoadableRecipeSerializer.typeAware(TinkerSmeltery.basinMaterialSerializer.get()));
+    return castingRecipe(result, null, TinkerRecipeTypes.CASTING_BASIN.get(), TinkerSmeltery.basinMaterialSerializer.get());
   }
 
   /**
@@ -72,7 +75,7 @@ public class MaterialCastingRecipeBuilder extends AbstractRecipeBuilder<Material
    * @return  Builder instance
    */
   public static MaterialCastingRecipeBuilder tableRecipe(IMaterialItem result) {
-    return castingRecipe(result, null, slimeknights.mantle.recipe.helper.LoadableRecipeSerializer.typeAware(TinkerSmeltery.tableMaterialSerializer.get()));
+    return castingRecipe(result, null, TinkerRecipeTypes.CASTING_TABLE.get(), TinkerSmeltery.tableMaterialSerializer.get());
   }
 
   /**
@@ -81,7 +84,7 @@ public class MaterialCastingRecipeBuilder extends AbstractRecipeBuilder<Material
    * @return  Builder instance
    */
   public static MaterialCastingRecipeBuilder basinRecipe(IModifiable result) {
-    return castingRecipe(null, result, slimeknights.mantle.recipe.helper.LoadableRecipeSerializer.typeAware(TinkerSmeltery.basinToolSerializer.get()));
+    return castingRecipe(null, result, TinkerRecipeTypes.CASTING_BASIN.get(), TinkerSmeltery.basinToolSerializer.get());
   }
 
   /**
@@ -90,7 +93,7 @@ public class MaterialCastingRecipeBuilder extends AbstractRecipeBuilder<Material
    * @return  Builder instance
    */
   public static MaterialCastingRecipeBuilder tableRecipe(IModifiable result) {
-    return castingRecipe(null, result, slimeknights.mantle.recipe.helper.LoadableRecipeSerializer.typeAware(TinkerSmeltery.tableToolSerializer.get()));
+    return castingRecipe(null, result, TinkerRecipeTypes.CASTING_TABLE.get(), TinkerSmeltery.tableToolSerializer.get());
   }
 
   /**
@@ -182,9 +185,9 @@ public class MaterialCastingRecipeBuilder extends AbstractRecipeBuilder<Material
     }
     var advancementId = this.buildOptionalAdvancement(id, "casting");
     if (result != null) {
-      saveRecipe(consumer, id, new MaterialCastingRecipe(recipeSerializer, id, group, cast, itemCost, result, allowedMaterials, castPurpose != CastPurpose.CATALYST, switchSlots), advancementId);
+      saveRecipe(consumer, id, new MaterialCastingRecipe(recipeType, recipeSerializer, id, group, cast, itemCost, result, allowedMaterials, castPurpose != CastPurpose.CATALYST, switchSlots), advancementId);
     } else if (resultTool != null) {
-      saveRecipe(consumer, id, new ToolCastingRecipe(recipeSerializer, id, group, cast, itemCost, castPurpose, resultTool, allowedMaterials, extraMaterials, fluidSwapping), advancementId);
+      saveRecipe(consumer, id, new ToolCastingRecipe(recipeType, recipeSerializer, id, group, cast, itemCost, castPurpose, resultTool, allowedMaterials, extraMaterials, fluidSwapping), advancementId);
     } else {
       throw new IllegalArgumentException("Must have either result or result tool");
     }
