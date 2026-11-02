@@ -85,7 +85,10 @@ public class ChannelBlockEntityRenderer implements BlockEntityRenderer<ChannelBl
       segments.add(new FluidSegment(centerFlow, model.center(true)));
     }
 
-    if (blockState.getValue(ChannelBlock.DOWN) && channel.isFlowing(Direction.DOWN)) {
+    if (model.up() != null && channel.isFlowing(Direction.UP)) {
+      segments.add(new FluidSegment(null, model.up()));
+    }
+    if (model.down() != null && blockState.getValue(ChannelBlock.DOWN) && channel.isFlowing(Direction.DOWN)) {
       segments.add(new FluidSegment(null, model.down()));
       renderState.downstream = FaucetBlockEntityRenderer.extractDownstream(level, pos, Direction.DOWN);
     }

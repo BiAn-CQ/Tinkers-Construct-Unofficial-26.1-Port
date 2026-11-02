@@ -47,15 +47,17 @@ class ToolTinkeringExtensionTest extends CoreTestBootstrap {
     List<IRecipeSlotBuilder> slots = IntStream.range(0, 9)
       .mapToObj(i -> mock(IRecipeSlotBuilder.class, RETURNS_SELF)).toList();
     ICraftingGridHelper grid = mock(ICraftingGridHelper.class);
+    when(grid.getCraftingIndex(0, 2, 2)).thenReturn(0);
+    when(grid.getCraftingIndex(1, 2, 2)).thenReturn(1);
     when(grid.createAndSetInputs(eq(builder), eq(VanillaTypes.ITEM_STACK), anyList(), eq(2), eq(2))).thenReturn(slots);
     var holder = new RecipeHolder<>(ResourceKey.create(Registries.RECIPE,
       Identifier.fromNamespaceAndPath("tconstruct", "repair_display")), recipe);
 
     ToolTinkeringExtension.INSTANCE.setRecipe(holder, builder, grid, focuses);
 
-    int toolIndex = slimeknights.mantle.plugin.jei.MantleJEIConstants.getCraftingIndex(0, 2, 2);
-    int materialIndex = slimeknights.mantle.plugin.jei.MantleJEIConstants.getCraftingIndex(1, 2, 2);
-    verify(builder).createFocusLink(output, slots.get(toolIndex), slots.get(materialIndex));
+    verify(grid).getCraftingIndex(0, 2, 2);
+    verify(grid).getCraftingIndex(1, 2, 2);
+    verify(builder).createFocusLink(output, slots.get(0), slots.get(1));
     assertThat(ToolTinkeringExtension.INSTANCE.getIngredients(holder)).hasSize(2);
   }
 }

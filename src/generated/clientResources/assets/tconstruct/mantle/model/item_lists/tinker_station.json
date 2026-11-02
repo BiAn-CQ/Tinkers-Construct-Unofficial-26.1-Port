@@ -2,39 +2,39 @@
   "variants": {
     "": [
       {
-        "center": [
-          11.0,
-          16.25,
-          8.0
-        ],
+        "center": {
+          "x": 11.0,
+          "y": 16.25,
+          "z": 8.0
+        },
         "size": 7.5,
         "transform": "tconstruct:table",
         "x": 270
       },
       {
-        "center": [
-          2.5,
-          17.5,
-          8.0
-        ],
+        "center": {
+          "x": 2.5,
+          "y": 17.5,
+          "z": 8.0
+        },
         "size": 3.0,
         "transform": "tconstruct:table"
       },
       {
-        "center": [
-          4.5,
-          17.5,
-          3.5
-        ],
+        "center": {
+          "x": 4.5,
+          "y": 17.5,
+          "z": 3.5
+        },
         "size": 3.0,
         "transform": "tconstruct:table"
       },
       {
-        "center": [
-          4.5,
-          17.5,
-          12.5
-        ],
+        "center": {
+          "x": 4.5,
+          "y": 17.5,
+          "z": 12.5
+        },
         "size": 3.0,
         "transform": "tconstruct:table"
       }

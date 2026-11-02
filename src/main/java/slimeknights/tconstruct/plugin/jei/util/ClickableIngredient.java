@@ -1,6 +1,7 @@
 package slimeknights.tconstruct.plugin.jei.util;
 
 import mezz.jei.api.ingredients.IIngredientType;
+import mezz.jei.api.ingredients.IIngredientHelper;
 import mezz.jei.api.ingredients.ITypedIngredient;
 import mezz.jei.api.runtime.IClickableIngredient;
 import mezz.jei.api.runtime.IIngredientManager;
@@ -13,6 +14,11 @@ public record ClickableIngredient<T>(IIngredientType<T> getType, T getIngredient
   @Override
   public ITypedIngredient<T> getTypedIngredient() {
     return this;
+  }
+
+  @Override
+  public ITypedIngredient<T> normalize(IIngredientHelper<T> helper) {
+    return new ClickableIngredient<>(getType, helper.normalizeIngredient(getIngredient), getArea);
   }
 
   @SuppressWarnings("unchecked")

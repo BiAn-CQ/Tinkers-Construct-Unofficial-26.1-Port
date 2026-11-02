@@ -2,7 +2,7 @@
   "type": "tconstruct:material_fluid",
   "fluid": {
     "amount": 250,
-    "tag": "mantle:water"
+    "tag": "c:water"
   },
   "input": "tconstruct:iron",
   "output": "tconstruct:iron#oxidized",

@@ -1,5 +1,8 @@
 {
-  "tag": "tconstruct:tooltips/clay",
+  "fluid": {
+    "type": "mantle:tag",
+    "tag": "tconstruct:tooltips/clay"
+  },
   "units": [
     {
       "key": "gui.tconstruct.fluid.block",

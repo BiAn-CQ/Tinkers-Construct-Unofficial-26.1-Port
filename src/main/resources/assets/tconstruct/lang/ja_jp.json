@@ -3414,5 +3414,12 @@
   "material.tconstruct.enderslimeskin": "スライムスキン",
   "material.tconstruct.enderslimeskin.encyclopedia.armor": "攻撃してきた相手を25%の確率でテレポートさせる",
   "key.category.tconstruct.tconstruct": "Tinkers' Construct",
-  "jade.modName.tconstruct": "Tinkers' Construct"
+  "jade.modName.tconstruct": "Tinkers' Construct",
+
+  "fluid.mantle.powder_snow.fluid_effect": "粉雪はネザーでの戦闘に役立つ液体で、炎上するMobにボーナスダメージを与える。",
+  "fluid.mantle.honey.fluid_effect": "汗をかき、毒素を取り除く。ハチミツをすすって何が悪い？",
+  "fluid.mantle.beetroot_soup.fluid_effect": "簡単に作れる、すするだけの食事の選択肢。",
+  "fluid.mantle.mushroom_stew.fluid_effect": "キノコシチューは、外出先で一口飲むのにとても手頃なスープの選択肢だ。",
+  "fluid.mantle.rabbit_stew.fluid_effect": "喉を鳴らすのに最適な、最高の流動食。",
+  "fluid.mantle.potion.fluid_effect": "醸造台で様々なポーションを作り出すことができる。ポーションをタンクに捨て、道具を満たすことができる。"
 }

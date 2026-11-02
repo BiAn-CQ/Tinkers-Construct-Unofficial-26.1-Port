@@ -5,7 +5,7 @@
   "cooling_time": 1,
   "fluid": {
     "amount": 500,
-    "tag": "mantle:water"
+    "tag": "c:water"
   },
   "result": {
     "components": {

@@ -69,7 +69,7 @@ public class TinkerEffects extends TinkerModule {
   // potions
   public static final EnumObject<PotionType,Potion> experiencedPotion = POTIONS.registerTypes(experienced).withStrong().withLong().build();
   public static final EnumObject<PotionType,Potion> ricochetPotion = POTIONS.registerTypes(ricochet).withStrong().withLong().build();
-  public static final EnumObject<PotionType,Potion> levitationPotion = POTIONS.registerTypes("levitation", () -> MobEffects.LEVITATION.value(), 15 * 20, 0).withStrong().withLong(40 * 20, 0).build();
+  public static final EnumObject<PotionType,Potion> levitationPotion = POTIONS.registerTypes("levitation", MobEffects.LEVITATION, 15 * 20, 0).withStrong().withLong(40 * 20, 0).build();
   public static final EnumObject<PotionType,Potion> enderferencePotion = POTIONS.registerTypes(enderference, 90 * 20, 0).withLong().build();
 
   @SuppressWarnings("removal")

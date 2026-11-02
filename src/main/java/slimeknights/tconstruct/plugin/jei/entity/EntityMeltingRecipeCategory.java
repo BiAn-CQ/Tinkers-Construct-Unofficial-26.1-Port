@@ -31,7 +31,7 @@ import slimeknights.tconstruct.library.recipe.FluidValues;
 import slimeknights.tconstruct.library.recipe.entitymelting.EntityMeltingRecipe;
 import slimeknights.tconstruct.plugin.jei.TConstructJEIConstants;
 import slimeknights.tconstruct.plugin.jei.melting.MeltingFuelHandler;
-import slimeknights.tconstruct.plugin.jei.util.FluidTooltipCallback;
+import slimeknights.mantle.plugin.jei.fluid.FluidTooltipCallback;
 
 import java.awt.Color;
 import java.util.List;

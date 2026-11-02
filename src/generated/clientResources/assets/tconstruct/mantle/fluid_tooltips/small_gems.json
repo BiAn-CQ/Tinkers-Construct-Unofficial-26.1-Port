@@ -1,5 +1,8 @@
 {
-  "tag": "tconstruct:tooltips/gem_small",
+  "fluid": {
+    "type": "mantle:tag",
+    "tag": "tconstruct:tooltips/gem_small"
+  },
   "units": [
     {
       "key": "gui.tconstruct.fluid.block",

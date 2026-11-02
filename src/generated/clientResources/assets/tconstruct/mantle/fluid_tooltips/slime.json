@@ -1,5 +1,8 @@
 {
-  "tag": "tconstruct:tooltips/slime",
+  "fluid": {
+    "type": "mantle:tag",
+    "tag": "tconstruct:tooltips/slime"
+  },
   "units": [
     {
       "key": "gui.tconstruct.fluid.block",

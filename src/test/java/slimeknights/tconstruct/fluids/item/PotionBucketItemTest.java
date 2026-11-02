@@ -14,7 +14,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 class PotionBucketItemTest extends BaseMcTest {
   @Test
   void potionBucketHasNativeDrinkComponents() throws ReflectiveOperationException {
-    PotionBucketItem item = (PotionBucketItem) TinkerFluids.potion.asItem();
+    slimeknights.mantle.fluid.PotionBucketItem item = (slimeknights.mantle.fluid.PotionBucketItem) TinkerFluids.potion.asItem();
     ItemStack stack = new ItemStack(Items.BUCKET);
     stack.applyComponents(TestHelper.defaultComponents(item));
 

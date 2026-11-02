@@ -86,7 +86,7 @@ public class OverslimeRecipeExtension implements ICraftingCategoryExtension<Over
     if (inputSlots.size() < 9) {
       TConstruct.LOG.error("Failed to create focus link for {} as the layout {} is not 3x3", recipe.getId(), builder.getClass().getName());
     } else {
-      builder.createFocusLink(inputSlots.get(MantleJEIConstants.getCraftingIndex(0, 2, 2)), output);
+      builder.createFocusLink(inputSlots.get(craftingGridHelper.getCraftingIndex(0, 2, 2)), output);
     }
   }
 

@@ -1,21 +1,21 @@
 [
   {
-    "center": [
-      8.0,
-      15.5,
-      8.0
-    ],
+    "center": {
+      "x": 8.0,
+      "y": 15.5,
+      "z": 8.0
+    },
     "size": 14.0,
     "transform": "tconstruct:casting_table",
     "x": 270,
     "y": 180
   },
   {
-    "center": [
-      8.0,
-      15.5,
-      8.0
-    ],
+    "center": {
+      "x": 8.0,
+      "y": 15.5,
+      "z": 8.0
+    },
     "size": 14.1,
     "transform": "tconstruct:casting_table",
     "x": 270,

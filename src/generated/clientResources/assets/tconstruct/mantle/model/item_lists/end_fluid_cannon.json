@@ -2,21 +2,21 @@
   "variants": {
     "": "tconstruct:templates/fluid_cannon",
     "facing=down": {
-      "center": [
-        8.0,
-        1.0,
-        8.0
-      ],
+      "center": {
+        "x": 8.0,
+        "y": 1.0,
+        "z": 8.0
+      },
       "size": 7.5,
       "transform": "tconstruct:fluid_cannon",
       "x": 90
     },
     "facing=up": {
-      "center": [
-        8.0,
-        15.0,
-        8.0
-      ],
+      "center": {
+        "x": 8.0,
+        "y": 15.0,
+        "z": 8.0
+      },
       "size": 7.5,
       "transform": "tconstruct:fluid_cannon",
       "x": 270

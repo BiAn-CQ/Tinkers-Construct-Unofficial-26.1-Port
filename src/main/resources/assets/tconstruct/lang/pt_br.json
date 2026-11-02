@@ -2784,5 +2784,12 @@
   "fluid_effect.tconstruct.extinguish": "Extingue o fogo",
   "material.tconstruct.enderslimeskin.encyclopedia.armor": "Tem 25% de chance, por peça, de teletransportar aleatoriamente quem o atacar para longe",
   "key.category.tconstruct.tconstruct": "Tinkers' Construct",
-  "jade.modName.tconstruct": "Tinkers' Construct"
+  "jade.modName.tconstruct": "Tinkers' Construct",
+
+  "fluid.mantle.powder_snow.fluid_effect": "Neve em pó é um fluido útil para combate no Nether, causando dano extra a mobs flamejantes.",
+  "fluid.mantle.honey.fluid_effect": "Tão doce, e ainda remove toxinas, quem não amar tomar mel?",
+  "fluid.mantle.beetroot_soup.fluid_effect": "Sopa de beterraba é uma opção de comida facil de cultivar e beber.",
+  "fluid.mantle.mushroom_stew.fluid_effect": "Ensopado de cogumelos é uma opção de sopa muito acessível para tomar enquanto anda.",
+  "fluid.mantle.rabbit_stew.fluid_effect": "Ensopado de coelho é a melhor comida líquida disponível, ideal para tomar.",
+  "fluid.mantle.potion.fluid_effect": "As poções permitem uma grande variedade de efeitos criados em um suporte de poções. É possível despejar poções em tanques para preencher ferramentas."
 }

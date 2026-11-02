@@ -2,30 +2,30 @@
   "variants": {
     "": [
       {
-        "center": [
-          4.5,
-          17.5,
-          4.5
-        ],
+        "center": {
+          "x": 4.5,
+          "y": 17.5,
+          "z": 4.5
+        },
         "size": 3.0,
         "transform": "tconstruct:table"
       },
       {
-        "center": [
-          4.5,
-          16.3125,
-          11.5
-        ],
+        "center": {
+          "x": 4.5,
+          "y": 16.3125,
+          "z": 11.5
+        },
         "size": 5.0,
         "transform": "tconstruct:table",
         "x": 270
       },
       {
-        "center": [
-          11.5,
-          17.5,
-          4.5
-        ],
+        "center": {
+          "x": 11.5,
+          "y": 17.5,
+          "z": 4.5
+        },
         "size": 3.0,
         "transform": "tconstruct:table"
       }

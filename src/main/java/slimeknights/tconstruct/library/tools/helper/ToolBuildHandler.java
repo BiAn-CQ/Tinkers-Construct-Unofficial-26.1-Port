@@ -141,10 +141,13 @@ public final class ToolBuildHandler {
       }
       // add all materials to the parent, conditionally to search
       if (!added) {
+        // Different candidates can produce the same combination when parts
+        // fall back to their first supported material (for example bowstrings).
+        var variants = net.minecraft.world.item.ItemStackLinkedSet.createTypeAndComponentsSet();
         for (IMaterial material : MaterialRegistry.getInstance().getVisibleMaterials()) {
           // if we added it and we want a single material, we are done
           ItemStack tool = createSingleMaterial(item, MaterialVariant.of(material));
-          if (!tool.isEmpty()) {
+          if (!tool.isEmpty() && variants.add(tool)) {
             tab.accept(tool);
             // if filter is set we wanted just the 1 item
             if (!showOnlyMaterial.isEmpty()) {

@@ -10,7 +10,7 @@
   "cooling_time": 1,
   "fluid": {
     "amount": 50,
-    "tag": "mantle:water"
+    "tag": "c:water"
   },
   "result": {
     "id": "minecraft:arrow"

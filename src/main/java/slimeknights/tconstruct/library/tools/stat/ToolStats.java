@@ -27,20 +27,20 @@ import static slimeknights.mantle.data.predicate.item.ItemPredicate.tag;
  */
 public class ToolStats {
   /** Loader for general tool stats */
-  public static final StringLoadable<IToolStat<?>> LOADER = ToolStatId.PARSER.comapFlatMap((id, error) -> {
+  public static final StringLoadable<IToolStat<?>> LOADER = ToolStatId.PARSER.mapChecked((id, error) -> {
     IToolStat<?> stat = ToolStats.getToolStat(id);
     if (stat != null) {
       return stat;
     }
     throw error.create("Unknown stat type " + id);
-  }, IToolStat::getName);
+  }, slimeknights.mantle.data.loadable.Loadable.noErrors(IToolStat::getName));
   /** Loader that filters to only numeric tool stats */
-  public static final StringLoadable<INumericToolStat<?>> NUMERIC_LOADER = LOADER.comapFlatMap((stat, error) -> {
+  public static final StringLoadable<INumericToolStat<?>> NUMERIC_LOADER = LOADER.mapChecked((stat, error) -> {
     if (stat instanceof INumericToolStat<?> numeric) {
       return numeric;
     }
     throw error.create("Invalid tool stat " + stat.getName() + ", must be a numeric stat");
-  }, stat -> stat);
+  }, slimeknights.mantle.data.loadable.Loadable.noErrors(stat -> stat));
 
 
   /** Map of ID to stat */
@@ -48,7 +48,7 @@ public class ToolStats {
   /** Stats that are valid targets for the generic conditional-stat modifier hook. */
   private static final Set<INumericToolStat<?>> CONDITIONAL = new HashSet<>();
   /** Loader restricted to stats that support the generic conditional-stat hook. */
-  public static final StringLoadable<INumericToolStat<?>> CONDITIONAL_LOADER = LOADER.comapFlatMap((stat, error) -> {
+  public static final StringLoadable<INumericToolStat<?>> CONDITIONAL_LOADER = LOADER.mapChecked((stat, error) -> {
     if (stat instanceof INumericToolStat<?> numeric) {
       if (!CONDITIONAL.contains(numeric)) {
         ToolStatId id = stat.getName();
@@ -61,7 +61,7 @@ public class ToolStats {
       return numeric;
     }
     throw error.create("Invalid tool stat " + stat.getName() + ", must be a numeric stat");
-  }, stat -> stat);
+  }, slimeknights.mantle.data.loadable.Loadable.noErrors(stat -> stat));
 
   /** Tools durability, determines how long it lasts */
   public static final FloatToolStat DURABILITY = register(new IntegerToolStat(name("durability"), 0xFF47CC47, 1, 1, Integer.MAX_VALUE, TinkerTags.Items.DURABILITY));

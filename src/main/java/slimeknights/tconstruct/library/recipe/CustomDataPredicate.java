@@ -11,7 +11,7 @@ import java.util.function.Predicate;
 /** Predicate for matching the native custom-data component, with network serialization support. */
 public record CustomDataPredicate(@Nullable CompoundTag tag) implements Predicate<CompoundTag> {
   /** Loadable instance */
-  public static final RecordLoadable<CustomDataPredicate> LOADABLE = CompoundTagLoadable.INSTANCE.flatXmap(CustomDataPredicate::new, p -> p.tag);
+  public static final RecordLoadable<CustomDataPredicate> LOADABLE = CompoundTagLoadable.INSTANCE.map(CustomDataPredicate::new, p -> p.tag);
   /** Instance that matches any custom data. */
   public static final CustomDataPredicate ANY = new CustomDataPredicate(null);
 

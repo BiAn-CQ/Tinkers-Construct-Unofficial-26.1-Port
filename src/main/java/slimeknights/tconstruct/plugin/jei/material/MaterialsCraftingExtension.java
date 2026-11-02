@@ -38,6 +38,7 @@ import java.util.stream.Stream;
 /** JEI 29 extension shared by shaped and shapeless material-aware recipes. */
 public abstract class MaterialsCraftingExtension<T extends CraftingRecipe & MaterialsCraftingTableRecipe>
   implements ICraftingCategoryExtension<T> {
+  private ICraftingGridHelper craftingGridHelper;
 
   /** Returns the recipe inputs in crafting-grid order. */
   protected abstract List<Ingredient> getInputIngredients(T recipe);
@@ -67,6 +68,7 @@ public abstract class MaterialsCraftingExtension<T extends CraftingRecipe & Mate
   @Override
   public void setRecipe(RecipeHolder<T> holder, IRecipeLayoutBuilder builder,
                         ICraftingGridHelper craftingGridHelper, IFocusGroup focuses) {
+    this.craftingGridHelper = craftingGridHelper;
     T recipe = holder.value();
     ItemStack plainResult = recipe.assemble(CraftingInput.EMPTY);
     List<ItemStack> result;
@@ -139,7 +141,7 @@ public abstract class MaterialsCraftingExtension<T extends CraftingRecipe & Mate
       builder.createFocusLink(Streams.concat(
         Stream.of(output),
         Arrays.stream(materialSlots)
-          .mapToObj(i -> inputs.get(MantleJEIConstants.getCraftingIndex(i, finalWidth, finalHeight)))
+          .mapToObj(i -> inputs.get(craftingGridHelper.getCraftingIndex(i, finalWidth, finalHeight)))
       ).toArray(IRecipeSlotBuilder[]::new));
     }
   }
@@ -168,7 +170,7 @@ public abstract class MaterialsCraftingExtension<T extends CraftingRecipe & Mate
     List<MaterialVariantId> materials = new ArrayList<>();
     for (Ingredient part : recipe.getParts()) {
       int index = getMaterialSlots(recipe, part)[0];
-      ItemStack input = slots.get(MantleJEIConstants.getCraftingIndex(index, width, height))
+      ItemStack input = slots.get(craftingGridHelper.getCraftingIndex(index, width, height))
         .getDisplayedItemStack().orElse(ItemStack.EMPTY);
       materials.add(MaterialRecipeCache.getMaterial(input));
     }

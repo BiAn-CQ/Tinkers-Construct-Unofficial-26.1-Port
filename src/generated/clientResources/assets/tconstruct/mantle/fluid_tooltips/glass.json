@@ -1,5 +1,8 @@
 {
-  "tag": "tconstruct:tooltips/glass",
+  "fluid": {
+    "type": "mantle:tag",
+    "tag": "tconstruct:tooltips/glass"
+  },
   "units": [
     {
       "key": "gui.tconstruct.fluid.block",

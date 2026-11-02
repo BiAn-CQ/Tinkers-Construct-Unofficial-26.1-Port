@@ -2,83 +2,83 @@
   "variants": {
     "": [
       {
-        "center": [
-          5.0,
-          17.0,
-          5.0
-        ],
+        "center": {
+          "x": 5.0,
+          "y": 17.0,
+          "z": 5.0
+        },
         "size": 2.0,
         "transform": "tconstruct:table"
       },
       {
-        "center": [
-          8.0,
-          17.0,
-          5.0
-        ],
+        "center": {
+          "x": 8.0,
+          "y": 17.0,
+          "z": 5.0
+        },
         "size": 2.0,
         "transform": "tconstruct:table"
       },
       {
-        "center": [
-          11.0,
-          17.0,
-          5.0
-        ],
+        "center": {
+          "x": 11.0,
+          "y": 17.0,
+          "z": 5.0
+        },
         "size": 2.0,
         "transform": "tconstruct:table"
       },
       {
-        "center": [
-          5.0,
-          17.0,
-          8.0
-        ],
+        "center": {
+          "x": 5.0,
+          "y": 17.0,
+          "z": 8.0
+        },
         "size": 2.0,
         "transform": "tconstruct:table"
       },
       {
-        "center": [
-          8.0,
-          17.0,
-          8.0
-        ],
+        "center": {
+          "x": 8.0,
+          "y": 17.0,
+          "z": 8.0
+        },
         "size": 2.0,
         "transform": "tconstruct:table"
       },
       {
-        "center": [
-          11.0,
-          17.0,
-          8.0
-        ],
+        "center": {
+          "x": 11.0,
+          "y": 17.0,
+          "z": 8.0
+        },
         "size": 2.0,
         "transform": "tconstruct:table"
       },
       {
-        "center": [
-          5.0,
-          17.0,
-          11.0
-        ],
+        "center": {
+          "x": 5.0,
+          "y": 17.0,
+          "z": 11.0
+        },
         "size": 2.0,
         "transform": "tconstruct:table"
       },
       {
-        "center": [
-          8.0,
-          17.0,
-          11.0
-        ],
+        "center": {
+          "x": 8.0,
+          "y": 17.0,
+          "z": 11.0
+        },
         "size": 2.0,
         "transform": "tconstruct:table"
       },
       {
-        "center": [
-          11.0,
-          17.0,
-          11.0
-        ],
+        "center": {
+          "x": 11.0,
+          "y": 17.0,
+          "z": 11.0
+        },
         "size": 2.0,
         "transform": "tconstruct:table"
       }

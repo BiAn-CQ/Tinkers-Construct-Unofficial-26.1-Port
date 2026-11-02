@@ -26,7 +26,7 @@ import slimeknights.tconstruct.library.client.GuiUtil;
 import slimeknights.tconstruct.library.recipe.fuel.MeltingFuel;
 import slimeknights.tconstruct.library.recipe.fuel.MeltingFuelLookup;
 import slimeknights.tconstruct.library.recipe.melting.IDisplayableMeltingRecipe;
-import slimeknights.tconstruct.plugin.jei.util.FluidTooltipCallback;
+import slimeknights.mantle.plugin.jei.fluid.FluidTooltipCallback;
 
 import java.awt.Color;
 import java.util.Collections;

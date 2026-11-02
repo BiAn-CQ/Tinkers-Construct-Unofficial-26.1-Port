@@ -3530,5 +3530,12 @@
   "material.tconstruct.venom.flavor.slime": "Контрзакляття!",
   "material.tconstruct.venom.encyclopedia.slime": "Надає 10% захисту від магічної шкоди за кожен рівень та зменшує час дії негативних зіллів.",
   "key.category.tconstruct.tconstruct": "Tinkers' Construct",
-  "jade.modName.tconstruct": "Tinkers' Construct"
+  "jade.modName.tconstruct": "Tinkers' Construct",
+
+  "fluid.mantle.powder_snow.fluid_effect": "Сипкий сніг — корисна речовина для бою у Незері, яка завдає більшої шкоди пломеневим мобам.",
+  "fluid.mantle.honey.fluid_effect": "Дуже солодкий й на додачу виводить токсини.",
+  "fluid.mantle.beetroot_soup.fluid_effect": "Борщ – це легкий у фармі варіант рідкої їжі.",
+  "fluid.mantle.mushroom_stew.fluid_effect": "Тушковані гриби – це дуже доступний варіант супу, який можна сьорбати на ходу.",
+  "fluid.mantle.rabbit_stew.fluid_effect": "Тушкований кролик – найкраща зріджена їжа, ідеальна для сьорбання.",
+  "fluid.mantle.potion.fluid_effect": "Зілля дають змогу створювати широкий спектр ефектів у варильній стійці. Їх переливати в резервуари для заповнення інструментів."
 }

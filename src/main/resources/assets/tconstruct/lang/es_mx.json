@@ -3237,5 +3237,12 @@
   "material.tconstruct.enderslimeskin": "Piel de slime",
   "material.tconstruct.enderslimeskin.encyclopedia.armor": "Tiene un 25% de probabilidad por pieza de teletransportar aleatoriamente a los atacantes lejos",
   "key.category.tconstruct.tconstruct": "Tinkers' Construct",
-  "jade.modName.tconstruct": "Tinkers' Construct"
+  "jade.modName.tconstruct": "Tinkers' Construct",
+
+  "fluid.mantle.powder_snow.fluid_effect": "La nieve en polvo es un fluido útil para el combate en el nether, infligiendo daño extra a las criaturas de fuego.",
+  "fluid.mantle.honey.fluid_effect": "Tan dulce y elimina toxinas, ¿qué puede no gustarte de sorber miel?",
+  "fluid.mantle.beetroot_soup.fluid_effect": "La sopa de remolacha es una opción de comida bebible fácil de cultivar.",
+  "fluid.mantle.mushroom_stew.fluid_effect": "El estofado de champiñones es una opción de sopa muy económica para sorber al momento.",
+  "fluid.mantle.rabbit_stew.fluid_effect": "El estofado de conejo es el mejor alimento líquido disponible, ideal para sorber.",
+  "fluid.mantle.potion.fluid_effect": "Las pociones permiten una amplia variedad de efectos fabricados en un soporte para pociones. Puedes verter pociones en tanques para rellenar herramientas."
 }

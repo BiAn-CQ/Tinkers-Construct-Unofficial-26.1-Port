@@ -19,8 +19,6 @@ public class FluidTextureProvider extends AbstractFluidTextureProvider {
   @Override
   public void addTextures() {
     // basic
-    root(TinkerFluids.powderedSnow);
-    root(TinkerFluids.potion).color(0xfff800f8);
     // slime
     waterFog(slime(TinkerFluids.earthSlime, "earth"));
     waterFog(slime(TinkerFluids.skySlime, "sky"));
@@ -30,10 +28,6 @@ public class FluidTextureProvider extends AbstractFluidTextureProvider {
     waterFog(slime(TinkerFluids.venom));
     moltenFog(slime(TinkerFluids.liquidSoul, "soul"));
     // food
-    waterFog(folder(TinkerFluids.honey, "food"));
-    tintedStew(TinkerFluids.beetrootSoup).color(0xFF84160D);
-    tintedStew(TinkerFluids.mushroomStew).color(0xFFCD8C6F);
-    tintedStew(TinkerFluids.rabbitStew).color(0xFF984A2C);
     tintedStew(TinkerFluids.meatSoup).color(0xFFE03E35);
 
     // molten

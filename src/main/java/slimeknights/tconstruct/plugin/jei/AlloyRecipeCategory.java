@@ -28,7 +28,7 @@ import slimeknights.tconstruct.library.recipe.alloying.AlloyRecipe;
 import slimeknights.tconstruct.library.recipe.fuel.MeltingFuel;
 import slimeknights.tconstruct.library.recipe.fuel.MeltingFuelLookup;
 import slimeknights.tconstruct.plugin.jei.melting.MeltingFuelHandler;
-import slimeknights.tconstruct.plugin.jei.util.FluidTooltipCallback;
+import slimeknights.mantle.plugin.jei.fluid.FluidTooltipCallback;
 import slimeknights.tconstruct.smeltery.TinkerSmeltery;
 
 import java.awt.Color;

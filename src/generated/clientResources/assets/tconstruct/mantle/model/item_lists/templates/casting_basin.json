@@ -1,19 +1,19 @@
 [
   {
-    "center": [
-      8.0,
-      10.0,
-      8.0
-    ],
+    "center": {
+      "x": 8.0,
+      "y": 10.0,
+      "z": 8.0
+    },
     "size": 11.95,
     "transform": "tconstruct:casting_basin"
   },
   {
-    "center": [
-      8.0,
-      10.0,
-      8.0
-    ],
+    "center": {
+      "x": 8.0,
+      "y": 10.0,
+      "z": 8.0
+    },
     "size": 12.0,
     "transform": "tconstruct:casting_basin"
   }

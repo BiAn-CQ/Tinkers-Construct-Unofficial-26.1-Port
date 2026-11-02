@@ -68,7 +68,7 @@ import slimeknights.tconstruct.fluids.item.BottleItem;
 import slimeknights.tconstruct.fluids.item.ContainerFoodItem;
 import slimeknights.tconstruct.fluids.item.ContainerFoodItem.FluidContainerFoodItem;
 import slimeknights.tconstruct.fluids.item.MagmaBottleItem;
-import slimeknights.tconstruct.fluids.item.PotionBucketItem;
+import slimeknights.mantle.fluid.PotionBucketItem;
 import slimeknights.tconstruct.fluids.util.BottleBrewingRecipe;
 import slimeknights.tconstruct.fluids.util.EmptyBottleIntoEmpty;
 import slimeknights.tconstruct.fluids.util.EmptyBottleIntoWater;
@@ -99,7 +99,12 @@ import static slimeknights.tconstruct.fluids.block.MobEffectLiquidBlock.createEf
  */
 @SuppressWarnings("unused")
 public final class TinkerFluids extends TinkerModule {
-  public TinkerFluids() {
+  public TinkerFluids(net.neoforged.bus.api.IEventBus bus) {
+    slimeknights.mantle.fluid.MantleFluids.registerPotion(bus);
+    slimeknights.mantle.fluid.MantleFluids.registerPowderSnow(bus);
+    slimeknights.mantle.fluid.MantleFluids.registerHoney(bus);
+    slimeknights.mantle.fluid.MantleFluids.registerStew(bus);
+    bus.addListener(TinkerFluids::registerFluidAliases);
     NeoForgeMod.enableMilkFluid();
     NeoForge.EVENT_BUS.addListener(this::registerBrewingRecipes);
     NeoForge.EVENT_BUS.addListener(this::registerCauldronInteractions);
@@ -108,17 +113,39 @@ public final class TinkerFluids extends TinkerModule {
   @SubscribeEvent
   void registerCapabilities(RegisterCapabilitiesEvent event) {
     for (Item item : BuiltInRegistries.ITEM) {
-      if (item instanceof PotionBucketItem bucket) {
-        event.registerItem(Capabilities.Fluid.ITEM, (stack, context) -> bucket.getFluidHandler(context), item);
-      } else if (item instanceof MagmaBottleItem bottle) {
+      if (item instanceof MagmaBottleItem bottle) {
         event.registerItem(Capabilities.Fluid.ITEM, (stack, context) -> bottle.getFluidHandler(context), item);
       } else if (item instanceof FluidContainerFoodItem food) {
         event.registerItem(Capabilities.Fluid.ITEM, (stack, context) -> food.getFluidHandler(context), item);
       }
     }
-    event.registerItem(Capabilities.Fluid.ITEM,
-      (stack, context) -> new ConstantFluidContainerWrapper(new FluidStack(powderedSnow.get(), FluidType.BUCKET_VOLUME), context, ItemResource.of(Items.BUCKET)),
-      Items.POWDER_SNOW_BUCKET);
+  }
+
+  /** Native aliases preserve serialized IDs from before shared fluids moved to Mantle. */
+  private static void registerFluidAliases(net.neoforged.neoforge.registries.RegisterEvent event) {
+    var registry = event.getRegistry();
+    var key = event.getRegistryKey();
+    if (key.equals(net.minecraft.core.registries.Registries.FLUID) || key.equals(net.neoforged.neoforge.registries.NeoForgeRegistries.Keys.FLUID_TYPES)) {
+      registry.addAlias(TConstruct.getResource("potion"), potion.id());
+      registry.addAlias(TConstruct.getResource("powdered_snow"), powderedSnow.id());
+    }
+    for (var entry : java.util.Map.of("honey", honey, "beetroot_soup", beetrootSoup, "mushroom_stew", mushroomStew, "rabbit_stew", rabbitStew).entrySet()) {
+      String name = entry.getKey();
+      var id = entry.getValue().id();
+      if (key.equals(net.minecraft.core.registries.Registries.FLUID)) {
+        registry.addAlias(TConstruct.getResource(name), id);
+        registry.addAlias(TConstruct.getResource("flowing_" + name), id.withPrefix("flowing_"));
+      } else if (key.equals(net.neoforged.neoforge.registries.NeoForgeRegistries.Keys.FLUID_TYPES)) {
+        registry.addAlias(TConstruct.getResource(name), id);
+      } else if (key.equals(net.minecraft.core.registries.Registries.ITEM)) {
+        registry.addAlias(TConstruct.getResource(name + "_bucket"), id.withSuffix("_bucket"));
+      } else if (key.equals(net.minecraft.core.registries.Registries.BLOCK)) {
+        registry.addAlias(TConstruct.getResource(name + "_fluid"), id.withSuffix("_fluid"));
+      }
+    }
+    if (key.equals(net.minecraft.core.registries.Registries.ITEM)) {
+      registry.addAlias(TConstruct.getResource("potion_bucket"), potion.id().withSuffix("_bucket"));
+    }
   }
 
   /** Creative tab for general items, or those that lack another tab */
@@ -133,7 +160,7 @@ public final class TinkerFluids extends TinkerModule {
   // basic
   public static final FlowingFluidObject<BaseFlowingFluid> venom = FLUIDS.register("venom").type(slime("venom").temperature(310)).bucket().block(createEffect(MapColor.QUARTZ, 0, () -> new MobEffectInstance(MobEffects.POISON, 5*20))).flowing();
   public static final ItemObject<Item> venomBottle = ITEMS.register("venom_bottle", () -> new FluidContainerFoodItem(itemProperties().food(TinkerFood.VENOM_BOTTLE.food(), TinkerFood.VENOM_BOTTLE.consumable()).stacksTo(16).craftRemainder(Items.GLASS_BOTTLE), () -> new FluidStack(venom.get(), FluidValues.BOTTLE)));
-  public static final FluidObject<UnplaceableFluid> powderedSnow = FLUIDS.register("powdered_snow").bucket(() -> Items.POWDER_SNOW_BUCKET).type(powder("powdered_snow").temperature(270)).commonTag().unplacable();
+  public static final FluidObject<UnplaceableFluid> powderedSnow = slimeknights.mantle.fluid.MantleFluids.powderSnow;
 
   // slime -  note second name parameter is forge tag name
   public static final FlowingFluidObject<SlimeFluid> earthSlime = FLUIDS.registerSlime("earth_slime").type(() -> new SlimeFluidType(slime("earth_slime").temperature(350))).bucket().block(createEffect(MapColor.GRASS, 0, () -> new MobEffectInstance(TinkerEffects.bouncy, 5*20))).commonTag("slime").flowing(SlimeFluid.Source::new, SlimeFluid.Flowing::new);
@@ -148,15 +175,15 @@ public final class TinkerFluids extends TinkerModule {
   public static final ItemObject<Item> magmaBottle = ITEMS.register("magma_bottle", () -> new MagmaBottleItem(itemProperties().stacksTo(16).craftRemainder(Items.GLASS_BOTTLE), 15));
 
   // foods
-  public static FlowingFluidObject<BaseFlowingFluid> honey        = FLUIDS.registerSlime("honey").type(() -> new SlimeFluidType(slime("honey").temperature(301))).bucket().block(createEffect(MapColor.COLOR_ORANGE, 0, () -> new MobEffectInstance(MobEffects.SLOWNESS, 5*20))).commonTag().flowing();
-  public static FlowingFluidObject<BaseFlowingFluid> beetrootSoup = FLUIDS.register("beetroot_soup").type(cool("beetroot_soup").temperature(400)).bucket().block(MapColor.COLOR_RED, 0).commonTag().flowing();
-  public static FlowingFluidObject<BaseFlowingFluid> mushroomStew = FLUIDS.register("mushroom_stew").type(cool("mushroom_stew").temperature(400)).bucket().block(MapColor.DIRT, 0).commonTag().flowing();
-  public static FlowingFluidObject<BaseFlowingFluid> rabbitStew   = FLUIDS.register("rabbit_stew").type(cool("rabbit_stew").temperature(400)).bucket().block(MapColor.PODZOL, 0).commonTag().flowing();
+  public static FlowingFluidObject<BaseFlowingFluid> honey        = slimeknights.mantle.fluid.MantleFluids.honey;
+  public static FlowingFluidObject<BaseFlowingFluid> beetrootSoup = slimeknights.mantle.fluid.MantleFluids.beetrootSoup;
+  public static FlowingFluidObject<BaseFlowingFluid> mushroomStew = slimeknights.mantle.fluid.MantleFluids.mushroomStew;
+  public static FlowingFluidObject<BaseFlowingFluid> rabbitStew   = slimeknights.mantle.fluid.MantleFluids.rabbitStew;
   public static FlowingFluidObject<BaseFlowingFluid> meatSoup     = FLUIDS.register("meat_soup").type(cool("meat_soup").temperature(400)).bucket().block(MapColor.CRIMSON_NYLIUM, 0).flowing();
   public static final ItemObject<Item> meatSoupBowl = ITEMS.register("meat_soup", () -> new ContainerFoodItem(itemProperties().food(TinkerFood.MEAT_SOUP.food(), TinkerFood.MEAT_SOUP.consumable()).stacksTo(1).craftRemainder(Items.BOWL)));
 
   // potion
-  public static final FluidObject<UnplaceableFluid> potion = FLUIDS.register("potion").type(() -> new PotionFluidType(cool().descriptionId("item.minecraft.potion.effect.empty").density(1100).viscosity(1100).temperature(315).sound(SoundActions.BUCKET_FILL, SoundEvents.BOTTLE_FILL).sound(SoundActions.BUCKET_EMPTY, SoundEvents.BOTTLE_EMPTY))).bucket(fluid -> new PotionBucketItem(fluid, ItemDeferredRegister.bindItemProperties(RegistrationHelper.BUCKET_PROPS))).commonTag().unplacable();
+  public static final FluidObject<UnplaceableFluid> potion = slimeknights.mantle.fluid.MantleFluids.potion;
   public static final ItemObject<Item> splashBottle = ITEMS.register("splash_bottle", () -> new BottleItem(Items.SPLASH_POTION, itemProperties(ITEM_PROPS)));
   public static final ItemObject<Item> lingeringBottle = ITEMS.register("lingering_bottle", () -> new BottleItem(Items.LINGERING_POTION, itemProperties(ITEM_PROPS)));
 
@@ -302,22 +329,7 @@ public final class TinkerFluids extends TinkerModule {
     });
 
     // dispense buckets
-    DispenseItemBehavior dispenseBucket = new DefaultDispenseItemBehavior() {
-      private final DefaultDispenseItemBehavior defaultDispenseItemBehavior = new DefaultDispenseItemBehavior();
-
-      @Override
-      public ItemStack execute(BlockSource source, ItemStack stack) {
-        DispensibleContainerItem container = (DispensibleContainerItem)stack.getItem();
-        BlockPos blockpos = source.pos().relative(source.state().getValue(DispenserBlock.FACING));
-        Level level = source.level();
-        if (container.emptyContents(null, level, blockpos, null, stack)) {
-          container.checkExtraContent(null, level, stack, blockpos);
-          return new ItemStack(Items.BUCKET);
-        } else {
-          return this.defaultDispenseItemBehavior.dispense(source, stack);
-        }
-      }
-    };
+    DispenseItemBehavior dispenseBucket = slimeknights.mantle.fluid.MantleFluids.DISPENCE_BUCKET;
     event.enqueueWork(() -> {
       // slime
       DispenserBlock.registerBehavior(venom, dispenseBucket);
@@ -326,10 +338,6 @@ public final class TinkerFluids extends TinkerModule {
       DispenserBlock.registerBehavior(enderSlime, dispenseBucket);
       DispenserBlock.registerBehavior(magma, dispenseBucket);
       // foods
-      DispenserBlock.registerBehavior(honey, dispenseBucket);
-      DispenserBlock.registerBehavior(beetrootSoup, dispenseBucket);
-      DispenserBlock.registerBehavior(mushroomStew, dispenseBucket);
-      DispenserBlock.registerBehavior(rabbitStew, dispenseBucket);
       DispenserBlock.registerBehavior(meatSoup, dispenseBucket);
       // base molten fluids
       DispenserBlock.registerBehavior(searedStone, dispenseBucket);

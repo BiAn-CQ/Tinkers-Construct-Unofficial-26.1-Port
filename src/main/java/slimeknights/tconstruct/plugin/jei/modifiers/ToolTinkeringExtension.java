@@ -28,12 +28,12 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
 
-import static slimeknights.mantle.plugin.jei.MantleJEIConstants.getCraftingIndex;
 import static slimeknights.tconstruct.plugin.jei.modifiers.AbstractTinkerStationCategory.RESULT_TOOL_SLOT;
 import static slimeknights.tconstruct.plugin.jei.modifiers.AbstractTinkerStationCategory.TOOL_SLOT;
 
 /** Crafting extension to display tinkers anvil recipes in the crafting table. Used for some recipes that work in both the tinker station and crafting table. */
 public class ToolTinkeringExtension implements ICraftingCategoryExtension<AbstractCraftingTinkeringRecipe> {
+  private ICraftingGridHelper craftingGridHelper;
   public static final ToolTinkeringExtension INSTANCE = new ToolTinkeringExtension();
   @Nullable
   private static IDrawable information, errorArrow;
@@ -65,6 +65,7 @@ public class ToolTinkeringExtension implements ICraftingCategoryExtension<Abstra
 
   @Override
   public void setRecipe(net.minecraft.world.item.crafting.RecipeHolder<AbstractCraftingTinkeringRecipe> holder, IRecipeLayoutBuilder builder, ICraftingGridHelper craftingGridHelper, IFocusGroup focuses) {
+    this.craftingGridHelper = craftingGridHelper;
     AbstractCraftingTinkeringRecipe recipe = holder.value();
     RecipeLayout layout = RecipeLayout.fromRecipe(recipe, focuses, recipe.getInputCount());
     // put tool at index 0, other inputs at 1+
@@ -80,7 +81,7 @@ public class ToolTinkeringExtension implements ICraftingCategoryExtension<Abstra
     // make slots
     List<IRecipeSlotBuilder> inputSlots = craftingGridHelper.createAndSetInputs(builder, mezz.jei.api.constants.VanillaTypes.ITEM_STACK, inputs, size, size);
     // mark the tool slot so we can find it easier
-    IRecipeSlotBuilder toolSlot = inputSlots.get(getCraftingIndex(0, size, size));
+    IRecipeSlotBuilder toolSlot = inputSlots.get(craftingGridHelper.getCraftingIndex(0, size, size));
     toolSlot.setSlotName(TOOL_SLOT);
     // output may be a catalyst
     List<ItemStack> toolWithModifier = layout.toolWithModifier();
@@ -100,7 +101,7 @@ public class ToolTinkeringExtension implements ICraftingCategoryExtension<Abstra
         IRecipeSlotBuilder[] linked = Stream.concat(
           // include both tool slots if they are the same size
           toolWithoutModifier.size() == toolSize ? Stream.of(outputSlot, toolSlot) : Stream.of(outputSlot),
-          Arrays.stream(linkToOutput).filter(i -> i < inputCount && inputs.get(i+1).size() == toolSize).mapToObj(i -> inputSlots.get(getCraftingIndex(i+1, size, size)))
+          Arrays.stream(linkToOutput).filter(i -> i < inputCount && inputs.get(i+1).size() == toolSize).mapToObj(i -> inputSlots.get(craftingGridHelper.getCraftingIndex(i+1, size, size)))
         ).toArray(IRecipeSlotBuilder[]::new);
         if (linked.length > 0) {
           builder.createFocusLink(linked);
@@ -121,10 +122,10 @@ public class ToolTinkeringExtension implements ICraftingCategoryExtension<Abstra
       int inputCount = recipe.getInputCount();
       int size = CategoryUtil.getShapelessSize(inputCount + 1);
       for (int i = 0; i < inputCount; i++) {
-        inputs.add(recipeSlots.get(getCraftingIndex(i+1, size, size)));
+        inputs.add(recipeSlots.get(craftingGridHelper.getCraftingIndex(i+1, size, size)));
       }
       recipe.onDisplayUpdate(
-        RecipeSlotWrapper.createItem(recipeSlots.get(getCraftingIndex(0, size, size))),
+        RecipeSlotWrapper.createItem(recipeSlots.get(craftingGridHelper.getCraftingIndex(0, size, size))),
         RecipeSlotsWrapper.createItem(inputs),
         RecipeSlotWrapper.createItem(recipeSlots, RESULT_TOOL_SLOT)
       );

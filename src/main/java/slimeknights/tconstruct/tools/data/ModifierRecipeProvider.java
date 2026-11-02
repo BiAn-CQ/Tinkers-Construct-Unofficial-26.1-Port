@@ -1716,7 +1716,7 @@ public class ModifierRecipeProvider extends BaseRecipeProvider {
     PotionCastingRecipeBuilder.tableClearing(ModifierIds.tipped)
       .setBottle(TinkerTags.Items.AMMO)
       .setCoolingTime(20)
-      .setFluid(MantleTags.Fluids.WATER, FluidValues.BOTTLE / 5)
+      .setFluid(net.neoforged.neoforge.common.Tags.Fluids.WATER, FluidValues.BOTTLE / 5)
       .save(consumer, location(slotlessFolder + "ammo_tip_clearing"));
     PotionCastingRecipeBuilder.tableTipping(ModifierIds.tipped)
       .setBottle(TinkerTags.Items.FISHING_RODS)
@@ -1726,7 +1726,7 @@ public class ModifierRecipeProvider extends BaseRecipeProvider {
     PotionCastingRecipeBuilder.tableClearing(ModifierIds.tipped)
       .setBottle(TinkerTags.Items.FISHING_RODS)
       .setCoolingTime(20)
-      .setFluid(MantleTags.Fluids.WATER, FluidValues.BOTTLE)
+      .setFluid(net.neoforged.neoforge.common.Tags.Fluids.WATER, FluidValues.BOTTLE)
       .save(consumer, location(slotlessFolder + "fishing_rod_tip_clearing"));
 
     // removal

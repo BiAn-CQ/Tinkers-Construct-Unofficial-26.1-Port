@@ -2688,5 +2688,12 @@
   "advancements.tconstruct.world.ancient_tools.description": "Découvrez tous les types originaux d'outils anciens",
   "fluid_effect.tconstruct.extinguish": "Éteint le feu",
   "key.category.tconstruct.tconstruct": "Tinkers' Construct",
-  "jade.modName.tconstruct": "Tinkers' Construct"
+  "jade.modName.tconstruct": "Tinkers' Construct",
+
+  "fluid.mantle.powder_snow.fluid_effect": "La neige poudreuse est efficace pour le combat dans le Nether, infligeant des dégâts supplémentaires aux créatures flamboyantes.",
+  "fluid.mantle.honey.fluid_effect": "Si doux, et retire les toxines. Qui n'aime pas aspirer du miel ?",
+  "fluid.mantle.beetroot_soup.fluid_effect": "La soupe de betterave est une nourriture facile à cultiver et à siroter.",
+  "fluid.mantle.mushroom_stew.fluid_effect": "La soupe de champignon est une option de soupe très abordable à emporter.",
+  "fluid.mantle.rabbit_stew.fluid_effect": "Le ragoût de lapin est la meilleure nourriture liquide, parfait pour siroter.",
+  "fluid.mantle.potion.fluid_effect": "Les potions offrent une grande variété d'effets fabriqués à l'alambic. On peut verser des potions dans des réservoirs pour remplir des outils."
 }

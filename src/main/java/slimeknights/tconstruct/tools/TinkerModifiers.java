@@ -1111,7 +1111,6 @@ public final class TinkerModifiers extends TinkerModule {
     // dragon scale is handled by world
     output.accept(emeraldReinforcement);
     output.accept(slimesteelReinforcement);
-    output.accept(TinkerTables.pattern, TabVisibility.PARENT_TAB_ONLY); // extra listing of pattern, also in table as you need it for part builder usage
     output.accept(ironReinforcement);
     output.accept(searedReinforcement);
     output.accept(goldReinforcement);

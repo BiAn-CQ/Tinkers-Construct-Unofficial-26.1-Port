@@ -4224,5 +4224,12 @@
   "modifier.tconstruct.dreambound": "梦缚",
   "modifier.tconstruct.dreambound.description": "允许在空中再次跳跃，但会增加重力。",
   "modifier.tconstruct.dreambound.flavor": "像幻翼一样跳跃",
-  "material.tconstruct.phantom.encyclopedia": "亮度每比10低一级，增加0.5%的保护，完全黑暗时最高5%。"
+  "material.tconstruct.phantom.encyclopedia": "亮度每比10低一级，增加0.5%的保护，完全黑暗时最高5%。",
+
+  "fluid.mantle.powder_snow.fluid_effect": "细雪在下界战斗时效果不错，可以对烈焰生物造成额外伤害。",
+  "fluid.mantle.honey.fluid_effect": "香甜适口，清热解毒，还有什么理由不会爱上蜂蜜这口感呢？",
+  "fluid.mantle.beetroot_soup.fluid_effect": "甜菜汤，原料简单，美味又香甜。",
+  "fluid.mantle.mushroom_stew.fluid_effect": "蘑菇煲，经济实惠，旅行必备。",
+  "fluid.mantle.rabbit_stew.fluid_effect": "兔肉煲，上等汤品，宜大口啜饮。",
+  "fluid.mantle.potion.fluid_effect": "药水可通过酿造台制得，具有不同效果，可以从储罐里装填工具。"
 }

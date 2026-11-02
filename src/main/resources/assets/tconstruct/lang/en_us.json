@@ -4217,5 +4217,12 @@
   "modifier.tconstruct.nightmare_protection.resistance": "Darkness Resistance",
   "modifier.tconstruct.dreambound": "Dreambound",
   "modifier.tconstruct.dreambound.flavor": "Jump like Phantom",
-  "modifier.tconstruct.dreambound.description": "Lets you jump again in mid air, but increases gravity."
+  "modifier.tconstruct.dreambound.description": "Lets you jump again in mid air, but increases gravity.",
+
+  "fluid.mantle.powder_snow.fluid_effect": "Powder snow is a useful fluid for nether combat, dealing bonus damage to blazing mobs.",
+  "fluid.mantle.honey.fluid_effect": "So sweet, and removes toxins, what not to love with slurping honey?",
+  "fluid.mantle.beetroot_soup.fluid_effect": "Beetroot soup is an easily farmable slurpable food option.",
+  "fluid.mantle.mushroom_stew.fluid_effect": "Mushroom stew is a very affordable soup option for slurping on the go.",
+  "fluid.mantle.rabbit_stew.fluid_effect": "Rabbit stew is the best liquid food available, ideal for slurping.",
+  "fluid.mantle.potion.fluid_effect": "Potions allow a wide variety of effects crafted in a brewing stand. Can dump potions into tanks to fill tools."
 }

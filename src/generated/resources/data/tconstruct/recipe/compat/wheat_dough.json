@@ -11,7 +11,7 @@
   "cooling_time": 50,
   "fluid": {
     "amount": 250,
-    "tag": "mantle:water"
+    "tag": "c:water"
   },
   "result": {
     "id": "farmersdelight:wheat_dough"

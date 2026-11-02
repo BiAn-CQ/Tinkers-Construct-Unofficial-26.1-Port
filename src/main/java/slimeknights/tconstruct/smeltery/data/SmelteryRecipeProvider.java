@@ -1091,7 +1091,7 @@ public class SmelteryRecipeProvider extends BaseRecipeProvider implements ISmelt
                               .save(consumer, location(folder + "filling/tipped_arrow"));
     ItemCastingRecipeBuilder.tableRecipe(Items.ARROW)
       .setCast(PotionDisplayIngredient.of(Items.TIPPED_ARROW), true)
-      .setFluid(MantleTags.Fluids.WATER, FluidValues.BOTTLE / 5)
+      .setFluid(net.neoforged.neoforge.common.Tags.Fluids.WATER, FluidValues.BOTTLE / 5)
       .setCoolingTime(1)
       .save(consumer, location(folder + "filling/tipped_arrow_clean"));
     // tank filling - seared
@@ -1201,17 +1201,17 @@ public class SmelteryRecipeProvider extends BaseRecipeProvider implements ISmelt
                             .setCast(BlockTagIngredient.of(BlockTags.CONVERTABLE_TO_MUD), true)
                             .save(consumer, location(waterFolder + "mud"));
     ItemCastingRecipeBuilder.tableRecipe(ItemOutput.fromTemplate(waterPotion(Items.POTION)))
-                            .setFluid(MantleTags.Fluids.WATER, FluidValues.BOTTLE * 2)
+                            .setFluid(net.neoforged.neoforge.common.Tags.Fluids.WATER, FluidValues.BOTTLE * 2)
                             .setCoolingTime(1)
                             .setCast(Items.GLASS_BOTTLE, true)
                             .save(consumer, location(waterFolder + "bottle"));
     ItemCastingRecipeBuilder.tableRecipe(ItemOutput.fromTemplate(waterPotion(Items.SPLASH_POTION)))
-                            .setFluid(MantleTags.Fluids.WATER, FluidValues.BOTTLE * 2)
+                            .setFluid(net.neoforged.neoforge.common.Tags.Fluids.WATER, FluidValues.BOTTLE * 2)
                             .setCoolingTime(1)
                             .setCast(MantleTags.Items.SPLASH_BOTTLE, true)
                             .save(consumer, location(waterFolder + "splash"));
     ItemCastingRecipeBuilder.tableRecipe(ItemOutput.fromTemplate(waterPotion(Items.LINGERING_POTION)))
-                            .setFluid(MantleTags.Fluids.WATER, FluidValues.BOTTLE * 2)
+                            .setFluid(net.neoforged.neoforge.common.Tags.Fluids.WATER, FluidValues.BOTTLE * 2)
                             .setCoolingTime(1)
                             .setCast(MantleTags.Items.LINGERING_BOTTLE, true)
                             .save(consumer, location(waterFolder + "lingering"));
@@ -2458,7 +2458,7 @@ public class SmelteryRecipeProvider extends BaseRecipeProvider implements ISmelt
     Identifier dough = Identifier.fromNamespaceAndPath("farmersdelight", "wheat_dough");
     ItemCastingRecipeBuilder.tableRecipe(ItemNameOutput.fromName(dough))
       .setCast(Items.WHEAT, true)
-      .setFluid(MantleTags.Fluids.WATER, 250)
+      .setFluid(net.neoforged.neoforge.common.Tags.Fluids.WATER, 250)
       .setCoolingTime(50)
       .save(withCondition(consumer, NeoForgeConditions.itemRegistered(dough)), location(folder + "wheat_dough"));
 

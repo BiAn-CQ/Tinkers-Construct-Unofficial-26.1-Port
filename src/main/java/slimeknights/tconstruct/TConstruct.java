@@ -95,7 +95,7 @@ public class TConstruct {
     bus.register(new TinkerTools());
     // smeltery
     bus.register(new TinkerSmeltery());
-    bus.register(new TinkerFluids());
+    bus.register(new TinkerFluids(bus));
 
     // init deferred registers
     TinkerAttachments.register(bus);

@@ -3,7 +3,7 @@
   "cooling_time": 20,
   "fluid": {
     "amount": 250,
-    "tag": "mantle:water"
+    "tag": "c:water"
   },
   "modifier": "tconstruct:tipped",
   "tools": {

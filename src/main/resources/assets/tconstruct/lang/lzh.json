@@ -3220,5 +3220,12 @@
   "material.tconstruct.skyslimeskin": "黏膠皮",
   "material.tconstruct.skyslimeskin.flavor": "翩若弋蝶，刺若蟄蜂。",
   "material.tconstruct.enderslimeskin": "黏渡",
-  "material.tconstruct.enderslimeskin.encyclopedia.armor": "一著則增四之一率，任傳送擊者。"
+  "material.tconstruct.enderslimeskin.encyclopedia.armor": "一著則增四之一率，任傳送擊者。",
+
+  "fluid.mantle.powder_snow.fluid_effect": "齏雪者，焱界戰而佳，炎之生靈而外傷之也。",
+  "fluid.mantle.honey.fluid_effect": "生津也，解毒也，盍飲之？",
+  "fluid.mantle.beetroot_soup.fluid_effect": "甘藜羹者，料易簡而味順也。",
+  "fluid.mantle.mushroom_stew.fluid_effect": "蕈羹者，價廉而羈旅常備之。",
+  "fluid.mantle.rabbit_stew.fluid_effect": "兔肉羹者，羹之上品也，宜大口啜飲。",
+  "fluid.mantle.potion.fluid_effect": "可煉藥臺得異同態效焉，入罐則可充器具之罐也。"
 }

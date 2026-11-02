@@ -29,7 +29,7 @@ import slimeknights.tconstruct.library.recipe.FluidValues;
 import slimeknights.tconstruct.library.recipe.casting.IDisplayableCastingRecipe;
 import slimeknights.tconstruct.library.recipe.display.RecipeSlot;
 import slimeknights.tconstruct.plugin.jei.util.CategoryUtil;
-import slimeknights.tconstruct.plugin.jei.util.FluidTooltipCallback;
+import slimeknights.mantle.plugin.jei.fluid.FluidTooltipCallback;
 
 import javax.annotation.Nullable;
 import java.awt.Color;

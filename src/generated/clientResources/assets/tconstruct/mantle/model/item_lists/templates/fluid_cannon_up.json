@@ -1,9 +1,9 @@
 {
-  "center": [
-    8.0,
-    16.0,
-    8.0
-  ],
+  "center": {
+    "x": 8.0,
+    "y": 16.0,
+    "z": 8.0
+  },
   "size": 7.5,
   "transform": "tconstruct:fluid_cannon",
   "x": 270

@@ -3428,5 +3428,12 @@
   "material.tconstruct.enderslimeskin": "Эндер-слизневая кожа",
   "material.tconstruct.enderslimeskin.encyclopedia.armor": "Имеет 25% шанс за каждый предмет случайным образом телепортировать атакующих.",
   "key.category.tconstruct.tconstruct": "Литейное дело",
-  "jade.modName.tconstruct": "Tinkers' Construct"
+  "jade.modName.tconstruct": "Tinkers' Construct",
+
+  "fluid.mantle.powder_snow.fluid_effect": "Порошкообразный снег — полезная жидкость для боя в Незере, наносящая дополнительный урон горящим мобам.",
+  "fluid.mantle.honey.fluid_effect": "Такой сладкий и выводит токсины, что может быть лучше, чем чавкать мёдом?",
+  "fluid.mantle.beetroot_soup.fluid_effect": "Свекольный суп — это легко выращиваемый продукт, который можно с удовольствием пить.",
+  "fluid.mantle.mushroom_stew.fluid_effect": "Тушёные грибы — очень доступный вариант супа для перекуса на ходу.",
+  "fluid.mantle.rabbit_stew.fluid_effect": "Тушёный кролик - лучший из доступных жидких продуктов, идеально подходит для того, чтобы его можно было есть, прихлёбывая.",
+  "fluid.mantle.potion.fluid_effect": "Зелья позволяют создавать широкий спектр эффектов на зельеварке. Можно сливать зелья в резервуары для заполнения инструментов."
 }

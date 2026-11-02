@@ -33,7 +33,7 @@ import slimeknights.mantle.client.render.InventoryBlockEntityRenderer;
 import slimeknights.mantle.client.render.InventoryRenderState;
 import slimeknights.tconstruct.TConstruct;
 import slimeknights.tconstruct.client.model.NativeTinkerItemModel;
-import slimeknights.tconstruct.client.model.NativeFluidContainerItemModel;
+import slimeknights.mantle.client.model.FluidContainerModel;
 import slimeknights.tconstruct.client.model.NativeModifierModelMapManager;
 import slimeknights.tconstruct.client.model.NativeTinkerBlockStateModel;
 import slimeknights.tconstruct.library.TinkerItemDisplays;
@@ -104,20 +104,6 @@ import slimeknights.tconstruct.tools.clientcompat.ShieldBannerModifierSpriteSour
 /** Client registrations retained while the old model integrations are migrated. */
 @EventBusSubscriber(modid = TConstruct.MOD_ID, value = Dist.CLIENT)
 public final class TConstructClientCompat {
-  private static final int POTION_FALLBACK_COLOR = 0xFFF800F8;
-  private static final FluidTintSource POTION_TINT = new FluidTintSource() {
-    @Override
-    public int color(FluidState state) {
-      return POTION_FALLBACK_COLOR;
-    }
-
-    @Override
-    public int colorAsStack(FluidStack stack) {
-      PotionContents contents = stack.get(DataComponents.POTION_CONTENTS);
-      return contents == null ? POTION_FALLBACK_COLOR : 0xFF000000 | contents.getColor();
-    }
-  };
-
   private TConstructClientCompat() {}
 
   @SubscribeEvent
@@ -126,7 +112,6 @@ public final class TConstructClientCompat {
     NativeTinkerItemModel.registerSmallModelContext(TinkerItemDisplays.MELTER);
     NativeTinkerItemModel.registerSmallModelContext(TinkerItemDisplays.CASTING_BASIN);
     NativeTinkerItemModel.registerSmallModelContext(TinkerItemDisplays.CASTING_TABLE);
-    FluidTextureManager.registerTintSource(TinkerFluids.potion.get().getFluidType(), POTION_TINT);
     // Preserve the upstream world-fluid layer for both source and flowing variants.
     for (var fluid : List.of(TinkerFluids.honey, TinkerFluids.earthSlime, TinkerFluids.skySlime,
         TinkerFluids.enderSlime, TinkerFluids.moltenDiamond, TinkerFluids.moltenEmerald,
@@ -205,7 +190,7 @@ public final class TConstructClientCompat {
     event.register(TConstruct.getResource("material_block"), NativeTinkerItemModel.MaterialBlockUnbaked.MAP_CODEC);
     event.register(TConstruct.getResource("tank"), NativeTinkerItemModel.TankUnbaked.MAP_CODEC);
     event.register(TConstruct.getResource("overrides"), NativeTinkerItemModel.PropertyOverridesUnbaked.MAP_CODEC);
-    event.register(TConstruct.getResource("fluid_container"), NativeFluidContainerItemModel.Unbaked.MAP_CODEC);
+    event.register(TConstruct.getResource("fluid_container"), FluidContainerModel.Unbaked.MAP_CODEC.xmap(value -> value, value -> value));
   }
 
   @SubscribeEvent

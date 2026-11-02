@@ -177,6 +177,8 @@ import java.util.stream.StreamSupport;
 
 @JeiPlugin
 public class JEIPlugin implements IModPlugin {
+  public JEIPlugin() { slimeknights.mantle.plugin.jei.MantleJEIConstants.enableTransferTab(); }
+
   private static final Codec<ModifierEntry> MODIFIER_CODEC = RecordCodecBuilder.create(instance -> instance.group(
     Identifier.CODEC.xmap(ModifierId::new, ModifierId::location).fieldOf("id").forGetter(ModifierEntry::getId),
     Codec.INT.fieldOf("level").forGetter(ModifierEntry::getLevel)
@@ -474,6 +476,8 @@ public class JEIPlugin implements IModPlugin {
 
   @Override
   public void registerRecipeCatalysts(IRecipeCatalystRegistration registry) {
+    TinkerSmeltery.searedTank.values().forEach(tank -> registry.addCraftingStation(slimeknights.mantle.plugin.jei.MantleJEIConstants.FLUID_TRANSFER, tank));
+    TinkerSmeltery.scorchedTank.values().forEach(tank -> registry.addCraftingStation(slimeknights.mantle.plugin.jei.MantleJEIConstants.FLUID_TRANSFER, tank));
     // tables
     addTableCatalyst(registry, TinkerTables.craftingStation, ItemTags.LOGS, true, RecipeTypes.CRAFTING);
     addTableCatalyst(registry, TinkerTables.partBuilder, ItemTags.PLANKS, true, TConstructJEIConstants.PART_BUILDER);
@@ -563,8 +567,6 @@ public class JEIPlugin implements IModPlugin {
     registry.registerSubtypeInterpreter(VanillaTypes.ITEM_STACK, TinkerTables.scorchedAnvil.asItem(), anvils);
 
     // potions
-    registry.registerSubtypeInterpreter(VanillaTypes.ITEM_STACK, TinkerFluids.potion.asItem(), (PotionSubtypeInterpreter<ItemStack>)PotionFluidType::getPotionContents);
-    registry.registerSubtypeInterpreter(NeoForgeTypes.FLUID_STACK, TinkerFluids.potion.get(), (PotionSubtypeInterpreter<FluidStack>)PotionFluidType::getPotionContents);
 
     // parts
     for (Holder<Item> item : BuiltInRegistries.ITEM.getTagOrEmpty(TinkerTags.Items.TOOL_PARTS)) {
@@ -713,17 +715,6 @@ public class JEIPlugin implements IModPlugin {
       removeFluid(removeFluids, TinkerFluids.moltenPorcelain.get());
     }
     if (!removeBuckets.isEmpty()) manager.removeIngredientsAtRuntime(VanillaTypes.ITEM_STACK, removeBuckets);
-
-    // add potion fluids for each potion variant if requested
-    if (Config.CLIENT.showPotionFluidInJEI.get()) {
-      manager.addIngredientsAtRuntime(NeoForgeTypes.FLUID_STACK,
-                                      StreamSupport.stream(BuiltInRegistries.POTION.asHolderIdMap().spliterator(), false)
-                                        .filter(holder -> !holder.equals(Potions.WATER) && !holder.is(TinkerTags.Potions.HIDDEN_FLUID))
-                                        .map(holder -> PotionFluidType.potionFluid(holder, FluidType.BUCKET_VOLUME))
-                                        .toList());
-    }
-    // remove variantless potion fluid
-    removeFluid(removeFluids, TinkerFluids.potion.get());
 
     // remove all the fluids
     manager.removeIngredientsAtRuntime(NeoForgeTypes.FLUID_STACK, removeFluids);

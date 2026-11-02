@@ -3264,5 +3264,12 @@
   "material.tconstruct.enderslimeskin": "Piel de Slime Ender",
   "material.tconstruct.enderslimeskin.encyclopedia.armor": "Tiene una probabilidad del 25% de teletransportar aleatoriamente al atacante",
   "key.category.tconstruct.tconstruct": "Tinkers' Construct",
-  "jade.modName.tconstruct": "Tinkers' Construct"
+  "jade.modName.tconstruct": "Tinkers' Construct",
+
+  "fluid.mantle.powder_snow.fluid_effect": "La Nieve polvo es un líquido útil para el combate en el Nether, Ocasionando daño extra a Blazes.",
+  "fluid.mantle.honey.fluid_effect": "Tan dulce, y desintoxicante, ¿Quíen en su sano juicio odiaría la miel?",
+  "fluid.mantle.beetroot_soup.fluid_effect": "La Sopa de Betarragas es una opción fácilmente renovable para beber de vez en cuando.",
+  "fluid.mantle.mushroom_stew.fluid_effect": "La Cazuela de Callampas es una opción barata para poder beber en el camino.",
+  "fluid.mantle.rabbit_stew.fluid_effect": "La Cazuela de Conejo es la mejor comida líquida disponible, ideal para beber.",
+  "fluid.mantle.potion.fluid_effect": "Las pociones una variedad de efectos crafteables en un alambique. Puedes verter pociones en tanques para aplicarlas a algunas herramientas."
 }

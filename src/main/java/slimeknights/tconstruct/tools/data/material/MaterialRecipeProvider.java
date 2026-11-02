@@ -277,12 +277,12 @@ public class MaterialRecipeProvider extends BaseRecipeProvider implements IMater
     // oxidize copper and iron via water, it does not rust iron because magic
     MaterialFluidRecipeBuilder.material(MaterialIds.oxidizedIron)
                               .setInputId(MaterialIds.iron)
-                              .setFluid(MantleTags.Fluids.WATER, FluidValues.BOTTLE)
+                              .setFluid(net.neoforged.neoforge.common.Tags.Fluids.WATER, FluidValues.BOTTLE)
                               .setTemperature(1)
                               .save(consumer, location(folder + "composite/iron_oxidized"));
     MaterialFluidRecipeBuilder.material(MaterialIds.oxidizedCopper)
                               .setInputId(MaterialIds.copper)
-                              .setFluid(MantleTags.Fluids.WATER, FluidValues.BOTTLE)
+                              .setFluid(net.neoforged.neoforge.common.Tags.Fluids.WATER, FluidValues.BOTTLE)
                               .setTemperature(1)
                               .save(consumer, location(folder + "composite/copper_oxidized"));
     // slimeskin
