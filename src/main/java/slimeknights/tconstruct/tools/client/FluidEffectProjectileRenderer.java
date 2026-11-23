@@ -11,7 +11,6 @@ import net.minecraft.util.Mth;
 import net.neoforged.neoforge.fluids.FluidStack;
 import slimeknights.mantle.client.render.FluidCuboid;
 import slimeknights.mantle.client.render.FluidRenderer;
-import slimeknights.mantle.client.render.MantleRenderTypes;
 import slimeknights.tconstruct.tools.entity.FluidEffectProjectile;
 
 import java.util.List;
@@ -49,7 +48,7 @@ public class FluidEffectProjectileRenderer extends EntityRenderer<FluidEffectPro
       poseStack.translate(0.0D, 0.15F, 0.0D);
       poseStack.mulPose(Axis.YP.rotationDegrees(state.yRot));
       poseStack.mulPose(Axis.ZP.rotationDegrees(state.xRot));
-      submitNodeCollector.submitCustomGeometry(poseStack, MantleRenderTypes.FLUID,
+      submitNodeCollector.submitCustomGeometry(poseStack, FluidRenderer.getRenderType(state.fluid.getFluid()),
         (pose, buffer) -> FluidRenderer.renderCuboids(pose, buffer, fluids, state.fluid, state.lightCoords));
       poseStack.popPose();
     }

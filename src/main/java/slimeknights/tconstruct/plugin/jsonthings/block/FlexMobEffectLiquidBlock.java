@@ -13,7 +13,7 @@ import net.minecraft.world.level.material.FlowingFluid;
 
 import java.util.function.Supplier;
 
-/** Json Things version of {@link slimeknights.tconstruct.fluids.block.BurningLiquidBlock} */
+/** Json Things version of {@link slimeknights.mantle.block.fluid.MobEffectLiquidBlock} */
 public class FlexMobEffectLiquidBlock extends FlexLiquidBlock {
   private final Supplier<MobEffectInstance> effect;
   public FlexMobEffectLiquidBlock(Properties properties, BlockBuilder builder,

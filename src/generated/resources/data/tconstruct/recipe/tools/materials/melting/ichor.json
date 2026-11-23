@@ -1,9 +1,15 @@
 {
   "type": "tconstruct:material_melting",
+  "byproducts": [
+    {
+      "amount": 200,
+      "id": "tconstruct:ichor"
+    }
+  ],
   "input": "tconstruct:ichor",
   "result": {
-    "amount": 250,
-    "id": "tconstruct:ichor"
+    "amount": 10,
+    "id": "tconstruct:blazing_blood"
   },
-  "temperature": 700
+  "temperature": 1500
 }

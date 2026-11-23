@@ -93,7 +93,7 @@ public final class TConstructDataGen {
     event.createProvider(TConstructLootTableProvider::new);
     event.createProvider(AdvancementsProvider::new);
     event.createProvider(GlobalLootModifiersProvider::new);
-    event.createProvider(LootTableInjectionProvider::new);
+    event.createProvider(output -> new LootTableInjectionProvider(output, event.getLookupProvider()));
     event.createProvider(ConfigurationDataProvider::new);
     event.createProvider(AncientToolTradeProvider::new);
 

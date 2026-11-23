@@ -56,7 +56,7 @@ import java.util.stream.IntStream;
  * Recipe for repairing tools in the tinker station or anvil.
  * Handles calls to {@link slimeknights.tconstruct.library.modifiers.hook.behavior.MaterialRepairModifierHook} and {@link MaterialRepairToolHook}.
  * @see CraftingTableRepairKitRecipe
- * @see slimeknights.mantle.recipe.helper.SimpleFinishedRecipe
+ * @see slimeknights.mantle.recipe.data.SimpleRecipeBuilder
  */
 public class TinkerStationRepairRecipe implements ITinkerStationRecipe, IMultiRecipe<AbstractCraftingTinkeringRecipe> {
   public static final Component TITLE = TConstruct.makeTranslation("recipe", "tool_repair");

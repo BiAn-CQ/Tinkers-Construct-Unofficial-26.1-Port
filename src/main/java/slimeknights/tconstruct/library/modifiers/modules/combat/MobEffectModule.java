@@ -243,7 +243,11 @@ public interface MobEffectModule extends ModifierModule, ConditionalModule<ITool
       float duration = this.time.computeValue(scaledLevel);
       if (duration > 0) {
         Holder<MobEffect> effectHolder = BuiltInRegistries.MOB_EFFECT.wrapAsHolder(effect);
-        target.addEffect(new MobEffectInstance(effectHolder, (int)duration, level), cause);
+        MobEffectInstance instance = new MobEffectInstance(effectHolder, (int)duration, level);
+        if (curativeItems != null) {
+          slimeknights.tconstruct.library.utils.EffectCureUtil.setCures(instance, curativeItems);
+        }
+        target.addEffect(instance, cause);
       }
     }
 

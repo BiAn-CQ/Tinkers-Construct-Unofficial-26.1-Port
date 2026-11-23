@@ -3,13 +3,9 @@
         "type": "mantle:custom_data_key",
         "parent": "tconstruct:item/native/creative_slot",
         "textures": {
-            "default": "tconstruct:item/slot/default",
-            "slotless": "tconstruct:item/slot/slotless",
-            "upgrades": "tconstruct:item/slot/upgrade",
-            "abilities": "tconstruct:item/slot/ability",
-            "souls": "tconstruct:item/materials/hollow_gem",
-            "defense": "tconstruct:item/slot/defense"
+            "default": "tconstruct:item/slot/default"
         },
-        "custom_data_key": "slot"
+        "custom_data_key": "slot",
+        "extra_textures_key": "tconstruct:creative_slot"
     }
 }

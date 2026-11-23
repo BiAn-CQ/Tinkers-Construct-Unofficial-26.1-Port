@@ -16,7 +16,6 @@ import net.neoforged.neoforge.transfer.fluid.FluidUtil;
 import org.jspecify.annotations.Nullable;
 import slimeknights.mantle.client.render.FluidCuboid;
 import slimeknights.mantle.client.render.FluidRenderer;
-import slimeknights.mantle.client.render.MantleRenderTypes;
 import slimeknights.tconstruct.smeltery.block.entity.GaugeBlockEntity;
 
 /** Renderer for the obisidian gauge block */
@@ -40,7 +39,7 @@ public class GaugeBlockEntityRenderer implements BlockEntityRenderer<GaugeBlockE
   @Override
   public void submit(GaugeRenderState state, PoseStack matrices, SubmitNodeCollector submitNodeCollector, CameraRenderState camera) {
     if (!state.cuboids.isEmpty() && !state.fluid.isEmpty()) {
-      submitNodeCollector.submitCustomGeometry(matrices, MantleRenderTypes.FLUID,
+      submitNodeCollector.submitCustomGeometry(matrices, FluidRenderer.getRenderType(state.fluid.getFluid()),
         (pose, buffer) -> FluidRenderer.renderCuboids(pose, buffer, state.cuboids, state.fluid, state.lightCoords));
     }
   }

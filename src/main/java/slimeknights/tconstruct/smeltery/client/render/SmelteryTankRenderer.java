@@ -14,7 +14,6 @@ import net.neoforged.neoforge.fluids.FluidType;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import slimeknights.mantle.client.render.FluidRenderer;
-import slimeknights.mantle.client.render.MantleRenderTypes;
 import slimeknights.tconstruct.smeltery.client.screen.module.GuiSmelteryTank;
 
 /** Helper for submitting the layered fluid volume inside a heating structure. */
@@ -53,17 +52,14 @@ public final class SmelteryTankRenderer {
     int[] heights = GuiSmelteryTank.calcLiquidHeights(fluids, capacity, yd * 1000 - HEIGHT_OFFSET, 100);
     float[] xBounds = getBlockBounds(xd);
     float[] zBounds = getBlockBounds(zd);
-    collector.submitCustomGeometry(matrices, MantleRenderTypes.FLUID,
-      (pose, buffer) -> renderFluids(pose, buffer, fluids, brightness, xd, xBounds, zd, zBounds, heights));
-  }
-
-  private static void renderFluids(PoseStack.Pose pose, VertexConsumer buffer, List<FluidStack> fluids, int brightness,
-                                   int xd, float[] xBounds, int zd, float[] zBounds, int[] heights) {
     float currentY = FLUID_OFFSET;
     for (int i = 0; i < fluids.size(); i++) {
-      float height = heights[i] / 1000f;
-      renderLargeFluidCuboid(pose, buffer, fluids.get(i), brightness, xd, xBounds, zd, zBounds, currentY, currentY + height);
-      currentY += height;
+      FluidStack fluid = fluids.get(i);
+      float yMin = currentY;
+      float yMax = yMin + heights[i] / 1000f;
+      collector.submitCustomGeometry(matrices, FluidRenderer.getRenderType(fluid.getFluid(), false),
+        (pose, buffer) -> renderLargeFluidCuboid(pose, buffer, fluid, brightness, xd, xBounds, zd, zBounds, yMin, yMax));
+      currentY = yMax;
     }
   }
 
@@ -77,7 +73,6 @@ public final class SmelteryTankRenderer {
     int color = fluidModel.fluidTintSource() == null ? -1 : fluidModel.fluidTintSource().colorAsStack(fluid);
     FluidType fluidType = fluid.getFluid().getFluidType();
     brightness = FluidRenderer.withBlockLight(brightness, fluidType.getLightLevel(fluid));
-    boolean upsideDown = fluidType.isLighterThanAir();
 
     int yd = (int)(yMax - (int)yMin);
     if (yMax % 1d == 0) {
@@ -87,20 +82,19 @@ public final class SmelteryTankRenderer {
     Matrix4f matrix = pose.pose();
     Vector3f from = new Vector3f();
     Vector3f to = new Vector3f();
-    int rotation = upsideDown ? 180 : 0;
     for (int y = 0; y <= yd; y++) {
       for (int z = 0; z <= zd; z++) {
         for (int x = 0; x <= xd; x++) {
           from.set(xBounds[x], yBounds[y], zBounds[z]);
           to.set(xBounds[x + 1], yBounds[y + 1], zBounds[z + 1]);
-          if (x == 0) FluidRenderer.putTexturedQuad(buffer, matrix, still, from, to, Direction.WEST, color, brightness, rotation, false);
-          if (x == xd) FluidRenderer.putTexturedQuad(buffer, matrix, still, from, to, Direction.EAST, color, brightness, rotation, false);
-          if (z == 0) FluidRenderer.putTexturedQuad(buffer, matrix, still, from, to, Direction.NORTH, color, brightness, rotation, false);
-          if (z == zd) FluidRenderer.putTexturedQuad(buffer, matrix, still, from, to, Direction.SOUTH, color, brightness, rotation, false);
-          if (y == yd) FluidRenderer.putTexturedQuad(buffer, matrix, still, from, to, Direction.UP, color, brightness, rotation, false);
+          if (x == 0) FluidRenderer.putTexturedQuad(buffer, matrix, still, from, to, Direction.WEST, color, brightness, 0, false);
+          if (x == xd) FluidRenderer.putTexturedQuad(buffer, matrix, still, from, to, Direction.EAST, color, brightness, 0, false);
+          if (z == 0) FluidRenderer.putTexturedQuad(buffer, matrix, still, from, to, Direction.NORTH, color, brightness, 0, false);
+          if (z == zd) FluidRenderer.putTexturedQuad(buffer, matrix, still, from, to, Direction.SOUTH, color, brightness, 0, false);
+          if (y == yd) FluidRenderer.putTexturedQuad(buffer, matrix, still, from, to, Direction.UP, color, brightness, 0, false);
           if (y == 0) {
             from.y = from.y() + 0.001f;
-            FluidRenderer.putTexturedQuad(buffer, matrix, still, from, to, Direction.DOWN, color, brightness, rotation, false);
+            FluidRenderer.putTexturedQuad(buffer, matrix, still, from, to, Direction.DOWN, color, brightness, 0, false);
           }
         }
       }

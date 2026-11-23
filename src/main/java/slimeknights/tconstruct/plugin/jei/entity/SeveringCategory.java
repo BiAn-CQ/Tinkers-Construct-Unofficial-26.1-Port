@@ -63,7 +63,7 @@ public class SeveringCategory implements slimeknights.tconstruct.plugin.jei.Tink
            .setCustomRenderer(MantleJEIConstants.ENTITY_TYPE, entityRenderer)
            .addIngredients(MantleJEIConstants.ENTITY_TYPE, input.getDisplay());
     // currently JEI doesn't accept empty for a focus linked slot, so use null
-    List<ItemStack> eggStacks = input.getEggs().stream().map(stack -> stack.isEmpty() ? null : stack).toList();
+    List<ItemStack> eggStacks = input.getDisplayEggs().stream().map(stack -> stack.isEmpty() ? null : stack).toList();
     IIngredientAcceptor<?> eggs = builder.addInvisibleIngredients(RecipeIngredientRole.INPUT).addIngredients(VanillaTypes.ITEM_STACK, eggStacks);
     builder.createFocusLink(entities, eggs);
 

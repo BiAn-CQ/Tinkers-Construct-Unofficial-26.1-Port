@@ -65,15 +65,14 @@ import slimeknights.tconstruct.fluids.fluids.PotionFluidType;
 import slimeknights.tconstruct.fluids.fluids.SlimeFluid;
 import slimeknights.tconstruct.fluids.fluids.SlimeFluidType;
 import slimeknights.tconstruct.fluids.item.BottleItem;
-import slimeknights.tconstruct.fluids.item.ContainerFoodItem;
-import slimeknights.tconstruct.fluids.item.ContainerFoodItem.FluidContainerFoodItem;
+import slimeknights.mantle.item.ContainerFoodItem;
+import slimeknights.mantle.item.ContainerFoodItem.FluidContainerFoodItem;
 import slimeknights.tconstruct.fluids.item.MagmaBottleItem;
 import slimeknights.mantle.fluid.PotionBucketItem;
 import slimeknights.tconstruct.fluids.util.BottleBrewingRecipe;
 import slimeknights.tconstruct.fluids.util.EmptyBottleIntoEmpty;
 import slimeknights.tconstruct.fluids.util.EmptyBottleIntoWater;
 import slimeknights.tconstruct.fluids.util.FillBottle;
-import slimeknights.tconstruct.fluids.util.ConstantFluidContainerWrapper;
 import slimeknights.tconstruct.library.materials.definition.MaterialId;
 import slimeknights.tconstruct.library.recipe.FluidValues;
 import slimeknights.tconstruct.shared.TinkerEffects;
@@ -91,8 +90,8 @@ import slimeknights.tconstruct.world.TinkerWorld;
 import java.util.stream.StreamSupport;
 
 import static slimeknights.mantle.Mantle.commonResource;
-import static slimeknights.tconstruct.fluids.block.BurningLiquidBlock.createBurning;
-import static slimeknights.tconstruct.fluids.block.MobEffectLiquidBlock.createEffect;
+import static slimeknights.mantle.block.fluid.BurningLiquidBlock.createBurning;
+import static slimeknights.mantle.block.fluid.MobEffectLiquidBlock.createEffect;
 
 /**
  * Contains all fluids used throughout the mod
@@ -115,8 +114,7 @@ public final class TinkerFluids extends TinkerModule {
     for (Item item : BuiltInRegistries.ITEM) {
       if (item instanceof MagmaBottleItem bottle) {
         event.registerItem(Capabilities.Fluid.ITEM, (stack, context) -> bottle.getFluidHandler(context), item);
-      } else if (item instanceof FluidContainerFoodItem food) {
-        event.registerItem(Capabilities.Fluid.ITEM, (stack, context) -> food.getFluidHandler(context), item);
+
       }
     }
   }

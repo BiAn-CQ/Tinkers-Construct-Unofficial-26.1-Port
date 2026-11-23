@@ -17,6 +17,8 @@ import net.neoforged.neoforge.transfer.transaction.Transaction;
 import slimeknights.tconstruct.TConstruct;
 
 @EventBusSubscriber(modid = TConstruct.MOD_ID)
+/** @deprecated Tinkers Construct no longer registers these rails. */
+@Deprecated(forRemoval = true)
 public class DropperRailBlock extends RailBlock {
 
   public DropperRailBlock(Properties properties) {

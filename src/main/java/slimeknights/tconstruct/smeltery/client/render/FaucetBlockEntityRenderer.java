@@ -1,7 +1,6 @@
 package slimeknights.tconstruct.smeltery.client.render;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import java.util.ArrayList;
 import java.util.List;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
@@ -17,10 +16,9 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.fluids.FluidStack;
 import org.jspecify.annotations.Nullable;
-import slimeknights.mantle.client.render.FaucetFluid;
 import slimeknights.mantle.client.render.FluidCuboid;
 import slimeknights.mantle.client.render.FluidRenderer;
-import slimeknights.mantle.client.render.MantleRenderTypes;
+import slimeknights.mantle.client.render.FluidRenderer.FaucetLayer;
 import slimeknights.mantle.client.render.RenderingHelper;
 import slimeknights.tconstruct.smeltery.block.FaucetBlock;
 import slimeknights.tconstruct.smeltery.block.entity.FaucetBlockEntity;
@@ -54,30 +52,14 @@ public class FaucetBlockEntityRenderer implements BlockEntityRenderer<FaucetBloc
     state.fluid = fluid.copy();
     state.facing = blockState.getValue(FaucetBlock.FACING);
     state.cuboids = List.copyOf(FluidCuboid.REGISTRY.get(blockState, List.of()));
-    state.downstream = extractDownstream(level, faucet.getBlockPos(), state.facing);
-  }
-
-  /** Snapshots all resource-pack-defined stream segments below an outlet. */
-  static List<FluidLayer> extractDownstream(Level level, BlockPos pos, Direction direction) {
-    List<FluidLayer> layers = new ArrayList<>();
-    int offset = 0;
-    FaucetFluid faucetFluid;
-    do {
-      offset++;
-      faucetFluid = FaucetFluid.REGISTRY.get(level.getBlockState(pos.below(offset)));
-      List<FluidCuboid> cuboids = faucetFluid.getFluids(direction);
-      if (!cuboids.isEmpty()) {
-        layers.add(new FluidLayer(offset, List.copyOf(cuboids)));
-      }
-    } while (faucetFluid.isContinued());
-    return List.copyOf(layers);
+    state.downstream = FluidRenderer.getFaucetLayers(level, faucet.getBlockPos(), state.facing);
   }
 
   static void submitCuboids(SubmitNodeCollector collector, PoseStack matrices, List<FluidCuboid> cuboids,
                             FluidStack fluid, int light) {
     if (!cuboids.isEmpty()) {
-      collector.submitCustomGeometry(matrices, MantleRenderTypes.FLUID,
-        (pose, buffer) -> FluidRenderer.renderCuboids(pose, buffer, cuboids, fluid, light, false));
+      collector.submitCustomGeometry(matrices, FluidRenderer.getRenderType(fluid.getFluid()),
+        (pose, buffer) -> FluidRenderer.renderCuboids(pose, buffer, cuboids, fluid, light));
     }
   }
 
@@ -88,7 +70,7 @@ public class FaucetBlockEntityRenderer implements BlockEntityRenderer<FaucetBloc
     }
     boolean rotated = RenderingHelper.applyRotation(matrices, state.facing);
     submitCuboids(collector, matrices, state.cuboids, state.fluid, state.lightCoords);
-    for (FluidLayer layer : state.downstream) {
+    for (FaucetLayer layer : state.downstream) {
       matrices.pushPose();
       matrices.translate(0, -layer.offset(), 0);
       submitCuboids(collector, matrices, layer.cuboids(), state.fluid, state.lightCoords);
@@ -99,13 +81,11 @@ public class FaucetBlockEntityRenderer implements BlockEntityRenderer<FaucetBloc
     }
   }
 
-  record FluidLayer(int offset, List<FluidCuboid> cuboids) {}
-
   public static class FaucetRenderState extends BlockEntityRenderState {
     FluidStack fluid = FluidStack.EMPTY;
     Direction facing = Direction.DOWN;
     List<FluidCuboid> cuboids = List.of();
-    List<FluidLayer> downstream = List.of();
+    List<FaucetLayer> downstream = List.of();
 
     void clear() {
       fluid = FluidStack.EMPTY;

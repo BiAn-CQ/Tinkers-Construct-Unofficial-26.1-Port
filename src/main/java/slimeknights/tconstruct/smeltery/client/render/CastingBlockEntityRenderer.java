@@ -17,7 +17,6 @@ import net.neoforged.neoforge.fluids.FluidStack;
 import org.jspecify.annotations.Nullable;
 import slimeknights.mantle.client.render.FluidCuboid;
 import slimeknights.mantle.client.render.FluidRenderer;
-import slimeknights.mantle.client.render.MantleRenderTypes;
 import slimeknights.mantle.client.render.RenderItem;
 import slimeknights.mantle.client.render.RenderingHelper;
 import slimeknights.tconstruct.smeltery.block.entity.CastingBlockEntity;
@@ -86,7 +85,7 @@ public class CastingBlockEntityRenderer implements BlockEntityRenderer<CastingBl
   public void submit(CastingRenderState state, PoseStack matrices, SubmitNodeCollector collector, CameraRenderState camera) {
     boolean rotated = RenderingHelper.applyRotation(matrices, state.blockState);
     if (!state.fluid.isEmpty() && !state.fluidCuboids.isEmpty() && state.capacity > 0) {
-      collector.submitCustomGeometry(matrices, MantleRenderTypes.FLUID, (pose, buffer) -> {
+      collector.submitCustomGeometry(matrices, FluidRenderer.getRenderType(state.fluid.getFluid()), (pose, buffer) -> {
         if (state.fluidFull) {
           FluidRenderer.renderCuboids(pose, buffer, state.fluidCuboids, state.fluid, state.lightCoords, state.fluidOpacity);
         } else {

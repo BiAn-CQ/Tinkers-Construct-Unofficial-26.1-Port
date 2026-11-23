@@ -26,7 +26,7 @@ import javax.annotation.Nullable;
 /**
  * Recipe using repair kits in the crafting table.
  * @see TinkerStationRepairRecipe
- * @see slimeknights.mantle.recipe.helper.SimpleFinishedRecipe
+ * @see slimeknights.mantle.recipe.data.SimpleRecipeBuilder
  */
 public class CraftingTableRepairKitRecipe extends CustomRecipe {
   public CraftingTableRepairKitRecipe() {

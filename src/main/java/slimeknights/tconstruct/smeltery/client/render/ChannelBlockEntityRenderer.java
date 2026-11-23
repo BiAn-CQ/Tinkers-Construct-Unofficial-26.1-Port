@@ -20,6 +20,8 @@ import net.neoforged.neoforge.fluids.FluidStack;
 import org.jspecify.annotations.Nullable;
 import slimeknights.mantle.client.render.ChannelFluids;
 import slimeknights.mantle.client.render.FluidCuboid;
+import slimeknights.mantle.client.render.FluidRenderer;
+import slimeknights.mantle.client.render.FluidRenderer.FaucetLayer;
 import slimeknights.mantle.client.render.RenderingHelper;
 import slimeknights.tconstruct.smeltery.block.ChannelBlock;
 import slimeknights.tconstruct.smeltery.block.ChannelBlock.ChannelConnection;
@@ -90,7 +92,7 @@ public class ChannelBlockEntityRenderer implements BlockEntityRenderer<ChannelBl
     }
     if (model.down() != null && blockState.getValue(ChannelBlock.DOWN) && channel.isFlowing(Direction.DOWN)) {
       segments.add(new FluidSegment(null, model.down()));
-      renderState.downstream = FaucetBlockEntityRenderer.extractDownstream(level, pos, Direction.DOWN);
+      renderState.downstream = FluidRenderer.getFaucetLayers(level, pos, Direction.DOWN);
     }
     renderState.fluid = fluid.copy();
     renderState.segments = List.copyOf(segments);
@@ -108,7 +110,7 @@ public class ChannelBlockEntityRenderer implements BlockEntityRenderer<ChannelBl
         matrices.popPose();
       }
     }
-    for (FaucetBlockEntityRenderer.FluidLayer layer : state.downstream) {
+    for (FaucetLayer layer : state.downstream) {
       matrices.pushPose();
       matrices.translate(0, -layer.offset(), 0);
       FaucetBlockEntityRenderer.submitCuboids(collector, matrices, layer.cuboids(), state.fluid, state.lightCoords);
@@ -121,7 +123,7 @@ public class ChannelBlockEntityRenderer implements BlockEntityRenderer<ChannelBl
   public static class ChannelRenderState extends BlockEntityRenderState {
     FluidStack fluid = FluidStack.EMPTY;
     List<FluidSegment> segments = List.of();
-    List<FaucetBlockEntityRenderer.FluidLayer> downstream = List.of();
+    List<FaucetLayer> downstream = List.of();
 
     void clear() {
       fluid = FluidStack.EMPTY;

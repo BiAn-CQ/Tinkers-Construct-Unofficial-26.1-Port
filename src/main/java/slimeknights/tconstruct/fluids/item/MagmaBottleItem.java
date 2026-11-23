@@ -21,7 +21,7 @@ import net.neoforged.neoforge.transfer.access.ItemAccess;
 import net.neoforged.neoforge.transfer.fluid.FluidResource;
 import net.neoforged.neoforge.fluids.FluidStack;
 import slimeknights.tconstruct.fluids.TinkerFluids;
-import slimeknights.tconstruct.fluids.util.ConstantFluidContainerWrapper;
+import slimeknights.mantle.item.ConstantFluidContainerWrapper;
 import slimeknights.tconstruct.library.recipe.FluidValues;
 
 import javax.annotation.Nullable;

@@ -39,6 +39,7 @@ import slimeknights.tconstruct.gadgets.entity.shuriken.QuartzShurikenEntity;
 import slimeknights.tconstruct.gadgets.item.EFLNItem;
 import slimeknights.tconstruct.gadgets.item.FancyArmorStandItem;
 import slimeknights.tconstruct.gadgets.item.FancyItemFrameItem;
+import slimeknights.tconstruct.gadgets.item.FoodCakeItem;
 import slimeknights.tconstruct.gadgets.item.GlowBallItem;
 import slimeknights.tconstruct.gadgets.item.PiggyBackPackItem;
 import slimeknights.tconstruct.gadgets.item.PiggyBackPackItem.CarryPotionEffect;
@@ -48,6 +49,7 @@ import slimeknights.tconstruct.shared.TinkerFood;
 import slimeknights.tconstruct.world.block.FoliageType;
 
 import java.util.function.Supplier;
+import java.util.function.Function;
 
 /**
  * Contains any special tools unrelated to the base tools.
@@ -90,13 +92,14 @@ public final class TinkerGadgets extends TinkerModule {
   public static final ItemObject<FoodCakeBlock> magmaCake;
   static {
     Supplier<BlockBehaviour.Properties> CAKE = () -> builder(SoundType.WOOL).forceSolidOn().strength(0.5F).sound(SoundType.WOOL).pushReaction(PushReaction.DESTROY);
+    Function<FoodCakeBlock,FoodCakeItem> cakeItem = block -> new FoodCakeItem(block, itemProperties(UNSTACKABLE_PROPS));
     cake = BLOCKS.registerEnum(FoliageType.values(), "cake", type -> {
       if (type == FoliageType.ICHOR) {
         return new InvertedCakeBlock(CAKE.get(), TinkerFood.ICHOR_CAKE, EffectCombination.BLOCK);
       }
       return new FoodCakeBlock(CAKE.get(), TinkerFood.getCake(type), type == FoliageType.ENDER ? EffectCombination.ADD : EffectCombination.BLOCK);
-    }, UNSTACKABLE_BLOCK_ITEM);
-    magmaCake = BLOCKS.register("magma_cake", () -> new FoodCakeBlock(CAKE.get(), TinkerFood.MAGMA_CAKE, EffectCombination.BLOCK), UNSTACKABLE_BLOCK_ITEM);
+    }, cakeItem);
+    magmaCake = BLOCKS.register("magma_cake", () -> new FoodCakeBlock(CAKE.get(), TinkerFood.MAGMA_CAKE, EffectCombination.BLOCK), cakeItem);
   }
 
   // Shurikens

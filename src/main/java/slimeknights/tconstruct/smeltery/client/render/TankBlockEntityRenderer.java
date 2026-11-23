@@ -14,7 +14,6 @@ import net.neoforged.neoforge.fluids.FluidStack;
 import org.jspecify.annotations.Nullable;
 import slimeknights.mantle.client.render.FluidCuboid;
 import slimeknights.mantle.client.render.FluidRenderer;
-import slimeknights.mantle.client.render.MantleRenderTypes;
 import slimeknights.tconstruct.client.model.NativeTinkerBlockStateModel;
 import slimeknights.tconstruct.library.fluid.FluidTankAnimated;
 import slimeknights.tconstruct.smeltery.block.entity.ITankBlockEntity;
@@ -83,7 +82,7 @@ public class TankBlockEntityRenderer<T extends BlockEntity & ITankBlockEntity> i
     if (state.fluid.isEmpty() || state.cuboids.isEmpty() || state.capacity <= 0) {
       return;
     }
-    submitNodeCollector.submitCustomGeometry(matrices, MantleRenderTypes.FLUID, (pose, buffer) -> {
+    submitNodeCollector.submitCustomGeometry(matrices, FluidRenderer.getRenderType(state.fluid.getFluid()), (pose, buffer) -> {
       for (FluidCuboid cuboid : state.cuboids) {
         FluidRenderer.renderScaledCuboid(pose, buffer, cuboid, state.fluid, state.offset, state.capacity, state.lightCoords, true);
       }

@@ -73,7 +73,7 @@ public abstract class AbstractMeltingCategory implements slimeknights.tconstruct
   public void draw(IDisplayableMeltingRecipe recipe, IRecipeSlotsView slots, GuiGraphicsExtractor graphics, double mouseX, double mouseY) {
     drawBackground(graphics);
     // draw the arrow
-    cachedArrows.getUnchecked(recipe.getTime() * 5).draw(graphics, 56, 18);
+    cachedArrows.getUnchecked(recipe.getTime() * 4).draw(graphics, 56, 18);
     if (recipe.getOreType() != null) {
       plus.draw(graphics, 87, 31);
     }
@@ -100,7 +100,7 @@ public abstract class AbstractMeltingCategory implements slimeknights.tconstruct
     }
     // time tooltip
     if (GuiUtil.isHovered(mouseX, mouseY, 56, 18, 24, 17)) {
-      tooltip.add(Component.translatable(KEY_COOLING_TIME, (recipe.isTimeDynamic() ? recipe.getTime(slots.findSlotByName(FLUID_SLOT).flatMap(slot -> slot.getDisplayedIngredient(mezz.jei.api.neoforge.NeoForgeTypes.FLUID_STACK)).orElse(FluidStack.EMPTY)) : recipe.getTime()) / 4));
+      tooltip.add(Component.translatable(KEY_COOLING_TIME, (recipe.isTimeDynamic() ? recipe.getTime(slots.findSlotByName(FLUID_SLOT).flatMap(slot -> slot.getDisplayedIngredient(mezz.jei.api.neoforge.NeoForgeTypes.FLUID_STACK)).orElse(FluidStack.EMPTY)) : recipe.getTime()) / 5));
     }
   }
 

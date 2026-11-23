@@ -14,6 +14,7 @@ import net.minecraft.world.level.material.Fluid;
 import net.neoforged.neoforge.fluids.FluidStack;
 import slimeknights.mantle.recipe.data.AbstractRecipeBuilder;
 import slimeknights.mantle.recipe.ingredient.FluidIngredient;
+import slimeknights.mantle.registration.object.FluidObject;
 import slimeknights.tconstruct.library.materials.definition.MaterialVariantId;
 
 import javax.annotation.Nullable;
@@ -44,6 +45,15 @@ public class MaterialFluidRecipeBuilder extends AbstractRecipeBuilder<MaterialFl
    * @param fluidStack  Fluid input
    * @return  Builder instance
    */
+  public MaterialFluidRecipeBuilder setFluidAndTemp(FluidObject<?> fluid, int amount) {
+    this.fluid = fluid.ingredient(amount);
+    if (this.temperature == -1) {
+      this.temperature = getTemperature(fluid);
+    }
+    return this;
+  }
+
+  /** Sets the fluid stack and uses its temperature if no temperature was supplied. */
   public MaterialFluidRecipeBuilder setFluidAndTemp(FluidStack fluidStack) {
     this.fluid = FluidTinkerIngredients.of(fluidStack);
     if (this.temperature == -1) {

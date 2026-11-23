@@ -40,6 +40,10 @@ public class LootTableInjectionProvider extends AbstractLootTableInjectionProvid
     super(packOutput, TConstruct.MOD_ID);
   }
 
+  public LootTableInjectionProvider(PackOutput output, java.util.concurrent.CompletableFuture<net.minecraft.core.HolderLookup.Provider> registries) {
+    super(output, TConstruct.MOD_ID, registries);
+  }
+
   @SuppressWarnings("removal")
   @Override
   protected void addTables() {

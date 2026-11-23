@@ -29,7 +29,6 @@ import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import org.jetbrains.annotations.Nullable;
@@ -207,11 +206,12 @@ public abstract class ArmoredSlimeEntity extends Slime {
       }
     }
 
-    // calling supper does the split reason again, but we need to transfer armor
-    this.setRemoved(reason);
-    if (reason == Entity.RemovalReason.KILLED) {
-      this.gameEvent(GameEvent.ENTITY_DIE);
+    // Slime.remove would split again. Apply the LivingEntity removal hooks here.
+    if ((reason == Entity.RemovalReason.KILLED || reason == Entity.RemovalReason.DISCARDED) && level instanceof ServerLevel serverLevel) {
+      triggerOnDeathMobEffects(serverLevel, reason);
     }
+    setRemoved(reason);
+    getBrain().clearMemories();
   }
 
   @Override
